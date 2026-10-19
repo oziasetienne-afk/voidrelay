@@ -41,7 +41,7 @@ l'aurait effacé. `node scripts/generer_builds.mjs --verifier` le dit désormais
 (branché dans les invariants).
 
 ### 2. Un conflit sur `data/` se RÉSOUT EN RÉGÉNÉRANT
-`main` pousse une mise à jour de données une fois par jour (05:17 UTC, depuis le 27/09/2026). En cas de conflit sur
+`main` pousse une mise à jour de données toutes les 2 h (minute 17, depuis le 19/10/2026). En cas de conflit sur
 `data/market.json`, `market_history.json`, `summary.json`, `cycles.json`,
 `last_update.json`, `warframe.ics` :
 
@@ -91,7 +91,7 @@ poussé est lisible par tout le monde, pour toujours.
 - `garde-secrets.yml` (gitleaks + `scripts/garde_perso.py`) bloque sinon. Ne le
   contourne pas : un secret poussé une fois est compromis, il faut le révoquer.
 Le vrai témoin d'une mise à jour bloquée reste `data/last_update.json` → `updated_utc` :
-plus de 26 h = mise à jour bloquée.
+plus de 4 h = mise à jour bloquée.
 
 ### 6. La liste blanche de synchro
 `js/sync.js` : **ne jamais y ajouter `wmuser` ni `wfproxy`.** Ce sont un compte

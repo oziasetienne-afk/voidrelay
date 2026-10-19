@@ -1,4 +1,4 @@
-name: Warframe Hub - data update (1x/jour)
+name: Warframe Hub - data update
 
 # Rafraîchit les données du Hub une fois par jour, puis commit -> redéploie
 # automatiquement (githack/Pages servent les fichiers à jour).
@@ -13,6 +13,11 @@ name: Warframe Hub - data update (1x/jour)
 # épuisé le 22/09 et les prix sont restés figés 5 jours. À 1×/jour : ~7 min × 30 ≈ 210 min/mois
 # (au lieu de ~1 260). Les failles/Baro/sortie du Hub restent exactes : au-delà de 1 h 30,
 # hub.html les relit en direct sur warframestat (WS_LIVE_MS). Les prix ont jusqu'à ~24 h.
+# 19/10/2026 : dépôt PUBLIC -> minutes Actions illimitées, cadence 1×/jour -> toutes les 2 h.
+# C'est aussi la SEULE source de prix à jour : warframe.market bloque désormais tous les
+# Workers Cloudflare (403 « Just a moment » mesuré sur 4 jeux d'en-têtes) et les proxys
+# publics allorigins/codetabs sont en 522. Les runners GitHub, eux, passent.
+# 2 h et pas 1 h : chaque run déclenche un déploiement Pages ; 12/jour ≈ 360/mois.
 # Minute 17 (pas 0) : les crons GitHub à la minute 0 sont retardés/sautés en pic de charge.
 #
 # AUCUN secret, AUCUN PAT requis au runtime : le commit/push utilise le jeton
@@ -21,7 +26,7 @@ name: Warframe Hub - data update (1x/jour)
 
 on:
   schedule:
-    - cron: "17 5 * * *"       # une fois par jour, 05:17 UTC (07:17 à Paris l'été)
+    - cron: "17 */2 * * *"     # toutes les 2 h, à la minute 17
   workflow_dispatch: {}         # bouton "Run workflow" pour un test manuel immédiat
 
 # Une seule exécution à la fois (évite les conflits de push).
