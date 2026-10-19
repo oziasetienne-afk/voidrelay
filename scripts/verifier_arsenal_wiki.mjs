@@ -40,7 +40,7 @@ const par = new Map(frames.map((f) => [f.n, f]));
 const EXCEPTIONS = [
   ["Grendel",       { hp: 1295, sh: 95 },  "1095→1295 PV (+200) et 95→95 bouclier (+0) : la formule dirait 1195/195"],
   ["Hildryn",       { sh: 1780 },          "1280→1780 bouclier (+500) : la formule dirait 1380"],
-  ["Hydroid Prime", { hp: 370, sh: 650 },  "affichait 2310 PV — ceux d'Inaros — et 0 bouclier"],
+  ["Hydroid Prime", { hp: 650, sh: 370 },  "affichait 2310 PV — ceux d'Inaros — et 0 bouclier ; valeurs inversées ici jusqu'au 19/10/2026, wiki = 650 PV / 370 boucliers au rang 30"],
   ["Harrow Prime",  { sh: 740, en: 210 },  "affichait le bouclier de Hildryn (1780) et 0 énergie"],
   ["Khora Prime",   { hp: 465, sh: 465 },  "affichait 1205 PV — ceux de Kullervo — et 0 bouclier"],
   ["Gauss Prime",   { hp: 370, sh: 650 },  "affichait 1295 PV — ceux de Grendel"],
