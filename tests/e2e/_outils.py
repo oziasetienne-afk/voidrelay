@@ -66,7 +66,7 @@ def relais(ctx, tuer_v1=False):
         if "localhost" in url:
             return route.continue_()
         target = None
-        if "warframe-proxy" in url or "allorigins" in url or "codetabs" in url:
+        if "voidrelay-prix" in url or "warframe-proxy" in url or "allorigins" in url or "codetabs" in url:
             q = urllib.parse.parse_qs(urllib.parse.urlparse(url).query)
             target = (q.get("url") or q.get("quest") or [None])[0]
         elif url.startswith("https://api.warframe.market") or url.startswith("https://api.warframestat.us"):

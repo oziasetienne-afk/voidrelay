@@ -5,7 +5,7 @@
   const root = document.getElementById("objet"); if (!root) return;
   const slug = root.dataset.slug; if (!slug) return;
   const MK1 = "https://api.warframe.market/v1", MK2 = "https://api.warframe.market/v2";
-  const CUSTOM = "https://warframe-proxy.oziasetienne.workers.dev";
+  const CUSTOM = "https://voidrelay-prix.vercel.app";
   const PROXIES = [
     u => `${CUSTOM}/?url=${encodeURIComponent(u)}`,
     u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,

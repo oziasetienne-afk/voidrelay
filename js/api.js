@@ -12,7 +12,7 @@ async function getJSON(url){
 /* warframe.market bloque le CORS navigateur : on passe par un proxy (avec secours).
    Proxy perso prioritaire si défini (cf. proxy/worker.js) : soit en dur ci-dessous,
    soit via Réglages (localStorage "wfproxy"). Les proxys publics restent en secours. */
-const CUSTOM_PROXY="https://warframe-proxy.oziasetienne.workers.dev"; // worker Cloudflare perso (prioritaire ; surchargeable via Réglages)
+const CUSTOM_PROXY="https://voidrelay-prix.vercel.app"; // proxy Vercel perso (19/10/2026 : warframe.market bloque les Workers Cloudflare) (prioritaire ; surchargeable via Réglages)
 function getCustomProxy(){ try{const v=(localStorage.getItem("wfproxy")||CUSTOM_PROXY||"").trim().replace(/\/+$/,""); return /^https:\/\//i.test(v)?v:"";}catch(e){return /^https:\/\//i.test(CUSTOM_PROXY)?CUSTOM_PROXY:"";} }
 function proxyChain(){
   const list=[], custom=getCustomProxy();
