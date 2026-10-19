@@ -2,7 +2,19 @@
 
 Ce fichier est le point d'entrée unique pour toute IA (Claude Code, Cowork, ou autre) qui reprend VoidRelay. Avant de coder quoi que ce soit, lis-le en entier, puis HANDOFF.md (détail technique complet, fonctionnalité par fonctionnalité) et CLAUDE.md (pièges et garde-fous du dépôt).
 
-## À faire en premier (état au 28/09/2026, fin de session)
+## À faire en premier (état au 19/10/2026)
+
+**Migration du 19/10/2026 : le dépôt de travail est maintenant `oziasetienne-afk/voidrelay` (PUBLIC).** L'ancien `test` est archivé, privé, en lecture seule ; son historique n'a pas été repris (il contenait des infos personnelles). Ne rien pousser ailleurs que sur `voidrelay`.
+
+1. **Déploiement** : `deploiement-cloudflare.yml` publie sur le projet Cloudflare Pages `warframe-hub` via Wrangler, à chaque push sur `main` et après chaque robot qui committe des données. Les déploiements automatiques « Git » de Cloudflare sont **désactivés** (le projet reste relié à l'ancien dépôt, ne pas le réactiver). Secrets : `CLOUDFLARE_API_TOKEN` (Pages : Modifier) et `CLOUDFLARE_ACCOUNT_ID`.
+2. **Données toutes les 2 h** (`warframe-hub-update.yml`, minute 17) : dépôt public = minutes Actions illimitées. Plus de quota à surveiller, plus de Worker `voidrelay-quota-guard` (supprimé).
+3. **Prix en direct des fiches /o/** : proxy Vercel `voidrelay-prix.vercel.app` (code dans `proxy/vercel/`). warframe.market bloque tous les Workers Cloudflare, donc `warframe-proxy.oziasetienne.workers.dev` et `functions/api/price.js` ne peuvent plus obtenir de prix. Budget Vercel à 1 $ avec pause : si les fiches redeviennent vides, regarder d'abord l'onglet Usage de Vercel.
+4. **Rien de personnel ni de secret dans le dépôt** : `garde-secrets.yml` (gitleaks + `scripts/garde_perso.py`) bloque prénom/nom/email perso, identité de commit non anonyme et clés. Secret scanning + push protection GitHub actifs. Commits signés avec l'adresse `@users.noreply.github.com`.
+5. **Reste dans l'ancien dépôt (archivé)** : PR #47 « Application Windows VoidRelay Compagnon v2.2.0 + page /app » (01/10, non fusionnée) et PR #3 (bot TikTok, hors sujet). À reprendre à la main dans `voidrelay` seulement si l'admin le demande.
+6. **Rapport hebdo EN objets retiré** : il aurait publié les chiffres de trafic dans le dépôt public. Les chiffres restent dans Cloudflare Web Analytics et Search Console.
+7. **Après chaque mise à jour du jeu** : `python3 scripts/maj_catalogue_wfcd.py` (+ `--rafraichir "Nom"` pour une refonte vérifiée dans les notes officielles) → `python3 scripts/generer_vignettes.py` → `node scripts/generer_builds.mjs` → `node scripts/maj_catalogue_objets.mjs && node scripts/generer_pages_objets.mjs` → `python3 scripts/enrichir_ressources.py` → `npm run arsenal:data` → invariants. Guide de mise à jour : copier le modèle `guides/iceblade-de-narin.html`.
+
+## Historique : à faire au 28/09/2026 (dépôt `test`, avant migration)
 
 1. **PR #45 ouverte, NON fusionnée** (brouillon, branche `claude/warframe-site-handover-dvollt`) : maj 44 « Iceblade of Narin » intégrée (v103), page Ressources complète avec lieux/rareté/taux officiels (v104), builds allégés et générateur de builds protégé contre la dérive (v102). Invariants verts en local, aperçu Cloudflare OK. Attend le feu vert de l'admin pour fusionner. CI rouge = quota Actions uniquement.
 2. **Simulateur d'arsenal : Narin absente.** Il lit `api.warframestat.us`, qui n'avait pas encore la maj 44 le 28/09. Dès qu'elle y est : `npm run arsenal:data`, puis `bash scripts/verifier_invariants.sh`.

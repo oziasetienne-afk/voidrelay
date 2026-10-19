@@ -1,4 +1,17 @@
-# Proxy perso warframe.market (Cloudflare Worker)
+# Proxy perso warframe.market
+
+> **En service depuis le 19/10/2026 : `proxy/vercel/` → https://voidrelay-prix.vercel.app**
+> (projet Vercel `voidrelay-prix`, équipe de l'admin, région Paris `cdg1`).
+> warframe.market renvoie désormais 403 « Just a moment » à **toutes** les requêtes qui
+> sortent des Workers Cloudflare (4 jeux d'en-têtes testés) : `worker.js` ci-dessous ne
+> rend plus aucun prix et n'est gardé que pour l'historique. Les proxys publics de secours
+> (allorigins, codetabs) répondaient 522 le même jour.
+>
+> Redéployer le proxy Vercel : `cd proxy/vercel && npx vercel deploy --prod --scope chef43`.
+> Coût : réponses en cache CDN 5 min (`s-maxage=300`) ; budget de dépassement Vercel réglé
+> à 1 $ avec pause automatique. Liste blanche stricte : `api.warframe.market`, `/v1/` et `/v2/`.
+
+## Ancien proxy : Cloudflare Worker (bloqué par warframe.market)
 
 `worker.js` est un proxy CORS pour l'API **warframe.market** (qui bloque le CORS
 navigateur). Il est **gratuit** (100 000 requêtes/jour sur le plan free), plus rapide
