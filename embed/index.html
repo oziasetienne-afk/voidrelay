@@ -1,0 +1,60 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://warframe.market; font-src 'self'; connect-src 'self' https://warframe-proxy.oziasetienne.workers.dev https://api.allorigins.win https://api.codetabs.com https://api.warframe.market; form-action 'self'">
+<meta name="referrer" content="strict-origin-when-cross-origin"><meta name="robots" content="noindex, follow">
+<title>VoidRelay price widget</title>
+<style>
+:root{color-scheme:dark}
+html,body{margin:0;background:transparent}
+*{box-sizing:border-box}
+.w{font:14px/1.4 system-ui,Segoe UI,Roboto,Arial,sans-serif;color:#e6edf3;background:linear-gradient(180deg,#121922,#0f161e);border:1px solid #223040;border-radius:12px;padding:12px 14px;max-width:340px;display:flex;gap:12px;align-items:center}
+.w img{width:42px;height:42px;object-fit:contain;flex:0 0 auto}
+.w .b{flex:1;min-width:0}
+.w .nm{font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.w .pr{font-size:15px;font-weight:700;color:#d4af37;margin-top:2px}
+.w .pr small{color:#8aa0b3;font-weight:400}
+.w .src{font-size:11px;margin-top:3px}
+.w a{color:#d4af37;text-decoration:none}
+.w a:hover{text-decoration:underline}
+.w .mut{color:#8aa0b3}
+</style>
+</head><body>
+<div class="w" id="w">
+  <img id="ic" alt="" hidden referrerpolicy="no-referrer">
+  <div class="b">
+    <div class="nm" id="nm">…</div>
+    <div class="pr" id="pr"><span class="mut">loading…</span></div>
+    <div class="src"><a id="lnk" target="_blank" rel="noopener">via VoidRelay ↗</a></div>
+  </div>
+</div>
+<script>
+(function(){
+  var q=new URLSearchParams(location.search);
+  var game=(q.get("game")||"").toLowerCase(), slug=q.get("slug")||"", name=q.get("name")||slug, id=q.get("id")||"", img=q.get("img")||"";
+  var SITE="https://voidrelay.fr";
+  var PATH={warframe:"/o/"};
+  var base=PATH[game]||"/o/";
+  var $=function(i){return document.getElementById(i)};
+  $("nm").textContent=name;
+  $("lnk").href=SITE+base+(slug?encodeURIComponent(slug):"");
+  if(img){var im=$("ic");im.src=img;im.hidden=false;}
+  var pr=$("pr");
+  var gp=function(n){return n==null?"—":Number(n).toLocaleString("en-US")};
+  if(game==="warframe"&&slug){
+    var t="https://api.warframe.market/v1/items/"+slug+"/statistics";
+    var chain=[function(u){return "https://warframe-proxy.oziasetienne.workers.dev/?url="+encodeURIComponent(u)},function(u){return "https://api.allorigins.win/raw?url="+encodeURIComponent(u)},function(u){return "https://api.codetabs.com/v1/proxy/?quest="+encodeURIComponent(u)}];
+    (function tryN(i){
+      if(i>=chain.length){pr.innerHTML='<a href="'+$("lnk").href+'" target="_blank" rel="noopener">View price →</a>';return;}
+      fetch(chain[i](t),{headers:{Accept:"application/json"}}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
+        var c=d&&d.payload&&d.payload.statistics_closed, a=c&&(c["48hours"]||c["90days"]);
+        var m=a&&a.length?a[a.length-1].median:null;
+        if(m==null)throw 0;
+        pr.innerHTML=gp(m)+' <small>platinum (median)</small>';
+      }).catch(function(){tryN(i+1)});
+    })(0);
+  } else {
+    pr.innerHTML='<a href="'+$("lnk").href+'" target="_blank" rel="noopener">View price →</a>';
+  }
+})();
+</script>
+</body></html>

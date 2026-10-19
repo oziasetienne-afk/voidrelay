@@ -1,0 +1,76 @@
+<!DOCTYPE html><html lang="en"><head><script>(function(){try{var t=localStorage.getItem("vr-theme")||"dark";document.documentElement.setAttribute("data-theme",t)}catch(e){document.documentElement.setAttribute("data-theme","dark")}})();</script>
+<link rel="preconnect" href="https://pagead2.googlesyndication.com"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3315165542909837" crossorigin="anonymous"></script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com https://pagead2.googlesyndication.com https://partner.googleadservices.com https://tpc.googlesyndication.com https://adservice.google.com https://www.googletagservices.com https://fundingchoicesmessages.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://warframe.market https://cdn.warframestat.us https://raw.githubusercontent.com https://*.googlesyndication.com https://*.g.doubleclick.net https://*.google.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://cloudflareinsights.com https://pagead2.googlesyndication.com https://*.g.doubleclick.net https://*.googlesyndication.com https://ep1.adtrafficquality.google https://fundingchoicesmessages.google.com; form-action 'self'; frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://*.google.com; upgrade-insecure-requests">
+<meta http-equiv="X-Content-Type-Options" content="nosniff"><meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Warframe Ducats Converter — Prime part value | VoidRelay</title>
+<meta name="description" content="Work out how many ducats your Prime parts are worth: common (15), uncommon (45) and rare (100). Instant total to prep for Baro Ki'Teer's offers.">
+<link rel="canonical" href="https://voidrelay.fr/en/ducats"><link rel="alternate" hreflang="en" href="https://voidrelay.fr/en/ducats"><link rel="alternate" hreflang="fr" href="https://voidrelay.fr/ducats"><link rel="alternate" hreflang="x-default" href="https://voidrelay.fr/ducats"><meta name="robots" content="index, follow, max-image-preview:large"><meta name="author" content="VoidRelay"><meta name="theme-color" content="#f4f1ea">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230e1729'/%3E%3Cpath d='M14 18 L32 48 L50 18' fill='none' stroke='%23d4af37' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"><link rel="stylesheet" href="/css/pandaahh.css"><link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<meta property="og:type" content="website"><meta property="og:site_name" content="VoidRelay"><meta property="og:locale" content="en_US"><meta property="og:title" content="Warframe Ducats Converter | VoidRelay"><meta property="og:description" content="How many ducats are your Prime parts worth? Instant total for Baro Ki'Teer."><meta property="og:url" content="https://voidrelay.fr/en/ducats">
+<meta property="og:image" content="https://voidrelay.fr/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="VoidRelay — Warframe Ducats Converter — Prime part value">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Warframe Ducats Converter — Prime part value | VoidRelay">
+<meta name="twitter:description" content="Work out how many ducats your Prime parts are worth: common (15), uncommon (45) and rare (100). Instant total to prep for Baro Ki'Teer's offers.">
+<meta name="twitter:image" content="https://voidrelay.fr/assets/og.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Warframe Ducats Converter","url":"https://voidrelay.fr/en/ducats","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","inLanguage":"en","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isPartOf":{"@id":"https://voidrelay.fr/#site-en"}}</script>
+<!-- display=optional (PAS swap) : voir index.html — swap causait un CLS massif mesuré. -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Oswald:wght@400;500;600;700&display=optional" rel="stylesheet">
+<style>
+.du-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+@media(max-width:620px){.du-grid{grid-template-columns:1fr}}
+.du-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm);padding:18px;box-shadow:var(--sh-soft)}
+.du-card .rar{font:700 .8rem/1 "Oswald",sans-serif;text-transform:uppercase;letter-spacing:.6px}
+.du-card.c .rar{color:#9aa6b8}.du-card.u .rar{color:#7fb2e6}.du-card.r .rar{color:var(--gold-2)}
+.du-card .val{font:700 1.6rem/1 "Oswald",sans-serif;color:var(--ink);margin:6px 0 2px}
+.du-card .val small{font-size:.55em;color:var(--muted);font-weight:600}
+.du-input{width:100%;margin-top:12px;padding:11px 14px;border:1px solid var(--line);border-radius:12px;background:var(--bg2);color:var(--ink);font:inherit;font-size:1.05rem}
+.du-input:focus{outline:none;border-color:var(--gold)}
+.du-total{background:linear-gradient(135deg,var(--navy),#0b1322);border:1px solid var(--line);border-radius:var(--r-sm);padding:22px;margin-top:18px;color:var(--gold-3)}
+.du-total .tl{font:700 .85rem/1 "Oswald",sans-serif;text-transform:uppercase;letter-spacing:.8px;color:var(--gold-3);opacity:.85}
+.du-total .tv{font:700 2.6rem/1 "Oswald",sans-serif;color:#fff;margin-top:6px}
+.du-total .tv b{color:var(--gold-2)}
+.du-warn{color:#e6b35a;font-size:.85rem;margin-top:8px;display:none}
+.du-muted{color:var(--muted);font-size:.92rem;margin-top:14px;max-width:70ch}
+.du-card .rar{display:flex;align-items:center;gap:7px}
+.du-ico{width:18px;height:18px;flex:0 0 auto}
+.du-baro{position:relative;overflow:hidden;display:flex;align-items:center;gap:18px;margin-top:18px;padding:16px 20px;border:1px solid var(--line);border-radius:var(--r-sm);background:linear-gradient(135deg,var(--navy),#0b1322)}
+.du-baro>svg{flex:0 0 auto}
+.du-baro .glow{position:absolute;right:-40px;top:-50px;width:220px;height:220px;background:radial-gradient(circle,rgba(212,175,55,.22),transparent 70%);pointer-events:none}
+.du-baro .bx{position:relative;z-index:1}
+.du-baro .bt{font:700 1.05rem/1.1 "Oswald",sans-serif;text-transform:uppercase;letter-spacing:.6px;color:var(--gold-2)}
+.du-baro .bd{color:var(--muted);font-size:.9rem;margin-top:5px;max-width:62ch}
+@media(max-width:520px){.du-baro{gap:12px;padding:14px}.du-baro>svg{width:48px;height:48px}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://voidrelay.fr/en/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://voidrelay.fr/en/tools"},{"@type":"ListItem","position":3,"name":"Ducats","item":"https://voidrelay.fr/en/ducats"}]}</script>
+</head><body>
+<div class="topwrap"><header class="topbar"><a href="/en/" class="brand"><span class="logo">◆</span> VoidRelay</a><div class="search"><span>🔎</span><input type="search" id="vr-search" class="vr-search-input" placeholder="Search an item or build…" aria-label="Search a Warframe item" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="vr-search-results" aria-autocomplete="list"><kbd>K</kbd><div class="vr-search-results" id="vr-search-results" role="listbox" aria-label="Search results" hidden></div></div><nav class="topnav"><div class="topnav-search"><input type="search" id="vr-search-m" class="vr-search-input" placeholder="Search an item…" aria-label="Search a Warframe item" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="vr-search-results-m" aria-autocomplete="list"><div class="vr-search-results" id="vr-search-results-m" role="listbox" aria-label="Search results" hidden></div></div><a href="/en/">Home</a><a href="/en/platinum-path/">Platinum Path</a><a href="/en/builds/">Builds</a><a href="/en/o/">Items</a><a href="/en/guides/">Guides</a><a href="/en/tools" class="cur">Tools</a><a href="/hub">Dashboard</a><a href="/faq-en">FAQ</a><a href="/ducats" hreflang="fr" title="Version française">FR</a></nav><button class="navburger" id="navburger" type="button" aria-label="Menu" aria-expanded="false">&#9776;</button>
+<button class="themebtn" id="themebtn" type="button" aria-label="Toggle theme" title="Dark / light theme">☾</button><a href="/en/tools" class="avatar" title="Warframe tools" aria-label="Warframe tools">◈</a></header></div>
+<main class="wrap">
+<nav class="bc"><a href="/en/">Home</a> › <a href="/en/tools">Tools</a> › <span>Ducats</span></nav>
+<div class="du-baro"><span class="glow"></span><svg width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="var(--gold-2)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 58 V32 a14 12 0 0 1 28 0 V58 Z"/><path d="M24 20 l8 -8 l8 8"/><circle cx="26" cy="38" r="3"/><circle cx="38" cy="38" r="3"/><path d="M28 47 q4 4 8 0"/><path d="M14 58 h36"/></svg><div class="bx"><div class="bt">Baro Ki'Teer's offers</div><div class="bd">The Void-Trader returns every 14 days. Turn your Prime parts into ducats to prep for his exclusive offers — rare mods, weapons and cosmetics.</div></div></div>
+<h1 style="font-family:Oswald,sans-serif;text-transform:uppercase;margin:.2em 0">Ducats converter</h1>
+<p class="sub" style="color:var(--muted);font-size:1.05rem;max-width:72ch">How many <b>ducats</b> are your Prime parts worth? Enter your quantities by rarity — the total updates live so you can prep your buys from <b>Baro Ki'Teer</b>.</p>
+<div class="du-grid">
+  <div class="du-card c"><div class="rar"><svg class="du-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/></svg>Common</div><div class="val">15 <small>ducats</small></div><input class="du-input" type="number" inputmode="numeric" min="0" data-val="15" id="dc" placeholder="How many?"></div>
+  <div class="du-card u"><div class="rar"><svg class="du-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 L21 9 L12 22 L3 9 Z"/><path d="M3 9 H21 M12 2 L8 9 M12 2 L16 9 M8 9 L12 22 M16 9 L12 22"/></svg>Uncommon</div><div class="val">45 <small>ducats</small></div><input class="du-input" type="number" inputmode="numeric" min="0" data-val="45" id="du" placeholder="How many?"></div>
+  <div class="du-card r"><div class="rar"><svg class="du-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 l2.9 6.26 6.85.72-5.1 4.6 1.42 6.72L12 17.6 5.93 20.3l1.42-6.72-5.1-4.6 6.85-.72Z"/></svg>Rare</div><div class="val">100 <small>ducats</small></div><input class="du-input" type="number" inputmode="numeric" min="0" data-val="100" id="dr" placeholder="How many?"></div>
+</div>
+<div class="du-total"><div class="tl">Total</div><div class="tv"><b id="dtotal">0</b> ducats</div><div class="du-warn" id="dwarn">⚠️ You're over the 350,000 ducat cap — time to spend at Baro's.</div></div>
+<p class="du-muted">💡 Tip: <b>common</b> Prime parts often give the best ducats-per-time ratio because they pile up fast. Keep the parts that sell for good <a href="/en/o/">platinum</a> instead of ducating them. Ducats buy Baro's offers (mods, weapons, cosmetics).</p>
+</main>
+<footer class="foot"><div class="in"><div><span class="brand" style="color:#fff"><span class="logo">◆</span> VoidRelay</span><div style="font-size:.85rem;margin-top:6px">Unofficial Warframe hub — fan-made, free.</div></div><div class="links" style="font-size:.9rem"><a href="/en/platinum-path/">Platinum Path</a><a href="/en/builds/">Builds</a><a href="/en/o/">Items</a><a href="/en/guides/">Guides</a><a href="/en/tools">Tools</a><a href="/hub">Dashboard</a><a href="/faq-en">FAQ</a><a href="/">Français</a></div></div><div class="in" style="padding-top:0;font-size:.8rem;color:#8294ab">"Warframe" is a trademark of Digital Extremes. Prices: warframe.market. · <a href="/confidentialite">Privacy</a> · <a href="/mentions-legales">Legal</a></div></footer>
+<script>
+(function(){
+  const nf=n=>(Math.round(n)||0).toLocaleString("en-US");
+  const ins=[...document.querySelectorAll("[data-val]")];
+  function upd(){let tot=0;ins.forEach(i=>tot+=(+i.value||0)*(+i.dataset.val));document.getElementById("dtotal").textContent=nf(tot);document.getElementById("dwarn").style.display=tot>350000?"block":"none";}
+  ins.forEach(i=>i.addEventListener("input",upd));
+})();
+</script>
+<script defer src="/js/ads.js"></script>
+<script defer src="/js/nav-toggle.js"></script><script defer src="/js/search.js"></script><script defer src="/js/warp.js"></script>
+</body></html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html><html lang="fr"><head><script>(function(){try{var t=localStorage.getItem("vr-theme")||"dark";document.documentElement.setAttribute("data-theme",t)}catch(e){document.documentElement.setAttribute("data-theme","dark")}})();</script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com; connect-src 'self'; form-action 'self'; frame-ancestors 'none'">
+<meta http-equiv="X-Content-Type-Options" content="nosniff"><meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Statistiques d'engagement | VoidRelay</title>
+<meta name="description" content="Ce que font les visiteurs de VoidRelay : départs vers warframe.market, recherches, favoris, partages. Page privée, réservée à l'administration du site.">
+<!-- Page PRIVÉE, comme /moderation : jamais indexée, jamais dans le sitemap ni la
+     navigation. Aucun secret ici — le jeton est saisi par toi et reste dans TON
+     navigateur (même clé que /moderation : saisi une fois, valable pour les deux). -->
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230e1729'/%3E%3Cpath d='M14 18 L32 48 L50 18' fill='none' stroke='%23d4af37' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/css/pandaahh.css">
+<style>
+.st-wrap{max-width:960px}
+.st-jeton{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:16px 0 6px}
+.st-jeton input,.st-jeton select{flex:1 1 220px;min-width:0;min-height:44px;padding:10px 14px;border:1px solid var(--line);border-radius:12px;background:var(--bg2);color:var(--ink);font:inherit}
+.st-jeton select{flex:0 0 auto}
+.st-jeton input:focus,.st-jeton select:focus{outline:2px solid var(--gold-2);outline-offset:2px}
+.st-btn{min-height:44px;padding:10px 18px;border-radius:12px;border:1px solid var(--gold);background:var(--bg2);color:var(--gold-2);font:inherit;font-weight:700;cursor:pointer}
+.st-btn.sec{border-color:var(--line);background:transparent;color:var(--muted);font-weight:400}
+.st-etat{margin:10px 0 0;min-height:1.5em;color:var(--muted)}
+.st-etat.ko{color:#b03030}
+.st-tuiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin:18px 0}
+.st-tuile{border:1px solid var(--line);border-radius:var(--r-sm);padding:14px 16px;background:var(--card)}
+.st-tuile b{display:block;font:700 1.8rem/1.1 "Oswald",sans-serif;color:var(--gold-2)}
+.st-tuile span{color:var(--muted);font-size:.9rem}
+.st-b{border:1px solid var(--line);border-radius:var(--r-sm);padding:16px 18px;margin:14px 0;background:var(--card);overflow-x:auto}
+.st-b h2{margin:0 0 10px;font:700 1.1rem/1.25 "Oswald",sans-serif;text-transform:uppercase;color:var(--gold-2)}
+.st-b table{width:100%;border-collapse:collapse;font-size:.92rem}
+.st-b th,.st-b td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
+.st-b td.n,.st-b th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.st-note{color:var(--muted);font-size:.9rem;max-width:75ch}
+.vrtop{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:12px 20px;border-bottom:1px solid var(--line)}
+.vrtop .brand{color:var(--gold-2);font-weight:700;text-decoration:none;min-height:44px;display:flex;align-items:center}
+.vrnav{display:flex;gap:6px;flex-wrap:wrap}
+.vrnav a{color:var(--muted);text-decoration:none;font-size:.92rem;padding:12px 10px;min-height:44px;display:flex;align-items:center;border-radius:10px}
+.vrnav a:hover{color:var(--ink);background:var(--bg2)}
+</style>
+</head><body>
+<header class="vrtop"><a href="/" class="brand">◆ VoidRelay</a><nav class="vrnav"><a href="/">Accueil</a> <a href="/moderation">Modération</a> <a href="/outils">Outils</a></nav></header>
+<main class="wrap st-wrap">
+<h1 style="font-family:Oswald,sans-serif;text-transform:uppercase;margin:.2em 0">Ce que font les visiteurs</h1>
+<p class="sub" style="color:var(--muted);max-width:72ch">Les <b>pages vues</b> sont dans Cloudflare Web Analytics. Ici, ce qui se passe <b>sur</b> les pages : qui part vendre sur warframe.market, qui cherche, qui met en favori, qui partage. Des compteurs par jour — ni cookie, ni identifiant, ni adresse IP.</p>
+
+<div class="st-jeton">
+  <input id="st-t" type="password" autocomplete="off" spellcheck="false" placeholder="Jeton d'administration (VR_ADMIN_TOKEN)" aria-label="Jeton d'administration">
+  <select id="st-j" aria-label="Période"><option value="7">7 derniers jours</option><option value="30" selected>30 derniers jours</option><option value="90">90 derniers jours</option></select>
+  <button class="st-btn" id="st-go" type="button">Afficher</button>
+  <button class="st-btn sec" id="st-out" type="button" hidden>Oublier le jeton</button>
+</div>
+<p class="st-etat" id="st-etat">Le jeton reste dans <b>ton</b> navigateur, partagé avec /moderation.</p>
+<div id="st-res"></div>
+<p class="st-note">Le comptage a commencé le jour de la mise en ligne de cette page : avant, il n'existait rien à compter. Un « favori » compte aussi un retrait — c'est le geste qui est mesuré, pas le stock.</p>
+</main>
+
+<script>
+/* Statistiques d'engagement — lit GET /api/evt (functions/api/evt.js).
+   Le jeton vit sous la même clé que /moderation : une seule saisie pour les deux. */
+(function () {
+  "use strict";
+  var CLEF = "vr_admin";
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
+  var NOMS = { sortie: "Départ vers un autre site", recherche: "Résultat de recherche ouvert", favori: "Favori (ajout ou retrait)",
+    comparer: "Ajout au comparateur", copie: "Nom d'objet copié", partage: "Partage", langue: "Changement de langue" };
+  var nf = function (n) { return Number(n || 0).toLocaleString("fr-FR"); };
+
+  function jeton() { try { return localStorage.getItem(CLEF) || ""; } catch (e) { return ""; } }
+  function dit(txt, ko) { var e = $("st-etat"); e.innerHTML = txt; e.className = "st-etat" + (ko ? " ko" : ""); }
+
+  function tableau(titre, entetes, lignes) {
+    if (!lignes.length) return '<section class="st-b"><h2>' + titre + '</h2><p class="st-note">Rien encore sur cette période.</p></section>';
+    return '<section class="st-b"><h2>' + titre + "</h2><table><thead><tr>" +
+      entetes.map(function (h, i) { return "<th" + (i === entetes.length - 1 ? ' class="n"' : "") + ">" + h + "</th>"; }).join("") +
+      "</tr></thead><tbody>" + lignes.map(function (l) {
+        return "<tr>" + l.map(function (c, i) { return "<td" + (i === l.length - 1 ? ' class="n"' : "") + ">" + c + "</td>"; }).join("") + "</tr>";
+      }).join("") + "</tbody></table></section>";
+  }
+
+  function rendre(j) {
+    var tot = {}; (j.parJour || []).forEach(function (r) { tot[r.e] = (tot[r.e] || 0) + r.n; });
+    var wfm = (j.parDetail || []).filter(function (r) { return r.e === "sortie" && r.d === "warframe.market"; })
+      .reduce(function (s, r) { return s + r.n; }, 0);
+    var tuiles = [
+      [nf(wfm), "départs vers warframe.market"],
+      [nf(tot.recherche), "recherches abouties"],
+      [nf(tot.favori), "gestes de favori"],
+      [nf(tot.partage), "partages"],
+    ];
+    var jours = {}; (j.parJour || []).forEach(function (r) { (jours[r.jour] = jours[r.jour] || {})[r.e] = r.n; });
+    $("st-res").innerHTML =
+      '<div class="st-tuiles">' + tuiles.map(function (t) { return '<div class="st-tuile"><b>' + t[0] + "</b><span>" + t[1] + "</span></div>"; }).join("") + "</div>" +
+      tableau("Par geste et destination", ["Geste", "Détail", "Nombre"], (j.parDetail || []).map(function (r) {
+        return [esc(NOMS[r.e] || r.e), esc(r.d || "—"), nf(r.n)]; })) +
+      tableau("Pages d'où partent les gestes", ["Geste", "Page", "Nombre"], (j.pages || []).map(function (r) {
+        return [esc(NOMS[r.e] || r.e), '<a href="' + esc(r.p) + '">' + esc(r.p || "/") + "</a>", nf(r.n)]; })) +
+      tableau("Jour par jour", ["Jour", "Détail des gestes", "Total"], Object.keys(jours).sort().reverse().map(function (d) {
+        var g = jours[d], s = 0, parts = Object.keys(g).map(function (e) { s += g[e]; return esc(e) + " " + nf(g[e]); });
+        return [esc(d), parts.join(" · "), nf(s)]; }));
+    dit("Période : depuis le " + esc(j.depuis) + " (" + j.jours + " jours).");
+  }
+
+  function charger() {
+    if (!jeton()) { dit("Saisis ton jeton d'administration pour afficher les chiffres."); return; }
+    $("st-out").hidden = false;
+    dit("Chargement…");
+    fetch("/api/evt?jours=" + encodeURIComponent($("st-j").value), { headers: { "X-VR-Admin": jeton() } })
+      .then(function (r) { return r.json().catch(function () { return { ok: false, error: "réponse illisible (" + r.status + ")" }; }); })
+      .then(function (j) { if (j && j.ok) rendre(j); else { $("st-res").innerHTML = ""; dit("Refusé : " + esc((j && j.error) || "erreur inconnue"), true); } })
+      .catch(function () { dit("Le site ne répond pas — réessaie dans un instant.", true); });
+  }
+
+  $("st-go").addEventListener("click", function () {
+    var v = $("st-t").value.trim();
+    if (v) { try { localStorage.setItem(CLEF, v); } catch (e) {} }
+    $("st-t").value = "";
+    charger();
+  });
+  $("st-t").addEventListener("keydown", function (e) { if (e.key === "Enter") $("st-go").click(); });
+  $("st-j").addEventListener("change", function () { if (jeton()) charger(); });
+  $("st-out").addEventListener("click", function () {
+    try { localStorage.removeItem(CLEF); } catch (e) {}
+    $("st-out").hidden = true; $("st-res").innerHTML = "";
+    dit("Jeton oublié sur ce navigateur.");
+  });
+  if (jeton()) charger();
+})();
+</script>
+</body></html>

@@ -1,0 +1,58 @@
+name: Warframe Hub - weekly news digest
+
+# Met à jour la section « Nouveautés » (data/news.json) une fois par SEMAINE,
+# puis commit -> redéploie automatiquement. Contenu DÉTERMINISTE (pas de LLM) issu
+# du flux de news OFFICIEL (warframestat /news -> repli DE Events). Aucun scraping
+# de Reddit / forums (ToS/robots).
+#
+# AUCUN secret, AUCUN PAT requis au runtime : commit/push via le GITHUB_TOKEN
+# fourni AUTOMATIQUEMENT par GitHub Actions (permission contents:write).
+# N'écrit QUE dans data/ : ne peut pas casser le site (même garde-fou que l'Action quotidienne).
+
+on:
+  schedule:
+    - cron: "37 7 * * 1"        # lundis 07:37 UTC (minute ≠ 0 : crons GitHub retardés en pic ; ≠ minute 17 du workflow data → jamais de push simultané)
+  workflow_dispatch: {}          # bouton "Run workflow" pour un test manuel immédiat
+
+concurrency:
+  group: warframe-news-weekly
+  cancel-in-progress: false
+
+permissions:
+  contents: write                # nécessaire pour committer data/ ; rien de plus.
+
+jobs:
+  news:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        # Épinglé par SHA (durcissement chaîne d'appro) = commit du tag v4, vérifié API 05/06/2026.
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Construire le digest (Python stdlib, aucune install)
+        run: python3 scripts/update_warframe_news.py
+
+      - name: Valider que data/news.json est du JSON correct
+        run: python3 -c "import json; json.load(open('data/news.json'))"
+
+      - name: Garde-fou - ne stager QUE data/ (jamais les fichiers du site)
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/
+          if ! git diff --cached --quiet -- ':(exclude)data/*' ':(exclude)data'; then
+            echo "::error::Des fichiers hors data/ ont changé — abandon par sécurité."
+            git reset
+            exit 1
+          fi
+
+      - name: Commit + push (seulement si le digest a changé)
+        run: |
+          if git diff --cached --quiet; then
+            echo "Aucun changement de news — rien à committer."
+            exit 0
+          fi
+          # PAS de [skip ci] (en préfixe il ferait sauter le build Cloudflare Pages ; inutile ailleurs).
+          git commit -m "chore(data): digest hebdo Warframe Hub $(date -u +'%Y-%m-%d')"
+          git push

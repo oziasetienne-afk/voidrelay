@@ -1,0 +1,51 @@
+# VoidRelay — règles Cloudflare Pages (chemins same-host uniquement :
+# les redirections par NOM D'HÔTE (ex. warframe-hub.pages.dev -> voidrelay.fr) ne sont PAS supportées ici ;
+# elles sont gérées par le petit script en tête de hub/faq/faq-en + balises canonical).
+#
+# RESTAURATION 2026-06-13 (ordre du Chef) : l'accueil « / » sert de nouveau l'APP RICHE
+# (index.html : tous les outils/panneaux), comme AVANT l'automatisation VoidRelay.
+# Les deux lignes qui redirigeaient « / » et « /index.html » vers /hub ont été RETIRÉES.
+# NE PAS les remettre : la page SEO reste accessible à /hub (et /faq, /faq-en).
+# MàJ 2026-07-16 : depuis, index.html est devenu la page d'accueil éditoriale (hero,
+# bento, recherche). L'« app riche » SPA a été démantelée le même jour : ses outils
+# fonctionnels vivent en pages classiques (/codex, /fonderie, /taches, /calc-reliques,
+# /reliques-ce-soir, /assistant-farm) et /warframe n'est plus qu'un redirecteur vers
+# /outils (warframe.html + js/warframe-redirect.js pour les anciennes ancres #/route).
+# La consigne reste valable : « / » ne se redirige pas.
+#
+# 2026 : site recentré 100 % Warframe. Les anciens jeux (OSRS, PoE, Destiny 2,
+# Elden Ring, Genshin) et le hub multi-jeux /jeux sont retirés. On redirige leurs
+# anciennes URL (déjà indexées) en 301 vers l'accueil Warframe pour éviter les 404.
+/jeux/*                 /                 301
+/jeux                   /                 301
+/osrs/*                 /                 301
+/poe/*                  /                 301
+/path-of-exile/*        /                 301
+/destiny-2/*            /                 301
+/elden-ring/*           /                 301
+/genshin-impact/*       /                 301
+/en/jeux/*              /en/guides/       301
+/en/osrs/*              /                 301
+/en/poe/*               /                 301
+/en/path-of-exile/*     /                 301
+/en/destiny-2/*         /                 301
+
+# 2026-07-14 : URLs devinables qui rendaient 404 (audit) — on route vers la vraie page.
+# /en/ a désormais une VRAIE page d'accueil (en/index.html, 16/07/2026) : la redirection
+# vers /en/guides/ a été RETIRÉE. NE PAS la remettre — /en/ sert l'accueil anglais.
+/objets                 /o/               301
+/objets.html            /o/               301
+/objets/*               /o/               301
+/guide-platine          /guides/farmer-platine-gratuit  301
+/guide-du-platine       /guides/farmer-platine-gratuit  301
+
+# 2026-07-14 : le flux RSS existait (data/feed.xml, digest hebdo) mais aucune URL
+# conventionnelle ne le servait — les lecteurs RSS/agrégateurs testent /rss.xml et /feed.
+/rss.xml                /data/feed.xml    301
+/feed.xml               /data/feed.xml    301
+/feed                   /data/feed.xml    301
+/calendrier.ics         /data/warframe.ics 301
+
+# 2026-07-15 : « La Voie du Tenno » devient « La Voie du Platine » (refonte 100 % platine, ordre du Chef).
+/periple-du-tenno/*     /voie-du-platine/  301
+/periple-du-tenno       /voie-du-platine/  301

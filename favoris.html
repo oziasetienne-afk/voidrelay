@@ -1,0 +1,180 @@
+<!DOCTYPE html><html lang="fr"><head><script>(function(){try{var t=localStorage.getItem("vr-theme")||"dark";document.documentElement.setAttribute("data-theme",t)}catch(e){document.documentElement.setAttribute("data-theme","dark")}})();</script>
+<link rel="preconnect" href="https://pagead2.googlesyndication.com"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3315165542909837" crossorigin="anonymous"></script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com https://pagead2.googlesyndication.com https://partner.googleadservices.com https://tpc.googlesyndication.com https://adservice.google.com https://www.googletagservices.com https://fundingchoicesmessages.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://warframe.market https://cdn.warframestat.us https://raw.githubusercontent.com https://*.googlesyndication.com https://*.g.doubleclick.net https://*.google.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://api.warframestat.us https://api.warframe.market https://warframe-proxy.oziasetienne.workers.dev https://api.allorigins.win https://api.codetabs.com https://cloudflareinsights.com https://pagead2.googlesyndication.com https://*.g.doubleclick.net https://*.googlesyndication.com https://ep1.adtrafficquality.google https://fundingchoicesmessages.google.com; form-action 'self'; frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://*.google.com; upgrade-insecure-requests">
+<meta http-equiv="X-Content-Type-Options" content="nosniff"><meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Mes favoris Warframe — suivi des prix &amp; alertes de vente | VoidRelay</title>
+<meta name="description" content="Suis tes objets Warframe favoris : prix du platine en direct, prix de vente conseillé, alerte quand un objet atteint ton prix cible, et message WTS prêt à coller.">
+<link rel="canonical" href="https://voidrelay.fr/favoris">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="VoidRelay">
+<meta property="og:title" content="Mes favoris Warframe — suivi des prix &amp; alertes de vente | VoidRelay">
+<meta property="og:description" content="Suis tes objets Warframe favoris : prix du platine en direct, prix de vente conseillé, alerte quand un objet atteint ton prix cible, et message WTS prêt à coller.">
+<meta property="og:url" content="https://voidrelay.fr/favoris">
+<meta property="og:image" content="https://voidrelay.fr/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="VoidRelay — Mes favoris Warframe — suivi des prix &amp; alertes de vente">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Mes favoris Warframe — suivi des prix &amp; alertes de vente | VoidRelay">
+<meta name="twitter:description" content="Suis tes objets Warframe favoris : prix du platine en direct, prix de vente conseillé, alerte quand un objet atteint ton prix cible, et message WTS prêt à coller.">
+<meta name="twitter:image" content="https://voidrelay.fr/assets/og.png"><link rel="alternate" hreflang="fr" href="https://voidrelay.fr/favoris"><link rel="alternate" hreflang="en" href="https://voidrelay.fr/en/favorites"><meta name="robots" content="noindex, follow"><meta name="author" content="VoidRelay"><meta name="theme-color" content="#f4f1ea">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230e1729'/%3E%3Cpath d='M14 18 L32 48 L50 18' fill='none' stroke='%23d4af37' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"><link rel="stylesheet" href="/css/pandaahh.css">
+<!-- display=optional (PAS swap) : mesure CLS reelle 10/07/2026 (PerformanceObserver, repete 3x) -> swap causait un reflow au moment exact du chargement de la police (CLS jusqu'a 1.03), optional -> CLS 0.0000. NE PAS repasser a swap sans re-mesurer le CLS reel avant/apres sur plusieurs essais. Contexte complet : commit git "la prochaine classe de bug — CLS massif du au swap de police web". -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Oswald:wght@400;500;600;700&display=optional" rel="stylesheet">
+<style>
+.ac-wrap{position:relative;max-width:560px;margin-top:10px}
+.fv-input{width:100%;padding:13px 16px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink);font:inherit;font-size:1.02rem;box-shadow:var(--sh-soft)}
+.fv-input:focus{outline:none;border-color:var(--gold)}
+.ac-box{position:absolute;left:0;right:0;top:calc(100% + 6px);background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--sh);z-index:30;overflow:hidden;max-height:340px;overflow-y:auto}
+.ac-box.hide{display:none}
+.ac-item{padding:10px 15px;cursor:pointer;font-size:.94rem;color:var(--ink);border-top:1px solid var(--line)}
+.ac-item:first-child{border-top:0}.ac-item:hover,.ac-item.sel{background:var(--bg2);color:var(--gold-2)}
+.fv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:18px}
+.fv-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm);padding:16px;box-shadow:var(--sh-soft)}
+.fv-card.hit{border-color:#2e9e5b;box-shadow:0 0 0 1px #2e9e5b inset}
+.fv-head{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.fv-headL{display:flex;align-items:center;gap:10px;min-width:0;flex:1}
+.fv-vig{width:34px;height:34px;border-radius:6px;flex:none;object-fit:cover;background:rgba(255,255,255,.05)}
+.fv-name{font-weight:700;color:var(--ink);text-decoration:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fv-name:hover{color:var(--gold-2)}
+.fv-rm{border:0;background:transparent;cursor:pointer;font-size:1.1rem;color:var(--gold-2);line-height:1}
+.fv-stats{display:flex;gap:10px;margin:12px 0 6px}
+.fv-st{flex:1;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:9px 11px}
+.fv-st .l{color:var(--muted);font-size:.74rem;text-transform:uppercase;letter-spacing:.3px}
+.fv-st .vv{font:700 1.2rem/1.1 "Oswald",sans-serif;color:var(--ink);margin-top:2px}
+.fv-tgt{display:flex;align-items:center;gap:8px;margin-top:8px}
+.fv-tgt span{color:var(--muted);font-size:.84rem}
+.fv-tgt input{max-width:100px;padding:7px 10px;border:1px solid var(--line);border-radius:9px;background:var(--card);color:var(--ink);font:inherit}
+.fv-hitmsg{color:#2e9e5b;font-weight:600;font-size:.86rem;margin:8px 0 0}
+.fv-bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:16px}
+.fv-total{color:var(--muted)}.fv-total b{color:var(--ink)}
+.fv-btn{display:inline-flex;align-items:center;gap:6px;border:0;cursor:pointer;border-radius:11px;padding:10px 16px;font:700 .9rem/1 "Inter",sans-serif;color:#1a1300;background:linear-gradient(135deg,var(--gold-2),var(--gold));box-shadow:var(--sh-soft)}
+.fv-empty{color:var(--muted);background:var(--card);border:1px dashed var(--line);border-radius:var(--r-sm);padding:26px;text-align:center}
+.fv-muted{color:var(--muted);font-size:.9rem}
+/* Anti-CLS (09/07/2026) : #favbody est vide au 1er rendu HTML, rempli par le
+   JS ~700ms plus tard (etat vide ou liste des favoris localStorage) -> le
+   contenu qui apparait pousse tout ce qui suit (dont le footer), mesure en
+   CLS reel (PerformanceObserver) : ~0.35 en mobile. min-height reserve la
+   place approximative de l'etat vide (le cas le plus frequent : premiere
+   visite, aucun favori) ; n'elimine pas le decalage pour un utilisateur
+   avec beaucoup de favoris (hauteur variable par nature), mais couvre le
+   cas dominant. */
+#favbody{min-height:80px}
+@media(max-width:520px){#favbody{min-height:130px}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://voidrelay.fr/"},{"@type":"ListItem","position":2,"name":"Marché","item":"https://voidrelay.fr/marche"},{"@type":"ListItem","position":3,"name":"Favoris","item":"https://voidrelay.fr/favoris"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Mes favoris Warframe","description":"Suis le prix de tes objets favoris et reçois une alerte quand ils atteignent ton prix cible.","url":"https://voidrelay.fr/favoris","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"isPartOf":{"@id":"https://voidrelay.fr/#site"}}</script>
+</head><body>
+<div class="topwrap"><header class="topbar"><a href="/" class="brand"><span class="logo">◆</span> VoidRelay</a><div class="search"><span>🔎</span><input type="search" id="vr-search" class="vr-search-input" placeholder="Rechercher un objet, un build…" aria-label="Rechercher un objet Warframe" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="vr-search-results" aria-autocomplete="list"><kbd>K</kbd><div class="vr-search-results" id="vr-search-results" role="listbox" aria-label="Résultats de recherche" hidden></div></div><nav class="topnav"><div class="topnav-search"><input type="search" id="vr-search-m" class="vr-search-input" placeholder="Rechercher un objet…" aria-label="Rechercher un objet Warframe" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="vr-search-results-m" aria-autocomplete="list"><div class="vr-search-results" id="vr-search-results-m" role="listbox" aria-label="Résultats de recherche" hidden></div></div><a href="/">Accueil</a><a href="/voie-du-platine/">La Voie du Platine</a><a href="/builds/">Builds</a><a href="/warframes/">Warframes</a><a href="/armes/">Armes</a><a href="/compagnons/">Compagnons</a><a href="/ressources/">Ressources</a><a href="/arcanes/">Arcanes</a><a href="/guides/">Guides</a><a href="/skins/">Skins</a><a href="/o/">Objets</a><a href="/hub">Tableau de bord</a><a href="/outils" class="cur">Outils</a><a href="/faq">FAQ</a></nav><button class="navburger" id="navburger" type="button" aria-label="Menu" aria-expanded="false">&#9776;</button>
+<button class="themebtn" id="themebtn" type="button" aria-label="Basculer le thème" title="Thème sombre / clair">☾</button><a href="/outils" class="avatar" title="Outils Warframe" aria-label="Outils Warframe">◈</a></header></div>
+<main class="wrap">
+<nav class="bc"><a href="/">Accueil</a> › <a href="/marche">Marché</a> › <span>Favoris</span> <a href="/en/favorites" hreflang="en" style="float:right;color:var(--gold-2)" title="English version">🇬🇧 English</a></nav>
+<h1 style="font-family:Oswald,sans-serif;text-transform:uppercase;margin:.2em 0">Mes favoris</h1>
+<p class="sub" style="color:var(--muted);font-size:1.05rem;max-width:72ch">Suis tes objets : <b>prix du jour</b>, prix de <b>vente conseillé</b> et <b>alerte</b> quand un objet atteint ton prix cible. Ajoute des objets ici ou avec l'étoile ☆ depuis le <a href="/marche">Marché</a> et l'<a href="/estimateur">Estimateur</a>.</p>
+<div class="ac-wrap"><input class="fv-input" id="faddq" placeholder="Ajouter un objet à suivre…" autocomplete="off" spellcheck="false"><div class="ac-box hide" id="fac"></div></div>
+<div id="favbody" style="margin-top:8px"></div>
+</main>
+<footer class="foot"><div class="in"><div><span class="brand" style="color:#fff"><span class="logo">◆</span> VoidRelay</span><div style="font-size:.85rem;margin-top:6px">Hub Warframe non officiel — fan-made, gratuit.</div></div><div class="links" style="font-size:.9rem"><a href="/voie-du-platine/">La Voie</a><a href="/builds/">Builds</a><a href="/guides/">Guides</a><a href="/skins/">Skins</a><a href="/o/">Objets</a><a href="/marche">Marché</a><a href="/hub">Tableau de bord</a><a href="/faq">FAQ</a><a href="/a-propos">À propos</a><a href="mailto:contact@voidrelay.fr">Feedback</a></div></div><div class="in" style="padding-top:0;font-size:.8rem;color:#8294ab">« Warframe » est une marque de Digital Extremes. Prix : warframe.market. · <a href="/confidentialite">Confidentialité</a> · <a href="/mentions-legales">Mentions légales</a></div></footer>
+<script defer src="/js/data.js"></script>
+<script defer src="/js/api.js"></script>
+<script>
+/* ===== Favoris natif (clé localStorage "favs" — interopérable avec /marche et /estimateur) ===== */
+(function(){
+  "use strict";
+  const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const $=id=>document.getElementById(id);
+  const nf=n=>(Math.round(n)||0).toLocaleString("fr-FR");
+  const sell=m=>(typeof sellPrice==="function"?sellPrice(m):Math.max(1,Math.round(m*0.85)));
+  const sl=n=>(typeof slug==="function"?slug(n):n.toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,""));
+  let items=null, snap={}, sel=-1;
+  let itemsP=null;
+  /* items.json (~380 Ko) : chargé à la 1re interaction avec le champ, plus au chargement de la page. */
+  const loadItems=()=>itemsP||(itemsP=fetch("/data/items.json").then(r=>r.json()).then(d=>{items=d||[];}).catch(()=>{items=[];}));
+
+  // Migration ponctuelle : avant, les pages /o/* écrivaient leurs favoris dans une clé séparée
+  // ("vr-fav-objets") invisible ici. Si un visiteur arrive directement sur /favoris avant d'avoir
+  // rechargé une page /o/*, on récupère quand même ses anciens favoris au premier passage.
+  (function migrateLegacyFavs(){
+    try{
+      if(localStorage.getItem("favs")!==null)return;
+      const legacy=JSON.parse(localStorage.getItem("vr-fav-objets")||"null");
+      if(!Array.isArray(legacy)||!legacy.length)return;
+      const migrated={};
+      legacy.forEach(f=>{if(f&&f.s&&f.n)migrated[f.n]={name:f.n,cat:"",target:0,url:f.s};});
+      localStorage.setItem("favs",JSON.stringify(migrated));
+    }catch(e){}
+  })();
+
+  function getFavs(){try{return JSON.parse(localStorage.getItem("favs")||"{}")}catch(e){return{}}}
+  function setFavs(f){try{localStorage.setItem("favs",JSON.stringify(f))}catch(e){}}
+  async function livePrice(u){try{const s=summarizeStats(await API.marketStats(u));return s?Math.round(s.price):0;}catch(e){return 0;}}
+  async function priceFor(name,fav){ if(snap[name])return snap[name]; if(fav&&fav.url){const p=await livePrice(fav.url);return{price:p,rec:sell(p)};} return {}; }
+
+  async function render(){
+    const body=$("favbody"), f=getFavs(), ks=Object.keys(f);
+    if(!ks.length){body.innerHTML='<div class="fv-empty">Aucun favori pour l\'instant. Ajoute un objet ci-dessus, ou clique l\'étoile ☆ sur le <a href="/marche">Marché</a>.</div>';return;}
+    body.innerHTML='<p class="fv-muted">Chargement des prix…</p>';
+    const prices={}; for(const n of ks){prices[n]=await priceFor(n,f[n]);}
+    let total=0;
+    const cards=ks.map(n=>{
+      const p=prices[n]||{}, cur=p.price||0; total+=cur;
+      const tgt=f[n].target||0, hit=tgt>0&&cur>=tgt;
+      const url=(f[n]&&f[n].url)||sl(n);
+      return `<section class="fv-card${hit?" hit":""}">
+        <div class="fv-head"><div class="fv-headL">${typeof Thumbs!=="undefined"?Thumbs.img(url,"fv-vig",n):""}<a class="fv-name" href="https://warframe.market/items/${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(n)} ↗</a></div><button class="fv-rm" data-rm="${esc(n)}" title="Retirer">★</button></div>
+        <div class="fv-stats"><div class="fv-st"><div class="l">Prix du jour</div><div class="vv">${cur?cur+" PL":"—"}</div></div><div class="fv-st"><div class="l">Vendre à</div><div class="vv" style="color:#2e9e5b">${p.rec?p.rec+" PL":"—"}</div></div></div>
+        <div class="fv-tgt"><span>Prix cible</span><input type="number" inputmode="numeric" data-tgt="${esc(n)}" value="${tgt||""}" placeholder="PL"></div>
+        ${hit?'<p class="fv-hitmsg">🟢 Objectif atteint — bon moment pour vendre !</p>':""}
+      </section>`;
+    }).join("");
+    body.innerHTML=`<div class="fv-grid">${cards}</div>
+      <div class="fv-bar"><span class="fv-total">Valeur totale suivie : <b>${nf(total)} PL</b></span><button class="fv-btn" id="favwts">📋 Copier un message WTS</button></div>`;
+    $("favwts").addEventListener("click",()=>{
+      const msg="WTS "+ks.map(n=>{const p=prices[n]||{};const pr=f[n].target||p.rec||p.price||0;return `[${n}] ${pr}p`;}).join(" ");
+      try{navigator.clipboard.writeText(msg).then(()=>$("favwts").textContent="✓ Copié !").catch(()=>prompt("Copie :",msg));}catch(e){prompt("Copie :",msg);}
+    });
+    body.querySelectorAll("[data-rm]").forEach(b=>b.addEventListener("click",()=>{const f2=getFavs();delete f2[b.dataset.rm];setFavs(f2);render();}));
+    body.querySelectorAll("[data-tgt]").forEach(inp=>inp.addEventListener("change",()=>{const f2=getFavs();if(f2[inp.dataset.tgt]){f2[inp.dataset.tgt].target=+inp.value||0;setFavs(f2);render();}}));
+  }
+
+  function showAc(){
+    const inp=$("faddq"), ac=$("fac"), q=inp.value.trim().toLowerCase(); sel=-1;
+    if(!items){loadItems().then(()=>{if(items&&items.length)showAc();});}
+    if(q.length<2||!items){ac.classList.add("hide");return;}
+    const starts=[],incl=[];
+    for(const i of items){const n=i.n.toLowerCase();if(n.startsWith(q))starts.push(i);else if(n.includes(q))incl.push(i);if(starts.length>=14)break;}
+    const m=starts.concat(incl).slice(0,14);
+    if(!m.length){ac.classList.add("hide");return;}
+    ac.innerHTML=m.map(x=>`<div class="ac-item" data-u="${esc(x.u)}" data-n="${esc(x.n)}">${esc(x.n)}</div>`).join("");
+    ac.classList.remove("hide");
+    ac.querySelectorAll(".ac-item").forEach(d=>d.addEventListener("click",()=>add(d.dataset.u,d.dataset.n)));
+  }
+  function add(u,n){const f=getFavs();if(!f[n])f[n]={name:n,url:u,cat:"",target:0};setFavs(f);$("faddq").value="";$("fac").classList.add("hide");render();}
+  function keyNav(e){
+    const ac=$("fac");if(ac.classList.contains("hide"))return;
+    const its=[...ac.querySelectorAll(".ac-item")];
+    if(e.key==="ArrowDown"){e.preventDefault();sel=Math.min(its.length-1,sel+1);}
+    else if(e.key==="ArrowUp"){e.preventDefault();sel=Math.max(0,sel-1);}
+    else if(e.key==="Enter"){e.preventDefault();if(sel>=0&&its[sel])add(its[sel].dataset.u,its[sel].dataset.n);return;}
+    else return;
+    its.forEach((d,i)=>d.classList.toggle("sel",i===sel));
+  }
+
+  async function init(){
+    $("faddq").addEventListener("input",showAc);
+    $("faddq").addEventListener("focus",loadItems,{once:true});
+    $("faddq").addEventListener("keydown",keyNav);
+    document.addEventListener("click",e=>{if(!e.target.closest(".ac-wrap"))$("fac").classList.add("hide");});
+    /* catalogue chargé paresseusement (loadItems) — plus de 380 Ko au chargement */
+    try{const s=await(await fetch("/data/market.json")).json();Object.values(s.categories||{}).forEach(arr=>arr.forEach(r=>snap[r.name]={price:r.price,rec:r.rec}));/* format canonique {items:[{slug,median,…}]} (update_warframe_data.py) — même compat que marche/trade */if(Array.isArray(s.items)){const pr=u=>String(u).replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase());s.items.forEach(it=>{if(it&&it.slug&&it.median){const n=pr(it.slug);if(!snap[n])snap[n]={price:it.median,rec:Math.max(1,Math.round(it.median*0.85))};}});}}catch(e){}
+    if(typeof Thumbs!=="undefined")await Thumbs.ready();
+    render();
+  }
+  if(document.readyState!=="loading")init();else document.addEventListener("DOMContentLoaded",init);
+})();
+</script>
+<script defer src="/js/thumbs.js"></script>
+<script defer src="/js/ads.js"></script>
+<script defer src="/js/nav-toggle.js"></script><script defer src="/js/search.js"></script><script defer src="/js/warp.js"></script>
+</body></html>

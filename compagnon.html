@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3315165542909837" crossorigin="anonymous"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- CSP IDENTIQUE au hub (connect-src 'self' = la page n'appelle QUE /api/price, même origine ;
+     api.warframestat.us autorisé pour la fiche objet + alertes, lecture seule). AUCUN domaine de jeu. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com https://pagead2.googlesyndication.com https://partner.googleadservices.com https://tpc.googlesyndication.com https://adservice.google.com https://www.googletagservices.com https://fundingchoicesmessages.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://warframe.market https://*.googlesyndication.com https://*.g.doubleclick.net https://*.google.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://api.warframestat.us https://cloudflareinsights.com https://pagead2.googlesyndication.com https://*.g.doubleclick.net https://*.googlesyndication.com https://ep1.adtrafficquality.google https://fundingchoicesmessages.google.com; form-action 'self'; frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://*.google.com; upgrade-insecure-requests">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<script>/* Domaine officiel : voidrelay.fr */(function(){var h=location.hostname;if(h==='warframe-hub.pages.dev'||h.slice(-10)==='.github.io'){location.replace('https://voidrelay.fr'+location.pathname.replace(/^\/test(?=\/|$)/,'')+location.search+location.hash)}})()</script>
+<title>Compagnon Warframe — prix d'échange &amp; farm | VoidRelay</title>
+<meta name="description" content="Compagnon Warframe gratuit et ban-safe : tape un objet pour son prix d'échange (platine), où le farmer et ses reliques. Sans pub.">
+<link rel="canonical" href="https://voidrelay.fr/compagnon">
+<link rel="preconnect" href="https://api.warframestat.us" crossorigin>
+<link rel="dns-prefetch" href="https://api.warframestat.us">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0b0f14">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0f14'/%3E%3Cpath d='M14 18 L32 48 L50 18' fill='none' stroke='%23d4af37' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="sitemap" type="application/xml" href="sitemap.xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="VoidRelay">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="Compagnon Warframe — prix d'échange, où farmer &amp; reliques (gratuit, ban-safe)">
+<meta property="og:description" content="Tape un objet : platine (warframe.market), où le farmer, reliques sources, vaulté ou non, ducats. Sans compte, sans risque de ban.">
+<meta property="og:url" content="https://voidrelay.fr/compagnon">
+<meta property="og:image" content="https://voidrelay.fr/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Compagnon Warframe — prix d'échange, où farmer &amp; reliques (gratuit, ban-safe)">
+<meta name="twitter:description" content="Tape un objet : platine (warframe.market), où le farmer, reliques sources, vaulté ou non, ducats. Sans compte, sans risque de ban.">
+<meta name="twitter:image" content="https://voidrelay.fr/assets/og.png">
+<!-- Données structurées : page = outil + mini-FAQ (SEO/AEO) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "VoidRelay — Compagnon Warframe",
+      "applicationCategory": "GameApplication",
+      "operatingSystem": "Web",
+      "browserRequirements": "Requires JavaScript",
+      "inLanguage": "fr",
+      "isAccessibleForFree": true,
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+      "about": { "@type": "VideoGame", "name": "Warframe", "publisher": "Digital Extremes" },
+      "url": "https://voidrelay.fr/compagnon",
+      "description": "Recherche d'objet Warframe : prix d'échange (warframe.market), sources de farm, reliques, statut vaulté, ducats et maîtrise — gratuit, sans compte, ban-safe."
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {"@type": "Question", "name": "Comment connaître le prix d'échange d'un objet Warframe ?",
+         "acceptedAnswer": {"@type": "Answer", "text": "Tape le nom anglais de l'objet : VoidRelay interroge warframe.market et affiche le prix vendeur le plus bas, la médiane des cinq offres les plus basses et la taxe d'échange (500 crédits par platine reçu)."}},
+        {"@type": "Question", "name": "Comment savoir où farmer un objet ou quelles reliques l'ont ?",
+         "acceptedAnswer": {"@type": "Answer", "text": "La fiche objet liste les sources : pour les pièces Prime, les reliques du Vide qui les contiennent (et leurs ducats) ; pour les mods et objets, les missions où ils tombent. Si l'objet est vaulté, ses reliques ne tombent plus : il s'obtient via Prime Resurgence (Varzia) ou l'échange entre joueurs."}},
+        {"@type": "Question", "name": "Vaut-il mieux acheter un Prime en pièces ou en set complet ?",
+         "acceptedAnswer": {"@type": "Answer", "text": "VoidRelay compare en direct le prix de chaque pièce (Blueprint, Neuroptics, Chassis, Systems…) à celui du set complet sur warframe.market : souvent, acheter les pièces séparément revient moins cher que le set. La fiche objet affiche le total des pièces, le prix du set et l'économie réalisée."}},
+        {"@type": "Question", "name": "Quelles reliques ouvrir maintenant pour obtenir un Prime ?",
+         "acceptedAnswer": {"@type": "Answer", "text": "VoidRelay croise les reliques de chaque pièce du Prime avec les failles du Vide actuellement actives et indique lesquelles ouvrir tout de suite (Lith, Meso, Neo, Axi…) pour farmer les pièces qui te manquent."}}
+      ]
+    }
+  ]
+}
+</script>
+<link rel="stylesheet" href="/css/hub.css">
+<!-- display=optional (PAS swap) : mesure CLS reelle 10/07/2026 (PerformanceObserver, repete 3x) -> swap causait un reflow au moment exact du chargement de la police (CLS jusqu'a 1.03), optional -> CLS 0.0000. NE PAS repasser a swap sans re-mesurer le CLS reel avant/apres sur plusieurs essais. Contexte complet : commit git "la prochaine classe de bug — CLS massif du au swap de police web". -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Oswald:wght@400;500;600;700&display=optional" rel="stylesheet">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://voidrelay.fr/"},{"@type":"ListItem","position":2,"name":"Compagnon","item":"https://voidrelay.fr/compagnon"}]}</script>
+</head>
+<body class="mid">
+  <header class="top">
+    <p class="hdr-brand"><a href="/">Void<span class="frag">Relay</span></a><a href="/">Accueil</a><a href="/builds/">Builds</a><a href="/o/">Objets</a><a href="/guides/">Guides</a><a href="/outils">Outils</a><a href="/hub">📊 Tableau de bord</a><a href="/compagnon" class="cur">💰 Compagnon</a><a href="/faq">FAQ</a></p>
+    <h1>Compagnon Warframe — prix d'échange &amp; farm</h1>
+    <span class="sub">Recherche d'objet Warframe — prix, farm &amp; reliques, gratuit, sans compte</span>
+  </header>
+  <nav class="bc" aria-label="fil d'Ariane"><a href="/">Accueil</a> › <span>Compagnon</span></nav>
+  <main aria-label="Recherche d'objet Warframe">
+  <p class="lede">
+    Tape un objet (nom anglais) : <strong>prix d'échange</strong> (warframe.market),
+    <strong>où le farmer</strong>, ses <strong>reliques</strong>, s'il est <strong>vaulté</strong>, ses ducats et la maîtrise requise.
+    Retour au <a href="/hub">tableau de bord</a> · <a href="/faq">FAQ</a>.
+  </p>
+
+  <div class="safe">🛡️ <strong>Sans aucun risque pour ton compte</strong> : cette page est un site web, elle ne touche
+    jamais au jeu (ni mémoire, ni touches, ni fichiers). Données publiques uniquement.</div>
+
+  <div class="grid">
+    <section class="card wide">
+      <h2>🔎 Recherche d'objet</h2>
+      <form class="field" id="form" autocomplete="off" role="search">
+        <input type="text" id="q" placeholder="ex. Octavia Prime · Serration · Mesa Prime"
+               aria-label="Nom de l'objet (anglais)" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="ac" autocomplete="off" spellcheck="false">
+        <button type="submit">Chercher</button>
+        <div class="ac" id="ac" role="listbox" aria-label="Suggestions"></div>
+      </form>
+      <div class="ex">Exemples :
+        <a data-q="Octavia Prime">Octavia Prime</a> ·
+        <a data-q="Serration">Serration</a> ·
+        <a data-q="Mesa Prime">Mesa Prime</a> ·
+        <a data-q="Arcane Energize">Arcane Energize</a>
+      </div>
+      <div id="result" style="margin-top:14px" aria-live="polite"></div>
+    </section>
+
+    <section class="card wide">
+      <h2>⚖️ Comparer 2 objets</h2>
+      <form class="cmp2" id="cmpForm" autocomplete="off">
+        <input type="text" id="cA" placeholder="Objet A (ex. Mesa Prime Set)" aria-label="Premier objet à comparer" autocomplete="off" spellcheck="false">
+        <span class="vs" aria-hidden="true">vs</span>
+        <input type="text" id="cB" placeholder="Objet B (ex. Octavia Prime Set)" aria-label="Second objet à comparer" autocomplete="off" spellcheck="false">
+        <button type="button" id="cmpSwap" class="watchbtn" title="Intervertir A et B" aria-label="Intervertir A et B">⇄</button>
+        <button type="submit">Comparer</button>
+      </form>
+      <div id="cmpResult" aria-live="polite"></div>
+    </section>
+
+    <section class="card wide" id="watchCard" style="display:none">
+      <h2>🔔 Objets suivis</h2>
+      <div id="watchBody"></div>
+    </section>
+
+    <section class="card wide">
+      <h2>🌀 En direct — failles &amp; Baro</h2>
+      <div id="live"><span class="mut">Chargement…</span></div>
+    </section>
+  </div>
+  </main>
+
+  <footer>
+    <strong>VoidRelay · Compagnon</strong> · <a href="/hub">Tableau de bord</a> ·
+    <a href="/faq">FAQ (français)</a> · <a href="/faq-en" hreflang="en" lang="en">FAQ (English)</a> ·
+    prix : <a href="https://warframe.market" target="_blank" rel="noopener noreferrer">warframe.market</a> ·
+    objets &amp; drops : <a href="https://docs.warframestat.us" target="_blank" rel="noopener noreferrer">warframestat.us</a>.
+    Projet de fan non officiel, sans affiliation à Digital Extremes. « Warframe » est une marque de Digital Extremes.
+    <nav class="share" aria-label="Partager VoidRelay" style="margin-top:10px;font-size:12px;color:#8aa0b3">
+      Partager : <a href="https://twitter.com/intent/tweet?text=Prix%20%26%20farm%20de%20n%27importe%20quel%20objet%20Warframe%20%E2%80%94%20VoidRelay%20Compagnon&url=https%3A%2F%2Fvoidrelay.fr%2Fcompagnon" target="_blank" rel="noopener noreferrer">X</a> ·
+      <a href="https://www.reddit.com/submit?title=Prix%20%26%20farm%20de%20n%27importe%20quel%20objet%20Warframe%20%E2%80%94%20VoidRelay%20Compagnon&url=https%3A%2F%2Fvoidrelay.fr%2Fcompagnon" target="_blank" rel="noopener noreferrer">Reddit</a> ·
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fvoidrelay.fr%2Fcompagnon" target="_blank" rel="noopener noreferrer">Facebook</a>
+    </nav>
+  </footer>
+
+<script>
+"use strict";
+/* Prix : /api/price (proxy serveur même origine → warframe.market, CSP intacte).
+   Fiche objet (farm/reliques/vaulté/ducats) : api.warframestat.us (autorisé par la CSP, lecture seule). */
+const $ = (s)=>document.querySelector(s);
+const WFS = "https://api.warframestat.us";
+function escapeHtml(s){return String(s==null?"":s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+// N'autorise que les URLs https (bloque javascript:, data:…) pour tout lien construit depuis des données externes.
+function safeUrl(u){ try{ const x=new URL(String(u), location.href); return x.protocol==="https:"?x.href:""; }catch(e){ return ""; } }
+const CAT_PRIORITY = {Warframes:1,Primary:2,Secondary:3,Melee:4,Archwing:5,Sentinels:6,Mods:7,Arcanes:8,Relics:9,"Misc":20};
+const ENEMY_CATS = {Enemy:1};
+const RELIC_TIERS = ["Lith","Meso","Neo","Axi","Requiem","Omnia"];
+// Pièces ÉCHANGEABLES d'un Prime (exclut Orokin Cell et le non-échangeable).
+function tradeParts(item){ return (item&&item.components||[]).filter(c=> c && c.name!=="Orokin Cell" && c.tradable!==false && ((c.drops||[]).length || c.ducats!=null)); }
+function tierOfLoc(loc){ const t=relicShort(loc).split(" ")[0]; return RELIC_TIERS.includes(t)?t:null; }
+function priceFetch(q){ return fetch("/api/price?q="+encodeURIComponent(q),{headers:{Accept:"application/json"}}).then(r=>r.json()).catch(()=>null); }
+// Copie presse-papiers (API moderne + repli execCommand). 0 réseau, 0 dépendance.
+async function copyText(t){
+  try{ if(navigator.clipboard && navigator.clipboard.writeText){ await navigator.clipboard.writeText(t); return true; } }catch(e){}
+  try{ const ta=document.createElement("textarea"); ta.value=t; ta.setAttribute("readonly",""); ta.style.position="absolute"; ta.style.left="-9999px";
+    document.body.appendChild(ta); ta.select(); const ok=document.execCommand && document.execCommand("copy"); ta.remove(); return !!ok; }catch(e){ return false; }
+}
+
+/* — Sélection du meilleur objet parmi les résultats de recherche — */
+function pickItem(list, q){
+  if(!Array.isArray(list) || !list.length) return null;
+  const ql = q.trim().toLowerCase();
+  const usable = list.filter(x=> x && x.name && !ENEMY_CATS[x.category]);
+  if(!usable.length) return null;
+  // 1) match exact du nom
+  const exact = usable.find(x=> x.name.toLowerCase()===ql);
+  if(exact) return exact;
+  // 2) commence par la requête, puis priorité de catégorie, puis nom le plus court
+  const score = x=>{
+    let s = (CAT_PRIORITY[x.category]||15);
+    if(x.name.toLowerCase().startsWith(ql)) s -= 5;
+    return s;
+  };
+  return usable.slice().sort((a,b)=> score(a)-score(b) || a.name.length-b.name.length)[0];
+}
+
+/* — Nettoie un nom de relique : « Axi O5 Relic (Radiant) » → « Axi O5 » — */
+function relicShort(loc){
+  return String(loc||"").replace(/\s*\((Intact|Exceptional|Flawless|Radiant)\)\s*$/i,"").replace(/\s+Relic\b/i,"").trim();
+}
+/* — Top sources d'une liste de drops, dédupliquées par lieu, triées par chance — */
+function topSources(drops, n, shorten){
+  const seen = new Map();
+  (drops||[]).forEach(d=>{
+    const raw = d && d.location; if(!raw) return;
+    const key = shorten ? relicShort(raw) : String(raw);
+    const ch = typeof d.chance==="number" ? d.chance : 0;
+    if(!seen.has(key) || ch>seen.get(key)) seen.set(key, ch);
+  });
+  return [...seen.entries()].sort((a,b)=>b[1]-a[1]).slice(0, n);
+}
+
+/* — Rendu de la fiche objet (tout échappé) — */
+function renderItem(item, price, q, seq){
+  const box = $("#result");
+  const parts = [];
+  // En-tête : nom + type + badges
+  const badges = [];
+  if(item){
+    if(item.category||item.type) badges.push('<span class="chip acc">'+escapeHtml(item.type||item.category)+'</span>');
+    if(item.rarity) badges.push('<span class="chip">'+escapeHtml(item.rarity)+'</span>');
+    if(item.tradable===true) badges.push('<span class="chip ok">échangeable</span>');
+    if(item.tradable===false) badges.push('<span class="chip">non échangeable</span>');
+    if(item.vaulted===true) badges.push('<span class="chip warn">⚠️ vaulté</span>');
+  }
+  const title = item ? item.name : (price && (price.name||q));
+  parts.push('<div style="font-size:19px;font-weight:700">'+escapeHtml(title)+' '+badges.join(" ")+'</div>');
+
+  // Bloc PRIX (warframe.market) — si trouvé
+  if(price && price.ok){
+    const tax = price.lowest!=null ? (price.lowest*500).toLocaleString("fr-FR") : "—";
+    parts.push('<div class="sect"><h3>💰 Prix d\'échange (warframe.market)</h3>'
+      + '<div class="big">'+ price.lowest +' <span class="plat">platine</span> '
+      + '<span class="chip '+(price.ingame?'ok':'')+'">'+(price.ingame?'vendeurs EN JEU':'vendeurs en ligne')+'</span></div>'
+      + '<div class="mut" style="margin:4px 0 8px">'+ escapeHtml(price.name||price.slug||"") +'</div>'
+      + '<div class="row"><span class="k">5 offres les plus basses</span><span class="v">'+ price.top5.join(" · ") +' p</span></div>'
+      + '<div class="row"><span class="k">médiane (top 5)</span><span class="v">'+ price.median +' p</span></div>'
+      + '<div class="row"><span class="k">taxe d\'échange (≈500 cr/platine)</span><span class="v">~'+ tax +' crédits</span></div>'
+      + '<button type="button" id="followBtn" class="watchbtn">☆ Suivre le prix</button>'
+      + ' <button type="button" id="copyName" class="watchbtn" data-name="'+escapeHtml(title)+'">📋 Copier le nom</button>'
+      + ' <button type="button" id="shareBtn" class="watchbtn" data-name="'+escapeHtml(title)+'">🔗 Partager</button>'
+      + '</div>');
+  } else if(item && item.tradable===false){
+    parts.push('<div class="sect mut">Objet non échangeable — pas de prix sur le marché.</div>');
+  } else {
+    parts.push('<div class="sect mut">Pas de prix marché trouvé pour « '+escapeHtml(q)+' » — essaie le nom anglais exact (ex. « Octavia Prime Set »).</div>');
+  }
+
+  // Bloc SOURCES (où farmer / reliques)
+  if(item){
+    if(item.vaulted===true){
+      parts.push('<div class="vault">⚠️ <strong>Vaulté</strong> : ses reliques ne tombent plus en jeu. '
+        + 'À obtenir via <strong>Prime Resurgence</strong> (Varzia, avec de l\'Aya) ou l\'<strong>échange</strong> entre joueurs.</div>');
+    }
+    const comps = (item.components||[]).filter(c=> c && (c.drops||[]).length);
+    if(comps.length){
+      let h='<div class="sect"><h3>🧩 Pièces &amp; reliques sources</h3>';
+      comps.forEach(c=>{
+        const src = topSources(c.drops, 4, true).map(([loc])=>escapeHtml(loc)).join(" · ") || '<span class="mut">—</span>';
+        const duc = (typeof c.ducats==="number") ? ' <span class="duc">· '+c.ducats+' ducats</span>' : '';
+        h+='<div class="comp"><div class="nm">'+escapeHtml(c.name)+duc+'</div><div class="src">Reliques : '+src+'</div></div>';
+      });
+      h+='</div>';
+      parts.push(h);
+    } else if((item.drops||[]).length){
+      const top = topSources(item.drops, 6, false);
+      let h='<div class="sect"><h3>🗺️ Où le farmer (meilleures sources)</h3>';
+      top.forEach(([loc,ch])=>{
+        h+='<div class="row"><span class="k">'+escapeHtml(loc)+'</span><span class="v">'+(ch?ch.toFixed(1)+' %':'—')+'</span></div>';
+      });
+      h+='</div>';
+      parts.push(h);
+    } else if(item.vaulted!==true){
+      parts.push('<div class="sect mut">Pas de source de drop répertoriée (objet boutique, quête, événement ou craft).</div>');
+    }
+
+    // Sections enrichies (remplies en async) : 💰 décompo set + 🎯 plan de farm
+    if(tradeParts(item).length>=2) parts.push('<div id="setBreak"></div>');
+    if((item.components||[]).some(c=>(c.drops||[]).length)) parts.push('<div id="farmPlan"></div>');
+    // Méta : maîtrise + wiki
+    const meta=[];
+    if(typeof item.masteryReq==="number" && item.masteryReq>0) meta.push('🎓 Maîtrise requise : '+item.masteryReq);
+    const wiki = safeUrl(item.wikiaUrl);
+    if(wiki) meta.push('📖 <a href="'+escapeHtml(wiki)+'" target="_blank" rel="noopener noreferrer nofollow">Fiche wiki ↗</a>');
+    // Arme → renvoi vers les médianes Riven (carte du hub)
+    if(item.category && {Primary:1,Secondary:1,Melee:1,Archwing:1,"Arch-Gun":1,"Arch-Melee":1}[item.category])
+      meta.push('💎 <a href="/hub#card-rivens">Médianes Riven (hub)</a>');
+    if(meta.length) parts.push('<div class="sect mut" style="font-size:12.5px">'+meta.join(" &nbsp;·&nbsp; ")+'</div>');
+  }
+
+  box.innerHTML = parts.join("");
+  if(item){
+    if(document.getElementById("setBreak")) enrichSet(item, seq);
+    if(document.getElementById("farmPlan")) enrichFarm(item, seq);
+  }
+  const fb=document.getElementById("followBtn");
+  if(fb && price && price.ok){ setFollowLabel(fb, price.slug);
+    fb.onclick=()=>{ toggleWatch(price); setFollowLabel(fb, price.slug); renderWatch(); }; }
+  const cp=document.getElementById("copyName");
+  if(cp){ cp.onclick=async()=>{ const ok=await copyText(cp.dataset.name||"");
+    cp.textContent = ok?"Copié ✓":"Copie indispo"; cp.classList.toggle("on",ok);
+    setTimeout(()=>{ cp.textContent="📋 Copier le nom"; cp.classList.remove("on"); }, 1500); }; }
+  const sh=document.getElementById("shareBtn");
+  if(sh){ sh.onclick=async()=>{ const url=location.origin+location.pathname+"?q="+encodeURIComponent(sh.dataset.name||"");
+    const ok=await copyText(url); sh.textContent = ok?"Lien copié ✓":"Copie indispo"; sh.classList.toggle("on",ok);
+    setTimeout(()=>{ sh.textContent="🔗 Partager"; sh.classList.remove("on"); }, 1500); }; }
+}
+
+/* — 🔔 Suivi de prix LÉGER (0 backend) : la liste vit uniquement dans le localStorage du
+   navigateur du visiteur (comme les préférences) — aucun compte, aucun serveur, aucun tracker.
+   Au retour, on recompare le prix actuel à celui mémorisé → variation « depuis ta dernière visite ». */
+const WATCH_KEY="vr_watch", WATCH_CAP=6;
+function loadWatch(){ try{ const a=JSON.parse(localStorage.getItem(WATCH_KEY)||"[]"); return Array.isArray(a)?a:[]; }catch(e){ return []; } }
+function saveWatch(a){ try{ localStorage.setItem(WATCH_KEY, JSON.stringify((a||[]).slice(0,WATCH_CAP))); }catch(e){} }
+function isWatched(slug){ return loadWatch().some(x=>x && x.slug===slug); }
+function toggleWatch(price){ if(!price||!price.slug) return; let a=loadWatch();
+  if(a.some(x=>x.slug===price.slug)) a=a.filter(x=>x.slug!==price.slug);
+  else a.unshift({slug:price.slug, name:price.name||price.slug, plat:price.lowest, ts:Date.now()});
+  saveWatch(a); }
+function removeWatch(slug){ saveWatch(loadWatch().filter(x=>x.slug!==slug)); }
+function setFollowLabel(btn, slug){ const on=isWatched(slug); btn.textContent = on?"★ Suivi ✓ (retirer)":"☆ Suivre le prix"; btn.classList.toggle("on", on); }
+
+async function renderWatch(){
+  const card=$("#watchCard"), body=$("#watchBody"); if(!card||!body) return;
+  const list=loadWatch();
+  if(!list.length){ card.style.display="none"; return; }
+  card.style.display="";
+  body.innerHTML='<span class="mut">Mise à jour des prix suivis…</span>';
+  const res=await Promise.all(list.map(it=> priceFetch(it.name||String(it.slug).replace(/_/g," "))));
+  const updated=loadWatch();
+  const rows=list.map((it,i)=>{
+    const p=res[i], lo=(p&&p.ok)?p.lowest:null;
+    let delta='<span class="mut">—</span>';
+    if(lo!=null && typeof it.plat==="number"){ const dv=lo-it.plat;
+      delta = dv===0 ? '<span class="mut">= stable</span>'
+        : '<span class="trend '+(dv<0?'down':'up')+'">'+(dv<0?'▼':'▲')+' '+Math.abs(dv)+' p</span>'; }
+    const u=updated.find(x=>x.slug===it.slug); if(u && lo!=null){ u.plat=lo; u.ts=Date.now(); }
+    return '<div class="row"><span class="k">'+escapeHtml(it.name||it.slug)+'</span>'
+      + '<span class="v">'+(lo!=null? lo+' p ':'<span class="mut">n/d</span> ')+delta
+      + ' <button type="button" class="rmw" data-slug="'+escapeHtml(it.slug)+'" aria-label="Retirer du suivi" title="Retirer">✕</button></span></div>';
+  }).join("");
+  saveWatch(updated);
+  body.innerHTML=rows
+    +'<div style="margin-top:8px"><button type="button" id="watchClear" class="watchbtn">Vider le suivi</button></div>'
+    +'<div class="mut" style="margin-top:6px;font-size:11.5px">Variation depuis ta dernière visite. '
+    +'Suivi stocké uniquement dans ton navigateur — aucun compte, aucun serveur, aucun tracker.</div>';
+  body.querySelectorAll(".rmw").forEach(b=> b.addEventListener("click",()=>{ removeWatch(b.dataset.slug); renderWatch(); }));
+  const wc=document.getElementById("watchClear"); if(wc) wc.addEventListener("click",()=>{ saveWatch([]); renderWatch(); });
+}
+
+/* — 💰 Décomposition du SET : prix de chaque pièce vs prix du set (verdict pièces/set).
+   Tous les appels passent par le proxy /api/price (même origine, CSP intacte). — */
+async function enrichSet(item, seq){
+  const parts = tradeParts(item); if(parts.length<2) return;
+  const res = await Promise.all([priceFetch(item.name+" Set"), ...parts.map(c=>priceFetch(item.name+" "+c.name))]);
+  if(seq!==searchSeq) return; const host=document.getElementById("setBreak"); if(!host) return;
+  const setR=res[0], partR=res.slice(1);
+  let total=0, missing=0;
+  const rows = parts.map((c,i)=>{ const p=partR[i], lo=(p&&p.ok)?p.lowest:null;
+    if(lo==null) missing++; else total+=lo;
+    return '<div class="row"><span class="k">'+escapeHtml(c.name)+'</span><span class="v">'+(lo==null?'<span class="mut">n/d</span>':lo+' p')+'</span></div>'; }).join("");
+  const setLo=(setR&&setR.ok)?setR.lowest:null;
+  let verdict='';
+  if(setLo!=null && !missing){
+    const diff=setLo-total;
+    verdict = diff>0 ? '<div class="vbox ok">🧩 <b>Acheter en pièces</b> = <b>'+total+' p</b> — tu économises <b>'+diff+' p</b> vs le set ('+setLo+' p).</div>'
+      : (diff<0 ? '<div class="vbox">📦 Le <b>set complet</b> ('+setLo+' p) est moins cher que les pièces séparées ('+total+' p).</div>'
+      : '<div class="vbox">Pièces et set au même prix ('+setLo+' p).</div>');
+  } else if(setLo!=null){
+    verdict='<div class="mut" style="margin-top:6px">Total pièces ~'+total+' p ('+missing+' sans prix) · set '+setLo+' p.</div>';
+  }
+  host.innerHTML='<div class="sect"><h3>💰 Acheter en pièces vs set complet</h3>'+rows
+    +'<div class="row" style="border-top:1px solid var(--line)"><span class="k"><b>Total pièces</b></span><span class="v"><b>'+total+' p</b>'+(missing?' <span class="mut">(+'+missing+' n/d)</span>':'')+'</span></div>'
+    +(setLo!=null?'<div class="row"><span class="k">Set complet</span><span class="v">'+setLo+' p</span></div>':'')
+    +verdict+'</div>';
+}
+
+/* — 🎯 Plan de farm : par pièce, les paliers de reliques, croisés avec les failles ACTIVES
+   (warframestat, autorisé par la CSP). Cas vaulté = pas de croisement, caveat Resurgence. — */
+async function enrichFarm(item, seq){
+  const comps=(item.components||[]).filter(c=>(c.drops||[]).length); if(!comps.length) return;
+  const perPart = comps.map(c=>{ const ts=new Set(); (c.drops||[]).forEach(d=>{const t=tierOfLoc(d.location); if(t)ts.add(t);});
+    return {name:c.name, tiers:[...ts].sort((a,b)=>RELIC_TIERS.indexOf(a)-RELIC_TIERS.indexOf(b))}; });
+  // Objet vaulté : ses reliques ne tombent plus → on liste les paliers + caveat.
+  if(item.vaulted===true){
+    if(seq!==searchSeq) return; const host=document.getElementById("farmPlan"); if(!host) return;
+    host.innerHTML='<div class="sect"><h3>🎯 Plan de farm — reliques par pièce</h3>'
+      + perPart.map(p=>'<div class="row"><span class="k">'+escapeHtml(p.name)+'</span><span class="v">'+(p.tiers.map(escapeHtml).join(" · ")||'—')+'</span></div>').join("")
+      + '<div class="vault" style="margin-top:8px">⚠️ <strong>Vaulté</strong> : ces reliques ne tombent plus en failles. Tu peux ouvrir celles déjà en ta possession ; pour de nouvelles copies, passe par <strong>Prime Resurgence</strong> (Varzia).</div></div>';
+    return;
+  }
+  // Non vaulté : croise avec les failles actives → « ouvre maintenant ».
+  let active={}; try{ const fr=await fetch(WFS+"/pc/fissures/?language=en").then(r=>r.ok?r.json():[]);
+    (Array.isArray(fr)?fr:[]).forEach(f=>{ if(f && f.tier) active[f.tier]=(active[f.tier]||0)+1; }); }catch(e){}
+  if(seq!==searchSeq) return; const host=document.getElementById("farmPlan"); if(!host) return;
+  const openNow=new Set();
+  const body = perPart.map(p=>{
+    const tags=p.tiers.map(t=>{ const n=active[t]||0; if(n) openNow.add(t);
+      return '<span class="chip '+(n?'ok':'')+'">'+escapeHtml(t)+(n?' ✓':'')+'</span>'; }).join(" ");
+    return '<div class="comp"><div class="nm">'+escapeHtml(p.name)+'</div><div class="src">'+(tags||'<span class="mut">—</span>')+'</div></div>';
+  }).join("");
+  const head = openNow.size
+    ? '<div class="vbox ok">✅ <b>Ouvre maintenant</b> : reliques '+[...openNow].sort((a,b)=>RELIC_TIERS.indexOf(a)-RELIC_TIERS.indexOf(b)).map(escapeHtml).join(", ")+' — failles actives.</div>'
+    : '<div class="mut" style="margin:2px 0 8px">Aucune faille du bon palier active à l\'instant — reviens plus tard ou vise une autre pièce.</div>';
+  host.innerHTML='<div class="sect"><h3>🎯 Plan de farm — quelles reliques ouvrir</h3>'+head+body
+    +'<div class="mut" style="margin-top:8px;font-size:11.5px">✓ = un palier dont une faille est active maintenant. Détail des reliques exactes ci-dessus.</div></div>';
+}
+
+/* — Recherche principale : prix + fiche objet en parallèle — */
+let searchSeq = 0;
+async function searchItem(q){
+  const box = $("#result");
+  hideAc();
+  if(!q || !q.trim()){ box.innerHTML='<span class="mut">Tape un nom d\'objet.</span>'; return; }
+  q = q.trim();
+  const seq = ++searchSeq;
+  box.innerHTML='<span class="mut">Recherche…</span>';
+  const priceP = fetch("/api/price?q="+encodeURIComponent(q),{headers:{Accept:"application/json"}})
+    .then(r=>r.json()).catch(()=>null);
+  const itemP = fetch(WFS+"/items/search/"+encodeURIComponent(q)+"/?language=en",{headers:{Accept:"application/json"}})
+    .then(r=>r.ok?r.json():null).catch(()=>null);
+  const [price, list] = await Promise.all([priceP, itemP]);
+  if(seq!==searchSeq) return; // une requête plus récente a pris la main
+  const item = pickItem(list, q);
+  if(!item && !(price && price.ok)){
+    box.innerHTML='<span class="mut">Aucun résultat pour « '+escapeHtml(q)+' ». Essaie le nom anglais complet '
+      +'(ex. « Octavia Prime » ou « Serration »).</span>';
+    return;
+  }
+  renderItem(item, price, q, seq);
+}
+
+/* — Autocomplétion (warframestat /items/search), anti-rebond 180 ms — */
+let acTimer=null, acItems=[], acSel=-1, acSeq=0;
+function hideAc(){ const ac=$("#ac"); ac.classList.remove("on"); ac.innerHTML=""; acItems=[]; acSel=-1; $("#q").setAttribute("aria-expanded","false"); }
+function showAc(items){
+  const ac=$("#ac"); acItems=items; acSel=-1;
+  if(!items.length){ hideAc(); return; }
+  ac.innerHTML = items.map((it,i)=>'<div class="opt" role="option" data-i="'+i+'"><span>'+escapeHtml(it.name)
+    +'</span><span class="ty">'+escapeHtml(it.type||it.category||"")+'</span></div>').join("");
+  ac.classList.add("on"); $("#q").setAttribute("aria-expanded","true");
+  ac.querySelectorAll(".opt").forEach(o=> o.addEventListener("mousedown",(e)=>{ e.preventDefault();
+    const it=acItems[+o.dataset.i]; $("#q").value=it.name; hideAc(); searchItem(it.name); }));
+}
+async function suggest(q){
+  q=q.trim(); if(q.length<2){ hideAc(); return; }
+  const seq=++acSeq;
+  try{
+    const r = await fetch(WFS+"/items/search/"+encodeURIComponent(q)+"/?language=en",{headers:{Accept:"application/json"}});
+    if(!r.ok) return;
+    const d = await r.json();
+    if(seq!==acSeq) return;
+    const seen=new Set();
+    const opts=(Array.isArray(d)?d:[]).filter(x=> x && x.name && !ENEMY_CATS[x.category])
+      .filter(x=>{ const k=x.name.toLowerCase(); if(seen.has(k))return false; seen.add(k); return true; })
+      .sort((a,b)=>(CAT_PRIORITY[a.category]||15)-(CAT_PRIORITY[b.category]||15) || a.name.length-b.name.length)
+      .slice(0,8);
+    showAc(opts);
+  }catch(e){ /* silencieux */ }
+}
+
+/* — ⚖️ Comparateur 2 objets : fiche (warframestat) + prix (proxy) pour chacun → tableau côte à côte. — */
+async function fetchItemInfo(q){
+  const [price, list] = await Promise.all([
+    priceFetch(q),
+    fetch(WFS+"/items/search/"+encodeURIComponent(q)+"/?language=en",{headers:{Accept:"application/json"}}).then(r=>r.ok?r.json():null).catch(()=>null)
+  ]);
+  return {q, item: pickItem(list, q), price};
+}
+function cmpMetrics(info){
+  const it=info.item, p=info.price;
+  const name = it ? it.name : ((p&&(p.name||p.slug))||info.q);
+  const priceLo = (p&&p.ok)? p.lowest : null;
+  const price = priceLo!=null ? priceLo+' p' : (it&&it.tradable===false ? 'non éch.' : '—');
+  const med = (p&&p.ok)? p.median+' p' : '—';
+  const vault = it ? (it.vaulted===true ? '<span class="chip warn">vaulté</span>' : 'non') : '—';
+  const mr = (it&&typeof it.masteryReq==="number"&&it.masteryReq>0) ? String(it.masteryReq) : '—';
+  const type = it ? escapeHtml(it.type||it.category||'') : '—';
+  let src='—';
+  if(it){
+    const comps=(it.components||[]).filter(c=>(c.drops||[]).length);
+    if(comps.length){ const all=[]; comps.forEach(c=>(c.drops||[]).forEach(d=>all.push(d))); const t=topSources(all,1,true); src=t.length?escapeHtml(t[0][0]):'reliques'; }
+    else if((it.drops||[]).length){ const t=topSources(it.drops,1,false); src=t.length?escapeHtml(t[0][0]):'—'; }
+    else if(it.vaulted===true) src='vaulté';
+  }
+  return {name:escapeHtml(name), price, med, vault, mr, type, src, priceLo};
+}
+let cmpSeq=0;
+async function compare(){
+  const a=$("#cA").value.trim(), b=$("#cB").value.trim(), host=$("#cmpResult");
+  if(!a||!b){ host.innerHTML='<span class="mut">Renseigne deux objets à comparer.</span>'; return; }
+  const seq=++cmpSeq;
+  host.innerHTML='<span class="mut">Comparaison…</span>';
+  const [ia,ib]=await Promise.all([fetchItemInfo(a),fetchItemInfo(b)]);
+  if(seq!==cmpSeq) return;
+  if(!ia.item && !(ia.price&&ia.price.ok) && !ib.item && !(ib.price&&ib.price.ok)){ host.innerHTML='<span class="mut">Aucun résultat — vérifie les noms anglais.</span>'; return; }
+  const ma=cmpMetrics(ia), mb=cmpMetrics(ib);
+  let wa='', wb='';
+  if(ma.priceLo!=null && mb.priceLo!=null){ if(ma.priceLo<mb.priceLo) wa=' class="win"'; else if(mb.priceLo<ma.priceLo) wb=' class="win"'; }
+  const row=(label,va,vb,ca,cb)=>'<tr><th>'+escapeHtml(label)+'</th><td'+(ca||'')+'>'+va+'</td><td'+(cb||'')+'>'+vb+'</td></tr>';
+  host.innerHTML='<table class="cmp"><thead><tr><th scope="col">Critère</th><th scope="col">'+ma.name+'</th><th scope="col">'+mb.name+'</th></tr></thead><tbody>'
+    + row('Type',ma.type,mb.type)
+    + row('Prix le plus bas',ma.price,mb.price,wa,wb)
+    + row('Médiane',ma.med,mb.med)
+    + row('Vaulté',ma.vault,mb.vault)
+    + row('Maîtrise',ma.mr,mb.mr)
+    + row('Meilleure source',ma.src,mb.src)
+    + '</tbody></table>'
+    + ((ma.priceLo!=null&&mb.priceLo!=null)?'<div class="mut" style="margin-top:8px;font-size:11.5px">Le moins cher est surligné. Prix = vendeur le plus bas sur warframe.market.</div>':'');
+  host.innerHTML += ' <button type="button" id="cmpShare" class="watchbtn" data-a="'+escapeHtml(a)+'" data-b="'+escapeHtml(b)+'">🔗 Partager la comparaison</button>';
+  const cs=document.getElementById("cmpShare");
+  if(cs){ cs.onclick=async()=>{ const url=location.origin+location.pathname+"?a="+encodeURIComponent(cs.dataset.a||"")+"&b="+encodeURIComponent(cs.dataset.b||"");
+    const ok=await copyText(url); cs.textContent = ok?"Lien copié ✓":"Copie indispo"; cs.classList.toggle("on",ok);
+    setTimeout(()=>{ cs.textContent="🔗 Partager la comparaison"; cs.classList.remove("on"); }, 1500); }; }
+}
+
+/* — Câblage UI — */
+$("#cmpForm").addEventListener("submit",(e)=>{e.preventDefault(); compare();});
+$("#cmpSwap").addEventListener("click",()=>{ const a=$("#cA").value; $("#cA").value=$("#cB").value; $("#cB").value=a;
+  if($("#cmpResult").textContent.trim()) compare(); });
+$("#form").addEventListener("submit",(e)=>{e.preventDefault(); searchItem($("#q").value);});
+$("#q").addEventListener("input",()=>{ clearTimeout(acTimer); acTimer=setTimeout(()=>suggest($("#q").value),180); });
+$("#q").addEventListener("keydown",(e)=>{
+  const ac=$("#ac"); if(!ac.classList.contains("on")) return;
+  if(e.key==="ArrowDown"||e.key==="ArrowUp"){ e.preventDefault();
+    acSel += (e.key==="ArrowDown"?1:-1);
+    if(acSel<0) acSel=acItems.length-1; if(acSel>=acItems.length) acSel=0;
+    ac.querySelectorAll(".opt").forEach((o,i)=>o.classList.toggle("sel",i===acSel));
+  } else if(e.key==="Enter" && acSel>=0){ e.preventDefault();
+    const it=acItems[acSel]; $("#q").value=it.name; hideAc(); searchItem(it.name);
+  } else if(e.key==="Escape"){ hideAc(); }
+});
+$("#q").addEventListener("blur",()=> setTimeout(hideAc,150));
+document.querySelectorAll(".ex a").forEach(a=>a.addEventListener("click",()=>{$("#q").value=a.dataset.q; searchItem(a.dataset.q);}));
+
+/* Affiche la carte « objets suivis » au chargement (si la liste locale n'est pas vide). */
+renderWatch();
+
+/* Deep-link : /compagnon?q=<objet> (recherche auto) ou ?a=<A>&b=<B> (comparaison auto) → liens partageables/indexables. */
+(function(){ try{ const u=new URLSearchParams(location.search), p=u.get("q"), a=u.get("a"), b=u.get("b");
+  if(p && p.trim()){ $("#q").value=p; searchItem(p); }
+  if(a && b){ $("#cA").value=a; $("#cB").value=b; compare(); }
+}catch(e){} })();
+
+/* — Alertes live : warframestat (autorisé par la CSP, lecture seule). — */
+(async function live(){
+  const box = $("#live");
+  try{
+    const [fr, baro] = await Promise.all([
+      fetch(WFS+"/pc/fissures/?language=fr").then(r=>r.json()),
+      fetch(WFS+"/pc/voidTrader/?language=fr").then(r=>r.json())
+    ]);
+    const list = Array.isArray(fr)?fr:[];
+    const sp = list.filter(f=>f.isHard).length, norm = list.length - sp;
+    const baroTxt = baro && baro.active
+      ? ('🛒 <strong style="color:var(--ok)">Baro est là</strong> — '+escapeHtml(baro.location||"")+' (repart '+escapeHtml(baro.endString||"")+')')
+      : ('🛒 Baro absent — prochaine venue : '+escapeHtml((baro&&baro.location)||"?")+' '+escapeHtml((baro&&baro.startString)||""));
+    box.innerHTML =
+      '<div class="row"><span class="k">Failles actives</span><span class="v">'+list.length+' ( '+norm+' normales · '+sp+' Steel Path )</span></div>'
+      + '<div class="row"><span class="k">Baro Ki\'Teer</span><span class="v">'+baroTxt+'</span></div>'
+      + '<div class="mut" style="margin-top:8px">Détail complet sur le <a href="/hub">tableau de bord</a>.</div>';
+  }catch(e){
+    box.innerHTML = '<span class="mut">Données live indisponibles — voir le <a href="/hub">tableau de bord</a>.</span>';
+  }
+})();
+</script>
+  <!-- Analytics : Cloudflare Web Analytics est injecté automatiquement au niveau de la zone
+       (dashboard Cloudflare, hors dépôt) — ne pas ajouter de snippet manuel ici, ce serait un doublon. -->
+</body>
+</html>

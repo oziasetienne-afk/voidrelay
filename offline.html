@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Hors ligne — VoidRelay</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230e1729'/%3E%3Cpath d='M14 18 L32 48 L50 18' fill='none' stroke='%23d4af37' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+  :root{--bg:#0b0f14;--card:#121922;--card2:#0f161e;--ink:#e6edf3;--mut:#8aa0b3;--line:#1d2935;--acc:#d4af37}
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:radial-gradient(1200px 600px at 80% -10%,#13202b 0,var(--bg) 55%) fixed,var(--bg);
+    color:var(--ink);font:15px/1.6 system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    padding:20px;max-width:640px;margin:0 auto;min-height:96vh;display:flex;flex-direction:column;justify-content:center}
+  a{color:var(--acc);text-decoration:none}
+  a:hover{text-decoration:underline}
+  main{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);
+    border-radius:14px;padding:32px 28px;text-align:center}
+  .logo{font-size:44px;color:var(--acc);line-height:1;letter-spacing:2px;font-weight:700}
+  .code{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:3px;margin-top:14px}
+  h1{font-size:22px;margin:8px 0 6px;letter-spacing:.4px}
+  p{color:var(--mut);font-size:14px;max-width:56ch;margin:0 auto 6px}
+  nav{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:18px}
+  nav a,nav button{display:inline-block;padding:9px 16px;border-radius:999px;font-size:13.5px;
+    border:1px solid var(--line);background:#0d1b22;color:var(--ink)}
+  nav a:hover,nav button:hover{border-color:var(--acc);color:var(--acc);text-decoration:none}
+  nav a.first{border-color:#0d3a3d;background:#082426;color:var(--acc);font-weight:600}
+  nav button{font:inherit;cursor:pointer;appearance:none}
+</style>
+</head>
+<body>
+<main>
+  <div class="logo" aria-hidden="true">◆</div>
+  <div class="code">Hors ligne</div>
+  <h1>Pas de connexion, Tenno.</h1>
+  <p>Cette page n'a pas encore été mise en cache pour une consultation hors ligne. Les pages déjà visitées, elles, restent disponibles.</p>
+  <nav aria-label="Pages disponibles hors ligne">
+    <a class="first" href="/">◆ Accueil</a>
+    <button type="button" class="retry" id="retryBtn">↻ Réessayer</button>
+  </nav>
+</main>
+<script>document.getElementById("retryBtn").addEventListener("click",function(){location.reload();});</script>
+</body>
+</html>

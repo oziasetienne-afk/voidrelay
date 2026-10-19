@@ -1,0 +1,57 @@
+name: Post social faceless
+
+# Génère un visuel de marque (sans visage) + une légende prête à poster selon
+# l'évènement Warframe du moment (Baro, Prime Resurgence, mouvement de marché…).
+# Le résultat est commité dans social/ et donc accessible sur le site :
+#   https://voidrelay.fr/social/latest.png  (image à poster)
+#   https://voidrelay.fr/social/latest.txt  (légende + hashtags + lien)
+# La PUBLICATION reste manuelle (comptes du Chef) — rien n'est posté automatiquement.
+
+on:
+  schedule:
+    - cron: "41 7 * * *"        # tous les jours 07:41 UTC (minute libre)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: social
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      # 09/07/2026 : travaille sur MAIN (la branche claude/warframe-updates-app-thkv5
+      # est abandonnée — la pousser redéclencherait son sync-main.yml embarqué qui
+      # force-pushe main avec un état obsolète ; cf. pages-objets.yml).
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Installer sharp (rasterisation SVG → PNG)
+        run: npm init -y >/dev/null 2>&1 && npm install --no-save sharp >/dev/null 2>&1
+      - name: Générer le post (visuel + légende)
+        run: node scripts/social_post.mjs
+      - name: Garde-fou invariants
+        run: bash scripts/verifier_invariants.sh
+      - name: Commit si changement
+        run: |
+          # package.json et package-lock.json sont SUIVIS par git : les supprimer laissait
+          # deux suppressions non indexées, et `git pull --rebase` refusait alors de tourner
+          # (« You have unstaged changes ») — le post était généré puis jamais poussé,
+          # chaque jour depuis au moins le 20/09/2026. On les restaure au lieu de les effacer.
+          rm -rf node_modules
+          git checkout -- package.json package-lock.json
+          git config user.name "voidrelay-bot"
+          git config user.email "bot@voidrelay.fr"
+          git add social/
+          if git diff --cached --quiet; then
+            echo "Aucun nouveau post social."
+          else
+            git commit -m "chore(social): post faceless $(date -u +'%Y-%m-%d')"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi

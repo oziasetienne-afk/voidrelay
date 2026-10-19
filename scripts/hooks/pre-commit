@@ -1,0 +1,37 @@
+#!/bin/sh
+# Garde-fou : refuse un commit direct sur main/master.
+#
+# Contexte : deux fois dans la même session (2026-07-10), un bot a laissé un
+# commit atterrir sur main sans feu vert — une fois un "wip:" oublié après une
+# compaction de contexte, une fois un commit fait juste après un merge réussi
+# sans rebasculer sur une nouvelle branche. La discipline seule n'a pas suffi
+# deux fois de suite ; ce hook rend l'erreur impossible plutôt que de compter
+# sur la vigilance.
+#
+# Un merge légitime vers main (après feu vert) reste autorisé : git crée un
+# MERGE_HEAD pendant le commit de merge, qu'on détecte ci-dessous.
+#
+# Échappement volontaire si un commit direct sur main est vraiment voulu :
+#   ALLOW_MAIN_COMMIT=1 git commit -m "..."
+
+branch=$(git symbolic-ref --short HEAD 2>/dev/null)
+
+if [ "$branch" = "main" ] || [ "$branch" = "master" ]; then
+  git_dir=$(git rev-parse --git-dir)
+  if [ -f "$git_dir/MERGE_HEAD" ]; then
+    exit 0
+  fi
+  if [ "$ALLOW_MAIN_COMMIT" = "1" ]; then
+    exit 0
+  fi
+  echo "" >&2
+  echo "🚫 Commit direct refusé sur '$branch'." >&2
+  echo "   Travaille sur une branche feature : git checkout -b feat/nom-de-la-tache" >&2
+  echo "   Si ce commit est bien un merge légitime (après feu vert), relance la commande de merge." >&2
+  echo "   Échappement volontaire (à utiliser en connaissance de cause) :" >&2
+  echo "     ALLOW_MAIN_COMMIT=1 git commit -m \"...\"" >&2
+  echo "" >&2
+  exit 1
+fi
+
+exit 0

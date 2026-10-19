@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" role="img" aria-label="VoidRelay — Arbitrages : farmer le Vitus">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0a0e16"/>
+      <stop offset="0.55" stop-color="#0c1018"/>
+      <stop offset="1" stop-color="#070a10"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="0.5" cy="0.42" r="0.62">
+      <stop offset="0" stop-color="#3ddad0" stop-opacity="0.20"/>
+      <stop offset="1" stop-color="#3ddad0" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="edge" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#3ddad0" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#d4af37" stop-opacity="0.25"/>
+    </linearGradient>
+    <linearGradient id="gem" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#aef7f1"/>
+      <stop offset="0.5" stop-color="#3ddad0"/>
+      <stop offset="1" stop-color="#0e7d75"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="hex" width="56" height="64" patternUnits="userSpaceOnUse">
+      <path d="M28 0 L56 16 L56 48 L28 64 L0 48 L0 16 Z" fill="none"
+            stroke="#d4af37" stroke-width="1" opacity="0.07"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="360" fill="url(#bg)"/>
+  <rect width="1200" height="360" fill="url(#hex)"/>
+  <rect width="1200" height="360" fill="url(#halo)"/>
+
+  <!-- étoiles -->
+  <g fill="#e8ecf4" opacity="0.5">
+    <circle cx="120" cy="70" r="1.5"/><circle cx="260" cy="300" r="1.2"/><circle cx="400" cy="50" r="1.3"/>
+    <circle cx="820" cy="45" r="1.4"/><circle cx="980" cy="310" r="1.2"/><circle cx="1110" cy="90" r="1.5"/>
+  </g>
+
+  <!-- drone d'arbitrage stylisé (gauche) -->
+  <g transform="translate(330,180)" filter="url(#glow)">
+    <circle cx="0" cy="0" r="46" fill="none" stroke="#c86a5a" stroke-width="3"/>
+    <circle cx="0" cy="0" r="30" fill="#1d2c49" stroke="#c86a5a" stroke-width="2"/>
+    <circle cx="0" cy="0" r="10" fill="#f2b2a2"/>
+    <path d="M-64 0 L-46 0 M46 0 L64 0 M0 -64 L0 -46 M0 46 L0 64" stroke="#c86a5a" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="0" cy="0" r="58" fill="none" stroke="#c86a5a" stroke-width="1" opacity="0.4"/>
+  </g>
+
+  <!-- flèche de conversion -->
+  <g stroke="#d4af37" stroke-width="3" fill="none" filter="url(#glow)" opacity="0.85">
+    <path d="M470 180 L700 180" stroke-dasharray="2 10" stroke-linecap="round"/>
+    <path d="M686 166 L710 180 L686 194" fill="none"/>
+  </g>
+
+  <!-- essence vitus : gemme octaédrique (droite) -->
+  <g transform="translate(850,180)" filter="url(#glow)">
+    <path d="M0 -72 L52 0 L0 72 L-52 0 Z" fill="url(#gem)" stroke="#aef7f1" stroke-width="2.5"/>
+    <path d="M0 -72 L0 72 M-52 0 L52 0" stroke="#0e7d75" stroke-width="1.6" opacity="0.7"/>
+    <path d="M0 -72 L26 -36 L52 0 M0 -72 L-26 -36 L-52 0" stroke="#e6fffc" stroke-width="1.2" opacity="0.7" fill="none"/>
+    <circle cx="0" cy="0" r="88" fill="none" stroke="#3ddad0" stroke-width="1" opacity="0.35"/>
+  </g>
+
+  <rect x="0" y="354" width="1200" height="6" fill="url(#edge)"/>
+</svg>

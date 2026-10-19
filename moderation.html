@@ -1,0 +1,157 @@
+<!DOCTYPE html><html lang="fr"><head><script>(function(){try{var t=localStorage.getItem("vr-theme")||"dark";document.documentElement.setAttribute("data-theme",t)}catch(e){document.documentElement.setAttribute("data-theme","dark")}})();</script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com; connect-src 'self'; form-action 'self'; frame-ancestors 'none'">
+<meta http-equiv="X-Content-Type-Options" content="nosniff"><meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Modération des builds | VoidRelay</title>
+<meta name="description" content="File de modération de la bibliothèque de builds VoidRelay. Page privée, réservée à l'administration du site.">
+<!-- Page PRIVÉE : jamais indexée, jamais dans le sitemap, jamais dans la navigation.
+     Elle ne contient aucun secret — le jeton est saisi par toi et reste dans TON
+     navigateur. Le noindex n'est pas une sécurité (l'API l'est), c'est de l'hygiène :
+     cette page n'a rien à faire dans un moteur de recherche. -->
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230e1729'/%3E%3Cpath d='M14 18 L32 48 L50 18' fill='none' stroke='%23d4af37' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/css/pandaahh.css">
+<style>
+.md-wrap{max-width:900px}
+.md-jeton{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:16px 0 6px}
+.md-jeton input{flex:1 1 240px;min-width:0;padding:11px 14px;border:1px solid var(--line);border-radius:12px;background:var(--bg2);color:var(--ink);font:inherit}
+.md-jeton input:focus{outline:2px solid var(--gold-2);outline-offset:2px}
+.md-etat{margin:10px 0 0;min-height:1.5em;color:var(--muted)}
+.md-etat.ko{color:#b03030}
+.md-vide{margin:22px 0;padding:20px;border:1px dashed var(--line);border-radius:var(--r-sm);color:var(--muted)}
+.md-b{border:1px solid var(--line);border-radius:var(--r-sm);padding:16px 18px;margin:14px 0;background:var(--card)}
+.md-b h2{margin:0 0 2px;font:700 1.1rem/1.25 "Oswald",sans-serif;text-transform:uppercase;color:var(--gold-2)}
+.md-meta{color:var(--muted);font-size:.9rem}
+.md-notes{margin:10px 0 0;white-space:pre-wrap;overflow-wrap:anywhere}
+.md-act{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+.md-act .btn{min-height:44px;padding:10px 16px;border-radius:12px;border:1px solid var(--line);background:var(--bg2);color:var(--ink);font:inherit;font-weight:600;cursor:pointer}
+.md-act .btn:hover{border-color:var(--gold)}
+.md-act .ok{border-color:var(--gold);color:var(--gold-2)}
+.md-act .no{border-color:#c98a8a}
+.md-lien{overflow-wrap:anywhere}
+/* Le header .vrtop/.vrnav est stylé dans css/style.css ; cette page charge
+   pandaahh.css, donc ses liens sortaient à 19px de haut — sous le minimum
+   WCAG 2.5.8 (24×24). Attrapé par verifier_cibles_tactiles.mjs, pas à l'œil.
+   On ne dépend d'aucun des deux systèmes : la règle vit ici. */
+.vrtop{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:12px 20px;border-bottom:1px solid var(--line)}
+.vrtop .brand{color:var(--gold-2);font-weight:700;text-decoration:none;min-height:44px;display:flex;align-items:center}
+.vrnav{display:flex;gap:6px;flex-wrap:wrap}
+.vrnav a{color:var(--muted);text-decoration:none;font-size:.92rem;padding:12px 10px;min-height:44px;display:flex;align-items:center;border-radius:10px}
+.vrnav a:hover{color:var(--ink);background:var(--bg2)}
+</style>
+</head><body>
+<header class="vrtop"><a href="/" class="brand">◆ VoidRelay</a><nav class="vrnav"><a href="/">Accueil</a> <a href="/arsenal">Arsenal</a> <a href="/outils">Outils</a></nav></header>
+<main class="wrap md-wrap">
+<h1 style="font-family:Oswald,sans-serif;text-transform:uppercase;margin:.2em 0">Modération des builds</h1>
+<p class="sub" style="color:var(--muted);max-width:70ch">Les builds sont publiés <b>automatiquement</b>. N'arrivent ici que ceux que <b>deux signalements</b> ont masqués — ou que tu as refusés. Rien d'autre ne t'attend : cette page est vide la plupart du temps, et c'est normal.</p>
+
+<div class="md-jeton">
+  <input id="md-t" type="password" autocomplete="off" spellcheck="false" placeholder="Jeton d'administration (VR_ADMIN_TOKEN)" aria-label="Jeton d'administration">
+  <button class="btn" id="md-go" type="button" style="min-height:44px;padding:10px 18px;border-radius:12px;border:1px solid var(--gold);background:var(--bg2);color:var(--gold-2);font:inherit;font-weight:700;cursor:pointer">Ouvrir la file</button>
+  <button class="btn" id="md-out" type="button" hidden style="min-height:44px;padding:10px 16px;border-radius:12px;border:1px solid var(--line);background:transparent;color:var(--muted);font:inherit;cursor:pointer">Oublier le jeton</button>
+</div>
+<p class="md-etat" id="md-etat">Le jeton reste dans <b>ton</b> navigateur. Il n'est jamais écrit dans le code ni envoyé ailleurs qu'à ton propre site.</p>
+<div id="md-liste"></div>
+</main>
+
+<script>
+/* Modération de la bibliothèque de builds.
+
+   POURQUOI CETTE PAGE EXISTE (05/09/2026). Depuis v76 la publication est
+   automatique : plus de file à relire. Mais deux signalements masquent un
+   build, et il n'existait alors AUCUN moyen de le revoir ou de le republier
+   sans ligne de commande — donc, sur téléphone, aucun moyen du tout. Une
+   fonction de secours qu'on ne peut pas actionner n'est pas une fonction.
+
+   LE JETON NE VIT QUE DANS CE NAVIGATEUR. Il est saisi ici, rangé dans
+   localStorage, envoyé uniquement à /api/builds du même domaine. Il n'est
+   écrit nulle part dans le dépôt, et « Oublier le jeton » l'efface. */
+(function () {
+  "use strict";
+  var CLEF = "vr_admin";
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
+
+  function jeton() { try { return localStorage.getItem(CLEF) || ""; } catch (e) { return ""; } }
+  function dit(txt, ko) { var e = $("md-etat"); e.innerHTML = txt; e.className = "md-etat" + (ko ? " ko" : ""); }
+
+  function api(chemin, options) {
+    var o = options || {};
+    o.headers = o.headers || {};
+    o.headers["X-VR-Admin"] = jeton();
+    return fetch("/api/builds" + chemin, o).then(function (r) {
+      return r.json().catch(function () { return { ok: false, error: "réponse illisible (" + r.status + ")" }; });
+    });
+  }
+
+  function ligne(b) {
+    return '<article class="md-b"><h2>' + esc(b.titre) + "</h2>" +
+      '<div class="md-meta">' + (b.auteur ? "par " + esc(b.auteur) + " · " : "") +
+      "n°" + Number(b.id) + " · " + esc(b.cree || "") + "</div>" +
+      '<div class="md-meta">' + esc(b.arme || "") + "</div>" +
+      (b.notes ? '<p class="md-notes">' + esc(b.notes) + "</p>" : "") +
+      '<p class="md-notes md-lien"><a href="' + esc(b.lien) + '" rel="noopener">Ouvrir ce build dans l\'arsenal →</a></p>' +
+      '<div class="md-act">' +
+        '<button type="button" class="btn ok" data-ok="' + Number(b.id) + '">✓ Republier</button>' +
+        '<button type="button" class="btn no" data-no="' + Number(b.id) + '">✕ Refuser définitivement</button>' +
+      "</div></article>";
+  }
+
+  function brancher() {
+    var l = $("md-liste");
+    l.querySelectorAll("[data-ok],[data-no]").forEach(function (b) {
+      b.onclick = function () {
+        var id = Number(b.getAttribute("data-ok") || b.getAttribute("data-no"));
+        var publier = b.hasAttribute("data-ok");
+        b.disabled = true;
+        api("?a=moderer", { method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: id, ok: publier }) }).then(function (r) {
+          /* Le message est passé À charger() : sinon le rechargement de la file
+             l'écrase aussitôt et le clic semble n'avoir rien fait. Trouvé en
+             testant, pas en relisant. */
+          if (r && r.ok) charger(publier ? "Build n°" + id + " republié." : "Build n°" + id + " refusé.");
+          else { b.disabled = false; dit(esc((r && r.error) || "échec"), true); }
+        });
+      };
+    });
+  }
+
+  function charger(apres) {
+    if (!jeton()) { dit("Saisis ton jeton pour ouvrir la file.", true); return; }
+    dit(apres || "Lecture de la file…");
+    api("?statut=attente").then(function (r) {
+      var l = $("md-liste");
+      if (!r || r.ok !== true) {
+        l.innerHTML = "";
+        dit(esc((r && r.error) || "échec") +
+          ((r && r.error === "réservé à la modération") ? " — le jeton ne correspond pas à VR_ADMIN_TOKEN." : ""), true);
+        return;
+      }
+      var b = r.builds || [];
+      $("md-out").hidden = false;
+      var fin = b.length ? b.length + " build(s) en attente." : "Rien en attente.";
+      dit(apres ? apres + " " + fin : fin);
+      l.innerHTML = b.length ? b.map(ligne).join("")
+        : '<p class="md-vide">Aucun build masqué ni refusé. C\'est l\'état normal : la publication est automatique.</p>';
+      brancher();
+    });
+  }
+
+  $("md-go").onclick = function () {
+    var v = $("md-t").value.trim();
+    if (v) { try { localStorage.setItem(CLEF, v); } catch (e) {} }
+    $("md-t").value = "";
+    charger();
+  };
+  $("md-t").addEventListener("keydown", function (e) { if (e.key === "Enter") $("md-go").click(); });
+  $("md-out").onclick = function () {
+    try { localStorage.removeItem(CLEF); } catch (e) {}
+    $("md-liste").innerHTML = ""; $("md-out").hidden = true;
+    dit("Jeton oublié sur cet appareil.");
+  };
+  if (jeton()) charger();
+})();
+</script>
+<script defer src="/js/nav-toggle.js"></script>
+</body></html>

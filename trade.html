@@ -1,0 +1,189 @@
+<!DOCTYPE html><html lang="fr"><head><script>(function(){try{var t=localStorage.getItem("vr-theme")||"dark";document.documentElement.setAttribute("data-theme",t)}catch(e){document.documentElement.setAttribute("data-theme","dark")}})();</script>
+<link rel="preconnect" href="https://pagead2.googlesyndication.com"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3315165542909837" crossorigin="anonymous"></script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com https://pagead2.googlesyndication.com https://partner.googleadservices.com https://tpc.googlesyndication.com https://adservice.google.com https://www.googletagservices.com https://fundingchoicesmessages.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://warframe.market https://cdn.warframestat.us https://raw.githubusercontent.com https://*.googlesyndication.com https://*.g.doubleclick.net https://*.google.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://api.warframestat.us https://api.warframe.market https://warframe-proxy.oziasetienne.workers.dev https://api.allorigins.win https://api.codetabs.com https://cloudflareinsights.com https://pagead2.googlesyndication.com https://*.g.doubleclick.net https://*.googlesyndication.com https://ep1.adtrafficquality.google https://fundingchoicesmessages.google.com; form-action 'self'; frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://*.google.com; upgrade-insecure-requests">
+<meta http-equiv="X-Content-Type-Options" content="nosniff"><meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Générateur de message de trade Warframe — WTS / WTB | VoidRelay</title>
+<meta name="description" content="Compose ton message de trade Warframe (WTS / WTB) prêt à coller : ajoute des objets, prix auto-remplis depuis warframe.market, importe tes favoris ou ton panier, copie en un clic.">
+<link rel="canonical" href="https://voidrelay.fr/trade">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="VoidRelay">
+<meta property="og:title" content="Générateur de message de trade Warframe — WTS / WTB | VoidRelay">
+<meta property="og:description" content="Compose ton message de trade Warframe (WTS / WTB) prêt à coller : ajoute des objets, prix auto-remplis depuis warframe.market, importe tes favoris ou ton panier, copie en un clic.">
+<meta property="og:url" content="https://voidrelay.fr/trade">
+<meta property="og:image" content="https://voidrelay.fr/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="VoidRelay — Générateur de message de trade Warframe — WTS / WTB">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Générateur de message de trade Warframe — WTS / WTB | VoidRelay">
+<meta name="twitter:description" content="Compose ton message de trade Warframe (WTS / WTB) prêt à coller : ajoute des objets, prix auto-remplis depuis warframe.market, importe tes favoris ou ton panier, copie en un clic.">
+<meta name="twitter:image" content="https://voidrelay.fr/assets/og.png"><link rel="alternate" hreflang="fr" href="https://voidrelay.fr/trade"><link rel="alternate" hreflang="en" href="https://voidrelay.fr/en/trade"><meta name="robots" content="noindex, follow"><meta name="author" content="VoidRelay"><meta name="theme-color" content="#f4f1ea">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230e1729'/%3E%3Cpath d='M14 18 L32 48 L50 18' fill='none' stroke='%23d4af37' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"><link rel="stylesheet" href="/css/pandaahh.css"><link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<!-- display=optional (PAS swap) : mesure CLS reelle 10/07/2026 (PerformanceObserver, repete 3x) -> swap causait un reflow au moment exact du chargement de la police (CLS jusqu'a 1.03), optional -> CLS 0.0000. NE PAS repasser a swap sans re-mesurer le CLS reel avant/apres sur plusieurs essais. Contexte complet : commit git "la prochaine classe de bug — CLS massif du au swap de police web". -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Oswald:wght@400;500;600;700&display=optional" rel="stylesheet">
+<style>
+.tr-pills{display:flex;gap:8px;margin:14px 0}
+.tr-pill{font:700 .85rem/1 "Oswald",sans-serif;letter-spacing:.5px;text-transform:uppercase;padding:10px 18px;border-radius:var(--r-pill);border:1px solid var(--line);background:var(--card);color:var(--muted);cursor:pointer}
+.tr-pill.active{background:linear-gradient(135deg,var(--gold-2),var(--gold));color:#1a1300;border-color:transparent}
+.tr-tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.ac-wrap{position:relative;flex:1;min-width:240px;max-width:420px}
+.tr-input{width:100%;padding:12px 15px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);font:inherit}
+.tr-input:focus{outline:none;border-color:var(--gold)}
+.ac-box{position:absolute;left:0;right:0;top:calc(100% + 6px);background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--sh);z-index:30;overflow:hidden;max-height:320px;overflow-y:auto}
+.ac-box.hide{display:none}
+.ac-item{padding:10px 14px;cursor:pointer;font-size:.93rem;color:var(--ink);border-top:1px solid var(--line)}
+.ac-item:first-child{border-top:0}.ac-item:hover,.ac-item.sel{background:var(--bg2);color:var(--gold-2)}
+.tr-imp{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:11px;padding:10px 14px;font:600 .88rem/1 "Inter",sans-serif;cursor:pointer}
+.tr-imp:hover{border-color:var(--gold);color:var(--gold-2)}
+.tr-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm);padding:18px;box-shadow:var(--sh-soft)}
+.tr-list{list-style:none;margin:0 0 8px;padding:0}
+.tr-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line)}
+.tr-row:first-child{border-top:0}
+.tr-vig{width:26px;height:26px;border-radius:6px;flex:none;object-fit:cover;background:rgba(255,255,255,.05)}
+.tr-name{flex:1;min-width:0;color:var(--ink);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tr-verb{color:var(--muted);font-size:.85rem}
+.tr-price{width:74px;padding:6px 8px;border:1px solid var(--line);border-radius:9px;background:var(--bg2);color:var(--ink);font:inherit;text-align:center}
+.tr-rm{border:0;background:transparent;cursor:pointer;color:#c0392b;font-size:1rem;line-height:1}
+.tr-lbl{font:700 .82rem/1 "Oswald",sans-serif;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin:14px 0 6px}
+.tr-area{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:12px;background:var(--bg2);color:var(--ink);font:inherit;resize:vertical}
+.tr-out{width:100%;padding:12px 14px;border:1px solid var(--gold);border-radius:12px;background:var(--bg2);color:var(--ink);font-family:ui-monospace,SFMono-Regular,monospace;font-size:.95rem;resize:vertical}
+.tr-acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.tr-btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:11px;padding:10px 16px;font:600 .9rem/1 "Inter",sans-serif;cursor:pointer}
+.tr-btn:hover{border-color:var(--gold);color:var(--gold-2)}
+.tr-btn.primary{background:linear-gradient(135deg,var(--gold-2),var(--gold));color:#1a1300;border-color:transparent}
+.tr-btn[disabled]{opacity:.5;cursor:default}
+.tr-empty{color:var(--muted);font-size:.92rem}
+.tr-muted{color:var(--muted);font-size:.86rem;margin-top:8px}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://voidrelay.fr/"},{"@type":"ListItem","position":2,"name":"Marché","item":"https://voidrelay.fr/marche"},{"@type":"ListItem","position":3,"name":"Message de trade","item":"https://voidrelay.fr/trade"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Générateur de message de trade Warframe","description":"Écris ton annonce WTS/WTB proprement, prête à coller sur Warframe Market ou en jeu.","url":"https://voidrelay.fr/trade","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"isPartOf":{"@id":"https://voidrelay.fr/#site"}}</script>
+</head><body>
+<div class="topwrap"><header class="topbar"><a href="/" class="brand"><span class="logo">◆</span> VoidRelay</a><div class="search"><span>🔎</span><input type="search" id="vr-search" class="vr-search-input" placeholder="Rechercher un objet, un build…" aria-label="Rechercher un objet Warframe" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="vr-search-results" aria-autocomplete="list"><kbd>K</kbd><div class="vr-search-results" id="vr-search-results" role="listbox" aria-label="Résultats de recherche" hidden></div></div><nav class="topnav"><div class="topnav-search"><input type="search" id="vr-search-m" class="vr-search-input" placeholder="Rechercher un objet…" aria-label="Rechercher un objet Warframe" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="vr-search-results-m" aria-autocomplete="list"><div class="vr-search-results" id="vr-search-results-m" role="listbox" aria-label="Résultats de recherche" hidden></div></div><a href="/">Accueil</a><a href="/voie-du-platine/">La Voie du Platine</a><a href="/builds/">Builds</a><a href="/warframes/">Warframes</a><a href="/armes/">Armes</a><a href="/compagnons/">Compagnons</a><a href="/ressources/">Ressources</a><a href="/arcanes/">Arcanes</a><a href="/guides/">Guides</a><a href="/skins/">Skins</a><a href="/o/">Objets</a><a href="/hub">Tableau de bord</a><a href="/outils" class="cur">Outils</a><a href="/faq">FAQ</a></nav><button class="navburger" id="navburger" type="button" aria-label="Menu" aria-expanded="false">&#9776;</button>
+<button class="themebtn" id="themebtn" type="button" aria-label="Basculer le thème" title="Thème sombre / clair">☾</button><a href="/outils" class="avatar" title="Outils Warframe" aria-label="Outils Warframe">◈</a></header></div>
+<main class="wrap">
+<nav class="bc"><a href="/">Accueil</a> › <a href="/marche">Marché</a> › <span>Message de trade</span> <a href="/en/trade" hreflang="en" style="float:right;color:var(--gold-2)" title="English version">🇬🇧 English</a></nav>
+<div id="vrProfil"></div>
+<script src="/js/profil.js"></script>
+<script>try{VRProfil.banniere(document.getElementById("vrProfil"))}catch(e){}</script>
+<h1 style="font-family:Oswald,sans-serif;text-transform:uppercase;margin:.2em 0">Message de trade</h1>
+<p class="sub" style="color:var(--muted);font-size:1.05rem;max-width:72ch">Compose un message <b>WTS</b> (vente) ou <b>WTB</b> (achat) prêt à coller dans le chat commercial du jeu. Les prix sont pré-remplis depuis warframe.market — ajuste-les si besoin.</p>
+<div class="tr-pills"><button class="tr-pill active" data-tt="sell">WTS — Je vends</button><button class="tr-pill" data-tt="buy">WTB — J'achète</button></div>
+<div class="tr-tools">
+  <div class="ac-wrap"><input class="tr-input" id="tradd" placeholder="Ajouter un objet…" autocomplete="off" spellcheck="false"><div class="ac-box hide" id="trac"></div></div>
+  <button class="tr-imp" id="trfav">★ Importer mes favoris</button><button class="tr-imp" id="trcart">🛒 Importer mon panier</button>
+</div>
+<div id="trbody" style="min-height:480px"></div>
+</main>
+<footer class="foot"><div class="in"><div><span class="brand" style="color:#fff"><span class="logo">◆</span> VoidRelay</span><div style="font-size:.85rem;margin-top:6px">Hub Warframe non officiel — fan-made, gratuit.</div></div><div class="links" style="font-size:.9rem"><a href="/voie-du-platine/">La Voie</a><a href="/builds/">Builds</a><a href="/guides/">Guides</a><a href="/skins/">Skins</a><a href="/o/">Objets</a><a href="/marche">Marché</a><a href="/hub">Tableau de bord</a><a href="/faq">FAQ</a><a href="/a-propos">À propos</a><a href="mailto:contact@voidrelay.fr">Feedback</a></div></div><div class="in" style="padding-top:0;font-size:.8rem;color:#8294ab">« Warframe » est une marque de Digital Extremes. Prix : warframe.market. · <a href="/confidentialite">Confidentialité</a> · <a href="/mentions-legales">Mentions légales</a></div></footer>
+<script defer src="/js/data.js"></script>
+<script defer src="/js/api.js"></script>
+<script>
+/* ===== Message de trade natif (WTS/WTB) — reutilise API/summarizeStats/sellPrice ===== */
+(function(){
+  "use strict";
+  const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const $=id=>document.getElementById(id);
+  const sell=m=>(typeof sellPrice==="function"?sellPrice(m):Math.max(1,Math.round(m*0.85)));
+  const sl=n=>(typeof slug==="function"?slug(n):n.toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,""));
+  let items=null, snap={}, sel=-1;
+  let itemsP=null;
+  /* items.json (~380 Ko) : chargé à la 1re interaction avec le champ, plus au chargement de la page. */
+  const loadItems=()=>itemsP||(itemsP=fetch("/data/items.json").then(r=>r.json()).then(d=>{items=d||[];}).catch(()=>{items=[];}));
+  /* Le mode de départ suit le profil de marché (js/profil.js) : celui qui achète
+     au plus bas ou qui recycle en ducats ouvre cette page pour ACHETER, et
+     retrouvait pourtant « WTS » à chaque fois. Un seul clic économisé, mais
+     c'est exactement le genre de détail qui fait qu'on se sent chez soi. */
+  const profilAchat = (function(){
+    try { return ["flipper", "ducatier"].indexOf(localStorage.getItem("vr_profil")) >= 0; }
+    catch (e) { return false; }
+  })();
+  const tr={type:profilAchat?"buy":"sell",items:[],extra:""};
+  if(profilAchat){document.querySelectorAll(".tr-pill").forEach(x=>x.classList.toggle("active",x.dataset.tt==="buy"));}
+
+  function getFavs(){try{return JSON.parse(localStorage.getItem("favs")||"{}")}catch(e){return{}}}
+  function getCart(){try{return JSON.parse(localStorage.getItem("cart")||"{}")}catch(e){return{}}}
+  async function priceOf(name,u){
+    if(snap[name])return snap[name];
+    if(u){try{const s=summarizeStats(await API.marketStats(u));const p=s?Math.round(s.price):0;return {price:p,rec:sell(p)};}catch(e){}}
+    return {price:0,rec:0};
+  }
+  function setDefault(it){ it.price=tr.type==="sell"?(it._rec||it.price||0):(it._med||it.price||0); }
+  function msg(){
+    const verb=tr.type==="sell"?"WTS":"WTB";
+    const parts=tr.items.filter(it=>it.n).map(it=>`[${it.n}]${it.price>0?" "+it.price+"p":""}`);
+    let m=parts.length?(verb+" "+parts.join(" ")):"";
+    const ex=(tr.extra||"").trim(); if(ex)m=(m?m+" ":verb+" ")+ex;
+    return m;
+  }
+  async function addItem(u,n){
+    if(tr.items.some(x=>x.n===n))return;
+    const it={n,u,price:0,_med:0,_rec:0}; tr.items.push(it); draw();
+    const pr=await priceOf(n,u); it._med=pr.price; it._rec=pr.rec; setDefault(it); draw();
+  }
+  function draw(){
+    const body=$("trbody"); if(!body)return; const m=msg();
+    const rows=tr.items.map((it,i)=>`<li class="tr-row">
+      ${typeof Thumbs!=="undefined"?Thumbs.img(it.u,"tr-vig",it.n):""}
+      <span class="tr-name">${esc(it.n)}</span>
+      <span class="tr-verb">${tr.type==="sell"?"à":"max"}</span>
+      <input class="tr-price" type="number" min="0" inputmode="numeric" data-trp="${i}" value="${it.price||0}">
+      <span class="tr-verb">p</span>
+      <button class="tr-rm" data-trrm="${i}" title="Retirer">✕</button></li>`).join("");
+    body.innerHTML=`<div class="tr-card">
+      ${tr.items.length?`<ol class="tr-list">${rows}</ol>`:`<p class="tr-empty">Ajoute des objets ci-dessus, importe tes favoris/panier, ou écris juste un texte libre.</p>`}
+      <div class="tr-lbl">Texte libre (optionnel)</div>
+      <textarea class="tr-area" id="trextra" rows="2" placeholder="Ex. : à Maroo's Bazaar, négociable, MP moi…">${esc(tr.extra)}</textarea>
+      <div class="tr-lbl">Message à copier</div>
+      <textarea class="tr-out" id="trout" rows="3" readonly>${esc(m)}</textarea>
+      <div class="tr-acts"><button class="tr-btn primary" id="trcopy" ${m?"":"disabled"}>📋 Copier</button><button class="tr-btn" id="trclear">Vider</button></div>
+      <p class="tr-muted">Prix pré-remplis : ${tr.type==="sell"?"prix de vente rapide (~15 % sous le médian)":"prix médian"}. Ajuste librement.</p></div>`;
+    body.querySelectorAll("[data-trp]").forEach(inp=>inp.addEventListener("input",()=>{const it=tr.items[+inp.dataset.trp];if(it){it.price=Math.max(0,+inp.value||0);$("trout").value=msg();$("trcopy").disabled=!msg();}}));
+    body.querySelectorAll("[data-trrm]").forEach(b=>b.addEventListener("click",()=>{tr.items.splice(+b.dataset.trrm,1);draw();}));
+    const ex=$("trextra"); if(ex)ex.addEventListener("input",()=>{tr.extra=ex.value;$("trout").value=msg();$("trcopy").disabled=!msg();});
+    const cp=$("trcopy"); if(cp)cp.addEventListener("click",()=>{const t=msg();if(t){try{navigator.clipboard.writeText(t).then(()=>{cp.textContent="✓ Copié !";}).catch(()=>prompt("Copie :",t));}catch(e){prompt("Copie :",t);}}});
+    const cl=$("trclear"); if(cl)cl.addEventListener("click",()=>{tr.items=[];tr.extra="";draw();});
+  }
+  function showAc(){
+    const inp=$("tradd"), ac=$("trac"), q=inp.value.trim().toLowerCase(); sel=-1;
+    if(!items){loadItems().then(()=>{if(items&&items.length)showAc();});}
+    if(q.length<2||!items){ac.classList.add("hide");return;}
+    const st=[],inc=[];
+    for(const i of items){const n=i.n.toLowerCase();if(n.startsWith(q))st.push(i);else if(n.includes(q))inc.push(i);if(st.length>=14)break;}
+    const mm=st.concat(inc).slice(0,14);
+    if(!mm.length){ac.classList.add("hide");return;}
+    ac.innerHTML=mm.map(x=>`<div class="ac-item" data-u="${esc(x.u)}" data-n="${esc(x.n)}">${esc(x.n)}</div>`).join("");
+    ac.classList.remove("hide");
+    ac.querySelectorAll(".ac-item").forEach(d=>d.addEventListener("click",()=>{inp.value="";ac.classList.add("hide");addItem(d.dataset.u,d.dataset.n);}));
+  }
+  function keyNav(e){
+    const ac=$("trac");if(ac.classList.contains("hide"))return;
+    const its=[...ac.querySelectorAll(".ac-item")];
+    if(e.key==="ArrowDown"){e.preventDefault();sel=Math.min(its.length-1,sel+1);}
+    else if(e.key==="ArrowUp"){e.preventDefault();sel=Math.max(0,sel-1);}
+    else if(e.key==="Enter"){e.preventDefault();if(sel>=0&&its[sel]){$("tradd").value="";ac.classList.add("hide");addItem(its[sel].dataset.u,its[sel].dataset.n);}return;}
+    else return;
+    its.forEach((d,i)=>d.classList.toggle("sel",i===sel));
+  }
+
+  async function init(){
+    if(typeof Thumbs!=="undefined"){try{await Thumbs.ready();}catch(e){}}
+    $("trbody"); draw();
+    document.querySelectorAll(".tr-pill").forEach(b=>b.addEventListener("click",()=>{
+      if(tr.type!==b.dataset.tt){tr.type=b.dataset.tt;document.querySelectorAll(".tr-pill").forEach(x=>x.classList.toggle("active",x===b));tr.items.forEach(setDefault);draw();}}));
+    $("tradd").addEventListener("input",showAc);
+    $("tradd").addEventListener("focus",loadItems,{once:true});
+    $("tradd").addEventListener("keydown",keyNav);
+    document.addEventListener("click",e=>{if(!e.target.closest(".ac-wrap"))$("trac").classList.add("hide");});
+    $("trfav").addEventListener("click",async()=>{const f=getFavs();for(const n of Object.keys(f))await addItem(f[n].url||sl(n),n);});
+    $("trcart").addEventListener("click",async()=>{const c=getCart();for(const u of Object.keys(c)){const it=typeof c[u]==="object"?c[u]:{n:u};await addItem(u,it.n||u);}});
+    /* catalogue chargé paresseusement (loadItems) — plus de 380 Ko au chargement */
+    try{const s=await(await fetch("/data/market.json")).json();Object.values(s.categories||{}).forEach(arr=>arr.forEach(r=>snap[r.name]={price:r.price,rec:r.rec}));/* nouveau format {items:[{slug,median,...}]} (update_warframe_data.py) — même compat que marche.html */if(Array.isArray(s.items)){const pr=u=>String(u).replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase());s.items.forEach(it=>{if(it&&it.slug&&it.median){const n=pr(it.slug);if(!snap[n])snap[n]={price:it.median,rec:Math.max(1,Math.round(it.median*0.85))};}});}}catch(e){}
+  }
+  if(document.readyState!=="loading")init();else document.addEventListener("DOMContentLoaded",init);
+})();
+</script>
+<script defer src="/js/thumbs.js"></script>
+<script defer src="/js/ads.js"></script>
+<script defer src="/js/nav-toggle.js"></script><script defer src="/js/search.js"></script><script defer src="/js/warp.js"></script>
+</body></html>

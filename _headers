@@ -1,0 +1,55 @@
+# VoidRelay — en-têtes de sécurité (Cloudflare Pages lit ce fichier automatiquement).
+# Ignoré par GitHub Pages (qui ne gère pas les en-têtes perso) : là, la CSP <meta> de hub.html prend le relais
+# pour tout SAUF frame-ancestors/HSTS (impossibles en <meta>). Ne casse rien si le fichier est inutilisé.
+/*
+  # connect-src : + api.warframestat.us (05/06/2026) = secours direct du hub quand la MàJ interne
+  # a du retard (lecture seule, domaine précis ; les 2 CSP — ici et la <meta> de hub.html — doivent l'autoriser).
+  # script/connect cloudflareinsights = Cloudflare Web Analytics (gratuit, sans cookie ; ajout 2026-06-19).
+  #   Inerte tant que le token n'est pas collé (le beacon ne se charge pas) — voir ACTIVATION_VOIDRELAY.md.
+  # img-src + warframe.market et connect-src + warframe.market/proxies (24/06/2026) : requis par les
+  # pages SEO par objet (/o/*) qui affichent le prix live (images + appels prix via proxy CORS).
+  # style-src/font-src + fonts.googleapis.com/fonts.gstatic.com et img-src + i.ytimg.com (09/07/2026) :
+  # alignés sur la <meta> CSP des pages (qui les autorisaient déjà) — cette CSP _headers était plus
+  # stricte et bloquait silencieusement les polices Google et les vignettes YouTube du hero.
+  # Ménage (09/07/2026) : retrait de oldschool.runescape.wiki / web.poecdn.com / www.bungie.net /
+  # prices.runescape.wiki — reliquats OSRS/PoE/Destiny 2 (retirés du site le 28/06), plus aucune
+  # référence dans le code (vérifié). NE PAS toucher aux domaines warframe.market / proxies ci-dessous.
+  # img-src + cdn.warframestat.us ET raw.githubusercontent.com (17/07/2026) : vignettes du
+  # SIMULATEUR D'ARSENAL (mods, frames, armes). La <meta> CSP de /arsenal les autorisait déjà,
+  # mais cette CSP _headers plus stricte s'INTERSECTE avec la <meta> → elles étaient bloquées
+  # en prod (vérifié : requestfailed csp sur cdn.warframestat.us, qui redirige 301 vers
+  # raw.githubusercontent.com — les DEUX domaines sont donc requis).
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com https://pagead2.googlesyndication.com https://partner.googleadservices.com https://tpc.googlesyndication.com https://adservice.google.com https://www.googletagservices.com https://fundingchoicesmessages.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://i.ytimg.com https://warframe.market https://cdn.warframestat.us https://raw.githubusercontent.com https://*.googlesyndication.com https://*.g.doubleclick.net https://*.google.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://api.warframestat.us https://cloudflareinsights.com https://warframe-proxy.oziasetienne.workers.dev https://api.allorigins.win https://api.codetabs.com https://api.warframe.market https://pagead2.googlesyndication.com https://*.g.doubleclick.net https://*.googlesyndication.com https://ep1.adtrafficquality.google https://fundingchoicesmessages.google.com; form-action 'self'; frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://*.google.com; upgrade-insecure-requests
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=(), interest-cohort=()
+  Cross-Origin-Opener-Policy: same-origin
+  # HSTS : 1 an. Active includeSubDomains + preload UNIQUEMENT sur ton domaine perso (jamais sur un *.pages.dev partagé).
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+
+# Données live : pas de cache long (l'auto-MAJ doit être visible vite).
+/data/*
+  Cache-Control: public, max-age=300
+
+# Images statiques (og.png, avatar) : changent ~jamais → cache 1 jour (05/06/2026).
+/assets/*
+  Cache-Control: public, max-age=86400
+
+# Widget embarquable : DOIT être intégrable en iframe sur d'autres sites (backlinks).
+# On retire X-Frame-Options DENY et on remplace la CSP pour autoriser frame-ancestors *.
+# (Le reste du site garde frame-ancestors 'none'.) La règle la plus spécifique l'emporte.
+/embed/*
+  ! X-Frame-Options
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://warframe.market; font-src 'self'; connect-src 'self' https://warframe-proxy.oziasetienne.workers.dev https://api.allorigins.win https://api.codetabs.com https://api.warframe.market; form-action 'self'; frame-ancestors *
+  X-Content-Type-Options: nosniff
+  Cache-Control: public, max-age=600
+
+# Pages objet auto-generees (/o/ et /en/o/) : noindex pour l'evaluation qualite du site
+# (refus AdSense "contenu a faible valeur"). Reduit l'empreinte des pages minces SANS les
+# supprimer (elles restent accessibles aux visiteurs). Les en-tetes /* (CSP, nosniff, HSTS)
+# continuent de s'appliquer (Cloudflare cumule les regles). Reversible : retirer ces 2 blocs.
+/o/*
+  X-Robots-Tag: noindex
+/en/o/*
+  X-Robots-Tag: noindex

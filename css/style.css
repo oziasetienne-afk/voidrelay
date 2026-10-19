@@ -1,0 +1,875 @@
+:root{
+  /* ==========================================================================
+     DESIGN SYSTEM v2 — tokens partagés avec css/pandaahh.css (même vocabulaire :
+     --surface/--gold/--line/--sh...) pour une identité cohérente sur tout le
+     site, y compris les 3800+ pages objet /o/ qui utilisent ce fichier.
+     Direction A « Orokin » = valeurs de base ci-dessous. Direction B « Void Tech »
+     = css/direction-b.css, chargé en surcouche, redéfinit ces mêmes tokens.
+     ========================================================================== */
+  --bg:#090d16; --bg2:#0e1420;
+  --surface:#141b28;       /* carte niveau 1 */
+  --surface-2:#1b2434;     /* carte survol / niveau 2 */
+  --surface-3:#212c40;     /* pop-overs, menus */
+  --ink:#eef3fb; --muted:#9fb1cb; --muted-2:#7688a2;
+  --gold:#c9a24a; --gold-2:#e2c05a; --gold-3:#efd79a; --gold-soft:rgba(212,175,55,.14);
+  --line:#26324a; --line-2:rgba(212,175,55,.30);
+  --r:14px; --r-sm:10px; --r-lg:18px;
+  --sh:0 1px 0 rgba(255,255,255,.05) inset, 0 14px 32px -18px rgba(0,0,0,.75);
+  --sh-soft:0 1px 0 rgba(255,255,255,.045) inset, 0 8px 20px -14px rgba(0,0,0,.65);
+  --sh-1:0 1px 0 rgba(255,255,255,.05) inset, 0 10px 24px -16px rgba(0,0,0,.7);
+  --sh-2:0 1px 0 rgba(255,255,255,.08) inset, 0 24px 50px -22px rgba(0,0,0,.85);
+  --ease:.18s cubic-bezier(.2,.6,.2,1);
+  --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:24px; --sp-6:32px; --sp-7:48px;
+
+  /* — alias historiques : tout le CSS existant continue de fonctionner tel quel — */
+  --elev:var(--surface-2); --card:var(--surface); --card-solid:var(--surface);
+  --border:var(--line); --border-soft:rgba(120,150,200,.12);
+  --text:var(--ink); --dim:var(--muted); --accent:var(--gold-2); --accent2:var(--gold-3);
+  --indigo:#818cf8; --acc:var(--gold-2);
+  --warn:#fbbf24; --good:#34d399; --bad:#fb7185;
+  --shadow:var(--sh-soft); --glow:0 0 0 1px rgba(212,175,55,.5),0 8px 30px -6px rgba(212,175,55,.35);
+  --tr:var(--ease);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+/* Transitions de page douces (09/07/2026) : opt-in CSS pur, ignoré silencieusement par les
+   navigateurs qui ne supportent pas les View Transitions cross-document (aucun risque). */
+@view-transition{navigation:auto}
+@media(prefers-reduced-motion:reduce){
+  ::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}
+}
+/* Accessibilité (09/07/2026) : anneau de focus visible uniquement au clavier. */
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.palette-input:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.ow-poi:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0,0,0,0);white-space:nowrap;border:0}
+body{margin:0;font-family:"Inter","Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+  color:var(--text);min-height:100vh;line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  background:
+    radial-gradient(900px 500px at 12% -8%,rgba(129,140,248,.18),transparent 60%),
+    radial-gradient(1000px 600px at 88% -4%,rgba(212,175,55,.18),transparent 55%),
+    linear-gradient(180deg,var(--bg2),var(--bg) 40%)}
+a{color:var(--accent2);text-decoration:none}
+img{max-width:100%}
+::selection{background:rgba(212,175,55,.3)}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:#283448;border-radius:10px;border:2px solid transparent;background-clip:content-box}
+::-webkit-scrollbar-thumb:hover{background:#34465f;background-clip:content-box}
+
+/* ---------- Topbar ---------- */
+/* Barre d'outils de l'app /warframe (16/07/2026) : renommée .apptopbar — le nom .topbar
+   revient au header standard du site (pandaahh.css), désormais injecté au-dessus d'elle
+   pour que /warframe soit visuellement LE MÊME site que le reste. Plus sticky : seul le
+   header du site (topwrap pandaahh) reste collé en haut. */
+.apptopbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  background:rgba(10,14,22,.72);backdrop-filter:blur(16px) saturate(140%);-webkit-backdrop-filter:blur(16px) saturate(140%);
+  border-bottom:1px solid var(--border-soft);padding:11px 20px;
+  box-shadow:0 1px 0 rgba(255,255,255,.03),0 12px 30px -20px rgba(0,0,0,.8)}
+.appbrand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:1.18rem;letter-spacing:.2px;
+  color:var(--text);background:linear-gradient(90deg,#fff,#cfe9ff);-webkit-background-clip:text;background-clip:text}
+.glyph{color:var(--accent);filter:drop-shadow(0 0 10px rgba(212,175,55,.8));font-size:1.25rem;-webkit-text-fill-color:initial}
+.theme,.burger{background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--text);
+  border-radius:10px;font-size:1.05rem;padding:7px 11px;cursor:pointer;transition:var(--tr)}
+.theme:hover,.burger:hover{border-color:var(--accent);color:var(--accent2);background:rgba(212,175,55,.08)}
+.burger{display:none}
+.topacts{display:flex;align-items:center;gap:8px;margin-left:auto}
+/* ---- Nav : liens + menus déroulants groupés ---- */
+.nav{display:flex;gap:4px;align-items:center}
+.navlink{color:var(--dim);font-weight:600;padding:8px 14px;border-radius:10px;font-size:.92rem;transition:var(--tr);text-decoration:none;white-space:nowrap}
+.navlink:hover{color:var(--text);background:rgba(255,255,255,.06)}
+.navlink.active{color:#06121d;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 6px 16px -6px rgba(212,175,55,.55)}
+.navmenu{position:relative}
+.navbtn{display:inline-flex;align-items:center;gap:6px;color:var(--dim);font-weight:600;font-size:.92rem;font-family:inherit;
+  background:transparent;border:1px solid transparent;border-radius:10px;padding:8px 14px;cursor:pointer;transition:var(--tr);white-space:nowrap}
+.navbtn:hover{color:var(--text);background:rgba(255,255,255,.06)}
+.navbtn.has-active{color:var(--accent2)}
+.navmenu.open>.navbtn{color:var(--text);background:rgba(255,255,255,.06)}
+.navbtn .caret{font-size:.62rem;opacity:.7;transition:transform .18s}
+.navmenu.open>.navbtn .caret{transform:rotate(180deg)}
+.navpanel{position:absolute;top:calc(100% + 9px);left:0;z-index:60;min-width:236px;display:none;flex-direction:column;gap:2px;
+  background:linear-gradient(180deg,#1b2433,#141b27);border:1px solid var(--border);border-radius:14px;padding:8px;
+  box-shadow:0 26px 64px -22px rgba(0,0,0,.85),0 1px 0 rgba(255,255,255,.04)}
+/* Cohérence spatiale (Designing Fluid Interfaces) : le menu émane de son bouton
+   déclencheur (au-dessus), il descend donc depuis lui — il ne monte pas du bas. */
+.navmenu.open>.navpanel{display:flex;transform-origin:top left;animation:menuIn .16s cubic-bezier(.2,.7,.2,1)}
+.navmenu.open>.langpanel{transform-origin:top right}
+@keyframes menuIn{from{opacity:0;transform:translateY(-5px) scale(.98)}to{opacity:1;transform:none}}
+.navpanel a{display:flex;align-items:center;gap:10px;color:var(--dim);font-weight:600;font-size:.92rem;padding:9px 12px;border-radius:9px;white-space:nowrap;text-decoration:none;transition:background .12s,color .12s}
+.nav-ic{width:20px;text-align:center;flex:none;font-size:.95rem}
+/* Menu langue (topbar) */
+.langpanel{left:auto;right:0;min-width:148px}
+.langopt{display:block;width:100%;text-align:left;background:transparent;border:none;color:var(--dim);font-weight:600;font-size:.92rem;font-family:inherit;padding:9px 12px;border-radius:9px;cursor:pointer;transition:background .12s,color .12s}
+.langopt:hover{background:rgba(212,175,55,.12);color:var(--accent2)}
+.langopt.on{color:var(--accent2)}
+.navpanel a:hover{background:rgba(212,175,55,.12);color:var(--accent2)}
+.navpanel a.active{color:#06121d;background:linear-gradient(135deg,var(--accent),var(--accent2))}
+body.light .navpanel,[data-theme="light"] .navpanel{background:linear-gradient(180deg,#ffffff,#f2f6fc)}
+
+main{max-width:1100px;margin:0 auto;padding:40px 28px 100px}
+#app.fade{animation:fadeUp .3s cubic-bezier(.2,.7,.2,1)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+h1{font-size:2rem;margin:0 0 10px;font-weight:800;letter-spacing:-.6px;line-height:1.15;
+  background:linear-gradient(92deg,#ffffff 20%,#b9dcff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--dim);margin:0 0 32px;font-size:1.05rem;line-height:1.6;max-width:68ch}
+h2{font-size:1.28rem;margin:44px 0 18px;font-weight:700;letter-spacing:-.2px;display:flex;align-items:center;gap:9px;
+  padding-bottom:11px;border-bottom:1px solid var(--border-soft)}
+h3{font-size:1.04rem;margin:24px 0 11px;color:var(--accent2);font-weight:700;letter-spacing:.1px}
+/* Anti-CLS (03/09/2026) : les pages outil rendent TOUT leur contenu en JS dans
+   #app, qui ne contient au 1er rendu que « Chargement… ». Le pied de page,
+   statique et visible, se faisait pousser de plusieurs centaines de pixels des
+   que le rendu arrivait — CLS median mesure en CI : /taches.html 0.9013,
+   /en/relic-calc.html 0.2450 (seuil 0.1). Reserver 85vh place le pied de page
+   sous la ligne de flottaison des le 1er rendu : ce qui grandit ensuite grandit
+   hors ecran, et plus rien ne bouge dans le champ visible.
+   Ne se mesure PAS en local sans acces reseau : la page se remplit alors avant
+   le 1er paint et le CLS y est de 0.0000 meme sans ce correctif. */
+main#app{min-height:85vh}
+.loading,.empty,.error{color:var(--dim);text-align:center;padding:44px 0}
+.loading::before{content:"";display:inline-block;width:26px;height:26px;margin-right:10px;vertical-align:-7px;
+  border:3px solid rgba(120,150,200,.25);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.error{color:var(--bad)}.muted{color:var(--dim);font-size:.88rem}
+
+/* ---------- Buttons / inputs ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:rgba(255,255,255,.04);
+  border:1px solid var(--border);color:var(--text);border-radius:var(--r-sm);padding:10px 16px;font-weight:600;
+  font-size:.94rem;cursor:pointer;transition:var(--tr)}
+.btn:hover{border-color:var(--accent);color:var(--accent2);background:rgba(212,175,55,.08);transform:translateY(-1px)}
+.btn:active{transform:scale(.97);transition-duration:.06s}
+.btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#06121d;border-color:transparent;
+  box-shadow:0 8px 20px -8px rgba(212,175,55,.65)}
+.btn.primary:hover{filter:brightness(1.06);color:#06121d}
+.input{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--text);
+  padding:11px 14px;font-size:1rem;width:100%;transition:var(--tr)}
+.input::placeholder{color:#6f819c}
+.input:focus{outline:none;border-color:var(--accent);background:rgba(212,175,55,.05);box-shadow:0 0 0 3px rgba(212,175,55,.18)}
+.acwrap{position:relative;max-width:460px}
+.acbox{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:25;background:var(--elev);
+  border:1px solid var(--accent);border-radius:var(--r-sm);max-height:330px;overflow-y:auto;box-shadow:var(--shadow);overflow:hidden auto}
+.acbox.hide{display:none}
+.acitem{padding:11px 14px;cursor:pointer;border-bottom:1px solid var(--border-soft);font-size:.95rem;transition:background .12s}
+.acitem:last-child{border-bottom:none}
+.acitem:hover,.acitem:active{background:rgba(212,175,55,.12);color:var(--accent2)}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:0 0 20px}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}
+.pill{background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--dim);padding:8px 15px;
+  border-radius:999px;cursor:pointer;font-size:.86rem;font-weight:600;transition:var(--tr)}
+.pill:hover{color:var(--text);border-color:#3a4a66}
+.pill.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#06121d;border-color:transparent;
+  box-shadow:0 6px 16px -7px rgba(212,175,55,.6)}
+.count{color:var(--dim);font-size:.88rem}
+
+/* ---------- Cards / grid ---------- */
+.grid{display:grid;gap:20px}
+/* min(330px,100%) : sous 330 px de conteneur (téléphone 320–360 px, gouttières déduites), une piste fixe
+   à 330 px faisait défiler toute la page de côté (/taches : +28 px à 320). */
+.cols-2{grid-template-columns:repeat(auto-fit,minmax(min(330px,100%),1fr))}
+.cols-auto{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+.codex-grid{grid-template-columns:repeat(auto-fill,minmax(168px,1fr))}
+.card{background:var(--card);border:1px solid var(--border-soft);border-radius:var(--r);box-shadow:var(--shadow);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:var(--tr)}
+.card.pad{padding:22px 24px}
+.tile{display:block;padding:20px;position:relative;overflow:hidden}
+.tile::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(212,175,55,.12),transparent 60%);opacity:0;transition:var(--tr)}
+.tile:hover{transform:translateY(-4px);border-color:rgba(212,175,55,.4);box-shadow:var(--glow)}
+.tile:hover::after{opacity:1}
+.tile .t{font-weight:700;font-size:1.12rem;margin-bottom:5px;position:relative}
+.tile .d{color:var(--dim);font-size:.9rem;position:relative}
+/* Aperçu des catégories (accueil) : grille 2×2 compacte, à toutes largeurs */
+.feat-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.feat{padding:18px 20px}
+.feat-h{display:flex;align-items:center;gap:10px;margin-bottom:8px;min-width:0}
+.feat-ic{font-size:1.5rem;line-height:1;flex:none}
+.feat h3{margin:0;font-size:1.05rem;line-height:1.25;overflow-wrap:anywhere}
+.feat p{margin:0;color:var(--dim);font-size:.88rem;line-height:1.5;overflow-wrap:anywhere}
+@media(max-width:480px){
+  .feat-grid{gap:12px}
+  .feat{padding:14px 14px}
+  .feat-ic{font-size:1.25rem}
+  .feat h3{font-size:.92rem}
+  .feat p{font-size:.8rem;line-height:1.45}
+}
+
+/* ---------- Hero / vedette (accueil) ---------- */
+.hero{position:relative;overflow:hidden;border-radius:18px;padding:24px 26px;margin:0 0 24px;
+  background:linear-gradient(120deg,rgba(212,175,55,.16),rgba(129,140,248,.14) 60%,transparent);
+  border:1px solid rgba(212,175,55,.28);box-shadow:var(--shadow)}
+.hero::after{content:"◆";position:absolute;right:-10px;top:-30px;font-size:160px;color:rgba(212,175,55,.10);pointer-events:none}
+.hero .ht{font-size:.78rem;text-transform:uppercase;letter-spacing:1px;color:var(--accent2);font-weight:700}
+.hero .hn{font-size:1.5rem;font-weight:800;margin:4px 0 2px;letter-spacing:-.3px}
+.hero .hd{color:var(--dim);margin-bottom:14px}
+.hero .hrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.heroimg{position:absolute;right:18px;top:50%;transform:translateY(-50%);width:128px;height:128px;object-fit:contain;
+  filter:drop-shadow(0 10px 22px rgba(0,0,0,.5));pointer-events:none;z-index:1;opacity:.96}
+.hero .ht,.hero .hn,.hero .hd,.hero .hrow{position:relative;z-index:2}
+@media(max-width:560px){.heroimg{display:none}}
+
+/* ---------- Skeleton loaders ---------- */
+.skel{position:relative;overflow:hidden;background:rgba(255,255,255,.04);border:1px solid var(--border-soft);border-radius:var(--r)}
+.skel::after{content:"";position:absolute;inset:0;transform:translateX(-100%);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.07),transparent);animation:shimmer 1.3s infinite}
+@keyframes shimmer{100%{transform:translateX(100%)}}
+.skline{height:14px;border-radius:7px;margin:10px 0;background:rgba(255,255,255,.05);position:relative;overflow:hidden}
+.skline::after{content:"";position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);animation:shimmer 1.3s infinite}
+
+/* ---------- Stagger d'apparition ---------- */
+.cols-auto>.tile,.rank .rrow{animation:fadeUp .4s both}
+.rank .rrow:nth-child(2){animation-delay:.03s}.rank .rrow:nth-child(3){animation-delay:.06s}
+.rank .rrow:nth-child(4){animation-delay:.09s}.rank .rrow:nth-child(5){animation-delay:.12s}
+.rank .rrow:nth-child(6){animation-delay:.15s}.rank .rrow:nth-child(7){animation-delay:.18s}
+.rank .rrow:nth-child(n+8){animation-delay:.2s}
+.cols-auto>.tile:nth-child(2){animation-delay:.04s}.cols-auto>.tile:nth-child(3){animation-delay:.08s}
+.cols-auto>.tile:nth-child(4){animation-delay:.12s}.cols-auto>.tile:nth-child(5){animation-delay:.16s}
+.cols-auto>.tile:nth-child(n+6){animation-delay:.2s}
+
+/* ---------- Rank list ---------- */
+.rank h3{margin:0 0 2px}.rank .meta{color:var(--dim);font-size:.82rem;margin:0 0 10px}
+.rrow{display:flex;align-items:center;gap:11px;padding:9px 0;border-bottom:1px solid var(--border-soft)}
+.rrow:last-child{border-bottom:none}
+.rnum{width:26px;height:26px;flex:none;display:flex;align-items:center;justify-content:center;border-radius:50%;
+  font-weight:800;font-size:.78rem;background:rgba(255,255,255,.05);color:var(--dim)}
+.rrow:nth-child(1) .rnum{background:linear-gradient(135deg,#fbbf24,#fcd34d);color:#3a2c05}
+.rrow:nth-child(2) .rnum{background:linear-gradient(135deg,#cbd5e1,#e2e8f0);color:#1e2733}
+.rrow:nth-child(3) .rnum{background:linear-gradient(135deg,#d2986a,#e0aa7e);color:#3a2410}
+.rimg{width:34px;height:34px;flex:none;object-fit:contain;background:radial-gradient(circle at 50% 30%,#16202f,#0c121b);border-radius:8px;padding:3px;border:1px solid var(--border-soft)}
+.rname{flex:1;font-size:.92rem}.rval{font-weight:700;color:var(--accent2);white-space:nowrap;text-align:right}
+.rlink{color:var(--text);text-decoration:none;transition:color .12s}.rlink:hover{color:var(--accent2);text-decoration:underline}
+.rsell{color:var(--good);font-weight:700}.u{font-size:.7rem;color:var(--dim)}
+.star{background:none;border:none;color:var(--warn);font-size:1.2rem;cursor:pointer;flex:none;padding:0 2px;line-height:1;transition:transform .12s}
+.star:hover{transform:scale(1.2)}.star.on{color:var(--warn)}
+
+/* ---------- Codex ---------- */
+.ic{cursor:pointer;overflow:hidden;display:flex;flex-direction:column}
+.ic img{width:100%;aspect-ratio:1/1;object-fit:contain;background:radial-gradient(circle at 50% 30%,#16202f,#0c121b);padding:12px;transition:var(--tr)}
+.ic:hover{transform:translateY(-4px);border-color:rgba(212,175,55,.4);box-shadow:var(--glow)}
+.ic:hover img{transform:scale(1.05)}
+.ic .info{padding:11px 13px 14px}
+.ic .nm{font-weight:700;margin:0 0 4px;font-size:.95rem}
+.ic .mt{font-size:.76rem;color:var(--dim)}
+/* Bordures par rareté (mods du Codex) */
+.ic-rar-common{border-color:rgba(176,141,87,.55)!important;box-shadow:inset 0 -3px 0 rgba(176,141,87,.5),var(--shadow)}
+.ic-rar-uncommon{border-color:rgba(203,213,225,.55)!important;box-shadow:inset 0 -3px 0 rgba(203,213,225,.5),var(--shadow)}
+.ic-rar-rare{border-color:rgba(241,196,15,.6)!important;box-shadow:inset 0 -3px 0 rgba(241,196,15,.55),var(--shadow)}
+.ic-rar-legendary{border-color:rgba(167,139,250,.7)!important;box-shadow:inset 0 -3px 0 rgba(167,139,250,.6),var(--shadow)}
+.mrbadge{display:inline-block;margin-top:6px;font-size:.7rem;font-weight:700;padding:3px 9px;border-radius:7px;
+  background:rgba(251,191,36,.16);color:var(--warn)}
+.mrbadge.ok{background:rgba(52,211,153,.16);color:var(--good)}
+.mrbadge.lock{background:rgba(251,113,133,.16);color:var(--bad)}
+
+/* ---------- World ---------- */
+.wc{overflow:hidden}
+.wc h3{margin:0;padding:13px 16px;font-size:1rem;background:linear-gradient(90deg,rgba(212,175,55,.12),transparent);
+  border-bottom:1px solid var(--border-soft);color:var(--text)}
+.wc .body{padding:13px 16px}
+.kv{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px dashed var(--border-soft)}
+.kv:last-child{border-bottom:none}.kv .k{color:var(--dim)}.kv .v{font-weight:600;text-align:right}
+.cyc{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cy{background:rgba(255,255,255,.03);border:1px solid var(--border-soft);border-radius:var(--r-sm);padding:12px;text-align:center}
+.cy .n{font-size:.78rem;color:var(--dim);margin-bottom:7px}
+.badge{display:inline-block;padding:3px 11px;border-radius:999px;font-size:.76rem;font-weight:700;
+  background:rgba(230,208,166,.15);color:var(--accent2)}
+
+/* ---------- News ---------- */
+.news{overflow:hidden;display:flex;flex-direction:column}
+.news img{width:100%;aspect-ratio:16/9;object-fit:cover;background:#0d1420}
+.news .body{padding:15px 17px}
+.tag{display:inline-block;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;
+  padding:3px 9px;border-radius:999px;background:rgba(212,175,55,.15);color:var(--accent2)}
+.tag.up{background:rgba(251,191,36,.18);color:var(--warn)}
+
+/* ---------- Guide ---------- */
+.guide-toc{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.guide-toc a{background:rgba(255,255,255,.04);border:1px solid var(--border);padding:7px 13px;border-radius:999px;font-size:.85rem;transition:var(--tr)}
+.guide-toc a:hover{border-color:var(--accent);color:var(--accent2)}
+.guide-sec{margin-bottom:16px;padding:18px 22px}
+.guide-sec ul{margin:6px 0;padding-left:20px}.guide-sec li{margin-bottom:7px;line-height:1.5}
+.guide-sec p{line-height:1.6}
+.warnbox{border-left:4px solid var(--warn);background:rgba(251,191,36,.08);padding:11px 15px;border-radius:var(--r-sm);margin:12px 0}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--text);padding:7px 13px;border-radius:9px;font-size:.88rem;font-weight:600;transition:var(--tr)}
+.chip:hover{border-color:var(--accent)}
+.accent-chip{display:inline-flex;align-items:center;gap:7px;cursor:pointer}
+.accent-chip.on{border-color:var(--accent);color:var(--accent2);box-shadow:0 0 0 1px rgba(212,175,55,.3) inset}
+.accent-dot{width:13px;height:13px;border-radius:50%;flex:none;box-shadow:0 0 6px rgba(0,0,0,.4)}
+.fcd{font-weight:700;color:var(--accent2);font-variant-numeric:tabular-nums}
+.fcd.ready{color:var(--good)}
+.plchip{cursor:pointer}
+.plchip.on{border-color:var(--accent);background:rgba(212,175,55,.16);color:var(--accent2);box-shadow:0 0 0 1px rgba(212,175,55,.3) inset}
+.plchip[disabled]{opacity:.4;cursor:not-allowed}
+.linkbox{border:1px solid rgba(212,175,55,.4)!important;background:linear-gradient(135deg,rgba(212,175,55,.09),transparent)!important;margin-top:16px}
+.linkrow{display:flex;gap:10px;flex-wrap:wrap}.linkrow .btn{flex:1;min-width:130px;text-align:center}
+select.input{appearance:none;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='%239fb0c9'%3E%3Cpath d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center;background-size:11px;padding-right:34px}
+
+/* ---------- Stat grid / chips ---------- */
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(124px,1fr));gap:12px;margin-top:12px}
+.st{background:rgba(255,255,255,.03);border:1px solid var(--border-soft);border-radius:var(--r-sm);padding:13px 15px}
+.st .l{font-size:.7rem;text-transform:uppercase;color:var(--dim);letter-spacing:.4px}
+.st .vv{font-size:1.08rem;font-weight:800;margin-top:2px}
+.chk{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px dashed var(--border-soft);cursor:pointer}
+.chk:last-child{border-bottom:none}
+/* Cible tactile (WCAG 2.5.8, min 24x24) : la case etait figee a 20x20 — 13 echecs
+   mesures le 03/09/2026 sur /taches.html et /codex.html, ou les cases sont generees
+   en JS (views.js) et ne peuvent donc pas etre corrigees dans le HTML. */
+.chk input{width:24px;height:24px;accent-color:var(--accent);flex:none}
+.fav-hit{border-color:var(--good)!important;box-shadow:0 0 0 1px var(--good),0 8px 30px -10px rgba(52,211,153,.5)}
+table.cmp{width:100%;border-collapse:collapse}
+table.cmp th,table.cmp td{border-bottom:1px solid var(--border-soft);padding:9px 11px;text-align:left;font-size:.92rem}
+table.cmp th{color:var(--accent2);font-weight:700}
+table.cmp td.win{color:var(--good);font-weight:800}
+
+/* ---------- Fashion / accessoires (Codex) ---------- */
+ul.fashion{margin:10px 0 0;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:9px}
+ul.fashion li{position:relative;padding:12px 14px 12px 40px;border-radius:12px;line-height:1.5;font-size:.93rem;
+  background:linear-gradient(135deg,rgba(129,140,248,.13),rgba(212,175,55,.05));
+  border:1px solid var(--border-soft);border-left:3px solid var(--indigo);
+  box-shadow:0 4px 14px -10px rgba(129,140,248,.5);transition:var(--tr)}
+ul.fashion li:hover{transform:translateX(2px);border-left-color:var(--accent);
+  box-shadow:0 6px 18px -10px rgba(212,175,55,.55);background:linear-gradient(135deg,rgba(129,140,248,.18),rgba(212,175,55,.08))}
+ul.fashion li::before{content:"💅";position:absolute;left:12px;top:12px;font-size:1rem;filter:drop-shadow(0 1px 4px rgba(129,140,248,.6))}
+ul.fashion li.muted{background:rgba(255,255,255,.03);border-left-color:var(--border);font-size:.86rem}
+ul.fashion li.muted::before{content:"✦";color:var(--accent2)}
+
+/* ---------- Assistant de farm (plan) ---------- */
+.farmplan{position:relative;overflow:hidden}
+.farmplan::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;
+  background:linear-gradient(90deg,var(--accent),var(--indigo))}
+.farmplan .fp-head{display:flex;align-items:center;gap:14px;margin-bottom:10px}
+.farmplan .fp-ava{width:64px;height:64px;flex:none;object-fit:contain;border-radius:14px;padding:5px;
+  background:radial-gradient(circle at 50% 28%,#1a2536,#0b1118);border:1px solid var(--border-soft);
+  box-shadow:0 6px 18px -10px rgba(0,0,0,.7)}
+.farmplan .fp-ava-res{display:flex;align-items:center;justify-content:center;font-size:1.7rem}
+.farmplan h3{counter-increment:fpstep;display:flex;align-items:center;gap:9px;margin:18px 0 9px;
+  padding-bottom:7px;border-bottom:1px solid var(--border-soft)}
+.farmplan h3::before{content:"";width:4px;height:1.05em;border-radius:3px;background:linear-gradient(180deg,var(--accent),var(--indigo));flex:none}
+.farmplan .kv{padding:9px 10px;border-radius:9px;border-bottom:none;margin-bottom:4px;transition:background .14s}
+.farmplan .kv:hover{background:rgba(212,175,55,.07)}
+.farmplan .kv .k{display:flex;align-items:center;gap:8px;font-weight:600;color:var(--text)}
+.farmplan .kv .v{color:var(--accent2);font-weight:600}
+.farmplan ul.fp-spots{margin:8px 0 0;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.farmplan ul.fp-spots li{position:relative;padding:10px 12px 10px 32px;border-radius:9px;line-height:1.45;
+  background:rgba(255,255,255,.03);border:1px solid var(--border-soft)}
+.farmplan ul.fp-spots li::before{content:"📍";position:absolute;left:10px;top:10px;font-size:.9rem}
+@media(max-width:560px){.farmplan .fp-ava{width:52px;height:52px}.farmplan .kv{flex-direction:column;gap:2px}.farmplan .kv .v{text-align:left}}
+
+/* ---------- Fond Warframe aléatoire ---------- */
+#wfbg{position:fixed;inset:0;z-index:-1;background-position:center top;background-size:cover;background-repeat:no-repeat;
+  opacity:0;transition:opacity .9s ease;pointer-events:none}
+#wfbg.on{opacity:.13}
+#wfbg::after{content:"";position:absolute;inset:0;
+  background:radial-gradient(120% 90% at 50% 0%,transparent,rgba(8,11,18,.65) 70%,rgba(8,11,18,.92))}
+body.light #wfbg.on,[data-theme="light"] #wfbg.on{opacity:.09}
+body.light #wfbg::after,[data-theme="light"] #wfbg::after{background:radial-gradient(120% 90% at 50% 0%,transparent,rgba(238,242,248,.5) 70%,rgba(238,242,248,.85))}
+
+/* ---------- Bons plans (deals) ---------- */
+.deal{display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden;transition:var(--tr)}
+.deal:hover{transform:translateY(-3px);border-color:rgba(212,175,55,.4);box-shadow:var(--glow)}
+.deal-h{display:flex;align-items:center;gap:10px}
+.deal-ic{width:38px;height:38px;flex:none;display:flex;align-items:center;justify-content:center;font-size:1.2rem;
+  border-radius:11px;background:linear-gradient(135deg,rgba(212,175,55,.18),rgba(129,140,248,.14));border:1px solid var(--border-soft)}
+.deal-h h3{margin:0;color:var(--text);font-size:1.02rem}
+.deal-d{color:var(--dim);font-size:.9rem;margin:0;flex:1;line-height:1.5}
+.deal-sub{color:var(--accent2);font-size:.82rem;font-weight:600;margin:0}
+.deal-note{color:var(--dim);font-size:.82rem;font-style:italic}
+.deal .btn{align-self:flex-start;margin-top:2px}
+
+/* ---------- Graphique de prix ---------- */
+.pchart{display:block;width:100%;height:auto;margin:10px 0 4px;overflow:visible}
+.pchart text{font-family:inherit}
+
+/* ---------- Modal ---------- */
+.modal{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:16px}
+.modal.hide{display:none}
+.modal-bd{position:absolute;inset:0;background:rgba(4,7,12,.72);backdrop-filter:blur(4px);animation:fadeIn .2s}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal-box{position:relative;background:linear-gradient(180deg,#18212f,#121925);border:1px solid var(--border);
+  border-radius:18px;max-width:640px;width:100%;max-height:86vh;overflow-y:auto;padding:26px;box-shadow:0 30px 80px -20px rgba(0,0,0,.8);
+  animation:popIn .24s cubic-bezier(.2,.8,.2,1)}
+@keyframes popIn{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+.modal-x{position:absolute;top:12px;right:16px;background:none;border:none;color:var(--dim);font-size:1.9rem;cursor:pointer;line-height:1;transition:var(--tr)}
+.modal-x:hover{color:var(--text)}
+/* Footer de l'ex-app /warframe — renommé .appfoot le 16/07/2026 (les pages outils portées
+   utilisent le footer standard .foot de pandaahh.css). Plus utilisé, gardé pour référence. */
+.appfoot{border-top:1px solid var(--border-soft);padding:22px;text-align:center;color:var(--dim);font-size:.82rem}
+
+/* ---------- Bouton recherche topbar ---------- */
+.searchbtn{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.04);
+  border:1px solid var(--border);color:var(--dim);border-radius:10px;padding:7px 12px;cursor:pointer;font-size:.9rem;transition:var(--tr)}
+.searchbtn:hover{border-color:var(--accent);color:var(--accent2);background:rgba(212,175,55,.07)}
+kbd,.kbd{font-family:inherit;font-size:.72rem;background:rgba(255,255,255,.08);border:1px solid var(--border);
+  border-radius:6px;padding:1px 6px;color:var(--dim);line-height:1.4}
+
+/* ---------- Palette de recherche ---------- */
+.palette{position:fixed;inset:0;z-index:70;display:flex;justify-content:center;align-items:flex-start;padding:12vh 16px 16px}
+.palette.hide{display:none}
+.palette-bd{position:absolute;inset:0;background:rgba(4,7,12,.7);backdrop-filter:blur(6px);animation:fadeIn .18s}
+.palette-box{position:relative;width:100%;max-width:600px;background:linear-gradient(180deg,#1a2433,#121925);
+  border:1px solid var(--border);border-radius:16px;box-shadow:0 40px 90px -20px rgba(0,0,0,.85);overflow:hidden;
+  transform-origin:top center;animation:paletteIn .2s cubic-bezier(.2,.8,.2,1)}
+/* La palette est déclenchée depuis le header : elle descend depuis lui (cohérence spatiale). */
+@keyframes paletteIn{from{opacity:0;transform:translateY(-10px) scale(.98)}to{opacity:1;transform:none}}
+.palette-input{width:100%;background:transparent;border:none;border-bottom:1px solid var(--border-soft);
+  color:var(--text);font-size:1.1rem;padding:18px 20px;outline:none}
+.palette-input::placeholder{color:#6f819c}
+.palette-results{max-height:54vh;overflow-y:auto;padding:6px}
+.presult{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:10px;cursor:pointer;font-size:.96rem}
+.presult .pi{font-size:1.15rem;width:24px;text-align:center;flex:none}
+.presult .psub{margin-left:auto;color:var(--dim);font-size:.78rem}
+.presult.active,.presult:hover{background:rgba(212,175,55,.14);color:var(--accent2)}
+.palette-foot{padding:9px 16px;border-top:1px solid var(--border-soft);color:var(--dim);font-size:.74rem;display:flex;gap:10px;flex-wrap:wrap}
+
+/* ---------- Toasts ---------- */
+.toasts{position:fixed;left:0;right:0;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:90;
+  display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;padding:0 12px}
+.toast{background:linear-gradient(180deg,#1c2736,#151d29);border:1px solid var(--border);border-left:4px solid var(--accent);
+  color:var(--text);padding:12px 18px;border-radius:12px;box-shadow:var(--shadow);font-weight:600;font-size:.92rem;
+  max-width:440px;animation:toastIn .25s cubic-bezier(.2,.8,.2,1)}
+.toast.good{border-left-color:var(--good)} .toast.bad{border-left-color:var(--bad)}
+.toast.out{animation:toastOut .3s forwards}
+@keyframes toastIn{from{opacity:0;transform:translateY(16px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes toastOut{to{opacity:0;transform:translateY(10px)}}
+
+/* ---------- Barre de navigation basse (mobile) ---------- */
+.botnav{display:none}
+@media(max-width:760px){
+  .searchbtn{padding:7px 10px}
+  main{padding-bottom:90px}
+  .appfoot{margin-bottom:64px}
+  .botnav{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:50;
+    background:rgba(10,14,22,.86);backdrop-filter:blur(16px) saturate(140%);-webkit-backdrop-filter:blur(16px) saturate(140%);
+    border-top:1px solid var(--border-soft);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px))}
+  .botnav>a,.botnav>button{flex:1;background:none;border:none;color:var(--dim);display:flex;flex-direction:column;
+    align-items:center;gap:2px;font-size:.66rem;font-weight:600;padding:6px 2px;cursor:pointer;border-radius:10px;transition:var(--tr)}
+  .botnav .bi{font-size:1.25rem;line-height:1}
+  .botnav>a.active{color:var(--accent2)}
+  .botnav>a.active .bi{filter:drop-shadow(0 0 8px rgba(212,175,55,.7))}
+}
+
+/* ---------- Nav repliée (≤900px) : burger + panneau déroulant + sous-menus accordéon ---------- */
+@media(max-width:900px){
+  .burger{display:inline-flex;align-items:center;justify-content:center}
+  .nav{display:none;position:absolute;left:0;right:0;top:100%;flex-direction:column;align-items:stretch;gap:4px;
+    background:linear-gradient(180deg,#141b27,#0d131d);border-bottom:1px solid var(--border);
+    padding:12px 18px calc(16px + env(safe-area-inset-bottom,0px));max-height:calc(100vh - 60px);overflow-y:auto;
+    box-shadow:0 30px 60px -22px rgba(0,0,0,.85)}
+  body.light .nav,[data-theme="light"] .nav{background:linear-gradient(180deg,#fff,#eef2f8)}
+  .nav.open{display:flex;animation:fadeUp .2s ease}
+  .navlink{width:100%;padding:13px 14px}
+  /* scopé à .nav : le menu langue (.langmenu) de la topbar garde son dropdown */
+  .nav .navmenu{width:100%}
+  .nav .navbtn{width:100%;justify-content:space-between;padding:13px 14px}
+  .nav .navpanel{position:static;min-width:0;display:none;box-shadow:none;border:none;background:transparent;padding:2px 0 8px 12px;gap:2px;animation:none}
+  .nav .navmenu.open>.navpanel{display:flex}
+  .nav .navpanel a{padding:12px 14px}
+}
+/* ---------- Mobile (≤760px) ---------- */
+@media(max-width:760px){
+  main{padding:26px 18px 92px}
+  h1{font-size:1.55rem}
+  h2{margin:32px 0 14px}
+  .sub{margin-bottom:24px;font-size:1rem}
+  .searchbtn .sk,.searchbtn .kbd{display:none}
+}
+
+/* ---------- Light theme ---------- */
+/* Depuis le 16/07/2026, le mode clair s'active aussi via [data-theme="light"] posé sur
+   <html> par la bascule commune du site (localStorage vr-theme) : les 4000+ pages /o/
+   suivent enfin le choix de thème du visiteur, comme le reste du site. body.light est
+   conservé (héritage ex-SPA). Valeurs AA vérifiées — ne pas dériver de pandaahh.css. */
+body.light,[data-theme="light"] body{
+  --bg:#f5f2ea; --bg2:#ece7db;
+  --surface:#ffffff; --surface-2:#fbf8f1; --surface-3:#ffffff;
+  --ink:#111a2b; --muted:#556884; --muted-2:#5c6b80;
+  --gold:#b6923c; --gold-2:#87600f; --gold-3:#d8b45a; --gold-soft:rgba(169,121,31,.12);
+  --line:#e4ddcf; --line-2:rgba(169,121,31,.28);
+  --sh:0 10px 28px -16px rgba(14,23,41,.28);
+  --sh-soft:0 6px 18px -12px rgba(14,23,41,.20);
+  --sh-1:0 1px 0 rgba(255,255,255,.6) inset, 0 8px 22px -16px rgba(14,23,41,.22);
+  --sh-2:0 1px 0 rgba(255,255,255,.7) inset, 0 22px 46px -22px rgba(14,23,41,.30);
+  --elev:var(--surface-2); --card:var(--surface); --card-solid:var(--surface);
+  --border:var(--line); --border-soft:rgba(40,60,100,.12);
+  --text:var(--ink); --dim:var(--muted);
+  /* --accent2 pointait vers --gold-3 (teinte claire pensee comme ornement sur
+     fond sombre) : utilise comme couleur de LIEN/texte partout dans ce fichier,
+     illisible sur fond clair (1.98:1, echec AA verifie). Aligne sur --gold-2. */
+  --accent:var(--gold-2); --accent2:var(--gold-2);
+  /* etats semantiques (good/warn/bad) : les valeurs vives du :root sombre
+     echouent l'AA sur fond clair (1.92:1 / 1.67:1 / 2.69:1 verifies) -> variantes
+     foncees dediees au mode clair, meme lisibilite AA garantie. */
+  --good:#087043; --warn:#a35f08; --bad:#b8203c; /* marge elargie, coherent avec pandaahh.css */
+  --shadow:var(--sh-soft);
+  background:
+    radial-gradient(900px 500px at 12% -8%,rgba(129,140,248,.14),transparent 60%),
+    radial-gradient(1000px 600px at 88% -4%,rgba(212,175,55,.16),transparent 55%),
+    linear-gradient(180deg,#f6f8fc,#eef2f8 40%)}
+/* .appbrand / .apptopbar / h1 dégradé bleu : réglages body.light de l'ex-SPA, PAS étendus
+   à [data-theme="light"] (16/07/2026) — en clair, les pages /o/ gardent le h1 navy uni
+   (--ink), comme les pages pandaahh : concordance visuelle entre familles. */
+body.light .appbrand{background:linear-gradient(90deg,#0b2540,#0b5cab);-webkit-background-clip:text;background-clip:text}
+body.light h1{background:linear-gradient(92deg,#0b2540,#0b5cab);-webkit-background-clip:text;background-clip:text;color:transparent}
+/* 26/09/2026 — le commentaire ci-dessus annonçait « h1 navy uni » en [data-theme="light"],
+   mais AUCUNE règle ne le posait : le h1 gardait le dégradé BLANC → bleu pâle du thème
+   sombre, soit 1,12:1 sur le fond clair. Titre quasi invisible sur les 3 838 pages /o/
+   (et /en/o/) pour tout visiteur en clair. body.light h1 (plus spécifique) reste
+   prioritaire là où l'ex-SPA pose encore cette classe. */
+[data-theme="light"] h1{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:var(--ink);-webkit-text-fill-color:currentColor}
+body.light .apptopbar{background:rgba(255,255,255,.78)}
+body.light .nav a.active,body.light .pill.active,body.light .btn.primary,
+[data-theme="light"] .nav a.active,[data-theme="light"] .pill.active,[data-theme="light"] .btn.primary{color:#06121d}
+
+/* ---- Mondes ouverts ---- */
+.ow-head h2{font-size:1.4rem}
+.ow-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:6px 18px}
+.ow-meta .kv{border:none;padding:4px 0}
+.ow-map{padding:14px}
+.ow-svg{width:100%;height:auto;display:block;border-radius:14px}
+.ow-zlbl{fill:var(--text);font-weight:600;paint-order:stroke;stroke:#0b1018;stroke-width:4px;stroke-linejoin:round}
+.ow-legend{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-top:10px;font-size:.85rem}
+.ow-leg{display:inline-flex;align-items:center;gap:5px}
+.ow-leg-dot{width:12px;height:12px;border-radius:50%;display:inline-block;flex:none}
+.ow-mapnote{flex-basis:100%;font-size:.78rem}
+.ow-missions{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.ow-mission h3{margin:0 0 4px;font-size:1.02rem}
+.ow-mission p{margin:0}
+.ow-restable{display:flex;flex-direction:column}
+.ow-rrow{display:grid;grid-template-columns:1.1fr 1.4fr .9fr;gap:12px;padding:9px 4px;border-bottom:1px solid var(--border-soft);align-items:start}
+.ow-rrow.ow-rhead{font-weight:700;color:var(--dim);border-bottom:2px solid var(--border-soft)}
+.ow-rn{font-weight:600}
+.ow-rar{display:inline-block;font-size:.74rem;font-weight:700;padding:2px 8px;border-radius:999px;border:1px solid}
+.ow-rar-good{color:var(--good);border-color:var(--good)}
+.ow-rar-bad{color:var(--bad);border-color:var(--bad)}
+.ow-rar-warn{color:var(--warn);border-color:var(--warn)}
+.ow-rar-dim{color:var(--dim);border-color:var(--border-soft)}
+@media(max-width:560px){
+  .ow-rrow{grid-template-columns:1fr;gap:2px;padding:10px 2px}
+  .ow-rrow.ow-rhead{display:none}
+  .ow-rn{font-size:1rem}
+}
+
+/* ---- Mondes ouverts v2 (interactif) ---- */
+.ow-cycle{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;font-size:.92rem;padding:8px 0 2px}
+.ow-cyc-state{display:inline-flex;align-items:center;gap:6px;font-weight:700;padding:3px 11px;border-radius:999px;border:1px solid var(--border)}
+.ow-cyc-night{color:#c4b5fd;border-color:#8b5cf6}.ow-cyc-day{color:#fcd34d;border-color:#eab308}
+.ow-cyc-warm{color:#fca5a5;border-color:#f87171}.ow-cyc-cold{color:#93c5fd;border-color:#60a5fa}
+.ow-cyc-fass{color:#fdba74;border-color:#fb923c}.ow-cyc-vome{color:#a5b4fc;border-color:#818cf8}
+.ow-cyc-tip{color:var(--accent2);font-weight:600}
+.ow-layers,.ow-rarfilter{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin:0 0 12px}
+.ow-layer,.ow-rarc{cursor:pointer}
+.ow-layer.on,.ow-rarc.on{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#06121d;border-color:transparent}
+.ow-mapwrap{position:relative}
+.ow-svg{width:100%;height:auto;display:block;border-radius:14px;cursor:grab;touch-action:none;overflow:hidden}
+.ow-svg.ow-grabbing{cursor:grabbing}
+.ow-zoomctl{position:absolute;top:10px;right:10px;z-index:3;display:flex;flex-direction:column;gap:6px}
+.ow-zbtn{width:34px;height:34px;border-radius:9px;border:1px solid var(--border);background:rgba(12,16,22,.82);color:var(--text);font-size:1.1rem;font-weight:700;cursor:pointer;transition:var(--tr);line-height:1}
+.ow-zbtn:hover{border-color:var(--accent);color:var(--accent2)}
+.ow-poi{cursor:pointer;transition:opacity .15s}
+.ow-poi circle{transition:fill-opacity .15s,stroke-width .15s}
+.ow-poi:hover circle,.ow-poi:focus circle{fill-opacity:.4;stroke-width:3.5}
+.ow-poi:focus{outline:none}
+.ow-poi.sel circle{fill-opacity:.5;stroke-width:4}
+.ow-poicard{margin-top:12px;min-height:48px;background:rgba(255,255,255,.03);border:1px solid var(--border-soft);border-radius:12px;padding:12px 14px}
+.ow-poihint{margin:0}
+.ow-poires{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px}
+.ow-poires li{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+@media(max-width:560px){
+  .ow-zbtn{width:30px;height:30px;font-size:1rem}
+  .ow-cycle{font-size:.85rem}
+}
+
+/* ---- Mondes ouverts v3 (now / pêche / minage) ---- */
+.ow-now{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin-top:8px;padding:9px 12px;border-radius:12px;
+  background:linear-gradient(135deg,rgba(212,175,55,.12),rgba(129,140,248,.10));border:1px solid rgba(212,175,55,.28)}
+.ow-now:empty{display:none}
+.ow-now-t{font-weight:800;color:var(--accent2)}
+.ow-now-tip{flex:1 1 200px;min-width:0}
+.ow-now-btn{padding:6px 12px;font-size:.86rem;white-space:nowrap}
+.ow-fmlist{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px 16px;margin-top:4px}
+.ow-fm{display:flex;flex-direction:column;gap:1px;padding:6px 0;border-bottom:1px solid var(--border-soft)}
+.ow-fm-n{font-weight:600}
+.ow-wiki{font-weight:700;color:var(--dim);font-size:.82rem;padding:0 3px;border-radius:5px}
+.ow-wiki:hover{color:var(--accent2);background:rgba(212,175,55,.12)}
+@media(max-width:560px){.ow-now-btn{flex:1 1 100%}}
+
+/* ---- Mondes ouverts : Guide détaillé (Duviri) ---- */
+.ow-guide-intro{margin:0 0 16px;font-size:1.02rem;line-height:1.6}
+.ow-gsec{padding:12px 0;border-top:1px solid var(--border-soft)}
+.ow-gsec:first-of-type{border-top:none}
+.ow-gsec h3{margin:0 0 5px}
+.ow-gsec p{margin:0 0 6px}
+.ow-glist{margin:4px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:5px}
+.ow-glist li{line-height:1.5}
+.ow-glist b{color:var(--accent2)}
+.ow-moods{display:flex;flex-direction:column;margin-top:6px;border:1px solid var(--border-soft);border-radius:12px;overflow:hidden}
+.ow-mrow{display:grid;grid-template-columns:1.1fr 1fr 1.2fr;gap:10px;padding:9px 12px;align-items:center;border-bottom:1px solid var(--border-soft)}
+.ow-mrow:last-child{border-bottom:none}
+.ow-mhead{font-weight:700;color:var(--dim);background:rgba(255,255,255,.03)}
+.ow-mname{font-weight:600}
+@media(max-width:560px){
+  .ow-mrow{grid-template-columns:1fr 1fr;gap:4px 10px;font-size:.9rem}
+  .ow-mrow span:nth-child(3){grid-column:1 / -1;color:var(--dim);font-size:.82rem}
+  .ow-mhead span:nth-child(3){display:none}
+}
+
+/* ── Pages objet SEO (/o/) — VoidRelay ─────────────────────────────── */
+.vrtop{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;padding:.8rem 1.1rem;border-bottom:1px solid var(--line);background:var(--bg2);position:sticky;top:0;z-index:5}
+/* Anti-CLS (14/07/2026) : js/objet.js injecte « ★ Favoris » + « ⚖ Comparateur » dans .vrtop APRES le
+   1er paint ; sur mobile ils wrappent une rangée de plus (+53px mesures Playwright) -> tout le contenu
+   descendait (CLS ~0.12 sur les pages /o/ et /en/o/). On reserve la hauteur finale des le 1er rendu.
+   Meme approche que les reservations hub #grid / marche .mk-col (garde-fou CLS du 10/07).
+   16/07 : reserve 186px -> 232px, la barre de recherche statique .vrsearch ajoute une rangee
+   (~46px) au vrtop mobile AVANT les boutons injectes ; a valider via scripts/verifier_cls.sh. */
+@media (max-width:640px){.vrtop{min-height:232px;align-content:flex-start}}
+/* En-tête mobile compact (26/09/2026). Mesuré de 360 à 390 px : 240–286 px de haut, et
+   COLLANT — un tiers de l'écran perdu pendant toute la lecture, et le prix (la raison de la
+   visite depuis Google) sous la ligne de flottaison. Trois rangées fixes, chacune d'UNE ligne :
+     1. marque … EN + thème (à droite) ;
+     2. le menu, défilable horizontalement au lieu de passer sur deux lignes ;
+     3. la recherche, puis Favoris + Comparateur (injectés par js/objet.js) À CÔTÉ d'elle.
+   Les boutons injectés arrivent dans des rangées déjà là : la hauteur ne bouge plus au
+   chargement, la réserve anti-CLS de 232 px n'a plus d'objet. Sur mobile l'en-tête défile
+   avec la page (static) : collant, même compact, il mangerait l'écran à chaque ligne lue. */
+@media (max-width:640px){
+  .vrtop{position:relative;min-height:0;gap:8px;padding:10px 14px}
+  .vrtop .brand{order:0;margin-right:auto}
+  .vrtop .langbtn,.vrtop .themebtn{order:1}
+  .vrtop .vrnav{order:2;flex:1 0 100%;flex-wrap:nowrap;overflow-x:auto;gap:1rem;
+    scrollbar-width:none;-webkit-overflow-scrolling:touch;mask-image:linear-gradient(90deg,#000 88%,transparent)}
+  .vrtop .vrnav::-webkit-scrollbar{display:none}
+  .vrtop .vrnav a{white-space:nowrap;flex:none;padding:8px 2px}
+  .vrtop .vrsearch{order:3;flex:1 1 100px;min-width:0}
+  .vrtop .vr-favs-wrap{order:4;margin-left:0}
+  .vrtop .vr-favs-btn{font-size:.8rem;padding:9px 10px}
+}
+/* Matériau (WWDC) : le header sticky des pages objet devient une couche translucide
+   sous laquelle le contenu défile, au lieu d'une bande opaque. color-mix garde la
+   teinte du thème (clair/sombre) ; fallback = fond opaque d'origine. */
+@supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .vrtop{background:color-mix(in srgb,var(--bg2) 78%,transparent);
+    backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%)}
+}
+/* Recherche instantanée (16/07/2026) : même widget que le header pandaahh (js/search.js),
+   transposé au header .vrtop des 4000+ pages objet — mêmes classes .vr-search-*, mêmes
+   contrastes ; dropdown absolu sous le champ. */
+.vrsearch{position:relative;margin-left:auto;flex:0 1 300px;min-width:190px}
+.vrsearch input{width:100%;padding:8px 13px;border-radius:999px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:.92rem}
+.vrsearch input:focus-visible{outline:2px solid var(--gold-2);outline-offset:2px}
+@media (max-width:640px){.vrsearch{flex-basis:100%;margin-left:0}}
+.vr-search-results{position:absolute;top:calc(100% + 8px);left:0;right:0;background:var(--surface);
+  border:1px solid var(--line);border-radius:14px;box-shadow:var(--sh);max-height:360px;overflow-y:auto;
+  z-index:60;padding:6px;list-style:none}
+.vr-search-opt{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 12px;
+  border-radius:10px;color:var(--ink);text-decoration:none;font-size:.92rem;transition:background .12s}
+.vr-search-opt:hover,.vr-search-opt.active{background:var(--bg2)}
+.vr-search-opt mark{background:rgba(212,175,55,.35);color:inherit;border-radius:3px;padding:0 1px}
+.vr-search-label{padding:6px 12px 4px;font:700 10px/1 "Oswald",sans-serif;letter-spacing:1.2px;
+  text-transform:uppercase;color:var(--muted)}
+.vr-search-price{color:var(--gold-2);font-weight:700;font-size:.85rem;white-space:nowrap;flex:none}
+.vr-search-build{flex:none;font:700 .72rem/1 "Oswald",sans-serif;letter-spacing:.06em;color:var(--gold-2);border:1px solid var(--line-2);border-radius:999px;padding:4px 8px}
+.vr-search-empty{padding:12px;color:var(--muted);font-size:.9rem;text-align:center}
+
+/* Favoris locaux (09/07/2026) : localStorage uniquement, injectés par js/objet.js. */
+.favbtn{display:inline-flex;align-items:center;gap:.35rem;margin-left:.4rem;padding:.3rem .65rem;
+  font:600 .78rem/1 inherit;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:999px;
+  cursor:pointer;vertical-align:middle;transition:border-color .15s,color .15s}
+.favbtn:hover{border-color:var(--gold-2);color:var(--ink)}
+.favbtn.active{border-color:var(--gold-2);color:var(--gold-2)}
+.vr-favs-wrap{position:relative;margin-left:auto}
+.vr-favs-btn{cursor:pointer;font:600 .85rem/1 inherit;color:var(--muted);background:var(--surface);border:1px solid var(--line);
+  border-radius:999px;padding:.4rem .8rem;white-space:nowrap}
+.vr-favs-btn:hover{border-color:var(--gold-2);color:var(--ink)}
+.vr-favs-panel{position:absolute;top:calc(100% + 8px);right:0;min-width:240px;max-width:320px;max-height:360px;
+  overflow-y:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:0 18px 40px -20px rgba(0,0,0,.6);
+  padding:.4rem;z-index:30}
+.vr-favs-row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:.45rem .6rem;border-radius:8px}
+.vr-favs-row:hover{background:var(--surface-2)}
+.vr-favs-row a{color:var(--ink);text-decoration:none;font-size:.88rem;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vr-favs-rm{flex:none;background:none;border:0;color:var(--muted-2);font-size:1rem;line-height:1;cursor:pointer;padding:0 .2rem}
+.vr-favs-rm:hover{color:var(--bad)}
+.vr-favs-empty{margin:0;padding:.5rem;color:var(--muted-2);font-size:.85rem;max-width:220px}
+
+/* Comparateur / panier local (09/07/2026) — même panneau que les favoris (.vr-favs-panel),
+   quelques classes propres pour le prix par ligne et le total. */
+.vr-cmp-panel{min-width:260px}
+.vr-cmp-price{flex:none;font-weight:700;font-size:.85rem;margin-right:4px}
+.vr-cmp-total{display:flex;align-items:center;justify-content:space-between;gap:8px;
+  padding:.5rem .6rem;margin-top:.2rem;border-top:1px solid var(--line);font-size:.9rem}
+.vr-cmp-total b{color:var(--gold-2)}
+.vr-cmp-clear{display:block;width:calc(100% - 1.2rem);margin:.3rem .6rem .2rem;padding:.4rem;
+  background:none;border:1px solid var(--line);border-radius:8px;color:var(--muted-2);cursor:pointer;font-size:.8rem}
+.vr-cmp-clear:hover{border-color:var(--bad);color:var(--bad)}
+
+/* Historique de prix bakée (09/07/2026) + badge "bon plan" — injectés par js/objet.js
+   uniquement quand data/market_history.json couvre le slug (couverture partielle,
+   quelques objets phares : sets Prime, arcanes). */
+.pxhist{margin-top:1rem}
+.dealbadge{background:rgba(52,211,153,.16);color:var(--good)}
+.vrtop .brand{font-weight:700;color:var(--gold-2);text-decoration:none}
+.vrnav{display:flex;gap:1rem;flex-wrap:wrap}
+/* Cible tactile (07/2026, WCAG 2.5.8) : lien ~23px de haut, sous 24x24. .vrnav est
+   display:flex -> padding s'ajoute proprement (items flex blockifies). Header sticky
+   (.vrtop) : legerement plus haut, sans effet fonctionnel. */
+.vrnav a{color:var(--muted);text-decoration:none;font-size:.92rem;padding:6px 2px;margin:-6px -2px}
+.vrnav a:hover{color:var(--ink)}
+/* « Vous êtes ici » (16/07/2026) : même convention class="cur" que la topnav pandaahh —
+   la section courante est marquée sur TOUTES les familles d'en-tête du site. */
+.vrnav a.cur{color:var(--gold-2);font-weight:700}
+/* Bascule sombre/clair (16/07/2026) : mêmes cotes que .themebtn de pandaahh.css, tokens
+   locaux — les pages /o/ ne chargent PAS pandaahh.css. */
+.themebtn{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;flex:none;
+  background:var(--bg2);border:1px solid var(--line);color:var(--ink);cursor:pointer;font-size:1.05rem;transition:.15s}
+.themebtn:hover{border-color:var(--gold);color:var(--gold-2)}
+.wrap{max-width:880px;margin:0 auto;padding:1.2rem 1.1rem 3rem}
+.bc{font-size:.85rem;color:var(--muted-2);margin:.4rem 0 1rem}
+/* Cible tactile (07/2026, WCAG 2.5.8) : meme correctif que .bc a de pandaahh.css. */
+.bc a{color:var(--muted-2);display:inline-block;padding:6px 4px;margin:-6px -4px}
+.objhead{display:flex;gap:1rem;align-items:center;margin-bottom:1rem}
+.objimg{border-radius:12px;background:var(--surface);border:1px solid var(--line);flex:0 0 auto}
+
+/* Bouton "copier le nom" (09/07/2026) : injecté par js/objet.js à côté du h1. */
+.copyname{display:inline-flex;align-items:center;gap:.35rem;margin-left:.6rem;padding:.3rem .65rem;
+  font:600 .78rem/1 inherit;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:999px;
+  cursor:pointer;vertical-align:middle;transition:border-color .15s,color .15s}
+.copyname:hover{border-color:var(--gold-2);color:var(--ink)}
+.copyname.copied{border-color:var(--good);color:var(--good)}
+
+/* Tendance colorée (09/07/2026) : #px-trend reçoit .up/.down via js/objet.js.
+   var(--good)/var(--bad) plutôt que hexa fixe : body.light définit des variantes
+   foncées AA-safe (les teintes vives échouent sur fond clair, vérifié). */
+#px-trend.up{color:var(--good)}
+#px-trend.down{color:var(--bad)}
+
+/* Skeleton shimmer sur les valeurs de prix pas encore hydratées (remplace le "…" statique).
+   #px-wrap n'a pas .px-ready tant que js/objet.js n'a pas fini l'hydratation -> pas besoin
+   de toucher le HTML généré (3800+ pages), le sélecteur :not() suffit dès le 1er paint. */
+#px-wrap:not(.px-ready) .kv .v b{display:inline-block;min-width:3.5em;border-radius:4px;color:transparent;
+  background:linear-gradient(90deg,rgba(255,255,255,.06) 25%,rgba(255,255,255,.14) 50%,rgba(255,255,255,.06) 75%);
+  background-size:200% 100%;animation:pxShimmer 1.4s ease-in-out infinite}
+@media(prefers-reduced-motion:reduce){#px-wrap:not(.px-ready) .kv .v b{animation:none;background:rgba(255,255,255,.08)}}
+@keyframes pxShimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.vrspark{margin:.6rem 0}
+.vrspark svg{width:160px;height:40px}
+.cta{margin:1.4rem 0;border-color:var(--line-2);background:linear-gradient(180deg,rgba(160,120,20,.10),rgba(160,120,20,.03))}
+.cta .btn{margin-top:.5rem;display:inline-block}
+.faq{margin:1.6rem 0}
+.faq details{border:1px solid var(--line);border-radius:10px;padding:.6rem .9rem;margin:.5rem 0;background:var(--surface)}
+.faq summary{cursor:pointer;font-weight:600}
+.rel .tile .t{font-size:.9rem}
+.ftr{max-width:880px;margin:0 auto;padding:1.4rem 1.1rem;border-top:1px solid var(--line);font-size:.82rem}
+/* Cible tactile (07/2026, WCAG 2.5.8) : liens de pied de page nus (~17px de haut) dans
+   un texte courant (" · " en separateur), meme trucage que .bc a. Present sur les
+   3800+ pages objet (template scripts/generer_pages_objets.mjs, footerCompact). */
+.ftr a{display:inline-block;padding:6px 4px;margin:-6px -4px}
+
+/* Pages objet — description enrichie */
+.objbadges{display:flex;gap:.4rem;flex-wrap:wrap;margin:.1rem 0 .8rem}
+.objdesc{color:var(--muted);line-height:1.55;margin:0 0 1.2rem;max-width:72ch}
+
+/* Comparateur set vs pièces */
+.verdict{margin:.7rem 0 0;padding:.55rem .8rem;border-radius:8px;background:rgba(57,208,216,.08);line-height:1.5}
+.verdict.good{background:rgba(52,211,153,.12);border:1px solid #34d399}
+
+/* Guides éditoriaux */
+.article{max-width:760px}
+.article h2{margin:1.7rem 0 .5rem;font-size:1.25rem}
+.article p,.article li{line-height:1.65;color:var(--muted)}
+.article ul,.article ol{padding-left:1.3rem}
+.article a{color:var(--gold-2)}
+
+/* Boutons de partage */
+.sharebar{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin:1.2rem 0}
+.sbtn{cursor:pointer;font:inherit;font-size:.85rem;padding:.35rem .75rem;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--muted)}
+.sbtn:hover{border-color:var(--gold-2);color:var(--ink)}
+
+/* Stabilité visuelle (CLS) */
+.vrspark{min-height:40px}
+.objimg{object-fit:contain}
+
+/* Sélecteur de jeux multi-jeux (accueil) — toujours visible sous l'en-tête */
+.gamebar-band{background:linear-gradient(180deg,rgba(57,208,216,.07),transparent);border-bottom:1px solid var(--line,#1d2935)}
+.gamebar{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;max-width:1180px;margin:0 auto;padding:.6rem 1rem}
+.gamebar-lbl{font-weight:700;font-size:.92rem;color:var(--ink,#e6edf3);margin-right:.3rem}
+.gamebar-lbl small{display:block;font-weight:400;font-size:.78rem;color:var(--mut,#8aa0b3)}
+.gamechip{display:inline-block;padding:.42rem .85rem;border-radius:999px;border:1px solid var(--line,#1d2935);background:rgba(255,255,255,.04);color:var(--ink,#e6edf3);font-size:.9rem;text-decoration:none;white-space:nowrap}
+.gamechip:hover{border-color:var(--acc,#d4af37);color:var(--acc,#d4af37)}
+.gamechip.is-current{border-color:var(--acc,#d4af37);color:var(--acc,#d4af37);font-weight:600}
+.gamechip-all{background:var(--acc,#d4af37);color:#06222a;border-color:transparent;font-weight:700}
+.gamechip-all:hover{color:#06222a;filter:brightness(1.08)}
+@media(max-width:640px){.gamebar{gap:.4rem;padding:.5rem .7rem;overflow-x:auto;flex-wrap:nowrap;-webkit-overflow-scrolling:touch}.gamebar-lbl{flex:0 0 auto}}
+
+/* Rebrand 2026 : titres Oswald facon pandaahh.
+   Interlettrage PAR TAILLE (WWDC « The details of UI typography ») : une valeur
+   unique pour tous les titres est fausse quelque part — les grands titres se
+   resserrent, les petits s'aèrent. (L'ancien .3px uniforme écrasait aussi le
+   tracking serré du h1 défini plus haut dans ce fichier.) */
+h1,h2,h3,.brand{font-family:"Oswald","Inter",system-ui,sans-serif}
+h1{letter-spacing:-.01em}
+h2{letter-spacing:0}
+h3,.brand{letter-spacing:.02em}
+
+/* ============================================================================
+   DESIGN SYSTEM v2 — COMPOSANTS UNIFIÉS (Direction A « Orokin »)
+   S'applique aux 3800+ pages objet /o/ + toute page utilisant style.css.
+   Cascade par-dessus l'existant : ne réécrit rien, ne fait que préciser.
+   ========================================================================== */
+
+/* ---- Cartes : élévation cohérente, survol net --------------------------- */
+.card,.tile{
+  box-shadow:var(--sh-1);
+  transition:transform var(--ease),box-shadow var(--ease),border-color var(--ease),background var(--ease);
+}
+.tile:hover{background:var(--surface-2);box-shadow:var(--sh-2)}
+.faq details,.vr-favs-panel,.vr-cmp-panel{box-shadow:var(--sh-soft)}
+
+/* ---- Prix = donnée-héros sur la page objet -------------------------------- */
+#px-wrap .kv:first-child .v{font-size:1.3rem;color:var(--gold-2);font-weight:800}
+
+/* ---- Badges : primitive unique, cohérente avec pandaahh.css -------------- */
+.badge,.tag{border-radius:999px;letter-spacing:.06em}
+
+/* ---- Boutons : primaire doré net ------------------------------------------ */
+.btn.primary{box-shadow:0 10px 26px -14px rgba(212,175,55,.55)}
+.btn.primary:hover{transform:translateY(-1px)}
+
+/* ---- Retour à l'appui (Designing Fluid Interfaces) ------------------------
+   L'interface répond à l'INSTANT où le doigt touche, pas au relâchement.
+   Échelle discrète + durée courte dédiée à l'appui ; le relâchement repasse
+   par la transition standard de chaque composant. */
+.pill:active,.chip:active,.navlink:active,.navbtn:active,.langopt:active,
+.searchbtn:active,.theme:active,.burger:active,.themebtn:active,.gamechip:active,
+.sbtn:active,.favbtn:active,.copyname:active,.ow-zbtn:active,.vr-favs-btn:active,
+.wtab:active,.guide-toc a:active,.botnav>a:active,.botnav>button:active{
+  transform:scale(.97);transition-duration:.06s}
+.tile:active,.ic:active,.deal:active{transform:translateY(-1px) scale(.99);transition-duration:.06s}
+.star:active{transform:scale(.92)}
+
+/* ---- Accessibilité mouvement (WWDC : 3 réglages système distincts) -------- */
+/* 1. Mouvement réduit ≠ zéro feedback : les apparitions restent, mais en fondu
+   court SANS déplacement (l'ancien bloc coupait les transitions mais laissait
+   tourner tous les @keyframes à translation : fadeUp, popIn, stagger…). */
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{transition:none!important}
+  .tile:hover,.btn.primary:hover,.btn:hover,.ic:hover,.deal:hover,.star:hover{transform:none}
+  .ic:hover img{transform:none}
+  #app.fade,.cols-auto>.tile,.rank .rrow,.modal-box,.palette-box,.toast,
+  .navmenu.open>.navpanel,.nav.open{animation:vrFade .15s both!important}
+  .toast.out{animation:vrFadeOut .15s forwards!important}
+  .cols-auto>.tile,.rank .rrow{animation-delay:0s!important}
+  .skel::after,.skline::after{animation:none;transform:none}
+}
+@keyframes vrFade{from{opacity:0}to{opacity:1}}
+@keyframes vrFadeOut{to{opacity:0}}
+/* 2. Transparence réduite : surfaces dépolies -> opaques, sans flou. */
+@media(prefers-reduced-transparency:reduce){
+  .apptopbar,.botnav{background:#0a0e16;backdrop-filter:none;-webkit-backdrop-filter:none}
+  body.light .apptopbar{background:#fff}
+  .card{backdrop-filter:none;-webkit-backdrop-filter:none}
+  .modal-bd,.palette-bd{backdrop-filter:none;background:rgba(4,7,12,.9)}
+  .vrtop{background:var(--bg2);backdrop-filter:none;-webkit-backdrop-filter:none}
+}
+/* 3. Contraste renforcé : filets définis et contrastés sur les surfaces. */
+@media(prefers-contrast:more){
+  .card,.tile,.btn,.pill,.chip,.input,.navpanel,.modal-box,.palette-box,.searchbtn{border-color:var(--muted)}
+}

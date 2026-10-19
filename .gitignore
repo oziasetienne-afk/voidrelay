@@ -1,0 +1,42 @@
+# Artefacts Python (le runtime Actions les régénère, jamais committés)
+__pycache__/
+*.pyc
+# Fichiers temporaires du script de données
+data/*.tmp
+
+# Dépendances Node (scripts/verifier_contraste.mjs) : jamais committées,
+# npm ci les réinstalle depuis package-lock.json (CI comme en local).
+node_modules/
+
+# Dumps "worldstate" volumineux (>100 Ko, changent chaque jour) : le script les
+# écrit en local pour le débogage (save_raw_worldstate), mais le Hub n'en a PAS
+# besoin (le contrat = data/summary.json). On les exclut pour garder des commits
+# légers et un historique git sobre. Mets ces lignes en commentaire pour les versionner.
+data/worldstate.json
+data/worldstate_raw.json
+
+# Secrets / clés — NE JAMAIS committer (durcissement sécurité 2026-06-04).
+# Si l'un de ces fichiers existe déjà dans l'historique git, il faut le PURGER + faire tourner la clé.
+.env
+.env.*
+*.local
+.dev.vars
+.dev.vars.*
+*.key
+*.pem
+*.p12
+*.pfx
+id_rsa*
+*_rsa
+secrets*.json
+**/secrets/**
+.wrangler/
+
+# Backups de bots — ne jamais committer/déployer (incident 05/06 : rm impossible sur le mount)
+*.avant_*
+*.bak
+.playwright-mcp/
+
+# macOS
+.DS_Store
+**/.DS_Store

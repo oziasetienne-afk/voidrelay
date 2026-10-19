@@ -1,0 +1,95 @@
+<!DOCTYPE html><html lang="fr"><head>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3315165542909837" crossorigin="anonymous"></script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com https://pagead2.googlesyndication.com https://partner.googleadservices.com https://tpc.googlesyndication.com https://adservice.google.com https://www.googletagservices.com https://fundingchoicesmessages.google.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://warframe.market https://*.googlesyndication.com https://*.g.doubleclick.net https://*.google.com; font-src 'self'; connect-src 'self' https://cloudflareinsights.com https://pagead2.googlesyndication.com https://*.g.doubleclick.net https://*.googlesyndication.com https://ep1.adtrafficquality.google https://fundingchoicesmessages.google.com; form-action 'self'; frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://*.google.com; upgrade-insecure-requests">
+<meta http-equiv="X-Content-Type-Options" content="nosniff"><meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Widget de prix Warframe gratuit à intégrer | VoidRelay</title>
+<meta name="description" content="Intègre un widget de prix Warframe en direct VoidRelay sur ton site, blog ou wiki en un copier-coller. Gratuit, sans compte. Prix du platine en direct.">
+<link rel="canonical" href="https://voidrelay.fr/widget/"><meta name="robots" content="index, follow"><meta name="theme-color" content="#0b0f14">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0f14'/%3E%3Cpath d='M14 18 L32 48 L50 18' fill='none' stroke='%23d4af37' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/css/style.css"><link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<meta property="og:type" content="website"><meta property="og:site_name" content="VoidRelay"><meta property="og:title" content="Widget de prix gratuit à intégrer — VoidRelay"><meta property="og:url" content="https://voidrelay.fr/widget/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"VoidRelay Price Widget","applicationCategory":"Utility","operatingSystem":"Web","offers":{"@type":"Offer","price":"0"},"url":"https://voidrelay.fr/widget/"}</script>
+<style>
+.wbuild{max-width:760px;margin:0 auto}
+.wrow{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin:.8rem 0}
+.wrow select,.wrow input{padding:.55rem .7rem;border-radius:10px;border:1px solid #2a3440;background:#0e141b;color:inherit;font-size:.95rem}
+#q{flex:1;min-width:220px}
+#res{display:flex;flex-wrap:wrap;gap:.4rem;margin:.4rem 0}
+#res button{padding:.4rem .7rem;border-radius:999px;border:1px solid #2a3440;background:#0e141b;color:#e6edf3;cursor:pointer;font-size:.88rem}
+#res button:hover{border-color:#d4af37;color:#d4af37}
+#out{margin-top:1rem;display:none}
+#code{width:100%;min-height:84px;padding:.7rem;border-radius:10px;border:1px solid #2a3440;background:#0b1118;color:#cdeefd;font-family:ui-monospace,Menlo,monospace;font-size:.82rem}
+.btn.sm{padding:.45rem .9rem;font-size:.9rem}
+.prev{margin:.6rem 0}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://voidrelay.fr/"},{"@type":"ListItem","position":2,"name":"Widget","item":"https://voidrelay.fr/widget/"}]}</script>
+</head><body>
+<header class="vrtop"><a href="/" class="brand">◆ VoidRelay</a><nav class="vrnav"><a href="/hub">Tableau de bord</a> <a href="/o/">Objets</a> <a href="/widget/">Widget</a></nav></header>
+<main class="wrap wbuild">
+<nav class="bc"><a href="/">Accueil</a> › <span>Widget</span></nav>
+<h1>Widget de prix à intégrer — gratuit</h1>
+<p class="sub">Ajoute un <b>encart de prix en direct</b> sur ton site, blog, wiki ou page de fan en un copier-coller. Gratuit, sans compte. Idéal pour les guides et les communautés.</p>
+
+<div class="wrow">
+  <label>Jeu : <select id="game"><option value="warframe">Warframe</option></select></label>
+  <input id="q" type="search" placeholder="Cherche un objet (ex : Abyssal whip, Mirage Prime Set…)" aria-label="Chercher un objet" autocomplete="off">
+</div>
+<div id="res" aria-live="polite"></div>
+
+<div id="out">
+  <h2>Ton code à coller</h2>
+  <p class="muted">Colle ça dans ton HTML (ou un bloc « embed / HTML » de ton site) :</p>
+  <textarea id="code" readonly></textarea>
+  <p class="wrow"><button class="btn sm" id="copy">📋 Copier le code</button> <a class="btn sm" id="prev" target="_blank" rel="noopener">Aperçu ↗</a></p>
+</div>
+
+<section style="margin-top:2rem">
+<h2>Comment ça marche</h2>
+<ul>
+<li><b>1.</b> Choisis le jeu et l'objet ci-dessus.</li>
+<li><b>2.</b> Copie le code (un simple <code>&lt;iframe&gt;</code>).</li>
+<li><b>3.</b> Colle-le sur ta page. Le prix se met à jour tout seul.</li>
+</ul>
+<p class="muted">Le widget affiche le prix du platine en direct (warframe.market) et se met à jour tout seul.</p>
+</section>
+<footer class="ftr"><p class="muted">VoidRelay — widget de prix gratuit. · <a href="/a-propos">À propos</a><a href="mailto:contact@voidrelay.fr">Feedback</a> · <a href="/confidentialite">Confidentialité</a> · <a href="/mentions-legales">Mentions légales</a></p></footer>
+</main>
+<script>
+(function(){
+  var SITE=location.origin;
+  var idx={warframe:null}, loading={};
+  var gameSel=document.getElementById("game"), q=document.getElementById("q"), res=document.getElementById("res");
+  var out=document.getElementById("out"), code=document.getElementById("code"), prev=document.getElementById("prev");
+  function load(g){
+    if(idx[g]||loading[g])return Promise.resolve();
+    loading[g]=true;
+    var f="/data/wf_index.json";
+    return fetch(f).then(function(r){return r.json()}).then(function(d){idx[g]=d;});
+  }
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+  function snippet(g,it){
+    var name=g==="osrs"?it.n:it.n, slug=g==="osrs"?it.s:it.s;
+    var u=SITE+"/embed/?game="+g+"&slug="+encodeURIComponent(slug)+"&name="+encodeURIComponent(name)+(g==="osrs"?("&id="+it.i):"");
+    return {url:u, code:'<iframe src="'+u+'" width="340" height="86" style="border:0;max-width:100%" loading="lazy" title="'+esc(name)+' — VoidRelay"></iframe>'};
+  }
+  function pick(g,it){
+    var s=snippet(g,it);
+    code.value=s.code; prev.href=s.url; out.style.display="block";
+    out.scrollIntoView({behavior:"smooth",block:"nearest"});
+  }
+  function search(){
+    var g=gameSel.value, term=q.value.trim().toLowerCase();
+    res.innerHTML="";
+    if(!idx[g]||term.length<2)return;
+    var hits=idx[g].filter(function(x){return x.n.toLowerCase().indexOf(term)>=0}).slice(0,10);
+    hits.forEach(function(it){var b=document.createElement("button");b.textContent=it.n;b.onclick=function(){pick(g,it)};res.appendChild(b);});
+    if(!hits.length)res.innerHTML='<span class="muted">Aucun objet trouvé.</span>';
+  }
+  gameSel.onchange=function(){res.innerHTML='<span class="muted">Chargement…</span>';load(gameSel.value).then(function(){search()});};
+  q.oninput=function(){if(!idx[gameSel.value]){load(gameSel.value).then(search);}else search();};
+  document.getElementById("copy").onclick=function(){code.select();try{document.execCommand("copy")}catch(e){};navigator.clipboard&&navigator.clipboard.writeText(code.value);this.textContent="✅ Copié !";var b=this;setTimeout(function(){b.textContent="📋 Copier le code"},1500);};
+  load("warframe");
+})();
+</script>
+</body></html>

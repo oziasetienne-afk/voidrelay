@@ -1,0 +1,136 @@
+name: Garde-fou rendu (contraste + débordement + cibles tactiles + CLS + exceptions JS)
+
+# Calcule ce qui est RÉELLEMENT rendu par le navigateur (Playwright), pas ce
+# que le code laisse croire, sur les 3 systèmes CSS du site (pandaahh.css,
+# style.css, hub.css). Quatre vérifications, même méthode, même infrastructure
+# (un seul job, un seul cache Chromium) :
+#
+#   1. Contraste AA en clair et en sombre — empêche le retour d'une
+#      régression déjà vécue plusieurs fois le 09/07/2026 : une couleur de
+#      texte fixe pensée pour un fond toujours sombre devient invisible dès
+#      que ce fond (ou ce thème) devient variable.
+#   2. Débordement horizontal desktop/mobile — empêche le retour d'un piège
+#      flexbox/grid classique (enfant sans min-width:0 qui ne rétrécit
+#      jamais sous la largeur de son contenu) : 18 pages débordaient de 21 à
+#      180px en mobile avant correctif.
+#   3. Cibles tactiles (WCAG 2.5.8, min 24×24px) — empêche le retour de liens
+#      nav/footer/boutons nus sans padding, trouvés deux fois le 10/07/2026.
+#   4. CLS (Cumulative Layout Shift) — médiane de 3 essais (anti-bruit
+#      publicitaire), empêche le retour du swap de police ou d'une section
+#      JS remplie sans espace réservé.
+#   5. Exceptions JavaScript (05/09/2026) — les quatre au-dessus chargent déjà
+#      chaque page dans un vrai navigateur, mais chacun ne regarde QUE sa
+#      mesure : une exception non rattrapée les laisse tous verts. La page
+#      s'affiche, sa mise en page est bonne, son contraste aussi… et ses
+#      fonctions ne marchent plus.
+#
+# 05/09/2026 : js/**.js entre dans les déclencheurs. Il n'y était pas, et c'est
+# précisément une modification de js/ qui pouvait casser une page sans que ce
+# workflow ne s'exécute — le défaut du jour (chemin de données relatif dans
+# js/views.js) est passé exactement par ce trou.
+#
+# 10/07/2026 : l'échantillon css/style.css (3800+ pages /o/ générées d'un seul
+# template) n'est plus une liste figée — détection dynamique d'arborescence +
+# échantillonnage par taille de fichier (scripts/lib_decouverte_pages.mjs),
+# couvre /en/o/ ou toute arborescence future automatiquement.
+#
+# Comme garde-accueil.yml : alerte/visibilité (mail GitHub en cas d'échec), ne
+# bloque PAS le déploiement — Cloudflare Pages déploie indépendamment de GitHub
+# Actions dans ce repo, un job ici ne peut pas l'empêcher. Ne se déclenche que
+# si un fichier CSS/HTML/les scripts eux-mêmes changent (coût : ~0 sur les
+# commits de données/marché qui composent l'essentiel de l'activité du repo).
+# Le binaire Chromium (~150 Mo, le vrai coût) est mis en cache entre les runs.
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "css/**.css"
+      - "**.html"
+      - "js/**.js"
+      - "scripts/verifier_exceptions_js.mjs"
+      - "scripts/verifier_exceptions_js.sh"
+      - "scripts/lib_blocage_externe.mjs"
+      - "scripts/verifier_contraste.mjs"
+      - "scripts/verifier_contraste.sh"
+      - "scripts/verifier_overflow.mjs"
+      - "scripts/verifier_overflow.sh"
+      - "scripts/verifier_cibles_tactiles.mjs"
+      - "scripts/verifier_cibles_tactiles.sh"
+      - "scripts/verifier_cls.mjs"
+      - "scripts/verifier_cls.sh"
+      - "scripts/lib_decouverte_pages.mjs"
+      - "package-lock.json"
+      # Un workflow doit se relancer quand IL change : sans cette ligne, on
+      # modifie ses étapes ou ses filtres sans jamais savoir si on vient de le
+      # casser. Constaté le 05/09/2026 en y ajoutant la vérification des
+      # exceptions JS — le push qui la branchait ne l'a pas exécutée.
+      - ".github/workflows/garde-rendu.yml"
+  # 26/09/2026 : plus de déclencheur pull_request. Mesuré du 01 au 22/09 : ce workflow a
+  # brûlé 1 469 des 2 046 minutes Actions du mois (72 %), dont 1 309 sur des PR — 97 runs
+  # de 13 à 18 min, un par push sur chaque branche. Le quota gratuit (2 000 min) a sauté
+  # le 22/09 et la mise à jour des données, qui n'en coûte que 315, est restée gelée
+  # derrière. Ce garde-fou n'a jamais bloqué un déploiement (voir plus haut) : le lancer
+  # après fusion sur main donne la même alerte, pour une fraction du coût. Avant de
+  # fusionner une PR sensible : « Run workflow » à la main, ou les suites en local.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Rafale de pushes (jour de chantier) : seul le dernier run compte, on annule le précédent.
+# + plafond dur : un run de ce workflow est resté 90 min en l'air le 17/07/2026.
+concurrency:
+  group: garde-rendu-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  rendu:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Installer les dépendances (playwright)
+        run: npm ci
+
+      - name: "Cache du binaire Chromium (le vrai coût : ~150 Mo)"
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-chromium-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            playwright-chromium-
+
+      - name: Télécharger Chromium (uniquement si absent du cache)
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install chromium
+
+      - name: Dépendances système Chromium (rapide, non mise en cache — VM neuve à chaque run)
+        run: npx playwright install-deps chromium
+
+      - name: 🛡️ Vérifier le contraste AA (clair + sombre, 3 systèmes CSS)
+        run: bash scripts/verifier_contraste.sh
+
+      - name: 🛡️ Vérifier le débordement horizontal (desktop + mobile)
+        if: always()
+        run: bash scripts/verifier_overflow.sh
+
+      - name: 🛡️ Vérifier les cibles tactiles (WCAG 2.5.8, min 24×24px)
+        if: always()
+        run: bash scripts/verifier_cibles_tactiles.sh
+
+      - name: 🛡️ Vérifier le CLS (médiane de 3 essais, anti-bruit publicitaire)
+        if: always()
+        run: bash scripts/verifier_cls.sh
+
+      - name: 🛡️ Vérifier qu'aucune page ne lève d'exception JavaScript
+        if: always()
+        run: bash scripts/verifier_exceptions_js.sh

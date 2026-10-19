@@ -1,0 +1,34 @@
+name: Garde-fou accueil & coque
+
+# Vérifie en continu que l'accueil reste l'app riche, que le service worker
+# garde son auto-refresh, et que les pages/fichiers clés sont présents.
+# But : empêcher le retour des régressions déjà vécues (portail à la place de
+# l'app riche le 20-06 ; cache bloqué sur vieille version). En cas d'échec,
+# GitHub envoie un mail d'alerte. 09/07/2026 : sync-main.yml supprimé et
+# branche claude/warframe-updates-app-thkv5 supprimée (flux 100 % main) —
+# le blocage réel de la prod est le même script exécuté par les workflows
+# qui committent (pages-objets, social) avant leur push.
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Rafale de pushes : seul le dernier run compte, on annule le précédent.
+concurrency:
+  group: garde-accueil-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  invariants:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: 🛡️ Vérifier les invariants du site
+        run: bash scripts/verifier_invariants.sh

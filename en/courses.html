@@ -1,0 +1,165 @@
+<!DOCTYPE html><html lang="en"><head><script>(function(){try{var t=localStorage.getItem("vr-theme")||"dark";document.documentElement.setAttribute("data-theme",t)}catch(e){document.documentElement.setAttribute("data-theme","dark")}})();</script>
+<link rel="preconnect" href="https://pagead2.googlesyndication.com"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3315165542909837" crossorigin="anonymous"></script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com https://pagead2.googlesyndication.com https://partner.googleadservices.com https://tpc.googlesyndication.com https://adservice.google.com https://www.googletagservices.com https://fundingchoicesmessages.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://warframe.market https://cdn.warframestat.us https://raw.githubusercontent.com https://*.googlesyndication.com https://*.g.doubleclick.net https://*.google.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://api.warframestat.us https://api.warframe.market https://warframe-proxy.oziasetienne.workers.dev https://api.allorigins.win https://api.codetabs.com https://cloudflareinsights.com https://pagead2.googlesyndication.com https://*.g.doubleclick.net https://*.googlesyndication.com https://ep1.adtrafficquality.google https://fundingchoicesmessages.google.com; form-action 'self'; frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://*.google.com; upgrade-insecure-requests">
+<meta http-equiv="X-Content-Type-Options" content="nosniff"><meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Warframe shopping list — item cart &amp; platinum budget | VoidRelay</title>
+<meta name="description" content="Plan your Warframe shopping: add items, adjust quantities, see the total platinum budget and copy a WTB message ready to paste into the trade chat.">
+<link rel="canonical" href="https://voidrelay.fr/en/courses">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="VoidRelay">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Warframe shopping list — item cart &amp; platinum budget | VoidRelay">
+<meta property="og:description" content="Plan your Warframe shopping: add items, adjust quantities, see the total platinum budget and copy a WTB message ready to paste into the trade chat.">
+<meta property="og:url" content="https://voidrelay.fr/en/courses">
+<meta property="og:image" content="https://voidrelay.fr/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="VoidRelay — Warframe shopping list — item cart &amp; platinum budget">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Warframe shopping list — item cart &amp; platinum budget | VoidRelay">
+<meta name="twitter:description" content="Plan your Warframe shopping: add items, adjust quantities, see the total platinum budget and copy a WTB message ready to paste into the trade chat.">
+<meta name="twitter:image" content="https://voidrelay.fr/assets/og.png"><link rel="alternate" hreflang="en" href="https://voidrelay.fr/en/courses"><link rel="alternate" hreflang="fr" href="https://voidrelay.fr/courses"><link rel="alternate" hreflang="x-default" href="https://voidrelay.fr/courses"><meta name="robots" content="noindex, follow"><meta name="author" content="VoidRelay"><meta name="theme-color" content="#f4f1ea">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230e1729'/%3E%3Cpath d='M14 18 L32 48 L50 18' fill='none' stroke='%23d4af37' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"><link rel="stylesheet" href="/css/pandaahh.css"><link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<!-- display=optional (PAS swap) : mesure CLS reelle 10/07/2026 (PerformanceObserver, repete 3x) -> swap causait un reflow au moment exact du chargement de la police (CLS jusqu'a 1.03), optional -> CLS 0.0000. NE PAS repasser a swap sans re-mesurer le CLS reel avant/apres sur plusieurs essais. Contexte complet : commit git "la prochaine classe de bug — CLS massif du au swap de police web". -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Oswald:wght@400;500;600;700&display=optional" rel="stylesheet">
+<style>
+.ac-wrap{position:relative;max-width:560px;margin-top:10px}
+.cr-input{width:100%;padding:13px 16px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink);font:inherit;font-size:1.02rem;box-shadow:var(--sh-soft)}
+.cr-input:focus{outline:none;border-color:var(--gold)}
+.ac-box{position:absolute;left:0;right:0;top:calc(100% + 6px);background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--sh);z-index:30;overflow:hidden;max-height:340px;overflow-y:auto}
+.ac-box.hide{display:none}
+.ac-item{padding:10px 15px;cursor:pointer;font-size:.94rem;color:var(--ink);border-top:1px solid var(--line)}
+.ac-item:first-child{border-top:0}.ac-item:hover,.ac-item.sel{background:var(--bg2);color:var(--gold-2)}
+.cr-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm);padding:8px 18px 16px;box-shadow:var(--sh-soft);margin-top:18px}
+.cr-list{list-style:none;margin:0;padding:0}
+.cr-row{display:flex;align-items:center;gap:12px;padding:11px 0;border-top:1px solid var(--line)}
+.cr-row:first-child{border-top:0}
+.cr-vig{width:28px;height:28px;border-radius:6px;flex:none;object-fit:cover;background:rgba(255,255,255,.05)}
+.cr-name{flex:1;min-width:0;color:var(--ink);font-weight:600;text-decoration:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cr-name:hover{color:var(--gold-2)}
+.cr-price{color:var(--muted);font-size:.9rem;white-space:nowrap}
+.cr-q{width:56px;padding:6px 8px;border:1px solid var(--line);border-radius:9px;background:var(--bg2);color:var(--ink);font:inherit;text-align:center}
+.cr-lt{font-weight:700;color:var(--ink);min-width:64px;text-align:right;white-space:nowrap}
+.cr-rm{border:0;background:transparent;cursor:pointer;color:#c0392b;font-size:1rem;line-height:1}
+.cr-foot{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:2px solid var(--line)}
+.cr-total{font:700 1.4rem/1 "Oswald",sans-serif;color:var(--ink)}.cr-total b{color:var(--gold-2)}
+.cr-actions{display:flex;gap:8px;flex-wrap:wrap}
+.cr-btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:11px;padding:9px 15px;font:600 .9rem/1 "Inter",sans-serif;cursor:pointer}
+.cr-btn:hover{border-color:var(--gold);color:var(--gold-2)}
+.cr-btn.primary{background:linear-gradient(135deg,var(--gold-2),var(--gold));color:#1a1300;border-color:transparent}
+.cr-empty{color:var(--muted);background:var(--card);border:1px dashed var(--line);border-radius:var(--r-sm);padding:26px;text-align:center;margin-top:18px}
+.cr-muted{color:var(--muted);font-size:.9rem}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://voidrelay.fr/en/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://voidrelay.fr/en/tools"},{"@type":"ListItem","position":3,"name":"Shopping list","item":"https://voidrelay.fr/en/courses"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Warframe Shopping List","description":"Add items, adjust quantities and see the total platinum budget before you go buy.","url":"https://voidrelay.fr/en/courses","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"isPartOf":{"@id":"https://voidrelay.fr/#site"}}</script>
+</head><body>
+<div class="topwrap"><header class="topbar"><a href="/en/" class="brand"><span class="logo">◆</span> VoidRelay</a><div class="search"><span>🔎</span><input type="search" id="vr-search" class="vr-search-input" placeholder="Search an item or build…" aria-label="Search a Warframe item" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="vr-search-results" aria-autocomplete="list"><kbd>K</kbd><div class="vr-search-results" id="vr-search-results" role="listbox" aria-label="Search results" hidden></div></div><nav class="topnav"><div class="topnav-search"><input type="search" id="vr-search-m" class="vr-search-input" placeholder="Search an item…" aria-label="Search a Warframe item" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="vr-search-results-m" aria-autocomplete="list"><div class="vr-search-results" id="vr-search-results-m" role="listbox" aria-label="Search results" hidden></div></div><a href="/en/">Home</a><a href="/en/platinum-path/">Platinum Path</a><a href="/en/builds/">Builds</a><a href="/en/o/">Items</a><a href="/en/guides/">Guides</a><a href="/en/tools" class="cur">Tools</a><a href="/hub">Dashboard</a><a href="/faq-en">FAQ</a><a href="/courses" hreflang="fr" title="Version française">FR</a></nav><button class="navburger" id="navburger" type="button" aria-label="Menu" aria-expanded="false">&#9776;</button>
+<button class="themebtn" id="themebtn" type="button" aria-label="Toggle theme" title="Dark / light theme">☾</button><a href="/en/tools" class="avatar" title="Warframe tools" aria-label="Warframe tools">◈</a></header></div>
+<main class="wrap">
+<nav class="bc"><a href="/en/">Home</a> › <a href="/en/tools">Tools</a> › <span>Shopping list</span></nav>
+<h1 style="font-family:Oswald,sans-serif;text-transform:uppercase;margin:.2em 0">Shopping list</h1>
+<p class="sub" style="color:var(--muted);font-size:1.05rem;max-width:72ch">Plan your buys: add items, adjust quantities, see your <b>total platinum budget</b> and copy a <b>WTB</b> message ready to paste into the trade chat.</p>
+<div class="ac-wrap"><input class="cr-input" id="caddq" placeholder="Add an item to buy…" autocomplete="off" spellcheck="false"><div class="ac-box hide" id="cac"></div></div>
+<div id="cbody"></div>
+</main>
+<footer class="foot"><div class="in"><div><span class="brand" style="color:#fff"><span class="logo">◆</span> VoidRelay</span><div style="font-size:.85rem;margin-top:6px">Unofficial Warframe hub — fan-made, free.</div></div><div class="links" style="font-size:.9rem"><a href="/en/platinum-path/">Platinum Path</a><a href="/en/builds/">Builds</a><a href="/en/o/">Items</a><a href="/en/guides/">Guides</a><a href="/en/tools">Tools</a><a href="/hub">Dashboard</a><a href="/faq-en">FAQ</a><a href="/">Français</a></div></div><div class="in" style="padding-top:0;font-size:.8rem;color:#8294ab">"Warframe" is a trademark of Digital Extremes. Prices: warframe.market. · <a href="/confidentialite">Privacy</a> · <a href="/mentions-legales">Legal</a></div></footer>
+<script defer src="/js/data.js"></script>
+<script defer src="/js/api.js"></script>
+<script>
+/* ===== Liste de courses native (cle localStorage "cart" — interoperable appli) ===== */
+(function(){
+  "use strict";
+  const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const $=id=>document.getElementById(id);
+  const nf=n=>(Math.round(n)||0).toLocaleString("en-US");
+  let items=null, snap={}, pcache={}, sel=-1;
+  let itemsP=null;
+  /* items.json (~380 Ko) : chargé à la 1re interaction avec le champ, plus au chargement de la page. */
+  const loadItems=()=>itemsP||(itemsP=fetch("/data/items.json").then(r=>r.json()).then(d=>{items=d||[];}).catch(()=>{items=[];}));
+
+  function getCart(){try{return JSON.parse(localStorage.getItem("cart")||"{}")}catch(e){return{}}}
+  function setCart(c){try{localStorage.setItem("cart",JSON.stringify(c))}catch(e){}}
+  async function priceFor(u,name){
+    if(snap[name]!=null)return snap[name];
+    if(pcache[u]!=null)return pcache[u];
+    try{const s=summarizeStats(await API.marketStats(u));pcache[u]=s?Math.round(s.price):0;}catch(e){pcache[u]=0;}
+    return pcache[u];
+  }
+
+  async function render(){
+    const body=$("cbody"), c=getCart(), ks=Object.keys(c);
+    if(!ks.length){body.innerHTML='<div class="cr-empty">Your cart is empty. Add an item above to estimate your budget.</div>';return;}
+    body.innerHTML='<p class="cr-muted" style="margin-top:18px">Loading prices…</p>';
+    const prices={}; for(const u of ks){const it=typeof c[u]==="object"?c[u]:{n:u,q:c[u]};prices[u]=await priceFor(u,it.n);}
+    let total=0;
+    const rows=ks.map(u=>{
+      const it=typeof c[u]==="object"?c[u]:{n:u,q:c[u]}; const pr=prices[u]||0, q=it.q||1, lt=pr*q; total+=lt;
+      return `<li class="cr-row">
+        ${typeof Thumbs!=="undefined"?Thumbs.img(u,"cr-vig",it.n):""}
+        <a class="cr-name" href="https://warframe.market/items/${esc(u)}" target="_blank" rel="noopener noreferrer">${esc(it.n)} ↗</a>
+        <span class="cr-price">${pr?pr+" PL":"—"} ×</span>
+        <input class="cr-q" type="number" min="1" inputmode="numeric" data-q="${esc(u)}" value="${q}">
+        <span class="cr-lt">${nf(lt)} PL</span>
+        <button class="cr-rm" data-rm="${esc(u)}" title="Remove">✕</button></li>`;
+    }).join("");
+    body.innerHTML=`<div class="cr-card"><ol class="cr-list">${rows}</ol>
+      <div class="cr-foot"><span class="cr-total">Total: <b>${nf(total)} PL</b></span>
+        <span class="cr-actions"><button class="cr-btn primary" id="cwtb">📋 Copy a WTB message</button><button class="cr-btn" id="cclear">Clear</button></span></div></div>`;
+    $("cwtb").addEventListener("click",()=>{const c2=getCart();const msg="WTB "+Object.keys(c2).map(u=>{const it=typeof c2[u]==="object"?c2[u]:{n:u};return `[${it.n}]`;}).join(" ");try{navigator.clipboard.writeText(msg).then(()=>$("cwtb").textContent="✓ Copied!").catch(()=>prompt("Copy:",msg));}catch(e){prompt("Copy:",msg);}});
+    $("cclear").addEventListener("click",()=>{setCart({});render();});
+    body.querySelectorAll("[data-q]").forEach(i=>i.addEventListener("input",()=>{const c2=getCart(),k=i.dataset.q;if(c2[k]){if(typeof c2[k]!=="object")c2[k]={n:k,q:1};c2[k].q=Math.max(1,+i.value||1);setCart(c2);render();}}));
+    body.querySelectorAll("[data-rm]").forEach(b=>b.addEventListener("click",()=>{const c2=getCart();delete c2[b.dataset.rm];setCart(c2);render();}));
+  }
+
+  function showAc(){
+    const inp=$("caddq"), ac=$("cac"), q=inp.value.trim().toLowerCase(); sel=-1;
+    if(!items){loadItems().then(()=>{if(items&&items.length)showAc();});}
+    if(q.length<2||!items){ac.classList.add("hide");return;}
+    const starts=[],incl=[];
+    for(const i of items){const n=i.n.toLowerCase();if(n.startsWith(q))starts.push(i);else if(n.includes(q))incl.push(i);if(starts.length>=14)break;}
+    const m=starts.concat(incl).slice(0,14);
+    if(!m.length){ac.classList.add("hide");return;}
+    ac.innerHTML=m.map(x=>`<div class="ac-item" data-u="${esc(x.u)}" data-n="${esc(x.n)}">${esc(x.n)}</div>`).join("");
+    ac.classList.remove("hide");
+    ac.querySelectorAll(".ac-item").forEach(d=>d.addEventListener("click",()=>add(d.dataset.u,d.dataset.n)));
+  }
+  function add(u,n){const c=getCart();if(!c[u]||typeof c[u]!=="object")c[u]={n,q:1};else c[u].q++;setCart(c);$("caddq").value="";$("cac").classList.add("hide");render();}
+  function keyNav(e){
+    const ac=$("cac");if(ac.classList.contains("hide"))return;
+    const its=[...ac.querySelectorAll(".ac-item")];
+    if(e.key==="ArrowDown"){e.preventDefault();sel=Math.min(its.length-1,sel+1);}
+    else if(e.key==="ArrowUp"){e.preventDefault();sel=Math.max(0,sel-1);}
+    else if(e.key==="Enter"){e.preventDefault();if(sel>=0&&its[sel])add(its[sel].dataset.u,its[sel].dataset.n);return;}
+    else return;
+    its.forEach((d,i)=>d.classList.toggle("sel",i===sel));
+  }
+
+  async function init(){
+    $("caddq").addEventListener("input",showAc);
+    $("caddq").addEventListener("focus",loadItems,{once:true});
+    $("caddq").addEventListener("keydown",keyNav);
+    document.addEventListener("click",e=>{if(!e.target.closest(".ac-wrap"))$("cac").classList.add("hide");});
+    /* Anti-CLS (03/09/2026, CLS median mesure en CI : 0.1316, seuil 0.1) : le panier
+       vit dans localStorage, donc son rendu est SYNCHRONE — rien ne justifiait de
+       l'attendre derriere le fetch des prix. #cbody restait vide jusqu'a la reponse
+       reseau, puis poussait le pied de page. On dessine l'etat courant tout de
+       suite, et on redessine une fois les prix connus. */
+    /* catalogue chargé paresseusement (loadItems) — plus de 380 Ko au chargement */
+    try{const s=await(await fetch("/data/market.json")).json();Object.values(s.categories||{}).forEach(arr=>arr.forEach(r=>snap[r.name]=r.price));/* format canonique {items:[{slug,median,…}]} (update_warframe_data.py) — même compat que marche/trade */if(Array.isArray(s.items)){const pr=u=>String(u).replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase());s.items.forEach(it=>{if(it&&it.slug&&it.median&&!snap[pr(it.slug)])snap[pr(it.slug)]=it.median;});}}catch(e){}
+    if(typeof Thumbs!=="undefined"){try{await Thumbs.ready();}catch(e){}}
+    render();
+  }
+  /* Anti-CLS (mesure 03/09/2026 : CLS 0.1316, le pied de page saute de
+     472 a 595 px). Le panier vit dans localStorage : son rendu est SYNCHRONE.
+     L'appeler depuis init(), donc sur DOMContentLoaded, est DEJA trop tard —
+     le premier rendu a lieu avant. Ce script etant apres #cbody dans le
+     document, on dessine ici meme, pendant l'analyse du HTML. */
+  try{ render(); }catch(e){}
+  if(document.readyState!=="loading")init();else document.addEventListener("DOMContentLoaded",init);
+})();
+</script>
+<script defer src="/js/thumbs.js"></script>
+<script defer src="/js/ads.js"></script>
+<script defer src="/js/nav-toggle.js"></script><script defer src="/js/search.js"></script><script defer src="/js/warp.js"></script>
+</body></html>

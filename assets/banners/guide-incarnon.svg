@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" role="img" aria-label="VoidRelay — Rotation Incarnon">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0a0e16"/>
+      <stop offset="0.55" stop-color="#0c1018"/>
+      <stop offset="1" stop-color="#070a10"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="0.78" cy="0.4" r="0.6">
+      <stop offset="0" stop-color="#d4af37" stop-opacity="0.30"/>
+      <stop offset="1" stop-color="#d4af37" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="edge" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#d4af37" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#d4af37" stop-opacity="0.15"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="hex" width="56" height="64" patternUnits="userSpaceOnUse">
+      <path d="M28 0 L56 16 L56 48 L28 64 L0 48 L0 16 Z" fill="none"
+            stroke="#d4af37" stroke-width="1" opacity="0.1"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="360" fill="url(#bg)"/>
+  <rect width="1200" height="360" fill="url(#hex)"/>
+  <rect width="1200" height="360" fill="url(#halo)"/>
+  <rect x="0" y="354" width="1200" height="6" fill="url(#edge)"/>
+  <g transform="translate(900,180)" filter="url(#glow)" stroke="#d4af37"
+     stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- flèches en cycle (rotation hebdomadaire) autour d'un éclat central (métamorphose Incarnon) -->
+    <path d="M-70 -40 A 82 82 0 0 1 70 -40"/>
+    <path d="M70 40 A 82 82 0 0 1 -70 40"/>
+    <path d="M70 -40 l4 -22 M70 -40 l-22 -6"/>
+    <path d="M-70 40 l-4 22 M-70 40 l22 6"/>
+    <path d="M0 -34 L22 0 L0 34 L-22 0 Z"/>
+    <path d="M0 -14 L9 0 L0 14 L-9 0 Z" opacity="0.7"/>
+  </g>
+</svg>

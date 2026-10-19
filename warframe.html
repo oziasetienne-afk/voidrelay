@@ -1,0 +1,17 @@
+<!DOCTYPE html><html lang="fr"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- /warframe n'est plus une application séparée (16/07/2026, décision de l'admin) : ses outils
+     utiles vivent comme de vraies pages du site (voir /outils). Cette page ne sert qu'à
+     rediriger les anciens liens — y compris les routes en hash (#/codex, #/foundry…),
+     invisibles côté serveur, d'où une redirection JS (js/warframe-redirect.js) avec un
+     repli <meta refresh> vers /outils pour les navigateurs sans JS. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; form-action 'self'; upgrade-insecure-requests">
+<meta http-equiv="X-Content-Type-Options" content="nosniff"><meta name="referrer" content="strict-origin-when-cross-origin">
+<title>VoidRelay — outils Warframe</title>
+<meta name="robots" content="noindex, follow">
+<meta http-equiv="refresh" content="1;url=/outils">
+<link rel="canonical" href="https://voidrelay.fr/outils">
+<script src="/js/warframe-redirect.js"></script>
+</head><body>
+<p style="font:15px/1.5 system-ui,sans-serif;padding:24px">Les outils Warframe de VoidRelay ont déménagé : <a href="/outils">voidrelay.fr/outils</a></p>
+</body></html>

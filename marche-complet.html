@@ -1,0 +1,226 @@
+<!DOCTYPE html><html lang="fr"><head><script>(function(){try{var t=localStorage.getItem("vr-theme")||"dark";document.documentElement.setAttribute("data-theme",t)}catch(e){document.documentElement.setAttribute("data-theme","dark")}})();</script>
+<link rel="preconnect" href="https://pagead2.googlesyndication.com"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3315165542909837" crossorigin="anonymous"></script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com https://pagead2.googlesyndication.com https://partner.googleadservices.com https://tpc.googlesyndication.com https://adservice.google.com https://www.googletagservices.com https://fundingchoicesmessages.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://warframe.market https://cdn.warframestat.us https://raw.githubusercontent.com https://*.googlesyndication.com https://*.g.doubleclick.net https://*.google.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://api.warframestat.us https://api.warframe.market https://warframe-proxy.oziasetienne.workers.dev https://api.allorigins.win https://api.codetabs.com https://cloudflareinsights.com https://pagead2.googlesyndication.com https://*.g.doubleclick.net https://*.googlesyndication.com https://ep1.adtrafficquality.google https://fundingchoicesmessages.google.com; form-action 'self'; frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://*.google.com; upgrade-insecure-requests">
+<meta http-equiv="X-Content-Type-Options" content="nosniff"><meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Tout le marché Warframe en direct — 3 800+ objets, prix &amp; trafic | VoidRelay</title>
+<meta name="description" content="La totalité du marché Warframe en temps réel : sets, systèmes, châssis, casques, schémas, armes, mods, arcanes, reliques — prix du platine en direct (warframe.market) et flux des dernières ventes.">
+<link rel="canonical" href="https://voidrelay.fr/marche-complet"><meta name="robots" content="index, follow, max-image-preview:large"><meta name="author" content="VoidRelay"><meta name="theme-color" content="#f4f1ea">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230e1729'/%3E%3Cpath d='M14 18 L32 48 L50 18' fill='none' stroke='%23d4af37' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"><link rel="manifest" href="/manifest.webmanifest"><link rel="apple-touch-icon" href="/assets/icon-180.png"><link rel="stylesheet" href="/css/pandaahh.css"><link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<meta property="og:type" content="website"><meta property="og:site_name" content="VoidRelay"><meta property="og:title" content="Tout le marché Warframe en direct"><meta property="og:url" content="https://voidrelay.fr/marche-complet">
+<meta property="og:description" content="La totalité du marché Warframe en temps réel : sets, systèmes, châssis, casques, schémas, armes, mods, arcanes, reliques — prix du platine en direct (warframe.market) et flux des dernières ventes.">
+<meta property="og:image" content="https://voidrelay.fr/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="VoidRelay — Tout le marché Warframe en direct — 3 800+ objets, prix &amp; trafic">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tout le marché Warframe en direct — 3 800+ objets, prix &amp; trafic | VoidRelay">
+<meta name="twitter:description" content="La totalité du marché Warframe en temps réel : sets, systèmes, châssis, casques, schémas, armes, mods, arcanes, reliques — prix du platine en direct (warframe.market) et flux des dernières ventes.">
+<meta name="twitter:image" content="https://voidrelay.fr/assets/og.png">
+<!-- display=optional (PAS swap) : mesure CLS reelle 10/07/2026 — voir a-propos.html. -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Oswald:wght@400;500;600;700&display=optional" rel="stylesheet">
+<style>
+/* --- Marché complet : composants calés sur les tokens pandaahh --- */
+.mc-live{background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm);padding:18px;box-shadow:var(--sh-soft);margin:16px 0}
+.mc-live h2{margin:0;font:700 1.15rem/1.2 "Oswald",sans-serif;text-transform:uppercase;color:var(--gold-2);display:flex;align-items:center;gap:10px}
+.mc-dot{width:9px;height:9px;border-radius:50%;background:#c0392b;box-shadow:0 0 0 0 rgba(192,57,43,.6);animation:mcpulse 1.6s infinite;flex:none}
+@keyframes mcpulse{0%{box-shadow:0 0 0 0 rgba(192,57,43,.55)}70%{box-shadow:0 0 0 7px rgba(192,57,43,0)}100%{box-shadow:0 0 0 0 rgba(192,57,43,0)}}
+.mc-live .meta{margin:.3rem 0 10px;color:var(--muted);font-size:.86rem}
+/* Anti-CLS (mesuré 16/07/2026 : 0.177 sans réserve) : le flux arrive ~3 s après le
+   premier rendu et poussait tout le catalogue — min-height = max-height fige la place. */
+.mc-feed{list-style:none;margin:0;padding:0;max-height:340px;min-height:340px;overflow-y:auto}
+.mc-feed li{display:flex;align-items:center;gap:10px;padding:7px 0;border-top:1px solid var(--line);font-size:.92rem}
+.mc-feed li:first-child{border-top:0}
+.mc-badge{flex:none;font:700 10px/1 "Oswald",sans-serif;letter-spacing:1px;text-transform:uppercase;padding:4px 7px;border-radius:6px}
+.mc-badge.v{background:rgba(46,160,90,.14);color:var(--good)}
+.mc-badge.a{background:rgba(70,130,220,.14);color:#1b5aa8}
+/* Le bleu clair d'origine tombait a 2.93:1 sur le fond clair (garde-fou contraste,
+   03/09/2026) : bleu sombre en clair, teinte d'origine rendue en sombre. */
+[data-theme="dark"] .mc-badge.a{color:#5a9bdc}
+.mc-feed .nm{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
+.mc-feed .pl{margin-left:auto;white-space:nowrap;font-weight:700;color:var(--gold-2)}
+.mc-feed .tm{flex:none;color:var(--muted);font-size:.78rem;width:46px;text-align:right}
+.mc-pills{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.mc-pill{font:700 .8rem/1 "Oswald",sans-serif;letter-spacing:.5px;text-transform:uppercase;padding:8px 13px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--muted);cursor:pointer;transition:.15s}
+.mc-pill:hover{color:var(--ink);border-color:var(--gold)}
+.mc-pill.active{background:linear-gradient(135deg,var(--gold-2),var(--gold));color:#1a1300;border-color:transparent}
+#mq{width:100%;padding:12px 16px;border-radius:12px;border:1px solid var(--line);background:var(--bg2);color:var(--ink);font-size:1rem}
+.mc-count{color:var(--muted);font-size:.88rem;margin:8px 0 4px}
+.mc-list{list-style:none;margin:0;padding:0;background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm);box-shadow:var(--sh-soft)}
+.mc-row{display:flex;align-items:center;gap:12px;padding:10px 16px;border-top:1px solid var(--line)}
+.mc-row:first-child{border-top:0}
+.mc-row .nm{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
+.mc-row .nm a{color:var(--ink);text-decoration:none}
+.mc-row .nm a:hover{color:var(--gold-2)}
+.mc-fam{flex:none;font:700 9.5px/1 "Oswald",sans-serif;letter-spacing:.8px;text-transform:uppercase;padding:3px 7px;border-radius:6px;background:var(--bg2);color:var(--muted)}
+.mc-price{margin-left:auto;white-space:nowrap;text-align:right;font-size:.92rem}
+.mc-price b{color:var(--gold-2)}
+.mc-price .buy{color:var(--muted);font-size:.8rem}
+.mc-more{padding:14px;text-align:center;color:var(--muted);font-size:.9rem}
+@media(max-width:560px){.mc-row{padding:10px 12px;gap:8px}.mc-fam{display:none}.mc-feed .tm{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://voidrelay.fr/"},{"@type":"ListItem","position":2,"name":"Marché","item":"https://voidrelay.fr/marche"},{"@type":"ListItem","position":3,"name":"Tout le marché","item":"https://voidrelay.fr/marche-complet"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Tout le marché Warframe","description":"La totalité des 3 800+ objets échangeables — sets, systèmes, châssis, casques, schémas — prix en temps réel et flux des dernières offres.","url":"https://voidrelay.fr/marche-complet","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"isPartOf":{"@id":"https://voidrelay.fr/#site"}}</script>
+</head><body>
+<div class="topwrap"><header class="topbar"><a href="/" class="brand"><span class="logo">◆</span> VoidRelay</a><div class="search"><span>🔎</span><input type="search" id="vr-search" class="vr-search-input" placeholder="Rechercher un objet, un build…" aria-label="Rechercher un objet Warframe" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="vr-search-results" aria-autocomplete="list"><kbd>K</kbd><div class="vr-search-results" id="vr-search-results" role="listbox" aria-label="Résultats de recherche" hidden></div></div><nav class="topnav"><div class="topnav-search"><input type="search" id="vr-search-m" class="vr-search-input" placeholder="Rechercher un objet…" aria-label="Rechercher un objet Warframe" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="vr-search-results-m" aria-autocomplete="list"><div class="vr-search-results" id="vr-search-results-m" role="listbox" aria-label="Résultats de recherche" hidden></div></div><a href="/">Accueil</a><a href="/voie-du-platine/">La Voie du Platine</a><a href="/builds/">Builds</a><a href="/warframes/">Warframes</a><a href="/armes/">Armes</a><a href="/compagnons/">Compagnons</a><a href="/ressources/">Ressources</a><a href="/arcanes/">Arcanes</a><a href="/guides/">Guides</a><a href="/skins/">Skins</a><a href="/o/">Objets</a><a href="/hub">Tableau de bord</a><a href="/outils" class="cur">Outils</a><a href="/faq">FAQ</a></nav><button class="navburger" id="navburger" type="button" aria-label="Menu" aria-expanded="false">&#9776;</button>
+<button class="themebtn" id="themebtn" type="button" aria-label="Basculer le thème" title="Thème sombre / clair">☾</button><a href="/outils" class="avatar" title="Outils Warframe" aria-label="Outils Warframe">◈</a></header></div>
+<main class="wrap">
+<nav class="bc"><a href="/">Accueil</a> › <a href="/marche">Marché</a> › <span>Tout le marché</span></nav>
+<div id="vrProfil"></div>
+<script src="/js/profil.js"></script>
+<script>try{VRProfil.banniere(document.getElementById("vrProfil"))}catch(e){}</script>
+<h1 style="font-family:Oswald,sans-serif;text-transform:uppercase;margin:.2em 0">Tout le marché, en direct</h1>
+<p class="sub" style="color:var(--muted);font-size:1.05rem;max-width:76ch">La <b>totalité des objets échangeables</b> de Warframe — sets, systèmes, châssis, casques, schémas, armes, mods, arcanes, reliques… Les prix se chargent <b>en temps réel</b> depuis warframe.market au fil de ton défilement, et le flux ci-dessous montre les <b>dernières offres publiées</b> sur le marché, rafraîchies automatiquement.</p>
+
+<section class="mc-live" aria-label="Trafic du marché en direct">
+  <h2><span class="mc-dot" aria-hidden="true"></span> Trafic du marché</h2>
+  <p class="meta" id="mcFeedMeta">Connexion au flux…</p>
+  <ul class="mc-feed" id="mcFeed"></ul>
+</section>
+
+<div class="mc-pills" id="mcPills" role="group" aria-label="Filtrer par famille"></div>
+<input id="mq" type="search" data-vr-suggest placeholder="Filtrer les 3 800+ objets (ex : Mesa Prime, Serration, Axi…)" aria-label="Filtrer les objets" autocomplete="off">
+<p class="mc-count" id="mcCount">Chargement du catalogue…</p>
+<ul class="mc-list" id="mcList"></ul>
+<p class="mc-more" id="mcMore" hidden>Chargement…</p>
+
+<p class="bc" style="margin-top:16px"><a href="/marche">← Marché (sélection suivie)</a> · <a href="/o/">Fiches objets détaillées</a> · <a href="/estimateur">Estimateur d'inventaire</a> · <a href="/hub">Tableau de bord</a></p>
+<p class="mc-count">Source : <a href="https://warframe.market" target="_blank" rel="noopener noreferrer nofollow">warframe.market</a> (via proxy, débit limité par courtoisie : ~2 objets/s). « Vente » = meilleure offre de vente visible, « Achat » = meilleure offre d'achat. Clique un objet pour sa fiche complète (historique, ducats, tendance).</p>
+</main>
+<footer class="foot"><div class="in"><div><span class="brand" style="color:#fff"><span class="logo">◆</span> VoidRelay</span><div style="font-size:.85rem;margin-top:6px">Hub Warframe non officiel — fan-made, gratuit.</div></div><div class="links" style="font-size:.9rem"><a href="/voie-du-platine/">La Voie</a><a href="/builds/">Builds</a><a href="/guides/">Guides</a><a href="/skins/">Skins</a><a href="/o/">Objets</a><a href="/marche">Marché</a><a href="/hub">Tableau de bord</a><a href="/faq">FAQ</a><a href="/a-propos">À propos</a><a href="mailto:contact@voidrelay.fr">Feedback</a></div></div><div class="in" style="padding-top:0;font-size:.8rem;color:#8294ab">« Warframe » est une marque de Digital Extremes. Prix : warframe.market. · <a href="/confidentialite">Confidentialité</a> · <a href="/mentions-legales">Mentions légales</a></div></footer>
+<script defer src="/js/data.js"></script>
+<script defer src="/js/api.js"></script>
+<script>
+"use strict";
+/* /marche-complet — catalogue intégral + prix live au défilement + flux temps réel.
+   Réutilise getJSONProxy/MK2 (js/api.js) : warframe.market ne renvoie pas de CORS,
+   tout passe par le proxy perso (repli allorigins/codetabs). */
+(function(){
+  const $=id=>document.getElementById(id);
+  const esc=x=>String(x).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  let ITEMS=[], byId={}, fam="all", query="", shown=0;
+  const CHUNK=300, PRICE_TTL=10*60*1000;
+
+  /* Familles : suffixe du slug d'abord (sets/pièces de sets), tags v2 ensuite. */
+  const FAMS=[["all","Tous"],["set","Sets"],["systems","Systèmes"],["chassis","Châssis"],["neuroptics","Casques"],["blueprint","Schémas"],["weapon","Armes"],["mod","Mods"],["arcane","Arcanes"],["relic","Reliques"],["component","Pièces"],["other","Autres"]];
+  function famOf(it){
+    const u=it.u,t=it.t||[];
+    if(/_set$/.test(u)||t.includes("set"))return "set";
+    if(/_systems(_blueprint)?$/.test(u))return "systems";
+    if(/_chassis(_blueprint)?$/.test(u))return "chassis";
+    if(/_neuroptics(_blueprint)?$/.test(u))return "neuroptics";
+    if(/_blueprint$/.test(u))return "blueprint";
+    if(t.includes("relic"))return "relic";
+    if(t.includes("mod")||t.includes("riven_mod")||t.includes("veiled_riven")||t.includes("augment"))return "mod";
+    if(t.includes("arcane_enhancement")||t.includes("arcane_helmet"))return "arcane";
+    if(t.includes("weapon")||t.includes("primary")||t.includes("secondary")||t.includes("melee")||t.includes("archgun")||t.includes("archmelee"))return "weapon";
+    if(t.includes("component"))return "component";
+    return "other";
+  }
+  const FAMLBL={set:"Set",systems:"Système",chassis:"Châssis",neuroptics:"Casque",blueprint:"Schéma",weapon:"Arme",mod:"Mod",arcane:"Arcane",relic:"Relique",component:"Pièce",other:"—"};
+
+  /* ---- Prix live, chargés quand la ligne devient visible ---- */
+  const queue=[]; let workers=0;
+  function cacheGet(u){try{const c=JSON.parse(sessionStorage.getItem("vrTop:"+u));if(c&&Date.now()-c.ts<PRICE_TTL)return c;}catch(e){}return null;}
+  function cacheSet(u,v){try{sessionStorage.setItem("vrTop:"+u,JSON.stringify(v));}catch(e){}}
+  function renderPrice(el,c){
+    el.innerHTML=c.s!=null?`<b>${c.s} PL</b>${c.b!=null?` <span class="buy">achat ${c.b} PL</span>`:""}`:`<span class="buy">aucune offre</span>`;
+  }
+  async function fetchTop(u,el){
+    const c=cacheGet(u); if(c){renderPrice(el,c);return;}
+    try{
+      await throttle(450);
+      const d=await getJSONProxy(`${MK2}/orders/item/${encodeURIComponent(u)}/top`);
+      const data=(d&&d.data)||{};
+      const s=(data.sell&&data.sell[0]&&data.sell[0].platinum)??null;
+      const b=(data.buy&&data.buy[0]&&data.buy[0].platinum)??null;
+      const v={s,b,ts:Date.now()}; cacheSet(u,v); renderPrice(el,v);
+    }catch(e){ el.innerHTML=`<span class="buy">indispo</span>`; }
+  }
+  function pump(){
+    while(workers<2&&queue.length){
+      const {u,el}=queue.shift(); workers++;
+      fetchTop(u,el).finally(()=>{workers--;pump();});
+    }
+  }
+  const rowIO=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(!e.isIntersecting)return;
+      rowIO.unobserve(e.target);
+      const u=e.target.dataset.u, el=e.target.querySelector(".mc-price");
+      if(u&&el)queue.push({u,el}),pump();
+    });
+  },{rootMargin:"250px"});
+
+  /* ---- Rendu du catalogue (par tranches, défilement infini) ---- */
+  function filtered(){
+    const q=query.toLowerCase();
+    return ITEMS.filter(it=>(fam==="all"||it.f===fam)&&(!q||it.n.toLowerCase().includes(q)));
+  }
+  function rowHtml(it){
+    return `<li class="mc-row" data-u="${esc(it.u)}"><span class="mc-fam">${FAMLBL[it.f]}</span><span class="nm"><a href="/o/${esc(it.u)}">${esc(it.n)}</a></span><span class="mc-price"><span class="buy">…</span></span></li>`;
+  }
+  function renderMore(){
+    const list=filtered(), frag=document.createElement("template");
+    frag.innerHTML=list.slice(shown,shown+CHUNK).map(rowHtml).join("");
+    [...frag.content.children].forEach(li=>rowIO.observe(li));
+    $("mcList").append(frag.content);
+    shown=Math.min(shown+CHUNK,list.length);
+    $("mcMore").hidden=shown>=list.length;
+    $("mcCount").textContent=`${list.length.toLocaleString("fr-FR")} objet${list.length>1?"s":""}${fam!=="all"||query?` (sur ${ITEMS.length.toLocaleString("fr-FR")})`:""} — prix chargés en direct au défilement`;
+  }
+  function rerender(){ $("mcList").innerHTML=""; shown=0; renderMore(); }
+  const moreIO=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting&&shown)renderMore();});},{rootMargin:"600px"});
+
+  /* ---- Flux temps réel (/v2/orders/recent) ---- */
+  let feedTimer=null;
+  const ago=iso=>{const m=Math.round((Date.now()-new Date(iso))/60000);return m<1?"à l'instant":m<60?m+" min":Math.round(m/60)+" h";};
+  async function refreshFeed(){
+    try{
+      const d=await getJSONProxy(`${MK2}/orders/recent`);
+      const orders=((d&&d.data)||[]).filter(o=>o.visible!==false).sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
+      const rows=orders.slice(0,30).map(o=>{
+        const it=byId[o.itemId];
+        const nm=it?`<a href="/o/${esc(it.u)}">${esc(it.n)}</a>`:"Objet inconnu";
+        return `<li><span class="mc-badge ${o.type==="sell"?"v":"a"}">${o.type==="sell"?"Vente":"Achat"}</span><span class="nm">${nm}${o.quantity>1?` ×${o.quantity}`:""}</span><span class="pl">${o.platinum} PL</span><span class="tm">${ago(o.createdAt)}</span></li>`;
+      }).join("");
+      $("mcFeed").innerHTML=rows||`<li><span class="nm">Aucune offre récente.</span></li>`;
+      const perMin={}; orders.forEach(o=>{const it=byId[o.itemId];if(it)perMin[it.n]=(perMin[it.n]||0)+1;});
+      const hot=Object.entries(perMin).sort((a,b)=>b[1]-a[1])[0];
+      $("mcFeedMeta").textContent=`${orders.length} offres publiées ces dernières minutes, tout le marché confondu`+(hot&&hot[1]>1?` — le plus actif : ${hot[0]} (${hot[1]})`:"")+`. Actualisé automatiquement.`;
+    }catch(e){
+      $("mcFeedMeta").textContent="Flux indisponible pour le moment (proxy) — les prix du catalogue restent fonctionnels.";
+      if(!$("mcFeed").children.length)$("mcFeed").innerHTML=`<li><span class="nm" style="color:var(--muted)">Le flux réessaiera automatiquement dans 45 s.</span></li>`;
+    }
+  }
+  function armFeed(){ clearInterval(feedTimer); feedTimer=setInterval(()=>{if(!document.hidden)refreshFeed();},45000); }
+
+  /* ---- Boot ---- */
+  async function init(){
+    try{
+      const r=await fetch("/data/items.json"); ITEMS=await r.json();
+    }catch(e){ $("mcCount").textContent="Impossible de charger le catalogue."; return; }
+    ITEMS.forEach(it=>{it.f=famOf(it); if(it.i)byId[it.i]=it;});
+    $("mcPills").innerHTML=FAMS.map(([k,lbl])=>{
+      const n=k==="all"?ITEMS.length:ITEMS.filter(i=>i.f===k).length;
+      return n?`<button class="mc-pill${k==="all"?" active":""}" data-f="${k}" type="button">${lbl} (${n.toLocaleString("fr-FR")})</button>`:"";
+    }).join("");
+    $("mcPills").addEventListener("click",e=>{
+      const b=e.target.closest(".mc-pill"); if(!b)return;
+      fam=b.dataset.f;
+      [...$("mcPills").children].forEach(x=>x.classList.toggle("active",x===b));
+      rerender();
+    });
+    let deb;
+    $("mq").addEventListener("input",()=>{clearTimeout(deb);deb=setTimeout(()=>{query=$("mq").value.trim();rerender();},150);});
+    const qp=new URLSearchParams(location.search).get("q"); if(qp){$("mq").value=qp;query=qp;}
+    rerender();
+    moreIO.observe($("mcMore"));
+    refreshFeed(); armFeed();
+    document.addEventListener("visibilitychange",()=>{if(!document.hidden)refreshFeed();});
+  }
+  if(document.readyState!=="loading")init();else document.addEventListener("DOMContentLoaded",init);
+})();
+</script>
+<script>(function(){var b=document.getElementById("themebtn");if(!b)return;function ic(){b.textContent=document.documentElement.getAttribute("data-theme")==="dark"?"☾":"☀";}ic();b.onclick=function(){var t=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",t);try{localStorage.setItem("vr-theme",t)}catch(e){}ic();};})();</script><script defer src="/js/nav-toggle.js"></script><script defer src="/js/search.js"></script><script defer src="/js/warp.js"></script><script defer src="/js/ads.js"></script>
+</body></html>

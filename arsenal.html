@@ -1,0 +1,820 @@
+<!DOCTYPE html><html lang="fr"><head><script>(function(){try{var t=localStorage.getItem("vr-theme")||"dark";document.documentElement.setAttribute("data-theme",t)}catch(e){document.documentElement.setAttribute("data-theme","dark")}})();</script>
+<link rel="preconnect" href="https://pagead2.googlesyndication.com"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3315165542909837" crossorigin="anonymous"></script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com https://pagead2.googlesyndication.com https://partner.googleadservices.com https://tpc.googlesyndication.com https://adservice.google.com https://www.googletagservices.com https://fundingchoicesmessages.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://warframe.market https://cdn.warframestat.us https://raw.githubusercontent.com https://*.googlesyndication.com https://*.g.doubleclick.net https://*.google.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://cloudflareinsights.com https://pagead2.googlesyndication.com https://*.g.doubleclick.net https://*.googlesyndication.com https://ep1.adtrafficquality.google https://fundingchoicesmessages.google.com; form-action 'self'; frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://*.google.com; upgrade-insecure-requests">
+<meta http-equiv="X-Content-Type-Options" content="nosniff"><meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Simulateur d'Arsenal Warframe — builds, mods, polarités | VoidRelay</title>
+<meta name="description" content="Simule ton arsenal Warframe comme dans le jeu : Warframe, armes, compagnon, mods avec capacité, polarités et forma — statistiques réelles calculées en direct.">
+<link rel="canonical" href="https://voidrelay.fr/arsenal"><link rel="alternate" hreflang="fr" href="https://voidrelay.fr/arsenal"><link rel="alternate" hreflang="en" href="https://voidrelay.fr/en/arsenal"><link rel="alternate" hreflang="x-default" href="https://voidrelay.fr/arsenal"><meta name="robots" content="index, follow, max-image-preview:large"><meta name="author" content="VoidRelay"><meta name="theme-color" content="#f4f1ea">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230e1729'/%3E%3Cpath d='M14 18 L32 48 L50 18' fill='none' stroke='%23d4af37' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"><link rel="manifest" href="/manifest.webmanifest"><link rel="apple-touch-icon" href="/assets/icon-180.png"><link rel="stylesheet" href="/css/pandaahh.css"><link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<meta property="og:type" content="website"><meta property="og:site_name" content="VoidRelay"><meta property="og:locale" content="fr_FR"><meta property="og:title" content="Simulateur d'Arsenal Warframe | VoidRelay"><meta property="og:description" content="Équipe une Warframe, des armes et des mods : capacité, polarités, forma et statistiques réelles, comme dans le jeu."><meta property="og:url" content="https://voidrelay.fr/arsenal">
+<meta property="og:image" content="https://voidrelay.fr/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="VoidRelay — Simulateur d'Arsenal Warframe — builds, mods, polarités">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Simulateur d'Arsenal Warframe — builds, mods, polarités | VoidRelay">
+<meta name="twitter:description" content="Simule ton arsenal Warframe comme dans le jeu : Warframe, armes, compagnon, mods avec capacité, polarités et forma — statistiques réelles calculées en direct.">
+<meta name="twitter:image" content="https://voidrelay.fr/assets/og.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Oswald:wght@400;500;600;700&display=optional" rel="stylesheet">
+<style>
+#arsenal{margin-top:14px}
+.ars-loadout{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.ars-slot{display:flex;flex-direction:column;gap:4px;text-align:left;padding:12px;border-radius:var(--r-sm);
+  background:var(--card);border:1px solid var(--line);cursor:pointer;color:var(--ink);box-shadow:var(--sh-soft);transition:.15s}
+.ars-slot:hover{border-color:var(--gold)}
+.ars-slot.sel{border-color:var(--gold-2);box-shadow:0 0 0 1px var(--gold-2)}
+.ars-slot-cat{font:600 .72rem/1 "Oswald",sans-serif;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.ars-slot-nom{font-weight:700}
+.ars-slot-sub{font-size:.78rem;color:var(--muted);min-height:1em}
+.ars-cols{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:16px;margin-top:16px;align-items:start}
+@media(max-width:900px){.ars-cols{grid-template-columns:1fr}}
+.ars-panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm);padding:14px;box-shadow:var(--sh-soft)}
+.ars-cap-txt{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;font-size:.92rem}
+.ars-cap-bar{height:8px;border-radius:99px;background:var(--bg2);margin:8px 0 2px;overflow:hidden}
+.ars-cap-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-2))}
+.ars-cap-bar i.bad{background:var(--bad)}
+.ars-over{color:var(--bad);font-size:.88rem}
+.ok{color:var(--good)} .bad{color:var(--bad)}
+.ars-grille{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-top:10px}
+.ars-case{display:flex;gap:6px;align-items:stretch;min-height:64px}
+.ars-pol{flex:0 0 26px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:var(--gold-2);
+  font-weight:700;cursor:pointer}
+.ars-vide,.ars-mod{flex:1;min-width:0;border-radius:8px;border:1px dashed var(--line);background:none;color:var(--muted);
+  cursor:pointer;padding:6px 8px;text-align:left}
+.ars-mod{border-style:solid;background:var(--bg2);color:var(--ink);display:flex;flex-direction:column;gap:2px}
+.ars-mod-n{font-weight:700;font-size:.88rem}
+.ars-mod-fx{font-size:.72rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.ars-mod-d{font-size:.75rem;color:var(--gold-2);font-weight:700}
+.ars-arc{margin-top:12px;font-size:.9rem}
+.ars-arcbtn{border:1px solid var(--line);background:var(--bg2);color:var(--ink);border-radius:8px;padding:5px 10px;cursor:pointer}
+#ars-stats table{width:100%;border-collapse:collapse;font-size:.9rem;margin:6px 0 14px}
+#ars-stats td,#ars-stats th{padding:4px 6px;border-bottom:1px solid var(--line);text-align:left}
+#ars-stats h3{margin:.6em 0 .2em;font:700 1rem "Oswald",sans-serif;text-transform:uppercase;color:var(--gold-2)}
+.ars-abl{margin:.3em 0;padding-left:1.2em;font-size:.9rem}
+.ars-actions button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;
+  padding:8px 14px;cursor:pointer;font-weight:600}
+.ars-actions button:hover{border-color:var(--gold)}
+#ars-picker{position:fixed;inset:0;z-index:80}
+.ars-pk-bd{position:absolute;inset:0;background:rgba(6,10,18,.55)}
+.ars-pk-box{position:relative;max-width:560px;margin:6vh auto 0;max-height:84vh;display:flex;flex-direction:column;
+  background:var(--surface-3,var(--card));border:1px solid var(--line);border-radius:var(--r-sm);box-shadow:var(--sh)}
+.ars-pk-top{display:flex;gap:10px;align-items:center;padding:10px 12px;border-bottom:1px solid var(--line)}
+.ars-pk-top input{flex:1;padding:.5rem .7rem;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:inherit}
+.ars-pk-x{border:none;background:none;font-size:1.4rem;cursor:pointer;color:var(--muted)}
+.ars-pk-liste{overflow:auto;padding:6px}
+.ars-pk-it{display:flex;flex-direction:column;gap:2px;width:100%;text-align:left;padding:8px 10px;border:none;
+  border-radius:8px;background:none;color:var(--ink);cursor:pointer}
+.ars-pk-it:hover{background:var(--gold-soft)}
+.ars-pk-it .muted{font-size:.78rem}
+.ars-pk-d{font-size:.75rem;color:var(--gold-2);font-weight:700}
+
+/* --- passe visuelle (images + cartes de mods façon jeu, 16/07/2026) --- */
+.ars-slot{flex-direction:row;align-items:center;gap:10px;min-height:74px}
+.ars-slot-img{width:52px;height:52px;object-fit:contain;flex:none;border-radius:10px;
+  background:radial-gradient(circle at 50% 30%,#1d2941,#0d131f);padding:3px}
+.ars-slot-plus{display:grid;place-items:center;font-size:1.5rem;color:var(--muted);
+  border:1px dashed var(--line);background:var(--bg2)}
+.ars-slot-txt{display:flex;flex-direction:column;gap:2px;min-width:0}
+.ars-slot-nom{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ars-intro ol{margin:.5em 0;padding-left:1.3em;line-height:1.7}
+.ars-intro{font-size:.95rem}
+.ars-case{min-height:76px}
+.ars-mod{position:relative;overflow:hidden;padding:6px 8px 6px 8px}
+.ars-mod-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.16;pointer-events:none}
+.ars-mod-hd{display:flex;justify-content:space-between;gap:6px;align-items:baseline;position:relative}
+.ars-mod-fx{position:relative}
+.ars-mod-d{flex:none}
+.ars-mod.r-com{border-color:#8a6a4c;box-shadow:inset 0 2px 0 #8a6a4c}
+.ars-mod.r-unc{border-color:#9aa7b5;box-shadow:inset 0 2px 0 #9aa7b5}
+.ars-mod.r-rare{border-color:#c9a24a;box-shadow:inset 0 2px 0 #c9a24a}
+.ars-mod.r-leg{border-color:#e6e9f0;box-shadow:inset 0 2px 0 #e6e9f0}
+.ars-vide-plus{display:block;font-size:1.2rem;line-height:1;color:var(--gold-2)}
+.ars-pk-it{flex-direction:row;align-items:center;gap:10px}
+.ars-pk-img{width:40px;height:40px;object-fit:contain;flex:none;border-radius:8px;
+  background:radial-gradient(circle at 50% 30%,#1d2941,#0d131f);padding:2px}
+.ars-pk-txt{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
+.ars-pk-it.r-com .ars-pk-img{box-shadow:0 0 0 1px #8a6a4c}
+.ars-pk-it.r-unc .ars-pk-img{box-shadow:0 0 0 1px #9aa7b5}
+.ars-pk-it.r-rare .ars-pk-img{box-shadow:0 0 0 1px #c9a24a}
+.ars-pk-it.r-leg .ars-pk-img{box-shadow:0 0 0 1px #e6e9f0}
+.ars-st-hd{display:flex;align-items:center;gap:10px;padding-bottom:8px;border-bottom:1px solid var(--line);margin-bottom:6px}
+.ars-st-img{width:56px;height:56px;object-fit:contain;border-radius:10px;
+  background:radial-gradient(circle at 50% 30%,#1d2941,#0d131f);padding:3px}
+
+/* --- rangs de mods, exclusivités & détails (17/07/2026) --- */
+.ars-mod{display:flex;flex-direction:column;gap:2px;cursor:default}
+.ars-mod-corps{display:block;width:100%;border:none;background:none;color:inherit;text-align:left;
+  cursor:pointer;padding:0;position:relative}
+.ars-mod-x{position:absolute;top:2px;right:2px;z-index:2;width:20px;height:20px;border-radius:50%;
+  border:1px solid var(--line);background:var(--bg2);color:var(--muted);cursor:pointer;line-height:1;
+  font-size:.85rem;opacity:.75}
+.ars-mod-x:hover{color:var(--bad);border-color:var(--bad);opacity:1}
+.ars-mod-hd{padding-right:20px}
+.ars-mod-pied{display:flex;align-items:center;justify-content:space-between;gap:8px;position:relative;min-height:18px}
+.ars-rk{display:inline-flex;align-items:center;gap:5px;font-size:.78rem}
+.ars-rk-btn{width:20px;height:20px;border-radius:6px;border:1px solid var(--line);background:var(--bg2);
+  color:var(--ink);cursor:pointer;line-height:1;font-weight:700;padding:0}
+.ars-rk-btn:hover{border-color:var(--gold)}
+.ars-pips{display:inline-flex;gap:2px;flex:none}
+.ars-pips i{width:6px;height:6px;border-radius:50%;border:1px solid var(--gold-2);opacity:.45}
+.ars-pips i.on{background:var(--gold-2);opacity:1}
+.ars-st-tt{display:flex;flex-direction:column;gap:2px;min-width:0}
+.ars-st-tt .muted{font-size:.8rem}
+.ars-det{margin:.3em 0;font-size:.9rem}
+.ars-det summary{cursor:pointer;font-weight:600;color:var(--gold-2)}
+.ars-det p{margin:.3em 0 .5em;color:var(--muted)}
+
+/* --- HABILLAGE « ARSENAL DU JEU » (17/07/2026) ---------------------------------
+   Reproduction du style de l'interface du jeu (fond quasi noir, panneaux anguleux,
+   libellés majuscules espacés, filets dorés, cartes de mods à cadre métallique par
+   rareté, drain en écusson, barre de capacité segmentée). Palette FORCÉE sombre à
+   l'intérieur de #arsenal quel que soit le thème du site : l'Arsenal du jeu est
+   sombre — c'est le but de la page. Le reste de la page suit le thème normal. */
+#arsenal{--abg:#070a10;--apan:#0d1119;--apan2:#131a26;--aline:#232c3d;--agold:#d4af37;
+  --agold2:#e8c95c;--aink:#e8edf6;--amut:#8fa0b8;
+  background:radial-gradient(1100px 500px at 50% -10%,#141c2c,var(--abg) 60%);
+  border:1px solid var(--aline);border-radius:6px;padding:16px;color:var(--aink)}
+#arsenal .muted{color:var(--amut)}
+.ars-loadout{gap:8px}
+.ars-slot{background:linear-gradient(180deg,var(--apan2),var(--apan));border:1px solid var(--aline);
+  border-radius:0;clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);
+  color:var(--aink);box-shadow:none}
+.ars-slot:hover{border-color:var(--agold)}
+.ars-slot.sel{border-color:var(--agold2);box-shadow:inset 0 0 0 1px var(--agold2),0 0 18px -6px rgba(212,175,55,.5)}
+.ars-slot-cat{color:var(--agold2);letter-spacing:.14em}
+.ars-slot-sub{color:var(--amut)}
+.ars-panel{background:linear-gradient(180deg,var(--apan2),var(--apan));border:1px solid var(--aline);
+  border-radius:0;clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px)}
+.ars-cap-txt b:first-child{font-family:Oswald,sans-serif;text-transform:uppercase;letter-spacing:.1em;color:var(--agold2)}
+.ars-cap-bar{height:10px;border-radius:0;background:
+  repeating-linear-gradient(90deg,#0a0e16 0 calc(10% - 2px),#1c2536 calc(10% - 2px) 10%)}
+.ars-cap-bar i{background:repeating-linear-gradient(90deg,var(--agold) 0 calc(10% - 2px),transparent calc(10% - 2px) 10%)}
+.ars-case{min-height:88px}
+.ars-pol{border-radius:0;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);
+  border:none;background:var(--apan2);box-shadow:inset 0 0 0 1px var(--aline);color:var(--agold2)}
+.ars-vide{border:1px dashed #2c3850;border-radius:0;color:var(--amut);background:rgba(255,255,255,.015)}
+.ars-vide:hover{border-color:var(--agold);color:var(--agold2)}
+.ars-mod{border-radius:0;background:linear-gradient(180deg,#161d2b,#0e131d);
+  clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px)}
+.ars-mod.r-com{border:1px solid #7a5a3a;box-shadow:inset 0 0 0 1px rgba(184,138,80,.35),inset 0 14px 18px -14px rgba(184,138,80,.6)}
+.ars-mod.r-unc{border:1px solid #8c9aab;box-shadow:inset 0 0 0 1px rgba(176,190,205,.35),inset 0 14px 18px -14px rgba(176,190,205,.6)}
+.ars-mod.r-rare{border:1px solid #caa24a;box-shadow:inset 0 0 0 1px rgba(226,192,90,.4),inset 0 14px 18px -14px rgba(226,192,90,.65)}
+.ars-mod.r-leg{border:1px solid #dfe4ee;box-shadow:inset 0 0 0 1px rgba(235,240,250,.4),inset 0 14px 18px -14px rgba(235,240,250,.6)}
+.ars-mod-n{font-family:Oswald,sans-serif;text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.ars-mod-d{background:linear-gradient(180deg,#1b2334,#10151f);box-shadow:inset 0 0 0 1px var(--aline);
+  padding:2px 7px;clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);color:var(--agold2)}
+.ars-mod-img{opacity:.22}
+.ars-rk-btn{border-radius:0;background:var(--apan2);border-color:var(--aline)}
+#ars-stats h3{letter-spacing:.12em;border-bottom:1px solid var(--aline);padding-bottom:3px}
+#ars-stats td,#ars-stats th{border-bottom:1px solid #1a2233}
+.ars-st-hd b{font-family:Oswald,sans-serif;text-transform:uppercase;letter-spacing:.08em}
+.ars-slot-img,.ars-pk-img,.ars-st-img{border-radius:0;
+  clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px)}
+.ars-actions button{border-radius:0;background:var(--apan2);border:1px solid var(--aline);color:var(--aink);
+  clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);
+  font-family:Oswald,sans-serif;text-transform:uppercase;letter-spacing:.1em}
+.ars-actions button:hover{border-color:var(--agold);color:var(--agold2)}
+#arsenal .ok{color:#4ade80}#arsenal .bad{color:#f87171}
+.ars-pk-box{background:linear-gradient(180deg,#131a26,#0d1119);border-radius:0;color:var(--aink);
+  clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px);
+  border:1px solid var(--aline)}
+.ars-pk-top{border-color:var(--aline)}
+.ars-pk-top b{font-family:Oswald,sans-serif;text-transform:uppercase;letter-spacing:.08em;color:var(--agold2)}
+.ars-pk-top input{background:#0a0e16;border-color:var(--aline);color:var(--aink)}
+.ars-pk-it{color:var(--aink)}
+.ars-pk-it:hover{background:rgba(212,175,55,.1)}
+.ars-pk-it .muted{color:var(--amut)}
+.ars-intro b,.ars-intro ol b{color:var(--agold2)}
+
+/* --- v5 : structure de l'écran Améliorations du jeu (réf. wiki 41.0.7) --- */
+.ars-cols{grid-template-columns:minmax(280px,320px) minmax(0,1fr)}
+@media(max-width:900px){.ars-cols{grid-template-columns:1fr}}
+.ars-upghd{font-family:Oswald,sans-serif;text-transform:uppercase;letter-spacing:.35em;
+  color:var(--agold2);font-size:1.3rem;margin:2px 0 10px;border-bottom:1px solid var(--aline);padding-bottom:6px}
+.ars-upghd small{letter-spacing:.2em;color:var(--amut)}
+#ars-stats table{margin:4px 0 10px}
+#ars-stats td:last-child{text-align:right;font-weight:600}
+.ars-capl{display:flex;justify-content:space-between;align-items:baseline;
+  font-family:Oswald,sans-serif;text-transform:uppercase;letter-spacing:.2em;color:var(--aink)}
+.ars-capl b{color:var(--agold2);font-size:1.1rem}
+.ars-scene{background:linear-gradient(180deg,rgba(19,26,38,.92),rgba(10,14,22,.94)),
+  radial-gradient(700px 380px at 60% 30%,#1b2740,#0a0e16)}
+.ars-grille{grid-template-columns:repeat(4,minmax(150px,1fr))}
+@media(max-width:1100px){.ars-grille{grid-template-columns:repeat(2,minmax(150px,1fr))}}
+.ars-case{min-height:96px;position:relative}
+.ars-case.cible{outline:2px solid var(--agold2);outline-offset:2px}
+.ars-mod{min-height:96px;justify-content:flex-end}
+.ars-mod-img{opacity:.55;object-fit:cover}
+.ars-mod-hd{position:absolute;top:4px;right:4px;padding:0}
+.ars-mod-n{position:relative;background:linear-gradient(180deg,transparent,rgba(5,8,14,.92) 30%);
+  text-align:center;display:block;padding:10px 4px 2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ars-mod-pied{background:rgba(5,8,14,.92);position:relative;padding:2px 4px}
+.ars-mod-fx{display:none}
+.ars-mod:hover .ars-mod-fx{display:block;position:absolute;inset:auto 0 100% 0;z-index:5;
+  background:#0b0f18;border:1px solid var(--aline);padding:6px 8px;font-size:.75rem;pointer-events:none}
+.ars-collz{margin-top:14px;border:1px solid var(--aline);background:linear-gradient(180deg,#0d1119,#0a0d14);
+  clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px);padding:10px}
+.ars-coll-top{display:flex;gap:10px;align-items:center;flex-wrap:wrap;border-bottom:1px solid var(--aline);padding-bottom:8px}
+.ars-coll-top input{flex:1;min-width:160px;background:#0a0e16;border:1px solid var(--aline);
+  color:var(--aink);padding:.45rem .7rem;font-family:Oswald,sans-serif;letter-spacing:.1em;text-transform:uppercase}
+.ars-polf{display:flex;gap:4px}
+.ars-polf button{width:30px;height:26px;background:var(--apan2);border:1px solid var(--aline);
+  color:var(--agold2);cursor:pointer;clip-path:polygon(4px 0,100% 0,calc(100% - 4px) 100%,0 100%)}
+.ars-polf button.on{background:var(--agold);color:#0a0e16}
+.ars-tri{background:var(--apan2);border:1px solid var(--aline);color:var(--aink);padding:.4rem .6rem;
+  font-family:Oswald,sans-serif;text-transform:uppercase;letter-spacing:.1em}
+.ars-coll-grid{display:grid;grid-auto-flow:column;grid-template-rows:repeat(2,auto);gap:8px;
+  overflow-x:auto;padding:10px 2px 6px;scrollbar-color:var(--agold) #0a0e16;scrollbar-width:thin}
+.ars-coll-grid .ars-mod{width:190px;min-height:88px;cursor:pointer;flex:none}
+.ars-coll-vide{color:var(--amut);padding:14px}
+.ars-coll-tt{font-family:Oswald,sans-serif;text-transform:uppercase;letter-spacing:.25em;
+  text-align:center;color:var(--amut);margin:4px 0 8px}
+.ars-coll-tt b{color:var(--agold2)}
+
+/* --- v6 : capacités avec coût réel + scène (17/07/2026) --- */
+#ars-mods{position:relative;overflow:hidden}
+.ars-scene-bg{position:absolute;right:-40px;top:30px;width:46%;max-width:420px;opacity:.14;
+  pointer-events:none;filter:drop-shadow(0 0 30px rgba(212,175,55,.25));z-index:0}
+#ars-mods>*{position:relative;z-index:1}
+.ars-abcard summary{display:flex;align-items:center;gap:8px;list-style:none;padding:6px 8px;
+  border:1px solid var(--aline);background:linear-gradient(180deg,#121826,#0c1019);margin:4px 0;
+  clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px)}
+.ars-abcard summary::-webkit-details-marker{display:none}
+.ars-abcard summary:hover{border-color:var(--agold)}
+.ars-ab-ico{width:30px;height:30px;object-fit:contain;flex:none;filter:invert(1) sepia(.3) saturate(2) hue-rotate(10deg)}
+.ars-ab-n{flex:1;font-family:Oswald,sans-serif;text-transform:uppercase;letter-spacing:.08em;font-size:.85rem}
+.ars-ab-cout{font-size:.8rem;color:var(--agold2);white-space:nowrap}
+.ars-mod,.ars-slot,.ars-vide{transition:border-color .15s,box-shadow .15s,transform .12s}
+.ars-mod:hover{transform:translateY(-1px)}
+.ars-coll-grid .ars-mod:hover{transform:translateY(-2px);box-shadow:0 6px 18px -8px rgba(212,175,55,.5)}
+
+/* --- v8 « WAOUH » (17/07/2026) : signature visuelle poussée — coins en équerre
+   dorés, balayages de lumière, halos animés, compteurs qui flashent. CSS original,
+   textures nulle part extraites du jeu. prefers-reduced-motion respecté. --- */
+#arsenal{position:relative;isolation:isolate;overflow:hidden}
+#arsenal::before{content:"";position:absolute;inset:-2px;z-index:-1;pointer-events:none;
+  background:conic-gradient(from 0deg at 50% -20%,transparent 40%,rgba(212,175,55,.12) 50%,transparent 60%);
+  animation:ars-aurore 14s linear infinite}
+@keyframes ars-aurore{to{transform:rotate(360deg)}}
+/* coins en équerre dorés (signature UI du jeu) sur les panneaux */
+.ars-panel,.ars-collz{--eq:14px;position:relative}
+.ars-panel::before,.ars-panel::after,.ars-collz::before,.ars-collz::after{
+  content:"";position:absolute;width:var(--eq);height:var(--eq);pointer-events:none;opacity:.9}
+.ars-panel::before,.ars-collz::before{top:-1px;left:-1px;
+  border-top:2px solid var(--agold);border-left:2px solid var(--agold)}
+.ars-panel::after,.ars-collz::after{bottom:-1px;right:-1px;
+  border-bottom:2px solid var(--agold);border-right:2px solid var(--agold)}
+/* cartes du loadout : liseré animé sur la sélection + balayage lumineux au survol */
+.ars-slot{position:relative;overflow:hidden}
+.ars-slot::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(105deg,transparent 40%,rgba(255,235,180,.14) 50%,transparent 60%);
+  transform:translateX(-120%)}
+.ars-slot:hover::after{animation:ars-balaye .7s ease}
+@keyframes ars-balaye{to{transform:translateX(120%)}}
+.ars-slot.sel{animation:ars-pulse 2.4s ease-in-out infinite}
+@keyframes ars-pulse{0%,100%{box-shadow:inset 0 0 0 1px var(--agold2),0 0 14px -6px rgba(212,175,55,.55)}
+  50%{box-shadow:inset 0 0 0 1px var(--agold2),0 0 26px -4px rgba(212,175,55,.8)}}
+/* cartes de mods : reflet métallique au survol + apparition */
+.ars-mod{position:relative}
+.ars-mod::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(115deg,transparent 42%,rgba(255,245,210,.18) 50%,transparent 58%);
+  transform:translateX(-130%)}
+.ars-mod:hover::after{animation:ars-balaye .6s ease}
+#ars-mods .ars-mod{animation:ars-pose .22s ease}
+@keyframes ars-pose{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:none}}
+/* capacité : remplissage animé + dépassement qui pulse en rouge */
+.ars-cap-bar i{transition:width .4s cubic-bezier(.2,.7,.2,1)}
+.ars-cap-bar i.bad{animation:ars-alerte 1s ease-in-out infinite}
+@keyframes ars-alerte{50%{filter:brightness(1.6)}}
+/* scène : halo doré respirant + lente lévitation de la frame */
+.ars-scene-bg{animation:ars-flotte 7s ease-in-out infinite}
+@keyframes ars-flotte{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+/* valeurs modifiées : flash à chaque recalcul */
+#ars-stats td.ok,#ars-stats td.bad{animation:ars-flash .6s ease}
+@keyframes ars-flash{from{background:rgba(212,175,55,.28)}to{background:transparent}}
+/* boutons d'action : balayage doré */
+.ars-actions button{position:relative;overflow:hidden}
+.ars-actions button::after{content:"";position:absolute;inset:0;transform:translateX(-130%);
+  background:linear-gradient(105deg,transparent 40%,rgba(212,175,55,.25) 50%,transparent 60%)}
+.ars-actions button:hover::after{animation:ars-balaye .6s ease}
+/* collection : entrée en fondu-remontée */
+.ars-collz:not([hidden]){animation:ars-pose .25s ease}
+/* fiche : sous-ligne d'agrégats (PV effectifs, formas) */
+.ars-agg{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.ars-agg span{font-size:.78rem;padding:3px 9px;background:var(--apan2);color:var(--agold2);
+  box-shadow:inset 0 0 0 1px var(--aline);clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%)}
+@media (prefers-reduced-motion:reduce){
+  #arsenal::before,.ars-slot.sel,.ars-scene-bg,.ars-cap-bar i.bad{animation:none!important}
+  .ars-slot::after,.ars-mod::after,.ars-actions button::after{display:none}
+}
+
+.ars-bld{background:var(--apan2);border:1px solid var(--aline);color:var(--agold2);padding:3px 10px;
+  cursor:pointer;font-family:Oswald,sans-serif;letter-spacing:.06em;text-transform:uppercase;font-size:.75rem;
+  clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%)}
+.ars-bld:hover{border-color:var(--agold)}
+.ars-bld-x{background:none;border:none;color:var(--amut);cursor:pointer;margin-right:6px}
+.ars-bld-x:hover{color:#f87171}
+
+/* --- v11 : vitrine d'accueil + retrait loadout (17/07/2026) --- */
+.ars-vit-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:8px}
+.ars-vit{display:flex;flex-direction:column;align-items:center;gap:6px;text-decoration:none;color:var(--aink);
+  padding:14px 8px;background:linear-gradient(180deg,var(--apan2),var(--apan));box-shadow:inset 0 0 0 1px var(--aline);
+  clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);transition:.15s}
+.ars-vit:hover{box-shadow:inset 0 0 0 1px var(--agold);transform:translateY(-2px)}
+.ars-vit-img{width:76px;height:76px;object-fit:contain;filter:drop-shadow(0 0 12px rgba(212,175,55,.35))}
+.ars-vit-n{font-family:Oswald,sans-serif;text-transform:uppercase;letter-spacing:.08em;font-size:.85rem;text-align:center}
+.ars-vit-sub{font-size:.7rem;color:var(--agold2);letter-spacing:.06em;text-transform:uppercase}
+.ars-slot .ars-mod-x{z-index:3}
+
+.ars-cible input{width:5.5em;background:#0a0e16;border:1px solid var(--aline);color:var(--aink);
+  padding:.3rem .4rem;font:inherit}
+.ars-cible{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:.85rem;color:var(--amut)}
+
+/* --- v14 : fluidité MOBILE (17/07/2026) — cibles tactiles >= 32 px (WCAG 2.5.8
+   recommande 24 minimum, on vise confortable), collection et actions au doigt. --- */
+@media (max-width: 700px){
+  .ars-rk-btn{width:32px;height:32px;font-size:1.05rem}
+  .ars-mod-x{width:30px;height:30px;font-size:1.05rem;opacity:.95}
+  .ars-pol{flex-basis:34px;min-width:34px;font-size:1.05rem}
+  .ars-polf button{width:40px;height:36px;font-size:1rem}
+  .ars-cible input{width:6.5em;padding:.55rem .5rem}
+  .ars-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .ars-actions button{padding:12px 8px;font-size:.85rem}
+  .ars-coll-grid{grid-template-rows:repeat(2,auto);gap:10px;padding-bottom:10px}
+  .ars-coll-grid .ars-mod{width:176px;min-height:96px}
+  .ars-coll-top input{padding:.65rem .7rem}
+  .ars-tri{padding:.6rem .6rem}
+  .ars-mod-n{font-size:.95rem}
+  .ars-case{min-height:104px}
+  .ars-grille{grid-template-columns:1fr 1fr;gap:10px}
+  .ars-slot{min-height:80px}
+  .ars-bld{padding:8px 14px}
+  .ars-bld-x{padding:6px 10px;font-size:1.1rem}
+  .ars-arcbtn{padding:10px 14px}
+  #ars-reacteur{width:20px;height:20px}
+}
+
+.ars-frag-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:baseline}
+.ars-fragbtn{font-size:.82rem}
+
+/* --- v22 : GRANDES cartes de mods fidèles au jeu (capture de l'admin 17/07) ---
+   Carte VERTICALE : illustration bien visible en haut, plaque drain+polarité
+   par-dessus, NOM COMPLET (2 lignes possibles) puis EFFETS toujours affichés
+   (plus de tooltip au survol), rang/pips en pied. Ces règles ciblent .ars-mod.v22
+   et surchargent les anciens gabarits horizontaux. */
+.ars-grille{grid-template-columns:repeat(4,minmax(185px,1fr));gap:10px}
+@media(max-width:1250px){.ars-grille{grid-template-columns:repeat(3,minmax(175px,1fr))}}
+@media(max-width:900px){.ars-grille{grid-template-columns:repeat(2,minmax(160px,1fr))}}
+.ars-case{min-height:264px}
+.ars-mod.v22{min-height:264px;justify-content:flex-start;padding:0;cursor:default}
+.ars-mod.v22 .ars-mod-corps{display:flex;flex-direction:column;flex:1;min-height:0;width:100%}
+.ars-mod.v22 .ars-mod-art{display:block;width:100%;height:118px;flex:none;overflow:hidden;
+  background:radial-gradient(circle at 50% 30%,#1d2941,#0d131f);border-bottom:1px solid var(--aline)}
+.ars-mod.v22 .ars-mod-img{position:static;width:100%;height:118px;object-fit:cover;object-position:top;opacity:1}
+.ars-mod.v22 .ars-mod-n{position:static;background:none;text-align:center;white-space:normal;
+  line-height:1.25;padding:7px 8px 2px;font-size:.84rem;overflow:visible;text-overflow:clip;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ars-mod.v22 .ars-mod-fx{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;
+  position:static;overflow:hidden;background:none;border:none;pointer-events:none;
+  font-size:.72rem;line-height:1.35;color:var(--amut);padding:3px 9px 6px;text-align:center}
+.ars-mod.v22:hover .ars-mod-fx{display:-webkit-box;position:static;inset:auto;background:none;border:none;padding:3px 9px 6px}
+.ars-mod.v22 .ars-mod-d{position:absolute;top:4px;right:4px;left:auto;z-index:2;
+  background:linear-gradient(180deg,#1b2334,#10151f);box-shadow:inset 0 0 0 1px var(--aline);
+  padding:3px 8px;clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);color:var(--agold2);
+  font-size:.78rem;font-weight:700}
+.ars-mod.v22 .ars-mod-x{top:4px;left:4px;right:auto}
+.ars-mod.v22 .ars-mod-pied{margin-top:auto;background:rgba(5,8,14,.92);padding:4px 8px;width:100%}
+.ars-vide{min-height:264px}
+/* collection basse : mêmes grandes cartes, une seule rangée qui défile */
+.ars-coll-grid{grid-template-rows:repeat(1,auto)}
+.ars-coll-grid .ars-mod.v22{width:196px;min-height:250px;cursor:pointer;text-align:left}
+@media (max-width:700px){
+  .ars-grille{grid-template-columns:1fr;gap:10px}
+  .ars-case,.ars-mod.v22,.ars-vide{min-height:230px}
+  .ars-mod.v22 .ars-mod-art,.ars-mod.v22 .ars-mod-img{height:96px}
+  .ars-coll-grid .ars-mod.v22{width:172px;min-height:236px}
+}
+
+
+/* --- v23 : forma explicite + emplacements facon jeu (captures de l'admin) ---
+   Plus de pastille hexagonale laterale : la case est une COLONNE carte+bouton
+   Forma ; l'emplacement vide affiche sa polarite en grand, comme dans le jeu. */
+.ars-case{flex-direction:column;gap:5px;align-items:stretch}
+.ars-pol{display:none}
+.ars-forma{border:1px solid var(--aline);background:var(--apan2);color:var(--amut);cursor:pointer;
+  font:600 .72rem/1 Oswald,sans-serif;letter-spacing:.12em;text-transform:uppercase;padding:6px 8px;
+  clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);transition:color .15s,border-color .15s}
+.ars-forma:hover{border-color:var(--agold);color:var(--agold2)}
+.ars-forma.on{color:var(--agold2);border-color:var(--agold);background:rgba(212,175,55,.10)}
+.ars-vide{position:relative}
+.ars-vide-pol{position:absolute;top:8px;right:10px;font-size:1.15rem;color:var(--agold2);opacity:.85}
+@media (max-width:700px){.ars-forma{padding:10px 8px}}
+
+/* --- v21 : onglets CONFIG A/B/C (écran Améliorations du jeu) --- */
+.ars-cfgs{display:flex;justify-content:center;gap:4px;margin:0 0 10px}
+.ars-cfg{background:none;border:none;border-bottom:2px solid transparent;color:var(--amut);
+  font:600 .78rem/1 Oswald,sans-serif;letter-spacing:.22em;text-transform:uppercase;
+  padding:7px 14px 6px;cursor:pointer;transition:color .15s,border-color .15s}
+.ars-cfg:hover{color:var(--aink)}
+.ars-cfg.on{color:var(--agold2);border-bottom-color:var(--agold)}
+@media (max-width:700px){.ars-cfg{padding:10px 10px 8px;letter-spacing:.12em}}
+
+/* --- v24 : FIDÉLITÉ ÉCRAN DU JEU (17/07/2026, carte blanche) -----------------
+   Réplique de l'écran Améliorations (réf. refs/Arsenal_Upgrade_Screen_41.0.7.png,
+   wiki officiel) : rangée aura/posture/exilus séparée et centrée, cartes de mods
+   PLEIN-ART à cadre métallique par rareté, écusson drain+polarité en coin haut
+   droit, pips de rang bleu lumineux, polarités en pictogrammes SVG, bloc
+   CAPACITÉ en tête de colonne gauche, stats à valeur unique + delta coloré.
+   CSS 100 % original — aucune texture extraite du jeu. */
+
+/* pictogrammes de polarité (SVG, tracés originaux) */
+.ars-pol-ic{width:14px;height:14px;display:inline-block;vertical-align:-2px;
+  fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ars-pol-ic.grand{width:36px;height:36px}
+.ars-forma .ars-pol-ic{width:12px;height:12px;vertical-align:-2px}
+
+/* rangée haute aura / posture / exilus, centrée comme dans le jeu */
+.ars-g-haut{display:flex;justify-content:center;gap:10px;margin-bottom:10px}
+.ars-g-haut .ars-case{flex:0 1 254px;min-width:180px}
+@media(max-width:700px){.ars-g-haut{flex-direction:column}.ars-g-haut .ars-case{flex:1 1 auto}}
+
+/* CARTE v24 : l'illustration REMPLIT la carte, nom et effets par-dessus un
+   voile bas, écusson drain en coin, plaque de pied métallique, cadre par rareté */
+.ars-mod.v24{position:relative;min-height:246px;padding:0;display:flex;flex-direction:column;
+  justify-content:flex-end;cursor:default;border:none;border-radius:0;overflow:hidden;
+  background:linear-gradient(180deg,#151c2a,#0b0f18);
+  clip-path:polygon(14px 0,calc(100% - 14px) 0,100% 12px,100% calc(100% - 8px),
+    calc(100% - 8px) 100%,8px 100%,0 calc(100% - 8px),0 12px)}
+.ars-mod.v24.r-com{--rar:#9a6b40;--rar2:rgba(154,107,64,.55)}
+.ars-mod.v24.r-unc{--rar:#b9c4d0;--rar2:rgba(185,196,208,.5)}
+.ars-mod.v24.r-rare{--rar:#e2bd5f;--rar2:rgba(226,189,95,.55)}
+.ars-mod.v24.r-leg{--rar:#eef2fa;--rar2:rgba(238,242,250,.5)}
+.ars-mod.v24::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:3;
+  box-shadow:inset 0 0 0 2px var(--rar,#7a5a3a),inset 0 22px 30px -20px var(--rar2,rgba(122,90,58,.6))}
+.ars-mod.v24 .ars-mod-art{position:absolute;inset:0;display:block;height:auto;border:none;
+  background:radial-gradient(circle at 50% 25%,#20304e,#0b101a)}
+.ars-mod.v24 .ars-mod-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  object-position:center 18%;opacity:.94}
+.ars-mod.v24 .ars-mod-art::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(6,9,15,.12),transparent 26%,transparent 40%,
+    rgba(6,9,15,.7) 66%,rgba(6,9,15,.95) 100%)}
+.ars-mod.v24 .ars-mod-corps,.ars-mod.v24 .ars-mod-corps-c{position:relative;z-index:1;display:flex;
+  flex-direction:column;justify-content:flex-end;flex:1;min-height:0;width:100%;padding:0}
+.ars-mod.v24 .ars-mod-n{position:relative;z-index:2;background:none;font:600 .92rem/1.25 Oswald,sans-serif;
+  letter-spacing:.04em;text-transform:none;text-align:center;padding:0 8px 2px;white-space:normal;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  text-shadow:0 1px 3px rgba(0,0,0,.95)}
+.ars-mod.v24 .ars-mod-fx{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;
+  position:relative;z-index:2;overflow:hidden;background:none;border:none;pointer-events:none;
+  font-size:.68rem;line-height:1.3;color:#c9d4e4;text-align:center;padding:2px 9px 7px;
+  text-shadow:0 1px 2px rgba(0,0,0,.95)}
+.ars-mod.v24:hover .ars-mod-fx{display:-webkit-box;position:relative;inset:auto;background:none;border:none;padding:2px 9px 7px}
+/* écusson drain + polarité (drapeau du coin haut droit, comme dans le jeu) */
+.ars-mod.v24 .ars-mod-d{position:absolute;top:0;right:0;left:auto;z-index:4;display:inline-flex;
+  align-items:center;gap:5px;background:linear-gradient(180deg,#26324c,#131a29);
+  box-shadow:inset 0 0 0 1px var(--rar,#3a4661);padding:4px 9px 5px 14px;
+  clip-path:polygon(11px 0,100% 0,100% 100%,0 100%);font:700 .84rem/1 Oswald,sans-serif;color:#fff}
+.ars-mod.v24 .ars-mod-d .ars-pol-ic{width:12px;height:12px;color:var(--agold2)}
+.ars-mod.v24 .ars-mod-d.bad{color:#f87171}
+/* pied : plaque métal + pips de rang bleu lumineux (signature du jeu) */
+.ars-mod.v24 .ars-mod-pied{position:relative;z-index:2;margin-top:0;width:100%;
+  background:linear-gradient(180deg,#1a2233,#0d121d);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.07),inset 0 0 0 1px rgba(35,44,61,.9);
+  display:flex;align-items:center;justify-content:space-between;gap:8px;padding:4px 8px}
+.ars-mod.v24 .ars-pips i{width:7px;height:7px;border:1px solid #2c3850;background:#0a0e16;opacity:1}
+.ars-mod.v24 .ars-pips i.on{background:#63c9ff;border-color:#8fdcff;box-shadow:0 0 6px rgba(47,168,232,.9)}
+.ars-mod.v24 .ars-mod-x{top:4px;left:4px;right:auto;z-index:4}
+/* emplacement vide : polarité en filigrane centrée, comme dans le jeu */
+.ars-vide{min-height:246px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:8px;border:1px dashed #2c3850;background:rgba(14,20,32,.55);position:relative;
+  clip-path:polygon(14px 0,calc(100% - 14px) 0,100% 12px,100% calc(100% - 8px),
+    calc(100% - 8px) 100%,8px 100%,0 calc(100% - 8px),0 12px)}
+.ars-vide-pol{position:static;top:auto;right:auto;opacity:.55;color:var(--agold2)}
+.ars-vide-lbl{font:600 .76rem/1 Oswald,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--amut)}
+.ars-coll-grid .ars-mod.v24{width:196px;min-height:236px;cursor:pointer;text-align:left}
+/* CAPACITÉ en tête de colonne gauche (position de l'écran du jeu) */
+.ars-capzone{margin:2px 0 12px;padding-bottom:9px;border-bottom:1px solid var(--aline)}
+.ars-capl{display:flex;justify-content:space-between;align-items:baseline;
+  font:600 .8rem/1 Oswald,sans-serif;letter-spacing:.22em;text-transform:uppercase;color:var(--aink)}
+.ars-capl b{font-size:1.18rem;letter-spacing:.06em;color:var(--agold2)}
+.ars-capl b.bad{color:#f87171}
+.ars-capzone .ars-cap-bar{margin:7px 0 0}
+/* stats façon jeu : libellé discret à gauche, valeur nette à droite */
+#ars-stats td.ars-val{text-align:right;font-weight:600;color:#e8edf6}
+#ars-stats td.ars-val.ok{color:#4ade80}
+#ars-stats td.ars-val.bad{color:#f87171}
+#ars-stats td.ars-val small{font-weight:500;opacity:.85}
+#ars-stats td:first-child{color:var(--amut)}
+/* barre d'actions : rangée fine dorée alignée à droite, comme le pied du jeu */
+@media(min-width:701px){
+  .ars-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:0;
+    border-top:1px solid var(--aline);padding-top:6px}
+  .ars-actions button{border:none;background:none;clip-path:none;box-shadow:none;
+    color:var(--aink);padding:8px 14px;position:relative}
+  .ars-actions button+button::before{content:"";position:absolute;left:0;top:22%;bottom:22%;
+    width:1px;background:var(--aline)}
+  .ars-actions button:hover{color:var(--agold2);border:none}
+}
+/* tilt 3D léger des cartes (pointeur fin seulement — JS pose --rx/--ry) */
+@media(pointer:fine){
+  .ars-mod.v24{transform:perspective(700px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
+    transition:transform .18s ease,box-shadow .18s ease}
+  .ars-mod.v24:hover{box-shadow:0 10px 28px -12px rgba(0,0,0,.8)}
+}
+@media (prefers-reduced-motion:reduce){
+  .ars-mod.v24{transform:none!important;transition:none}
+}
+
+/* --- v25 : glisser-déposer des mods (17/07/2026, drag pointer maison) --- */
+#ars-mods .ars-mod.v24[data-drag],#ars-coll .ars-mod.v24{cursor:grab}
+.ars-mod.v24.dragging{opacity:.4}
+.ars-mod-img{-webkit-user-drag:none;user-select:none}
+.ars-case.dragsur{outline:2px dashed var(--agold2);outline-offset:3px}
+.ars-case.dragsur .ars-vide{border-color:var(--agold);color:var(--agold2)}
+#ars-coll.dragsur{outline:2px dashed #f87171;outline-offset:3px}
+.ars-ghost{position:fixed;left:0;top:0;z-index:130;pointer-events:none;opacity:.88;
+  transform:translate(-2000px,-2000px);box-shadow:0 14px 34px rgba(0,0,0,.65);cursor:grabbing}
+
+/* --- v26 : anti-CLS (17/07/2026) — hauteurs réservées AVANT le rendu JS.
+   Mesuré au banc CWV mobile (4G lent, CPU x4) : CLS 0,376 -> objectif < 0,1.
+   Le contenu injecté (loadout, colonnes, méta) poussait tout ce qui suit. */
+#ars-meta{min-height:1.3em}
+#ars-loadout{min-height:76px}
+.ars-cols{min-height:520px}
+@media(max-width:700px){
+  #ars-loadout{min-height:252px}
+  .ars-cols{min-height:640px}
+}
+
+/* --- v28 : PASSE GRAPHIQUE (17/07/2026, demande de l'admin) ------------------------
+   L'ambiance de l'écran du jeu, en CSS original (aucune texture extraite) :
+   la Warframe en GRAND dans la scène avec lueur au sol et fusion par masque,
+   fond « Orbiter » nébuleux + vignettage, barre de capacité continue biseautée
+   à graduations fines, cadres de cartes en métal dégradé, icône d'en-tête. */
+
+/* scène : la frame domine l'écran d'améliorations, comme dans le jeu
+   (#ars-mods préfixé : la règle v6 « #ars-mods>* » imposait position:relative
+   et aplatissait le conteneur à 0 — spécificité supérieure requise) */
+#ars-mods .ars-scene-fond{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+#ars-mods .ars-scene-bg{position:absolute;right:14%;top:4%;width:auto;height:90%;max-width:50%;min-height:320px;
+  object-fit:contain;object-position:top;opacity:.17;
+  filter:brightness(.6) saturate(.85) drop-shadow(0 0 30px rgba(212,175,55,.18));
+  -webkit-mask-image:linear-gradient(180deg,#000 62%,transparent 97%);
+  mask-image:linear-gradient(180deg,#000 62%,transparent 97%);
+  animation:ars-flotte 7s ease-in-out infinite}
+.ars-scene-sol{position:absolute;right:16%;bottom:4%;width:42%;height:60px;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(212,175,55,.20),rgba(212,175,55,.06) 60%,transparent);
+  filter:blur(6px);animation:ars-sol 7s ease-in-out infinite}
+@keyframes ars-sol{0%,100%{transform:scaleX(1);opacity:1}50%{transform:scaleX(.92);opacity:.75}}
+/* fond « Orbiter » : nébuleuse froide discrète + vignettage cinématique */
+.ars-scene{background:
+  radial-gradient(900px 460px at 78% 18%,rgba(47,86,144,.16),transparent 60%),
+  radial-gradient(700px 420px at 12% 78%,rgba(84,52,132,.10),transparent 65%),
+  linear-gradient(180deg,rgba(19,26,38,.92),rgba(10,14,22,.95)),
+  radial-gradient(700px 380px at 60% 30%,#1b2740,#0a0e16)}
+#ars-mods::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:2;
+  box-shadow:inset 0 0 90px 12px rgba(4,7,12,.55)}
+#ars-mods>*{z-index:1}
+#ars-mods .ars-cfgs,#ars-mods .ars-upghd,#ars-mods .ars-cap,#ars-mods .ars-grille,
+#ars-mods .ars-g-haut,#ars-mods .ars-arc{position:relative;z-index:3}
+
+/* en-tête : vignette de l'équipement, comme le petit portrait du jeu */
+.ars-upghd{display:flex;align-items:center;gap:10px}
+.ars-upghd-ico{width:34px;height:34px;object-fit:contain;flex:none;
+  background:radial-gradient(circle at 50% 30%,#1d2941,#0d131f);padding:2px;
+  clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px);
+  box-shadow:0 0 0 1px var(--aline),0 0 14px -4px rgba(212,175,55,.5)}
+
+/* barre de capacité : continue, biseautée, graduations fines (écran du jeu) */
+.ars-cap-bar{height:9px;border-radius:0;position:relative;overflow:visible;
+  background:linear-gradient(180deg,#0a0e16,#131a26);
+  box-shadow:inset 0 0 0 1px #232c3d;
+  clip-path:polygon(0 0,calc(100% - 7px) 0,100% 100%,0 100%)}
+.ars-cap-bar::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(90deg,transparent 0 calc(10% - 1px),rgba(10,14,22,.85) calc(10% - 1px) 10%)}
+.ars-cap-bar i{background:linear-gradient(90deg,#8a6a25,var(--agold) 55%,var(--agold2));
+  box-shadow:0 0 10px -2px rgba(212,175,55,.7)}
+.ars-cap-bar i.bad{background:linear-gradient(90deg,#7f1d1d,#ef4444 60%,#fda4a4);
+  box-shadow:0 0 10px -2px rgba(239,68,68,.8)}
+.ars-capzone .ars-cap-bar{height:8px}
+
+/* cartes : cadre métal dégradé (clair en haut, sombre en bas) + diamant de pied */
+.ars-mod.v24::before{box-shadow:inset 0 0 0 2px var(--rar,#7a5a3a),
+  inset 0 22px 30px -20px var(--rar2,rgba(122,90,58,.6)),
+  inset 0 -18px 24px -18px rgba(0,0,0,.75)}
+.ars-mod.v24 .ars-mod-pied::before{content:"";position:absolute;left:50%;top:-4px;
+  width:8px;height:8px;transform:translateX(-50%) rotate(45deg);
+  background:linear-gradient(135deg,var(--rar,#7a5a3a),#0d121d 70%);
+  box-shadow:0 0 6px -1px var(--rar2,rgba(122,90,58,.6))}
+/* onglets CONFIG : lueur du soulignement */
+.ars-cfg.on{text-shadow:0 0 12px rgba(232,201,92,.55)}
+.ars-cfg{transition:color .15s,border-color .15s,text-shadow .2s}
+@media (prefers-reduced-motion:reduce){
+  .ars-scene-bg,.ars-scene-sol{animation:none!important}
+}
+
+/* --- v29 : stats cliquables → filtre de la collection --- */
+#ars-stats tr.ars-stat-clic{cursor:pointer;transition:background .12s}
+#ars-stats tr.ars-stat-clic:hover td{background:rgba(212,175,55,.07)}
+#ars-stats tr.ars-stat-clic:hover td:first-child{color:var(--agold2)}
+#ars-stats tr.ars-stat-clic:focus-visible{outline:1px dashed var(--agold2);outline-offset:1px}
+#ars-coll-fx-x{color:var(--agold2);border-color:var(--agold)}
+
+/* --- v30 : stats des pouvoirs --- */
+.ars-ab-st{width:100%;border-collapse:collapse;font-size:.8rem;margin:.2em 0 .5em}
+.ars-ab-st td{padding:2px 6px;border-bottom:1px solid rgba(26,34,51,.55)}
+.ars-ab-st td:first-child{color:var(--amut)}
+.ars-ab-st td.ars-val{text-align:right;font-weight:600;color:#e8edf6;white-space:nowrap}
+.ars-ab-st td.ars-val.ok{color:#4ade80}
+.ars-ab-st td.ars-val.bad{color:#f87171}
+
+/* --- v31 : navigation clavier des sélecteurs --- */
+.ars-pk-it.kb{background:rgba(212,175,55,.14);box-shadow:inset 2px 0 0 var(--agold2)}
+
+/* --- v32 : fond de scène ORBITER généré (Higgsfield, image originale
+   auto-hébergée 24 Ko — autorisation de l'admin 17/07/2026). La Warframe et sa
+   lueur se posent sur la plateforme lumineuse CENTRALE de l'image. --- */
+.ars-scene{background:
+  linear-gradient(180deg,rgba(10,14,22,.72),rgba(7,10,16,.60) 40%,rgba(7,10,16,.86)),
+  url(/assets/arsenal/orbiter.webp) center 38%/cover no-repeat,
+  #0a0e16}
+#ars-mods .ars-scene-bg{right:50%;top:6%;height:86%;object-position:top;
+  animation:ars-flotte-c 7s ease-in-out infinite}
+@keyframes ars-flotte-c{0%,100%{transform:translateX(50%) translateY(0)}
+  50%{transform:translateX(50%) translateY(-10px)}}
+.ars-scene-sol{right:50%;width:38%;bottom:6%;animation:ars-sol-c 7s ease-in-out infinite}
+@keyframes ars-sol-c{0%,100%{transform:translateX(50%) scaleX(1);opacity:1}
+  50%{transform:translateX(50%) scaleX(.92);opacity:.78}}
+@media (prefers-reduced-motion:reduce){
+  #ars-mods .ars-scene-bg{animation:none!important;transform:translateX(50%)}
+  .ars-scene-sol{animation:none!important;transform:translateX(50%)}
+}
+
+/* --- v33 : RIVEN personnalisé (carte violette) --- */
+.ars-mod.v24.r-riv{--rar:#b06ef7;--rar2:rgba(168,85,247,.55)}
+.ars-mod.v24.r-riv .ars-mod-art{background:radial-gradient(circle at 50% 30%,#2d1b4e,#140b26)}
+.ars-mod.v24.r-riv .ars-mod-d{color:#e9d5ff}
+.ars-pk-it.r-riv .ars-pk-img{box-shadow:0 0 0 1px #b06ef7}
+
+/* --- v36 : types de dégâts — icônes, couleurs, barres de répartition --- */
+.ars-dmg-ic{width:14px;height:14px;vertical-align:-2px;margin-right:.35em;fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ars-dmg-impact{color:#9fb2c8}.ars-dmg-puncture{color:#c8b89f}.ars-dmg-slash{color:#e8e8e8}
+.ars-dmg-heat{color:#ff9a3c}.ars-dmg-cold{color:#7fd4ff}.ars-dmg-electricity{color:#c084fc}
+.ars-dmg-toxin{color:#7fe07f}.ars-dmg-blast{color:#ffd23c}.ars-dmg-radiation{color:#ffe066}
+.ars-dmg-gas{color:#9fe0c8}.ars-dmg-magnetic{color:#6fa8ff}.ars-dmg-viral{color:#7fffd4}
+.ars-dmg-corrosive{color:#c8ff3c}.ars-dmg-void{color:#e0c8ff}.ars-dmg-true{color:#fff}
+.ars-dmg-nom{position:relative;display:flex;align-items:center;padding-bottom:4px}
+.ars-dmg-part{position:absolute;left:0;bottom:0;height:2px;border-radius:1px;background:currentColor;opacity:.75;transition:width .35s ease}
+.ars-fac-vulns{margin:.25em 0 .4em;font-size:.82rem}
+.ars-fac-b{display:inline-flex;align-items:center;gap:.25em;padding:.1em .5em;border:1px solid currentColor;border-radius:999px;font-weight:600;white-space:nowrap}
+.ars-fac-b .ars-dmg-ic{margin-right:0}
+/* v47 : « Efficacite par faction » (remplace la simulation d'ennemi).
+   Deux colonnes : le panneau de gauche fait ~320px, cinq colonnes debordaient. */
+.ars-fac-tbl{width:100%;border-collapse:collapse;table-layout:fixed;font-variant-numeric:tabular-nums}
+.ars-fac-tbl td{padding:.35em .3em;vertical-align:middle;border-bottom:1px solid rgba(255,255,255,.06)}
+.ars-fac-tbl td:last-child{text-align:right;width:44%}
+.ars-fac-r{cursor:pointer}
+.ars-fac-r:hover td,.ars-fac-r:focus-visible td{background:rgba(255,255,255,.05)}
+.ars-fac-r.best td{background:rgba(74,222,128,.09)}
+.ars-fac-r.best .ars-fac-tot b{color:#4ade80}
+.ars-fac-r.worst .ars-fac-tot b{color:#f87171}
+.ars-fac-r.ref td:first-child{box-shadow:inset 3px 0 0 var(--agold)}
+.ars-fac-n{display:block;font-weight:600}
+.ars-fac-el{display:block;font-size:.72rem;color:var(--amut);line-height:1.5}
+.ars-fac-el.bad{color:#f87171}
+.ars-fac-el .ars-dmg-ic{margin-right:.15em}
+.ars-fac-tot{position:relative}
+.ars-fac-tot b{font-size:1.05rem}
+.ars-fac-detail{display:block;font-size:.72rem;color:var(--amut);line-height:1.5}
+.ars-fac-bar{position:absolute;left:0;bottom:1px;height:2px;border-radius:1px;background:currentColor;
+  opacity:.45;transition:width .35s ease}
+/* v48 : panneau POSTURE — combos de la posture equipee */
+.ars-post-n{margin:.1em 0 .4em;font-weight:600}
+.ars-post-tbl{width:100%;border-collapse:collapse;table-layout:fixed;font-variant-numeric:tabular-nums}
+.ars-post-tbl td{padding:.35em .3em;vertical-align:top;border-bottom:1px solid rgba(255,255,255,.06)}
+.ars-post-tbl td:last-child{text-align:right;width:38%}
+.ars-post-r.best td{background:rgba(74,222,128,.09)}
+.ars-post-r.best .ars-post-dps b{color:#4ade80}
+.ars-post-dps b{font-size:1.05rem}
+.ars-post-sub{display:block;font-size:.72rem;color:var(--amut);line-height:1.45}
+.ars-post-montee{margin:.4em 0 .2em;font-size:.82rem}
+.ars-adapt{margin:.3em 0 .5em;font-size:.8rem;line-height:1.5}
+.ars-adapt label{font-weight:600}
+.ars-combo-ctl{font-size:.82rem;line-height:1.6}
+.ars-combo-ctl .ars-tri{margin:0 .2em}
+.ars-pin-d{font-weight:700;margin-left:.3em}
+.ars-diag ul{margin:.4em 0;padding-left:1.1em}.ars-diag-warn{color:#ffb454}.ars-diag-ok{color:#7fe07f}
+
+/* --- v38 : frames spéciales (Jade 2 auras, duo, Ombre) --- */
+.ars-liee{margin:.35em 0 .1em;font-size:.82rem;color:var(--muted,#9fb2c8)}
+.ars-liee-btn{margin-left:.4em;padding:.15em .6em;border:1px solid #d8b856;border-radius:999px;background:none;color:#ffd23c;font:inherit;font-size:.82rem;cursor:pointer}
+.ars-liee-btn:hover{background:rgba(216,184,86,.12)}
+
+/* --- v59 : fiche du build (titre, auteur, notes) --- */
+.ars-fiche{margin:.6em 0 0;padding:12px 14px;border:1px solid var(--line,#26314a);border-radius:12px;background:var(--card,#131c2e)}
+.ars-fiche[hidden],.ars-fiche-vue[hidden]{display:none}
+.ars-fiche label{display:block;margin:.6em 0 .2em;font-size:.82rem;color:var(--muted,#9fb2c8)}
+.ars-fiche label:first-child{margin-top:0}
+.ars-fiche input,.ars-fiche textarea{width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--line,#26314a);
+  background:var(--bg2,#0e1626);color:var(--ink,#e8eef7);font:inherit;font-size:.92rem}
+.ars-fiche textarea{resize:vertical;min-height:70px}
+.ars-fiche-vue{margin:.6em 0 0;padding:12px 14px;border:1px solid var(--line,#26314a);border-left:3px solid var(--gold-2,#e8c95c);
+  border-radius:12px;background:var(--card,#131c2e)}
+.ars-fiche-vue h2{margin:0;font:600 1.05rem/1.3 Oswald,Inter,sans-serif}
+.ars-fiche-vue .ars-fiche-a{margin:.15em 0 0;font-size:.85rem;color:var(--muted,#9fb2c8)}
+.ars-fiche-vue .ars-fiche-d{margin:.5em 0 0;white-space:pre-wrap;font-size:.94rem}
+
+/* --- v60 : comparateur à N colonnes --- */
+.ars-cmp-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.ars-cmp{width:100%;border-collapse:collapse;font-size:.92rem;min-width:min-content}
+.ars-cmp th,.ars-cmp td{padding:5px 10px;text-align:left;white-space:nowrap}
+.ars-cmp th{font-weight:600}
+.ars-cmp .ars-cmp-sec{padding-top:10px;color:var(--gold-2,#e8c95c);border-bottom:1px solid var(--line,#26314a)}
+.ars-cmp td:first-child{color:var(--muted,#9fb2c8)}
+.ars-cmp .ars-cmp-v{font-variant-numeric:tabular-nums}
+.ars-cmp .ars-cmp-v.ok{font-weight:700}
+
+/* --- v61 : classement des armes --- */
+.ars-cls-ctl{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 10px}
+.ars-cls-ctl .ars-tri.active{border-color:var(--gold-2,#e8c95c);color:var(--gold-2,#e8c95c)}
+.ars-cls td:first-child{color:var(--muted,#9fb2c8);text-align:right}
+.ars-cls-n{padding:2px 6px;border:0;background:none;color:inherit;font:inherit;cursor:pointer;text-align:left;min-height:24px}
+.ars-cls-n:hover{color:var(--gold-2,#e8c95c);text-decoration:underline}
+
+/* --- v62 : bibliotheque publique de builds --- */
+.ars-biblio{list-style:none;margin:0;padding:0}
+.ars-biblio li{padding:10px 0;border-top:1px solid var(--line,#26314a)}
+.ars-biblio li:first-child{border-top:0}
+.ars-biblio-t{font-weight:600}
+.ars-biblio-n{margin:.3em 0 0;white-space:pre-wrap;font-size:.92rem;color:var(--ink,#e8eef7)}
+.ars-biblio-a{display:flex;gap:10px;align-items:center;margin:.4em 0 0}
+.ars-biblio-a a{color:var(--gold-2,#e8c95c)}
+.ars-biblio-absente{margin:0 0 12px;padding:10px 12px;border:1px solid var(--line,#26314a);
+  border-left:3px solid var(--gold-2,#e8c95c);border-radius:10px;color:var(--ink,#e8eef7)}
+.ars-biblio-pub{margin:14px 0 0;padding-top:12px;border-top:1px solid var(--line,#26314a)}
+.ars-biblio-pub h3{margin:0 0 .3em;font:600 1rem/1.3 Oswald,Inter,sans-serif}
+/* v94 — variantes de la même famille (Soma → Soma Prime…) : on change d'arme en gardant le build. */
+.ars-fam-b{font:inherit;font-size:.85rem;min-height:30px;padding:5px 11px;margin:3px 4px 0 0;border:1px solid var(--line);
+  border-radius:999px;background:var(--bg2);color:var(--ink);cursor:pointer}
+.ars-fam-b:hover{border-color:var(--gold-2)}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://voidrelay.fr/"},{"@type":"ListItem","position":2,"name":"Outils","item":"https://voidrelay.fr/outils"},{"@type":"ListItem","position":3,"name":"Arsenal","item":"https://voidrelay.fr/arsenal"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Simulateur d'Arsenal Warframe","description":"Comme dans le jeu : équipe une Warframe, tes armes, ton compagnon et leurs mods (capacité, polarités, forma) — les vraies statistiques bougent en direct.","url":"https://voidrelay.fr/arsenal","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"isPartOf":{"@id":"https://voidrelay.fr/#site"}}</script>
+</head><body>
+<div class="topwrap"><header class="topbar"><a href="/" class="brand"><span class="logo">◆</span> VoidRelay</a><div class="search"><span>🔎</span><input type="search" id="vr-search" class="vr-search-input" placeholder="Rechercher un objet, un build…" aria-label="Rechercher un objet Warframe" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="vr-search-results" aria-autocomplete="list"><kbd>K</kbd><div class="vr-search-results" id="vr-search-results" role="listbox" aria-label="Résultats de recherche" hidden></div></div><nav class="topnav"><div class="topnav-search"><input type="search" id="vr-search-m" class="vr-search-input" placeholder="Rechercher un objet…" aria-label="Rechercher un objet Warframe" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="vr-search-results-m" aria-autocomplete="list"><div class="vr-search-results" id="vr-search-results-m" role="listbox" aria-label="Résultats de recherche" hidden></div></div><a href="/">Accueil</a><a href="/voie-du-platine/">La Voie du Platine</a><a href="/builds/">Builds</a><a href="/warframes/">Warframes</a><a href="/armes/">Armes</a><a href="/compagnons/">Compagnons</a><a href="/ressources/">Ressources</a><a href="/arcanes/">Arcanes</a><a href="/guides/">Guides</a><a href="/skins/">Skins</a><a href="/o/">Objets</a><a href="/hub">Tableau de bord</a><a href="/outils" class="cur">Outils</a><a href="/faq">FAQ</a></nav><button class="navburger" id="navburger" type="button" aria-label="Menu" aria-expanded="false">&#9776;</button>
+<button class="themebtn" id="themebtn" type="button" aria-label="Basculer le thème" title="Thème sombre / clair">☾</button><a href="/outils" class="avatar" title="Outils Warframe" aria-label="Outils Warframe">◈</a></header></div>
+<main class="wrap" style="max-width:1200px">
+<nav class="bc"><a href="/">Accueil</a> › <a href="/outils">Outils</a> › <span>Arsenal</span> <a href="/en/arsenal" hreflang="en" style="float:right;color:var(--gold-2)" title="English version">🇬🇧 English</a></nav>
+<h1 style="font-family:Oswald,sans-serif;text-transform:uppercase;margin:.2em 0">Simulateur d'Arsenal</h1>
+<p class="sub" style="color:var(--muted);max-width:76ch">Comme dans le jeu : choisis ta Warframe, tes armes et ton compagnon, équipe les mods (capacité, polarités, forma, aura, exilus, arcanes) et regarde les statistiques réelles bouger en direct — pour préparer ta stratégie de build avant de dépenser tes formas.</p>
+<p class="muted" id="ars-meta" style="font-size:.85rem"></p>
+<!-- v59 : FICHE DU BUILD. Le titre, l'auteur et les notes voyagent dans le
+     lien avec le reste de l'état — aucun serveur n'est nécessaire pour qu'un
+     build partagé arrive nommé et expliqué. Le bloc de LECTURE est masqué tant
+     qu'il n'y a rien à lire, pour ne pas encombrer une page vierge. -->
+<section id="ars-fiche-vue" class="ars-fiche-vue" hidden></section>
+<section id="ars-fiche" class="ars-fiche" hidden>
+  <label for="ars-fiche-t">Titre du build</label>
+  <input id="ars-fiche-t" type="text" maxlength="80" placeholder="Ex. : Soma Prime — saignement Acier Véritable">
+  <label for="ars-fiche-a">Auteur (facultatif)</label>
+  <input id="ars-fiche-a" type="text" maxlength="40" placeholder="Ton pseudo en jeu">
+  <label for="ars-fiche-d">Notes — pourquoi ce build, comment le jouer</label>
+  <textarea id="ars-fiche-d" rows="4" maxlength="600" placeholder="Ce qui compte : l'ordre des mods, contre qui il brille, ce qu'il faut viser…"></textarea>
+  <p class="muted" style="margin:.4em 0 0">Ces trois champs partent dans le lien de partage. <b>Aucun compte, aucun serveur.</b></p>
+</section>
+<div id="arsenal">
+  <div id="ars-loadout" class="ars-loadout"></div>
+  <div class="ars-cols">
+    <aside id="ars-stats" class="ars-panel" aria-live="polite"></aside>
+    <section id="ars-mods" class="ars-panel ars-scene" aria-live="polite"></section>
+  </div>
+  <section id="ars-coll" class="ars-collz" aria-live="polite" hidden></section>
+  <p class="ars-actions" style="margin-top:14px"><button id="ars-auto" type="button">⚙ Build auto</button>
+  <button id="ars-qr" type="button" title="QR code du build">QR</button>
+  <button id="ars-fiche-btn" type="button" title="Titre, auteur et notes — partis dans le lien">✎ Fiche du build</button>
+  <button id="ars-share" type="button">Partager le build</button>
+  <button id="ars-copytxt" type="button">Copier le plan (jeu)</button>
+  <button id="ars-chat" type="button">Copier pour le chat Warframe</button>
+  <button id="ars-paste" type="button">Coller un build</button>
+  <button id="ars-save" type="button">Enregistrer</button>
+  <button id="ars-pin" type="button" title="Fige les stats actuelles — chaque modification affichera son écart">📌 Épingler</button> <button id="ars-biblio-btn" type="button" title="Les builds publiés par les joueurs pour cette arme">📚 Bibliothèque</button>
+  <button id="ars-classement" type="button" title="Les armes classées, toutes montées par le même algorithme">🏆 Classement des armes</button>
+  <button id="ars-compare" type="button">Comparer</button>
+  <button id="ars-image" type="button">Exporter en image</button>
+  <button id="ars-removeall" type="button" title="Retire les mods de l'équipement affiché (config active) — formas, arcanes et fragments restent">Retirer les mods</button>
+  <button id="ars-undo" type="button" hidden title="Annuler la dernière action (Ctrl+Z)">↩ Annuler</button>
+  <button id="ars-reset" type="button">Tout vider</button></p>
+  <p id="ars-builds" class="ars-agg" style="margin:6px 0 0"></p>
+  <p class="muted" style="font-size:.82rem">✈ Fonctionne <b>hors-ligne</b> après la première visite (données et moteur gardés sur ton appareil). Le jeu n'accepte aucun import automatique de build (aucun outil ne le peut) : « Copier pour le chat Warframe » exporte tes mods en liens [entre crochets] à coller dans le chat du jeu (une ligne par équipement, cliquables si la langue du client correspond — noms français ici) ; « Copier le plan (jeu) » exporte la recette complète à suivre dans ton Arsenal ; « Coller un build » recharge ici un lien VoidRelay. Mods au rang réglable.
+  <p class="muted" style="font-size:.82rem;display:none">Mods au rang max. Les effets conditionnels, de faction, postures de mêlée et arcanes ne sont pas additionnés aux chiffres (affichés en texte) — honnêteté avant tout. Données : communauté WFCD (warframe-items), règles vérifiées sur le wiki officiel. « Warframe » est une marque de Digital Extremes.</p>
+</div>
+<div id="ars-picker" hidden></div>
+</main>
+<footer class="foot"><div class="in"><div><span class="brand" style="color:#fff"><span class="logo">◆</span> VoidRelay</span><div style="font-size:.85rem;margin-top:6px">Hub Warframe non officiel — fan-made, gratuit.</div></div><div class="links" style="font-size:.9rem"><a href="/voie-du-platine/">La Voie</a><a href="/builds/">Builds</a><a href="/guides/">Guides</a><a href="/skins/">Skins</a><a href="/o/">Objets</a><a href="/marche">Marché</a><a href="/hub">Tableau de bord</a><a href="/faq">FAQ</a><a href="/a-propos">À propos</a><a href="mailto:contact@voidrelay.fr">Feedback</a></div></div><div class="in" style="padding-top:0;font-size:.8rem;color:#8294ab">« Warframe » est une marque de Digital Extremes. Prix : warframe.market. · <a href="/confidentialite">Confidentialité</a> · <a href="/mentions-legales">Mentions légales</a></div></footer>
+
+<script defer src="/js/vendor/lz-string.min.js"></script><script defer src="/js/vendor/qrcode.js"></script>
+<script defer src="/js/arsenal.js"></script>
+<script defer src="/js/nav-toggle.js"></script><script defer src="/js/search.js"></script><script defer src="/js/warp.js"></script>
+<script defer src="/js/ads.js"></script>
+</body></html>

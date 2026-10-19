@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3315165542909837" crossorigin="anonymous"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- ───────── Sécurité : Content-Security-Policy (placée TÔT : une injection AVANT cette balise contournerait la CSP) ─────────
+     Site statique mono-fichier → script/style inline requis ('unsafe-inline'). Tout le reste est verrouillé sur 'self' :
+     aucun script/objet externe, aucun fetch hors same-origin (connect-src 'self'), pas d'iframe, base/form verrouillés, http→https.
+     Durcissement supérieur (CSP par hash, en-têtes frame-ancestors/HSTS via Cloudflare _headers) : voir SECURITE_site.md -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com https://pagead2.googlesyndication.com https://partner.googleadservices.com https://tpc.googlesyndication.com https://adservice.google.com https://www.googletagservices.com https://fundingchoicesmessages.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://*.googlesyndication.com https://*.g.doubleclick.net https://*.google.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://api.warframestat.us https://cloudflareinsights.com https://pagead2.googlesyndication.com https://*.g.doubleclick.net https://*.googlesyndication.com https://ep1.adtrafficquality.google https://fundingchoicesmessages.google.com; form-action 'self'; frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://*.google.com; upgrade-insecure-requests">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<script>/* Domaine officiel : voidrelay.fr — redirige les anciennes adresses (pages.dev, github.io) en gardant le chemin */(function(){var h=location.hostname;if(h==='warframe-hub.pages.dev'||h.slice(-10)==='.github.io'){location.replace('https://voidrelay.fr'+location.pathname.replace(/^\/test(?=\/|$)/,'')+location.search+location.hash)}})()</script>
+
+<!-- ───────── SEO + AEO ─────────
+     ✅ DOMAINE CANONIQUE : https://voidrelay.fr (officiel depuis 06/2026, branché sur Cloudflare Pages).
+     Les anciennes adresses (*.pages.dev, github.io) redirigent vers cette base (script ci-dessus + canonical). -->
+<title>Cycles, failles &amp; Baro Warframe en direct | VoidRelay</title>
+<meta name="description" content="Cycles Cetus/Vallis/Cambion en direct, failles du Vide, timer Baro Ki'Teer et marché du platine Warframe. Tout l'état du monde en un coup d'œil.">
+<link rel="canonical" href="https://voidrelay.fr/hub">
+<link rel="preconnect" href="https://api.warframestat.us" crossorigin>
+<link rel="dns-prefetch" href="https://api.warframestat.us">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="author" content="VoidRelay">
+<meta name="theme-color" content="#0b0f14">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0f14'/%3E%3Cpath d='M14 18 L32 48 L50 18' fill='none' stroke='%23d4af37' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="sitemap" type="application/xml" href="sitemap.xml">
+<link rel="alternate" type="application/rss+xml" title="VoidRelay — Nouveautés Warframe" href="/data/feed.xml">
+
+<!-- Open Graph (Facebook, Discord, LinkedIn…) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="VoidRelay">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="VoidRelay — Warframe en direct : cycles, failles, Baro &amp; marché">
+<meta property="og:description" content="Tableau de bord Warframe non officiel : cycles, failles du Vide, Baro, Sortie, invasions, Nightwave et prix warframe.market — en direct, gratuit.">
+<meta property="og:url" content="https://voidrelay.fr/hub">
+<meta property="og:image" content="https://voidrelay.fr/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="VoidRelay — tableau de bord Warframe">
+
+<!-- Twitter / X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="VoidRelay — Warframe en direct">
+<meta name="twitter:description" content="Cycles, failles du Vide, Baro, marché warframe.market — tableau de bord Warframe non officiel, en direct et gratuit.">
+<meta name="twitter:image" content="https://voidrelay.fr/assets/og.png">
+<meta name="twitter:image:alt" content="VoidRelay — tableau de bord Warframe">
+<!--
+  ════════════════════════════════════════════════════════════════════════
+  hub.html — TABLEAU DE BORD LIVE de VoidRelay (Warframe)  (page autonome, 0 dépendance)
+  ════════════════════════════════════════════════════════════════════════
+  • Lit data/summary.json (contrat stable) + data/news.json (facultatif, Action hebdo).
+  • Timers de cycles EXACTS côté client : recalcul depuis expiryUtc + rollover par
+    période connue (insensible à la latence du cron quotidien).
+  • Si le fetch échoue (ex. ouverture en file://), bascule sur un JEU DE DÉMO intégré
+    => double-clic = aperçu complet ; en production (servi par githack) = données réelles.
+  • Ne remplace PAS hub-widget.example.html (conservé). Fichier additif : ne casse rien.
+  ════════════════════════════════════════════════════════════════════════
+-->
+<link rel="stylesheet" href="/css/hub.css">
+
+<!-- ───────── Données structurées (SEO + AEO : compréhension par Google et les IA) ───────── -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://voidrelay.fr/#website",
+      "url": "https://voidrelay.fr/hub",
+      "name": "VoidRelay",
+      "alternateName": "VoidRelay — tableau de bord Warframe",
+      "inLanguage": "fr",
+      "description": "Tableau de bord Warframe non officiel : cycles, failles du Vide, Baro Ki'Teer, Sortie, invasions, Nightwave et prix du marché, en direct.",
+      "publisher": { "@id": "https://voidrelay.fr/#org" }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://voidrelay.fr/#org",
+      "name": "VoidRelay",
+      "url": "https://voidrelay.fr/hub",
+      "logo": "https://voidrelay.fr/assets/og.png",
+      "description": "Projet de fan non officiel, sans affiliation à Digital Extremes."
+    },
+    {
+      "@type": "WebApplication",
+      "name": "VoidRelay",
+      "applicationCategory": "GameApplication",
+      "operatingSystem": "Web",
+      "browserRequirements": "Requires JavaScript",
+      "inLanguage": "fr",
+      "isAccessibleForFree": true,
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+      "about": { "@type": "VideoGame", "name": "Warframe", "publisher": "Digital Extremes" },
+      "url": "https://voidrelay.fr/hub",
+      "description": "Suivi en direct de l'état du monde Warframe : cycles Cetus/Orb Vallis/Cambion, failles du Vide, Baro Ki'Teer, Sortie, Archon, invasions, Nightwave, Darvo et prix warframe.market."
+    }
+  ]
+}
+</script>
+<!-- display=optional (PAS swap) : mesure CLS reelle 10/07/2026 (PerformanceObserver, repete 3x) -> swap causait un reflow au moment exact du chargement de la police (CLS jusqu'a 1.03), optional -> CLS 0.0000. NE PAS repasser a swap sans re-mesurer le CLS reel avant/apres sur plusieurs essais. Contexte complet : commit git "la prochaine classe de bug — CLS massif du au swap de police web". -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Oswald:wght@400;500;600;700&display=optional" rel="stylesheet">
+<link rel="manifest" href="/manifest.webmanifest"><link rel="apple-touch-icon" href="/assets/icon-180.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://voidrelay.fr/"},{"@type":"ListItem","position":2,"name":"Tableau de bord","item":"https://voidrelay.fr/hub"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Warframe World-State Dashboard","description":"Live cycles, void fissures, invasions, Baro Ki'Teer and alerts, updated automatically.","url":"https://voidrelay.fr/hub","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"isPartOf":{"@id":"https://voidrelay.fr/#site"}}</script>
+</head>
+<body>
+  <header class="top">
+    <p class="hdr-brand"><a href="/">Void<span class="frag">Relay</span></a><a href="/">Accueil</a><a href="/builds/">Builds</a><a href="/o/">Objets</a><a href="/guides/">Guides</a><a href="/outils">Outils</a><a href="/hub" class="cur">📊 Tableau de bord</a><a href="/compagnon">💰 Compagnon</a><a href="/faq">FAQ</a></p>
+    <h1>Warframe en direct — cycles, failles &amp; Baro Ki'Teer</h1>
+    <span class="sub">Warframe en direct — cycles, failles, Baro, marché &amp; nouveautés</span>
+  </header>
+  <nav class="bc" aria-label="fil d'Ariane"><a href="/">Accueil</a> › <span>Tableau de bord</span></nav>
+  <main aria-label="Tableau de bord Warframe">
+  <p class="lede muted" style="margin:2px 2px 14px; max-width:74ch; font-size:13px">
+    <strong>VoidRelay</strong> est un tableau de bord <strong>Warframe</strong> non officiel qui suit <strong>en direct</strong>
+    les cycles (Cetus, Orb Vallis, Cambion), les failles du Vide, Baro Ki'Teer, la Sortie, les invasions, le Nightwave
+    et les prix du marché (warframe.market). Gratuit, sans pub intrusive.
+    Nouveau : <a href="/faq">Guides &amp; FAQ</a> — platine, Baro, reliques, cycles
+    (<a href="/faq-en" hreflang="en" lang="en">English FAQ</a>) · 🔎 <a href="/compagnon">Compagnon — recherche d'objet (prix, farm, reliques)</a>.
+  </p>
+  <nav class="toolbar" aria-label="Outils VoidRelay">
+    <a href="/compagnon"><span class="em" aria-hidden="true">🔎</span> Recherche d'objet</a>
+    <a href="#card-market"><span class="em" aria-hidden="true">🛒</span> Marché &amp; prix</a>
+    <a href="#card-rivens"><span class="em" aria-hidden="true">💎</span> Rivens</a>
+    <a href="/faq"><span class="em" aria-hidden="true">❓</span> FAQ</a>
+    <a href="data/warframe.ics" title="S'abonner : Baro + fins d'événements dans ton calendrier"><span class="em" aria-hidden="true">📅</span> Agenda</a>
+    <button id="btnNotif" type="button" aria-expanded="false" aria-controls="notifPanel" title="Recevoir une alerte (nuit Cetus, Baro…)"><span class="em" aria-hidden="true">🔔</span> Alertes</button>
+  </nav>
+  <div id="notifPanel" hidden></div>
+  <!-- Synchronisation par CODE (03/09/2026). Pas de compte : le besoin est de
+       retrouver ses affaires sur un autre appareil, pas d'avoir une identité.
+       Le code est une CLEF — qui l'a, a les données — et le chiffrement se
+       fait ICI, donc le serveur ne peut rien lire ni rien dépanner. -->
+  <section id="syncPanel" class="sync">
+    <h2>Synchroniser ma progression</h2>
+    <p class="mut">Pour retrouver tes builds, tâches et favoris sur un autre appareil. <b>Aucun compte, aucune adresse e-mail.</b></p>
+    <p class="sync-act">
+      <button id="syncNew" type="button">Créer un code</button>
+      <button id="syncPush" type="button">Envoyer maintenant</button>
+    </p>
+    <p class="sync-act">
+      <label for="syncCode">J'ai déjà un code</label>
+      <input id="syncCode" type="text" inputmode="latin" autocomplete="off" spellcheck="false"
+             placeholder="XXXXX-XXXXX-XXXXX-XXXXX" maxlength="29">
+      <button id="syncPull" type="button">Récupérer</button>
+    </p>
+    <p id="syncEtat" class="sync-etat" role="status"></p>
+    <details class="sync-det">
+      <summary>Ce qui part, ce qui ne part pas, et ce que ça implique</summary>
+      <p><b>Ce qui est synchronisé</b> : builds de l'Arsenal et builds enregistrés, favoris, liste de courses, tâches, fonderie, rang de maîtrise, reliques vues, préférences, thème et langue.</p>
+      <p><b>Ce qui ne part jamais</b> : ton compte warframe.market et ton adresse de proxy personnelle. Ce ne sont pas des progrès de jeu et ils n'ont rien à faire sur un serveur.</p>
+      <p><b>Le chiffrement se fait dans ton navigateur.</b> Le serveur ne reçoit qu'un paquet illisible : il ne connaît ni ton code, ni son contenu.</p>
+      <p><b>Le code est une clef, pas un compte.</b> Qui l'a, a les données — garde-le comme un mot de passe. Et comme le serveur ne peut pas déchiffrer, <b>un code perdu est une sauvegarde perdue</b> : il n'y a aucune récupération possible. C'est le prix de ne te demander aucune information personnelle.</p>
+    </details>
+  </section>
+  <div class="meta" id="meta"></div>
+  <div id="banner"></div>
+  <div class="grid" id="grid"></div>
+  </main>
+
+  <footer>
+    <strong>VoidRelay</strong> · <a href="/compagnon">Compagnon (prix &amp; alertes)</a> · <a href="/faq">FAQ (français)</a> · <a href="/faq-en" hreflang="en" lang="en">FAQ (English)</a> ·
+    <a href="data/warframe.ics" title="S'abonner dans ton calendrier : arrivées de Baro + fins d'événements">📅 Agenda (.ics)</a> ·
+    <a href="/data/feed.xml" title="Flux RSS des nouveautés Warframe (lecteur RSS / Discord)">📡 RSS</a> ·
+    données : <a href="https://www.warframe.com" target="_blank" rel="noopener noreferrer">warframe.com</a> (officiel, Digital Extremes) ·
+    <a href="https://docs.warframestat.us" target="_blank" rel="noopener noreferrer">warframestat.us</a> ·
+    <a href="https://warframe.market" target="_blank" rel="noopener noreferrer">warframe.market</a>.
+    Cycles recalculés localement pour rester exacts entre deux mises à jour.
+    Projet de fan non officiel, sans affiliation à Digital Extremes ni à Warframe. « Warframe » est une marque de Digital Extremes.<span id="affDisc"></span>
+    <nav class="share" aria-label="Partager VoidRelay">
+      Partager : <a href="https://twitter.com/intent/tweet?text=Warframe%20en%20direct%20%3A%20cycles%2C%20failles%2C%20Baro%20%26%20march%C3%A9%20du%20platine%20%E2%80%94%20VoidRelay&url=https%3A%2F%2Fvoidrelay.fr%2Fhub" target="_blank" rel="noopener noreferrer">X</a> ·
+      <a href="https://www.reddit.com/submit?title=Warframe%20en%20direct%20%3A%20cycles%2C%20failles%2C%20Baro%20%26%20march%C3%A9%20du%20platine%20%E2%80%94%20VoidRelay&url=https%3A%2F%2Fvoidrelay.fr%2Fhub" target="_blank" rel="noopener noreferrer">Reddit</a> ·
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fvoidrelay.fr%2Fhub" target="_blank" rel="noopener noreferrer">Facebook</a>
+    </nav>
+  </footer>
+
+<script>
+"use strict";
+/* ───────────────────────── Config & modèles ───────────────────────── */
+const SUMMARY_URL = "data/summary.json";
+const NEWS_URL    = "data/news.json";
+const REFRESH_MS  = 5 * 60 * 1000;   // re-fetch des données toutes les 5 min
+
+/* ──────────────────── Affiliation (revenus passifs) ────────────────────
+   ToS Warframe OK : « pub passive » + « sponsor raisonnable, clairement divulgué » autorisés
+   (warframe.com/contentpolicy, vérifié 2026-06-04). Programme : Razer (gratuit, non exclusif,
+   sans frais — vérifié). RÈGLES tenues ici : pseudo uniquement · AUCUN tracker/pixel/script tiers ·
+   liens simples rel="sponsored noopener nofollow" · divulgation visible · encart DISCRET.
+   ⚙️ ACTIVATION en 1 commande (voir REVENUS_affiliation.md) : remplacer le placeholder ci-dessous
+   par TON lien de parrainage Razer. Tant que le placeholder est là, AUCUN encart ne s'affiche
+   (rien de promotionnel n'est publié tant que tu n'as pas activé). */
+/* Plusieurs programmes possibles (tous gratuits, non exclusifs). Chacun reste INACTIF tant que
+   son placeholder n'est pas remplacé par un vrai lien https — un encart ne s'affiche QUE pour les
+   programmes activés. Rien de promotionnel n'apparaît tant qu'aucun lien n'est collé.
+   ⚙️ Activation : remplacer le placeholder voulu (voir ACTIVATION_VOIDRELAY.md). Le lien Razer garde
+   le même token qu'avant (__RAZER_AFFILIATE_LINK__) — la commande d'activation existante marche toujours. */
+const AFF = {
+  razer:     {label:"Razer",             note:"Matériel gaming (souris, casques…)", url:"__RAZER_AFFILIATE_LINK__"},
+  fanatical: {label:"Fanatical",         note:"Jeux & clés Steam (réductions)",     url:"__FANATICAL_AFFILIATE_LINK__"},
+  humble:    {label:"Humble Bundle",     note:"Jeux & bundles caritatifs",          url:"__HUMBLE_AFFILIATE_LINK__"},
+  gmg:       {label:"Green Man Gaming",  note:"Clés de jeux PC (promos)",           url:"__GMG_AFFILIATE_LINK__"},
+};
+const AFF_ACTIVE = Object.keys(AFF).filter(k => /^https:\/\//.test(AFF[k].url)); // actifs = lien https collé
+const AFF_ON     = AFF_ACTIVE.length > 0;
+
+// Périodes & phases connues (constantes du jeu) -> rollover client EXACT.
+const CYCLE_MODELS = {
+  cetus:   {label:"Cetus · Plaines",  order:["day","night"],  dur:{day:6000, night:3000}},
+  cambion: {label:"Cambion · Deimos", order:["fass","vome"],  dur:{fass:6000, vome:3000}},
+  vallis:  {label:"Orb Vallis",       order:["warm","cold"],  dur:{warm:400,  cold:1200}},
+  earth:   {label:"Terre",            order:["day","night"],  dur:{day:14400, night:14400}},
+};
+const STATE_LABEL = {day:"Jour", night:"Nuit", warm:"Chaud", cold:"Froid", fass:"Fass", vome:"Vome"};
+
+/* ───────────────────────── Utilitaires ───────────────────────── */
+const $ = sel => document.querySelector(sel);
+const el = (t, attrs={}, html) => { const n=document.createElement(t);
+  for(const k in attrs){ if(k==="class")n.className=attrs[k]; else n.setAttribute(k,attrs[k]); }
+  if(html!=null) n.innerHTML=html; return n; };
+const esc = s => String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const ms = iso => { const t = Date.parse(iso||""); return isNaN(t)?null:t; };
+// Sécurité : n'autorise que http(s) (bloque javascript:, data:, etc.) pour tout lien construit depuis des données externes (news…).
+const safeUrl = u => { try{ const x=new URL(String(u), location.href); return (x.protocol==="https:"||x.protocol==="http:") ? x.href : ""; }catch(e){ return ""; } };
+
+function fmtDur(sec){
+  if(sec==null || isNaN(sec)) return "—";
+  sec = Math.max(0, Math.floor(sec));
+  const d=Math.floor(sec/86400), h=Math.floor(sec%86400/3600), m=Math.floor(sec%3600/60), s=sec%60;
+  if(d) return `${d}j ${h}h`;
+  if(h) return `${h}h ${String(m).padStart(2,"0")}m`;
+  if(m) return `${m}m ${String(s).padStart(2,"0")}s`;
+  return `${s}s`;
+}
+function prettyMission(t){
+  if(!t) return "";
+  const s=String(t);
+  // Déjà lisible (localisé FR/EN par l'API) → NE PAS re-title-caser : \b est ASCII en JS,
+  // « Défense » deviendrait « DéFense » (bug vu le 05/06 en passant les données en français).
+  if(!/^MT_/.test(s) && !s.includes("_")) return s;
+  return s.replace(/^MT_/,"").replace(/_/g," ").toLowerCase().replace(/\b\w/g,c=>c.toUpperCase());
+}
+function prettyMod(t){
+  if(!t) return "";
+  const s=String(t);
+  if(!/^SORTIE_MODIFIER_/.test(s) && !s.includes("_")) return s;  // déjà lisible → intact
+  return s.replace(/^SORTIE_MODIFIER_/,"").replace(/_/g," ").toLowerCase().replace(/\b\w/g,c=>c.toUpperCase());
+}
+
+// Rollover d'un cycle : avance par phases connues jusqu'à expiry dans le futur.
+function rollCycle(key, st, expiryMs, now){
+  const m = CYCLE_MODELS[key]; if(!m || !expiryMs) return {state:st, expiry:expiryMs};
+  const order=m.order; let idx=order.indexOf(st); if(idx<0){ idx=0; st=order[0]; }
+  let state=st, expiry=expiryMs, guard=0;
+  while(expiry<=now && guard<100000){ idx=(idx+1)%order.length; state=order[idx]; expiry+=m.dur[state]*1000; guard++; }
+  return {state, expiry};
+}
+
+/* ───────────────────────── State & fetch ───────────────────────── */
+let DATA=null, NEWS=null, usingDemo=false;
+
+/* ── Secours direct (05/06/2026) : si la MàJ interne (data/summary.json) a du retard,
+   on reconstruit failles/Baro/cycles/sortie/archon en LIVE depuis warframestat
+   (même source et même mapping que scripts/update_warframe_data.py — miroir exact).
+   - 27/09/2026 : la MàJ interne passe à 1×/jour (économie de minutes Actions). Les failles
+     vivent ~1 h : au-delà de 1 h 30 (WS_LIVE_MS), le secours devient le régime NORMAL,
+     silencieux (1 requête par visite, comme les pages-outils via js/api.js). Le bandeau
+     « retard » ne s'affiche plus que si le fichier dépasse la cadence (STALE_MS, 26 h).
+   - Au plus 1 requête par demi-heure par onglet. Marché non couvert (reste daté, dit au bandeau).
+   - CSP : connect-src autorise uniquement ce domaine précis, en lecture. */
+const RESCUE_URL="https://api.warframestat.us/pc/?language=fr";
+const STALE_MS = 26*3600*1000;   // cadence 1×/jour + 2 h de marge (GitHub retarde les crons)
+const WS_LIVE_MS = 90*60*1000;   // au-delà, failles/Baro/sortie du fichier sont trop vieilles
+let rescued=false, rescueTried=false, rescueAt=0;
+async function tryRescue(){
+  if(rescueTried) return; rescueTried=true;
+  try{
+    const r=await fetch(RESCUE_URL,{cache:"no-store"}); if(!r.ok) throw 0;
+    const w=await r.json();
+    const cyc=k=>{const c=w[k]||{}; return {state:c.state||null, expiryUtc:c.expiry||null, timeLeftSeconds:null};};
+    const fAll=Array.isArray(w.fissures)?w.fissures:[];
+    const fl=fAll.filter(x=>!x.isStorm).map(f=>({node:f.node,missionType:f.missionType,tier:f.tier,hard:!!f.isHard,endUtc:f.expiry}));
+    const byTier={}; fl.forEach(f=>{byTier[f.tier]=(byTier[f.tier]||0)+1;});
+    const storms=fAll.filter(x=>x.isStorm).map(f=>({node:f.node,tier:f.tier}));
+    const vt=w.voidTrader||{}, so=w.sortie||{}, ah=w.archonHunt||{};
+    DATA = Object.assign({}, DATA, {
+      updated_utc:new Date().toISOString(),
+      marketAsOf:(DATA||{}).marketAsOf||(DATA||{}).updated_utc||null, // l'âge RÉEL des prix (non secourus)
+      sources:Object.assign({},(DATA||{}).sources,{worldstate:"warframestat-direct"}),
+      cycles:{cetus:cyc("cetusCycle"),vallis:cyc("vallisCycle"),cambion:cyc("cambionCycle"),earth:cyc("earthCycle"),_source:"warframestat-direct"},
+      fissures:{count:fl.length,byTier:byTier,steelPathCount:fl.filter(f=>f.hard).length,list:fl},
+      voidStorms:{count:storms.length,list:storms},
+      baro:{character:vt.character,location:vt.location,active:vt.active,startUtc:vt.activation,endUtc:vt.expiry,
+            inventory:(vt.inventory||[]).map(i=>({item:i.item,ducats:i.ducats,credits:i.credits}))},
+      sortie:{boss:so.boss,faction:so.faction,endUtc:so.expiry,
+              missions:(so.variants||[]).map(v=>({missionType:v.missionType,modifier:v.modifier,node:v.node}))},
+      archonHunt:{boss:ah.boss,faction:ah.faction,endUtc:ah.expiry,
+                  missions:(ah.missions||[]).map(v=>({missionType:v.type,node:v.node}))},
+      invasions:(()=>{const l=(Array.isArray(w.invasions)?w.invasions:[]).filter(i=>!i.completed)
+        .map(i=>({node:i.node,
+                  attacker:((i.attacker||{}).faction)||i.attackingFaction||null,
+                  defenderFaction:((i.defender||{}).faction)||i.defendingFaction||null,
+                  desc:i.desc,
+                  completion:Math.round((i.completion||0)*10)/10}));
+        return {count:l.length,list:l};})(),
+      darvo:(()=>{const d=(Array.isArray(w.dailyDeals)?w.dailyDeals:[])[0];
+        if(!d) return {active:false};
+        const tot=d.total, sold=d.sold;
+        return {active:true,item:d.item,discount:d.discount,originalPlat:d.originalPrice,salePlat:d.salePrice,
+                total:tot,sold:sold,stockLeft:(Number.isInteger(tot)&&Number.isInteger(sold))?(tot-sold):null,endUtc:d.expiry};})(),
+      nightwave:(()=>{const n=w.nightwave||{};
+        return {season:n.season,phase:n.phase,tag:n.tag,endUtc:n.expiry,
+                activeChallenges:((n.activeChallenges||[]).length)};})(),
+      events:(Array.isArray(w.events)?w.events:[]).map(e=>({name:e.description||e.node,endUtc:e.expiry})),
+      steelPath:(()=>{const sp=w.steelPath||{},cur=sp.currentReward||{};
+        return {currentReward:cur.name?{name:cur.name,cost:cur.cost}:null, expiryUtc:sp.expiry,
+                rotation:(Array.isArray(sp.rotation)?sp.rotation:[]).filter(r=>r&&r.name).slice(0,8).map(r=>({name:r.name,cost:r.cost})),
+                evergreens:(Array.isArray(sp.evergreens)?sp.evergreens:[]).filter(r=>r&&r.name).slice(0,6).map(r=>({name:r.name,cost:r.cost}))};})(),
+      resurgence:(()=>{const v=w.vaultTrader||{},inv=Array.isArray(v.inventory)?v.inventory:[];
+        const a=Date.parse(v.activation),e=Date.parse(v.expiry),n=Date.now();
+        const active=(!isNaN(a)&&!isNaN(e))?(a<=n&&n<=e):!!v.active;
+        const feat=inv.filter(i=>String(i&&i.uniqueName||"").includes("/Powersuits/")&&i.item).map(i=>i.item).slice(0,6);
+        return {active:active,character:v.character,location:v.location,startUtc:v.activation,endUtc:v.expiry,itemCount:inv.length,featured:feat};})()
+    });
+    rescued=true; rescueAt=Date.now(); render();
+  }catch(e){ /* silencieux : on garde les données du fichier (bandeau « retard » s'il dépasse la cadence) */ }
+}
+
+async function load(){
+  try{
+    const r = await fetch(SUMMARY_URL,{cache:"no-store"});
+    if(!r.ok) throw new Error("HTTP "+r.status);
+    const fresh = await r.json(); usingDemo=false;
+    // Ne pas ÉCRASER un secours live par un summary toujours daté (re-fetch 5 min) :
+    if(!(rescued && (ms(fresh.updated_utc)||0) <= rescueAt)) { DATA = fresh; rescued=false; }
+  }catch(e){ DATA = DEMO.summary; usingDemo=true; rescued=false; }
+  try{
+    const rn = await fetch(NEWS_URL,{cache:"no-store"});
+    if(rn.ok) NEWS = await rn.json(); else throw 0;
+  }catch(e){ NEWS = usingDemo ? DEMO.news : (NEWS||{items:[]}); }
+  render();
+}
+
+/* ───────────────────────── Rendu ───────────────────────── */
+function render(){
+  const s = DATA||{}, g=$("#grid"); g.innerHTML="";
+  // bandeau démo / fraîcheur
+  const banner=$("#banner");
+  if(usingDemo){ banner.style.display="block";
+    banner.innerHTML="🔌 Aperçu hors-ligne — <b>données de démonstration</b>. En production (page servie en http), cette vue lit <code>data/summary.json</code> mis à jour automatiquement."; }
+  else{
+    // Honnêteté « données datées » (fichier plus vieux que la cadence 1×/jour) + SECOURS DIRECT (cf. tryRescue).
+    const age = ms(s.updated_utc) ? (Date.now()-ms(s.updated_utc)) : null;
+    const ageMk = ms(s.marketAsOf||s.updated_utc) ? (Date.now()-ms(s.marketAsOf||s.updated_utc)) : null;
+    if(rescued){
+      // Secours = régime normal tant que le fichier respecte sa cadence : pas de bandeau.
+      if(ageMk!=null && ageMk > STALE_MS){
+        banner.style.display="block";
+        banner.innerHTML = "⚡ <b>Secours direct</b> : failles, Baro, cycles et sortie viennent d'être rafraîchis depuis warframestat (la mise à jour interne du site a du retard). Le <b>marché</b> peut rester daté.";
+      } else banner.style.display="none";
+      if(Date.now()-rescueAt > 30*60*1000){ rescueTried=false; tryRescue(); } // re-secours max 1×/30 min
+    } else if(age!=null && age > STALE_MS){
+      banner.style.display="block";
+      banner.innerHTML = "⏳ Données du <b>"+esc(new Date(ms(s.updated_utc)).toLocaleString("fr-FR",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"}))+"</b> — la mise à jour automatique a du retard. Les <b>cycles restent exacts</b> (recalculés en local) ; failles, Baro et marché sont datés.";
+      tryRescue(); // tentative de secours live (1 requête précise, silencieuse si échec)
+    } else {
+      banner.style.display="none";
+      if(age!=null && age > WS_LIVE_MS) tryRescue(); // failles du fichier trop vieilles : relecture live, silencieuse
+    }
+  }
+
+  // méta : fraîcheur + sources
+  const meta=$("#meta"); meta.innerHTML="";
+  meta.append(el("span",{class:"badge acc"}, "MàJ : "+timeAgo(s.updated_utc)));
+  const src=s.sources||{};
+  const wsOk = src.worldstate==="warframestat";
+  meta.append(el("span",{class:"badge "+(wsOk?"ok":(src.worldstate==="de-fallback"?"warn":"warn"))},
+    "monde : "+(src.worldstate||"?")));
+  meta.append(el("span",{class:"badge "+(src.market==="ok"?"ok":"warn")}, "marché : "+(src.market||"?")));
+  if(s.scriptVersion) meta.append(el("span",{class:"badge"}, "v"+s.scriptVersion));
+
+  g.append(cardTodo(s));        // 🧭 « Que faire maintenant ? » — fil conducteur, en tête
+  g.append(cardCycles(s));
+  g.append(cardBaroDarvo(s));
+  g.append(cardActivities(s));
+  const stp=cardSteelPath(s); if(stp) g.append(stp);     // 🗡️ Steel Path (masqué si absent)
+  const rsg=cardResurgence(s); if(rsg) g.append(rsg);    // ♻️ Prime Resurgence (masqué si absent)
+  g.append(cardFissures(s));
+  g.append(cardInvasions(s));
+  g.append(cardMarket(s));
+  const rv=cardRivens(s); if(rv) g.append(rv);   // stats officielles DE (section facultative du summary)
+  g.append(cardNews());
+  const gear=cardGear(); if(gear) g.append(gear);   // encart partenaire discret (masqué si non activé)
+  const ad=$("#affDisc"); if(ad) ad.innerHTML = AFF_ON
+    ? ' Le bloc « Matos &amp; jeux » contient des liens d’affiliation de partenaires indépendants (sans lien avec Digital Extremes) — divulgation.'
+    : '';
+  tick(); // premier rendu des compteurs
+}
+
+/* — Matos de jeu : encart partenaire DISCRET, divulgué, sans tracker (masqué tant que non activé) — */
+function cardGear(){
+  if(!AFF_ON) return null;
+  const c=el("div",{class:"card"});
+  c.append(el("h2",{},"🖱️ Matos &amp; jeux <span class=\"n\">partenaires</span>"));
+  c.append(el("div",{class:"muted",style:"margin:-4px 0 10px;font-size:12px"},
+    "Liens sponsorisés — partenaires indépendants, sans lien avec Digital Extremes ni Warframe."));
+  AFF_ACTIVE.forEach(k=>{
+    const a=AFF[k], href=safeUrl(a.url); if(!href) return;
+    const row=el("div",{class:"row"}, `<span class="k">${esc(a.note)}</span>`);
+    const v=el("span",{class:"v"});
+    v.append(el("a",{href:href, target:"_blank", rel:"sponsored noopener nofollow", class:"pill"}, esc(a.label)+" ↗"));
+    row.append(v); c.append(row);
+  });
+  c.append(el("div",{class:"muted",style:"margin-top:8px;font-size:11.5px"},
+    "Acheter via ces liens soutient le Hub (petite commission) — 0 surcoût pour toi. Merci 🙏"));
+  return c;
+}
+
+function timeAgo(iso){
+  const t=ms(iso); if(!t) return iso||"—";
+  const d=Math.round((Date.now()-t)/1000);
+  if(d<90) return "à l'instant"; if(d<5400) return Math.round(d/60)+" min";
+  if(d<172800) return Math.round(d/3600)+" h"; return Math.round(d/86400)+" j";
+}
+
+/* — Cycles — */
+function cardCycles(s){
+  const c=el("div",{class:"card"}); c.append(el("h2",{},'<img class="hub-ico" src="/assets/icons/cycle-jour-nuit.svg" alt=""> Cycles'));
+  const cy=s.cycles||{};
+  ["cetus","vallis","cambion","earth"].forEach(k=>{
+    const m=CYCLE_MODELS[k], cur=cy[k]||{};
+    const row=el("div",{class:"cyc"});
+    const left=el("div",{class:"lbl"});
+    const dotState = (cur.state||"").toLowerCase();
+    left.append(el("span",{class:"dot "+dotState, id:"dot-"+k}));
+    left.append(el("div",{}, `<div class="state" id="st-${k}">—</div><div class="next muted">${esc(m.label)}</div>`));
+    const right=el("div",{style:"text-align:right"});
+    right.append(el("div",{class:"cd countdown", id:"cd-"+k,
+       "data-cycle":k, "data-state":cur.state||"", "data-expiry":(ms(cur.expiryUtc)|| "")},"—"));
+    right.append(el("div",{class:"next muted", id:"nx-"+k},""));
+    row.append(left,right); c.append(row);
+  });
+  return c;
+}
+
+/* — Baro + Darvo — */
+function cardBaroDarvo(s){
+  const c=el("div",{class:"card"}); c.append(el("h2",{},'<img class="hub-ico" src="/assets/icons/baro.svg" alt=""> Baro &amp; Darvo'));
+  const b=s.baro||{};
+  c.append(rowKV("Baro Ki'Teer", b.active
+     ? `<span class="pill"><span class="dot day"></span>ICI</span>`
+     : `<span class="muted">absent</span>`));
+  c.append(rowKV("Lieu", esc(b.location)||"—"));
+  if(b.active) c.append(rowKVcd("Repart dans", b.endUtc));
+  else c.append(rowKVcd("Arrive dans", b.startUtc, "imminent"));
+  // Darvo
+  const d=s.darvo||{};
+  c.append(el("div",{class:"row",style:"margin-top:8px;border-top:1px solid var(--line)"},
+    `<span class="k">Darvo · Daily Deal</span><span class="v">${d.active?`<span class="sp">-${esc(d.discount)}%</span>`:'<span class="muted">aucun</span>'}</span>`));
+  if(d.active){
+    c.append(rowKV("Article", esc(d.item)||"—"));
+    c.append(rowKV("Prix", `<s class="muted">${esc(d.originalPlat)}</s> → <b>${esc(d.salePlat)}</b> p`));
+    if(d.stockLeft!=null) c.append(rowKV("Stock restant", `${esc(d.stockLeft)} / ${esc(d.total)}`));
+    c.append(rowKVcd("Fin dans", d.endUtc));
+  }
+  // Synchronicité (16/07/2026) : le contexte Baro mène directement aux outils qui servent à ce moment-là.
+  c.append(el("div",{class:"row",style:"margin-top:8px;border-top:1px solid var(--line)"},
+    `<span class="k">Outils</span><span class="v"><a href="/ducats">🪙 Prépare tes ducats</a> · <a href="/guides/baro-kiteer-guide">📖 Guide Baro</a></span>`));
+  return c;
+}
+
+/* — Sortie / Archon / Nightwave — */
+function cardActivities(s){
+  const c=el("div",{class:"card"}); c.append(el("h2",{},'<img class="hub-ico" src="/assets/icons/nightwave.svg" alt=""> Sortie · Archon · Nightwave'));
+  const so=s.sortie||{};
+  c.append(rowKV("Sortie", `${esc(so.boss)||"—"} <span class="muted">${esc(so.faction)||""}</span>`));
+  (so.missions||[]).forEach(mi=> c.append(rowKV(`<span class="muted">·</span> ${esc(prettyMission(mi.missionType))}`, `<span class="muted">${esc(prettyMod(mi.modifier)||"")}</span>`)));
+  c.append(rowKVcd("Réinit. dans", so.endUtc));
+  const ah=s.archonHunt||{};
+  c.append(el("div",{class:"row",style:"border-top:1px solid var(--line)"},
+    `<span class="k">Archon Hunt</span><span class="v">${esc(ah.boss)||"—"} <span class="muted">${esc(ah.faction)||""}</span></span>`));
+  c.append(rowKVcd("Réinit. dans", ah.endUtc));
+  const nw=s.nightwave||{};
+  c.append(el("div",{class:"row",style:"border-top:1px solid var(--line)"},
+    `<span class="k">Nightwave</span><span class="v">S${esc(nw.season)} · ${esc(nw.activeChallenges)} défis</span>`));
+  return c;
+}
+
+/* — 🧭 « Que faire maintenant ? » : synthèse actionnable, 100 % locale (0 appel externe).
+   Lit summary.json déjà chargé ; chaque item est sauté proprement si la donnée manque. */
+function cardTodo(s){
+  const c=el("div",{class:"card todoCard"});
+  c.append(el("h2",{},'🧭 Que faire maintenant ? <span class="n">synthèse live</span>'));
+  const items=[], now=Date.now();
+  // 🌙 Nuit sur Cetus → Eidolons (état recalculé pour rester exact entre 2 MàJ)
+  const cet=(s.cycles||{}).cetus||{};
+  if(cet.state){
+    const r=rollCycle("cetus", cet.state, ms(cet.expiryUtc), now);
+    if(r.state==="night") items.push({i:"🌙", t:"<b>Nuit sur Cetus</b> — chasse aux Eidolons (Téralyst, Gantulyst, Hydrolyst).", cd:r.expiry, k:"jour dans"});
+  }
+  // 🌀 Failles ouvertes (par palier) → ouvrir ses reliques maintenant
+  const f=s.fissures||{}, order={Lith:1,Meso:2,Neo:3,Axi:4,Requiem:5,Omnia:6};
+  const tiers=Object.keys(f.byTier||{}).sort((a,b)=>(order[a]||9)-(order[b]||9));
+  if(tiers.length) items.push({i:"🌀", t:`<b>Failles ouvertes</b> : ${tiers.map(esc).join(", ")} — ouvre tes reliques${f.steelPathCount?` · ${esc(f.steelPathCount)} en Steel Path`:""}.`});
+  // 🎯 Sortie du jour
+  const so=s.sortie||{};
+  if(so.boss) items.push({i:"🎯", t:`<b>Sortie</b> : ${esc(so.boss)} <span class="muted">${esc(so.faction||"")}</span>`, cd:ms(so.endUtc), k:"réinit dans"});
+  // 🛡️ Archon Hunt (Shard hebdo)
+  const ah=s.archonHunt||{};
+  if(ah.boss) items.push({i:"🛡️", t:`<b>Archon Hunt</b> : ${esc(ah.boss)} <span class="muted">${esc(ah.faction||"")}</span> — Shard d'Archon`, cd:ms(ah.endUtc), k:"réinit dans"});
+  // 🛒 Baro (présent, ou arrivée proche <3 j)
+  const b=s.baro||{};
+  if(b.active) items.push({i:"🛒", t:`<b>Baro Ki'Teer est là</b> — ${esc(b.location||"")}`, cd:ms(b.endUtc), k:"repart dans"});
+  else if(b.startUtc){ const left=(ms(b.startUtc)-now)/1000; if(left>0 && left<3*86400) items.push({i:"🛒", t:`<b>Baro</b> arrive bientôt — ${esc(b.location||"")}`, cd:ms(b.startUtc), k:"arrive dans"}); }
+  // 🗡️ Récompense Steel Path de la semaine
+  const sp=s.steelPath||{};
+  if(sp.currentReward&&sp.currentReward.name) items.push({i:"🗡️", t:`<b>Steel Path</b> : ${esc(sp.currentReward.name)} <span class="muted">(${esc(sp.currentReward.cost)} essences chez Teshin)</span>`});
+  // 💱 Meilleur farm de ducats du moment (depuis le marché suivi : ducats/plat le plus élevé)
+  const mk=(s.market&&s.market.items)||[];
+  const bestDuc=mk.filter(i=>typeof i.ducatsPerPlat==="number" && i.ducatsPerPlat>0).sort((a,b)=>b.ducatsPerPlat-a.ducatsPerPlat)[0];
+  if(bestDuc) items.push({i:"💱", t:`<b>Farm de ducats</b> : <a href="#card-market">${esc(bestDuc.slug.replace(/_/g," "))}</a> <span class="muted">(${esc(bestDuc.ducatsPerPlat)} ducats/plat — meilleur rendement suivi)</span>`});
+  // ♻️ Prime Resurgence (Varzia)
+  const rg=s.resurgence||{};
+  if(rg.active) items.push({i:"♻️", t:`<b>Prime Resurgence</b> : ${(rg.featured||[]).slice(0,3).map(esc).join(", ")||"Primes au coffre"} chez Varzia`, cd:ms(rg.endUtc), k:"repart dans"});
+  // 🛍️ Darvo (offre du jour)
+  const d=s.darvo||{};
+  if(d.active) items.push({i:"🛍️", t:`<b>Darvo</b> : ${esc(d.item)} <span class="sp">-${esc(d.discount)}%</span>`, cd:ms(d.endUtc), k:"fin dans"});
+
+  if(!items.length){ c.append(el("div",{class:"muted"},"Données en cours de chargement…")); return c; }
+  const wrap=el("div",{class:"todo"});
+  items.forEach(it=>{
+    const row=el("div",{class:"todoit"});
+    const cd = it.cd ? `<span class="when">${esc(it.k)} <span class="countdown" data-expiry="${it.cd||""}">—</span></span>` : "";
+    row.innerHTML=`<span class="ti">${it.i}</span><span class="tt">${it.t}</span>${cd}`;
+    wrap.append(row);
+  });
+  c.append(wrap);
+  c.append(el("div",{class:"muted",style:"margin-top:10px;font-size:11px"},"Synthèse automatique de l'état du monde — détail dans les cartes ci-dessous."));
+  return c;
+}
+
+/* — 🗡️ Steel Path : Honneurs de Teshin (récompense hebdo + rotation). Masqué si absent du summary. */
+function cardSteelPath(s){
+  const sp=s.steelPath; if(!sp || !sp.currentReward || !sp.currentReward.name) return null;
+  const c=el("div",{class:"card"}); c.append(el("h2",{},'<img class="hub-ico" src="/assets/icons/steel-path.svg" alt=""> Steel Path <span class="n">Honneurs de Teshin</span>'));
+  c.append(rowKV("Récompense de la semaine", `<b class="plat">${esc(sp.currentReward.name)}</b> <span class="muted">· ${esc(sp.currentReward.cost)} essences</span>`));
+  if(sp.expiryUtc) c.append(rowKVcd("Change dans", sp.expiryUtc));
+  const rot=(sp.rotation||[]).filter(r=>r&&r.name && r.name!==sp.currentReward.name).slice(0,5);
+  if(rot.length){
+    c.append(el("div",{class:"muted",style:"margin:9px 0 2px;font-size:11px;text-transform:uppercase;letter-spacing:.6px"},"Aussi en rotation"));
+    rot.forEach(r=> c.append(rowKV(esc(r.name), `<span class="muted">${esc(r.cost)} ess.</span>`)));
+  }
+  c.append(el("div",{class:"muted",style:"margin-top:8px;font-size:11px"},"Essences d'acier = monnaie du Steel Path, échangée chez Teshin."));
+  return c;
+}
+
+/* — ♻️ Prime Resurgence (Varzia / vaultTrader) : achète des Primes au coffre avec de l'Aya. Masqué si absent. */
+function cardResurgence(s){
+  const r=s.resurgence; if(!r || (!r.endUtc && !r.startUtc)) return null;
+  const c=el("div",{class:"card"}); c.append(el("h2",{},'<img class="hub-ico" src="/assets/icons/relique.svg" alt=""> Prime Resurgence <span class="n">Varzia</span>'));
+  if(r.active){
+    c.append(rowKV("Statut", '<span class="pill"><span class="dot day"></span>ACTIF</span>'));
+    if(r.location) c.append(rowKV("Lieu", esc(r.location)));
+    if((r.featured||[]).length) c.append(rowKV("Warframes vedettes", r.featured.map(esc).join(" · ")));
+    if(r.itemCount) c.append(rowKV("Catalogue", `${esc(r.itemCount)} articles`));
+    if(r.endUtc) c.append(rowKVcd("Repart dans", r.endUtc));
+  } else {
+    c.append(rowKV("Statut", '<span class="muted">absent</span>'));
+    if(r.startUtc) c.append(rowKVcd("Revient dans", r.startUtc));
+  }
+  c.append(el("div",{class:"muted",style:"margin-top:8px;font-size:11px"},"Achète des Primes vaultés avec de l'Aya / Aya Royale — aucune relique à farmer."));
+  return c;
+}
+
+/* — Failles + Void Storms + filtres — */
+let fissureFilter={tier:"all", sp:"all", sort:"tier", q:""};
+/* Préférences mémorisées LOCALEMENT (localStorage du navigateur du visiteur, 0 envoi réseau,
+   0 cookie, 0 tracker — ajout 05/06/2026). Le champ texte q n'est PAS persisté (volontaire).
+   try/catch : navigation privée / stockage plein = on fonctionne sans mémoire, sans erreur. */
+function loadPrefs(){
+  try{
+    const p=JSON.parse(localStorage.getItem("vr_prefs")||"{}");
+    if(["all","Lith","Meso","Neo","Axi","Requiem","Omnia"].includes(p.tier)) fissureFilter.tier=p.tier;
+    if(["all","sp","normal"].includes(p.sp)) fissureFilter.sp=p.sp;
+    if(["tier","expiry"].includes(p.sort)) fissureFilter.sort=p.sort;
+    if(["default","ducats","price","move"].includes(p.market)) marketSort=p.market;
+  }catch(e){}
+}
+function savePrefs(){
+  try{ localStorage.setItem("vr_prefs", JSON.stringify(
+    {tier:fissureFilter.tier, sp:fissureFilter.sp, sort:fissureFilter.sort, market:marketSort})); }catch(e){}
+}
+function cardFissures(s){
+  const f=s.fissures||{list:[]}, vs=s.voidStorms||{count:0,list:[]};
+  const c=el("div",{class:"card wide"});
+  c.append(el("h2",{},`<img class="hub-ico" src="/assets/icons/fissure-vide.svg" alt=""> Failles <span class="n">${f.count||0} · Steel Path ${f.steelPathCount||0} · Railjack ${vs.count||0}</span>`));
+  // contrôles
+  const ctr=el("div",{class:"controls"});
+  const tiers=["all","Lith","Meso","Neo","Axi","Requiem","Omnia"];
+  const sel=el("select",{id:"fTier","aria-label":"Filtrer les failles par palier"}); tiers.forEach(t=> sel.append(el("option",{value:t}, t==="all"?"Tous les paliers":t)));
+  sel.value=fissureFilter.tier; sel.onchange=()=>{fissureFilter.tier=sel.value; savePrefs(); renderFissureTable(s);};
+  const spSel=el("select",{id:"fSp","aria-label":"Filtrer les failles : normal ou Steel Path"});
+  [["all","Normal + Steel Path"],["sp","Steel Path uniquement"],["normal","Normal uniquement"]].forEach(([v,l])=>spSel.append(el("option",{value:v},l)));
+  spSel.value=fissureFilter.sp; spSel.onchange=()=>{fissureFilter.sp=spSel.value; savePrefs(); renderFissureTable(s);};
+  const soSel=el("select",{id:"fSort","aria-label":"Trier les failles"});
+  [["tier","Tri : palier"],["expiry","Tri : expire bientôt"]].forEach(([v,l])=>soSel.append(el("option",{value:v},l)));
+  soSel.value=fissureFilter.sort; soSel.onchange=()=>{fissureFilter.sort=soSel.value; savePrefs(); renderFissureTable(s);};
+  const fq=el("input",{id:"fQ", type:"search", placeholder:"Filtrer (mission, nœud…)", "aria-label":"Filtrer les failles par mission ou nœud"});
+  fq.value=fissureFilter.q; fq.oninput=()=>{fissureFilter.q=fq.value; renderFissureTable(s);};
+  ctr.append(sel, spSel, soSel, fq);
+  c.append(ctr);
+  c.append(el("div",{id:"fissureTable"}));
+  setTimeout(()=>renderFissureTable(s),0);
+  // Synchronicité (16/07/2026) : depuis les failles actives, un clic vers les outils reliques.
+  c.append(el("p",{class:"muted",style:"margin:10px 2px 0;font-size:12.5px"},
+    `<a href="/reliques-ce-soir">✨ Quelles reliques ouvrir ce soir ?</a> · <a href="/calc-reliques">🔮 Probabilités de drop</a> · <a href="/ducats">🪙 Convertisseur de ducats</a>`));
+  return c;
+}
+function renderFissureTable(s){
+  const host=$("#fissureTable"); if(!host) return;
+  const f=s.fissures||{list:[]}, vs=s.voidStorms||{count:0,list:[]};
+  let list=(f.list||[]).slice();
+  if(fissureFilter.tier!=="all") list=list.filter(x=>x.tier===fissureFilter.tier);
+  if(fissureFilter.sp==="sp") list=list.filter(x=>x.hard);
+  else if(fissureFilter.sp==="normal") list=list.filter(x=>!x.hard);
+  const q=(fissureFilter.q||"").trim().toLowerCase();
+  if(q){
+    // Le joueur tape FR ou EN, les données peuvent être dans l'une ou l'autre → on matche les DEUX.
+    const FR_EN={"survie":"survival","sauvetage":"rescue","espionnage":"spy","défense mobile":"mobile defense","defense mobile":"mobile defense","défense":"defense","extermination":"extermination","capture":"capture","excavation":"excavation","interception":"interception","sabotage":"sabotage","perturbation":"disruption","assaut":"assault","escarmouche":"skirmish","volatile":"volatile","alchimie":"alchemy","cascade":"void cascade"};
+    const alts=[q]; 
+    for(const [fr,en] of Object.entries(FR_EN)){ if(fr.includes(q)||q.includes(fr)) alts.push(en); if(en.includes(q)||q.includes(en)) alts.push(fr); }
+    list=list.filter(x=>{const hay=`${x.missionType||""} ${x.node||""} ${x.tier||""}`.toLowerCase(); return alts.some(a=>hay.includes(a));});
+  }
+  // Failles déjà expirées : retirées de la table (elles n'aident personne) — les failles
+  // tournent ~chaque heure, donc entre 2 MàJ auto une partie de la liste meurt. On compte ce qu'on retire.
+  const nowMs=Date.now(), beforeExp=list.length;
+  list=list.filter(x=>{const t=ms(x.endUtc); return !t || t>nowMs;});
+  const expiredHidden=beforeExp-list.length;
+  const tierOrder={Lith:1,Meso:2,Neo:3,Axi:4,Requiem:5,Omnia:6};
+  if(fissureFilter.sort==="expiry")
+    list.sort((a,b)=>(ms(a.endUtc)||9e15)-(ms(b.endUtc)||9e15));   // ce qui expire le plus tôt en premier
+  else
+    list.sort((a,b)=>(tierOrder[a.tier]||9)-(tierOrder[b.tier]||9) || (ms(a.endUtc)||0)-(ms(b.endUtc)||0));
+  let h=`<table><thead><tr><th>Palier</th><th>Mission</th><th>Nœud</th><th class="r">Expire</th></tr></thead><tbody>`;
+  if(!list.length) h+= expiredHidden
+    ? `<tr><td colspan="4" class="muted">Les ${expiredHidden} failles connues ont expiré — nouvelle liste à la prochaine mise à jour automatique.</td></tr>`
+    : `<tr><td colspan="4" class="muted">Aucune faille pour ce filtre.</td></tr>`;
+  list.slice(0,40).forEach(x=>{
+    h+=`<tr><td><span class="tierTag tier-${esc(x.tier)}">${esc(x.tier)}</span>${x.hard?' <span class="sp">SP</span>':''}</td>
+      <td>${esc(prettyMission(x.missionType))}</td><td class="muted">${esc(x.node)}</td>
+      <td class="r"><span class="countdown" data-expiry="${ms(x.endUtc)||""}">—</span></td></tr>`;
+  });
+  h+=`</tbody></table>`;
+  if(vs.count){
+    h+=`<div style="margin-top:10px" class="muted">🚀 Railjack (Void Storms) : `+
+       (vs.list||[]).slice(0,8).map(v=>`${esc(v.node)} <span class="tierTag tier-${esc(v.tier)}">${esc(v.tier)}</span>`).join(" · ")+`</div>`;
+  }
+  host.innerHTML=h; tick();
+}
+
+/* — Invasions — */
+function cardInvasions(s){
+  const inv=s.invasions||{count:0,list:[]};
+  const c=el("div",{class:"card"}); c.append(el("h2",{},`<img class="hub-ico" src="/assets/icons/invasion.svg" alt=""> Invasions <span class="n">${inv.count||0}</span>`));
+  if(!(inv.list||[]).length){ c.append(el("div",{class:"muted"},"Aucune invasion en cours.")); return c; }
+  inv.list.slice(0,8).forEach(i=>{
+    const pct = i.completion!=null ? Math.max(0,Math.min(100,Math.round(i.completion))) : null;
+    // Factions parfois absentes (vieux summary) → repli sur la description, jamais « null vs null ».
+    const duel = (i.attacker||i.defenderFaction)
+      ? `${esc(i.attacker||"?")} <span class="muted">vs</span> ${esc(i.defenderFaction||"?")}`
+      : esc(i.desc||"Invasion");
+    c.append(el("div",{style:"padding:7px 0;border-top:1px dashed #16222d"},
+      `<div style="display:flex;justify-content:space-between;gap:8px">
+         <span>${duel}</span>
+         <span class="muted nowrap">${esc(i.node)}</span></div>
+       ${pct!=null?`<div class="bar" style="margin-top:5px"><i style="width:${pct}%"></i></div>`:''}`));
+  });
+  return c;
+}
+
+/* — Marché enrichi — */
+let marketSort="default";
+function cardMarket(s){
+  const m=s.market||{items:[]};
+  const c=el("div",{class:"card wide", id:"card-market"});
+  c.append(el("h2",{},`<img class="hub-ico" src="/assets/icons/platine.svg" alt=""> Marché <span class="n">${esc(m.platform||"pc")} · ${(m.items||[]).length} items</span>`));
+  // Honnêteté en mode secours : les prix ne sont PAS secourus → afficher leur vraie date.
+  if(s.marketAsOf && rescued){
+    const enRetard = (Date.now()-(ms(s.marketAsOf)||0)) > STALE_MS;
+    c.append(el("div",{class:"muted",style:"margin:-6px 0 8px;font-size:11.5px"},
+      (enRetard?"Prix datés du ":"Prix relevés le ")+esc(new Date(ms(s.marketAsOf)).toLocaleString("fr-FR",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"}))+
+      (enRetard?" (la mise à jour interne est en retard — le reste de la page est secouru en direct).":" (mise à jour quotidienne — le reste de la page est en direct).")));
+  }
+  // recherche + tri
+  const ctr=el("div",{class:"controls"});
+  const search=el("input",{id:"mq", type:"search", placeholder:"Filtrer un item…", "aria-label":"Filtrer un item"});
+  search.oninput=()=>renderMarket(s);
+  const sortSel=el("select",{id:"mSort","aria-label":"Trier les items du marché"});
+  [["default","Tri : liste"],["ducats","Tri : ducats/plat ↓"],["price","Tri : prix ↑"],["move","Tri : plus gros mouvements"]].forEach(([v,l])=>sortSel.append(el("option",{value:v},l)));
+  sortSel.value=marketSort; sortSel.onchange=()=>{marketSort=sortSel.value; savePrefs(); renderMarket(s);};
+  const link=el("a",{href:"https://warframe.market", target:"_blank", rel:"noopener noreferrer", class:"chip", style:"padding:7px 10px;border:1px solid var(--line);border-radius:9px"},"warframe.market ↗");
+  ctr.append(search,sortSel,link); c.append(ctr);
+  // movers
+  const mv=(s.marketMovers||[]);
+  if(mv.length){
+    const wrap=el("div",{class:"muted",style:"margin:0 0 10px"});
+    wrap.innerHTML="📈 Mouvements 24 h : "+mv.map(x=>{
+      const up=x.change24h>0; return `${esc(x.slug.replace(/_/g," "))} <span class="trend ${up?'up':'down'}">${up?'▲':'▼'}${Math.abs(x.change24h)}p</span>`;
+    }).join(" · ");
+    c.append(wrap);
+  }
+  c.append(el("div",{id:"marketTable"}));
+  setTimeout(()=>renderMarket(s),0);
+  return c;
+}
+function spark(arr){
+  const pts=(arr||[]).filter(n=>typeof n==="number");
+  if(pts.length<2) return `<span class="muted" style="font-size:11px">—</span>`;
+  const w=70,h=20, mn=Math.min(...pts), mx=Math.max(...pts), rg=(mx-mn)||1;
+  const d=pts.map((v,i)=>`${(i/(pts.length-1)*w).toFixed(1)},${(h-((v-mn)/rg)*h).toFixed(1)}`).join(" ");
+  const up=pts[pts.length-1]>pts[0]; const col=up?"var(--bad)":(pts[pts.length-1]<pts[0]?"var(--ok)":"var(--mut)");
+  return `<svg class="spark" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-hidden="true"><polyline points="${d}" fill="none" stroke="${col}" stroke-width="1.6"/></svg>`;
+}
+function renderMarket(s){
+  const host=$("#marketTable"); if(!host) return;
+  const m=s.market||{items:[]};
+  let items=(m.items||[]).slice();
+  const q=($("#mq")&&$("#mq").value||"").trim().toLowerCase();
+  if(q) items=items.filter(i=>i.slug.toLowerCase().includes(q.replace(/\s+/g,"_")) || i.slug.replace(/_/g," ").toLowerCase().includes(q));
+  if(marketSort==="ducats") items.sort((a,b)=>(b.ducatsPerPlat||0)-(a.ducatsPerPlat||0));
+  else if(marketSort==="price") items.sort((a,b)=>(a.minSellPlat||1e9)-(b.minSellPlat||1e9));
+  else if(marketSort==="move") items.sort((a,b)=>Math.abs(b.change24h||0)-Math.abs(a.change24h||0));
+  let h=`<table><thead><tr><th>Item</th><th class="r">Min</th><th class="r">Méd.</th><th class="r">Δ24h</th><th class="r">Δ7j</th><th class="r">Tendance</th><th class="r">Duc/plat</th></tr></thead><tbody>`;
+  if(!items.length) h+=`<tr><td colspan="7" class="muted">Aucun item.</td></tr>`;
+  items.forEach(i=>{
+    const tr = i.trend||"flat", arr = tr==="up"?"▲":(tr==="down"?"▼":"—");
+    const c24=i.change24h, c7=i.change7d;
+    const url="https://warframe.market/items/"+encodeURIComponent(i.slug);
+    h+=`<tr class="${i.alert?'alert':''}">
+      <td><a href="${url}" target="_blank" rel="noopener noreferrer">${esc(i.slug.replace(/_/g," "))}</a>${i.alert?` <span class="sp" title="variation forte">●</span>`:''}</td>
+      <td class="r"><b>${i.minSellPlat??"—"}</b>p</td>
+      <td class="r muted">${i.median??"—"}</td>
+      <td class="r ${c24>0?'trend up':(c24<0?'trend down':'muted')}">${c24!=null?(c24>0?'+':'')+c24:'·'}</td>
+      <td class="r ${c7>0?'trend up':(c7<0?'trend down':'muted')}">${c7!=null?(c7>0?'+':'')+c7:'·'}</td>
+      <td class="r"><span class="trend ${tr}">${arr}</span> ${spark(i.spark)}</td>
+      <td class="r muted">${i.ducatsPerPlat!=null?i.ducatsPerPlat:'—'}</td></tr>`;
+  });
+  h+=`</tbody></table><div class="muted" style="margin-top:8px;font-size:11.5px">Δ = variation du prix plancher (plat). « Duc/plat » : ducats obtenus par plat dépensé (plus haut = meilleur farm de ducats).</div>`;
+  host.innerHTML=h;
+}
+
+/* — Nouveautés — */
+/* — Rivens : médianes OFFICIELLES des échanges réels (dataset hebdo DE via warframestat).
+   Honnêteté : stats observées par ARME (pas une cote par roll — voir FAQ #riven). Carte absente si pas de données. */
+function cardRivens(s){
+  const rv=s.rivens; if(!rv || !(rv.top||[]).length) return null;
+  const c=el("div",{class:"card", id:"card-rivens"});
+  c.append(el("h2",{},`<img class="hub-ico" src="/assets/icons/riven.svg" alt=""> Rivens <span class="n">médianes officielles</span>`));
+  c.append(el("div",{class:"muted",style:"margin:-4px 0 8px;font-size:11.5px"},
+    "Médiane des échanges réels par arme (stats hebdo officielles DE). Un roll précis peut valoir bien plus ou bien moins — <a href=\"/faq#riven\">pourquoi</a>."));
+  (rv.top||[]).slice(0,8).forEach(r=>{
+    c.append(el("div",{class:"row"},
+      `<span class="k">${esc(r.weapon)} <span class="muted" style="font-size:11px">${esc(r.category)}</span></span>
+       <span class="v">${esc(r.median)}p <span class="muted" style="font-size:11px">· pop ${esc(r.pop)}</span></span>`));
+  });
+  if(rv.updated_utc) c.append(el("div",{class:"muted",style:"margin-top:8px;font-size:11px"},"Stats du "+esc(String(rv.updated_utc).slice(0,10))));
+  c.append(el("div",{class:"muted",style:"margin-top:4px;font-size:11px"},'Estimer le prix d\'un objet ou d\'une arme → <a href="/compagnon">Compagnon</a>.'));
+  return c;
+}
+
+function cardNews(){
+  const c=el("div",{class:"card wide"}); c.append(el("h2",{},"📰 Nouveautés"));
+  const items=(NEWS&&NEWS.items)||[];
+  if(!items.length){ c.append(el("div",{class:"muted"},"Pas encore de digest. L'Action hebdomadaire renseignera cette section.")); return c; }
+  const wrap=el("div",{class:"news"});
+  items.slice(0,12).forEach(n=>{
+    const when = n.date? new Date(n.date).toLocaleDateString("fr-FR",{day:"2-digit",month:"short"}) : "";
+    const tag = n.tag && n.tag!=="news" ? `<span class="tag ${esc(n.tag)}">${esc(n.tag)}</span>` : "";
+    const it=el("div",{class:"it"});
+    const safe=safeUrl(n.link);
+    it.innerHTML=`<span class="when">${esc(when)}</span>
+       <span>${safe?`<a href="${esc(safe)}" target="_blank" rel="noopener noreferrer">${esc(n.message)}</a>`:esc(n.message)}${tag}</span>`;
+    wrap.append(it);
+  });
+  c.append(wrap);
+  if(NEWS&&NEWS.updated_utc) c.append(el("div",{class:"muted",style:"margin-top:10px;font-size:11.5px"},"Digest du "+esc(NEWS.updated_utc)+(NEWS.source?` · source : ${esc(NEWS.source)}`:"")));
+  return c;
+}
+
+/* — Helpers de lignes — */
+function rowKV(k,v){ return el("div",{class:"row"},`<span class="k">${k}</span><span class="v">${v}</span>`); }
+function rowKVcd(k,iso,zeroLabel){ const t=ms(iso);
+  // zeroLabel : texte de repli quand le compte atteint 0 — « expiré » convient à une fin (faille, sortie)
+  // mais pas à une ARRIVÉE (Baro) où l'on veut « imminent » le temps que l'API bascule.
+  return el("div",{class:"row"},`<span class="k">${k}</span><span class="v"><span class="countdown" data-expiry="${t||""}"${zeroLabel?` data-zero="${zeroLabel}"`:""}>—</span></span>`); }
+
+/* ───────────────────────── Boucle des compteurs (1 Hz) ───────────────────────── */
+function tick(){
+  const now=Date.now();
+  // cycles : rollover + état + prochaine bascule
+  document.querySelectorAll(".cd[data-cycle]").forEach(node=>{
+    const key=node.getAttribute("data-cycle");
+    const st0=node.getAttribute("data-state");
+    const exp0=parseInt(node.getAttribute("data-expiry"),10);
+    const r=rollCycle(key, st0, isNaN(exp0)?null:exp0, now);
+    const left = r.expiry? (r.expiry-now)/1000 : null;
+    node.textContent = fmtDur(left);
+    node.classList.toggle("soon", left!=null && left<300);
+    const stEl=document.getElementById("st-"+key); if(stEl) stEl.textContent=STATE_LABEL[r.state]||r.state||"—";
+    const dot=document.getElementById("dot-"+key); if(dot) dot.className="dot "+(r.state||"");
+    const nx=document.getElementById("nx-"+key);
+    if(nx){ const m=CYCLE_MODELS[key]; const other=m.order.find(o=>o!==r.state);
+      // Heure ABSOLUE de la bascule (locale) : les chasseurs d'Eidolons planifient « Nuit à 21:43 »
+      const at = r.expiry ? new Date(r.expiry).toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"}) : null;
+      nx.textContent="→ "+(STATE_LABEL[other]||other)+(at?` · ${at}`:""); }
+  });
+  // compteurs génériques (Baro, sortie, failles, etc.)
+  document.querySelectorAll(".countdown[data-expiry]:not([data-cycle])").forEach(node=>{
+    const t=parseInt(node.getAttribute("data-expiry"),10);
+    if(isNaN(t)){ node.textContent="—"; return; }
+    const left=(t-now)/1000;
+    node.textContent = left<=0 ? (node.getAttribute("data-zero")||"expiré") : fmtDur(left);
+    node.classList.toggle("soon", left>0 && left<600);
+  });
+}
+setInterval(tick, 1000);
+setInterval(load, REFRESH_MS);
+
+/* ───────────────────────── Jeu de DÉMO (fallback hors-ligne) ───────────────────────── */
+const _now=Date.now();
+const inMin=n=>new Date(_now+n*60000).toISOString();
+const DEMO={
+  summary:{
+    updated_utc:new Date(_now-120000).toISOString(), scriptVersion:"1.2.0",
+    sources:{worldstate:"warframestat", market:"ok"},
+    cycles:{
+      cetus:{state:"day",  timeLeftSeconds:1800, expiryUtc:inMin(30)},
+      vallis:{state:"warm",timeLeftSeconds:240,  expiryUtc:inMin(4)},
+      cambion:{state:"fass",timeLeftSeconds:1800,expiryUtc:inMin(30)},
+      earth:{state:"night",timeLeftSeconds:5400, expiryUtc:inMin(90)},
+    },
+    baro:{active:false, character:"Baro Ki'Teer", location:"Larunda Relay (Mercure)", startUtc:inMin(60*52), endUtc:inMin(60*100)},
+    darvo:{active:true, item:"Greater Vazarin Lens", discount:50, originalPlat:40, salePlat:20, total:50, sold:34, stockLeft:16, endUtc:inMin(300)},
+    sortie:{boss:"Corrupted Vor", faction:"Corrupted", endUtc:inMin(640),
+      missions:[{missionType:"MT_TERRITORY",modifier:"SORTIE_MODIFIER_LOW_ENERGY"},{missionType:"MT_MOBILE_DEFENSE",modifier:"SORTIE_MODIFIER_SECONDARY_ONLY"},{missionType:"MT_EXTERMINATION",modifier:"SORTIE_MODIFIER_VIRAL"}]},
+    archonHunt:{boss:"Nira", faction:"Narmer", endUtc:inMin(60*72)},
+    nightwave:{season:17, phase:0, activeChallenges:10, endUtc:inMin(60*24*120)},
+    steelPath:{currentReward:{name:"50 000 Kuva", cost:55}, expiryUtc:inMin(60*24*2),
+      rotation:[{name:"Umbra Forma (plan)",cost:150},{name:"3× Forma",cost:75},{name:"30 000 Endo",cost:150},{name:"Riven de fusil",cost:75}],
+      evergreens:[{name:"Cipher de Riven voilé",cost:20}]},
+    resurgence:{active:true, character:"Varzia", location:"Bazar de Maroo (Mars)", startUtc:inMin(-60*24*10),
+      endUtc:inMin(60*24*5), itemCount:19, featured:["Rhino Prime","Nyx Prime"]},
+    fissures:{count:6, steelPathCount:2, byTier:{Lith:1,Meso:1,Neo:1,Axi:1,Requiem:1,Omnia:1}, list:[
+      {tier:"Lith",missionType:"MT_CAPTURE",node:"Lith · Earth",hard:false,endUtc:inMin(48)},
+      {tier:"Meso",missionType:"MT_DEFENSE",node:"Io · Jupiter",hard:false,endUtc:inMin(33)},
+      {tier:"Neo",missionType:"MT_SURVIVAL",node:"Hydron · Sedna",hard:true,endUtc:inMin(55)},
+      {tier:"Axi",missionType:"MT_EXTERMINATION",node:"Helene · Saturn",hard:false,endUtc:inMin(61)},
+      {tier:"Requiem",missionType:"MT_INTEL",node:"Kuva Fortress",hard:false,endUtc:inMin(40)},
+      {tier:"Omnia",missionType:"MT_VOID_CASCADE",node:"Tuvul Commons · Zariman",hard:true,endUtc:inMin(72)},
+    ]},
+    voidStorms:{count:3, list:[{node:"Várzia · Veil",tier:"Axi",endUtc:inMin(20)},{node:"Khufu Envoy · Pluto",tier:"Neo",endUtc:inMin(35)},{node:"Sover Strait · Earth",tier:"Lith",endUtc:inMin(15)}]},
+    invasions:{count:3, list:[
+      {attacker:"Grineer",defenderFaction:"Corpus",node:"Sangeru · Sedna",completion:62.4},
+      {attacker:"Corpus",defenderFaction:"Grineer",node:"Galatea · Neptune",completion:-31.2},
+      {attacker:"Infested",defenderFaction:"Grineer",node:"Naga · Sedna",completion:48.0},
+    ]},
+    marketMovers:[{slug:"wisp_prime_set",change24h:-12,minSellPlat:73},{slug:"primed_flow",change24h:9,minSellPlat:49}],
+    market:{platform:"pc", items:[
+      {slug:"mirage_prime_set", minSellPlat:85, median:88, change24h:3, change7d:-6, trend:"up",  ducats:175, ducatsPerPlat:2.06, spark:[92,90,88,89,86,84,85]},
+      {slug:"octavia_prime_set",minSellPlat:80, median:86, change24h:-4,change7d:-11,trend:"down",ducats:175, ducatsPerPlat:2.19, spark:[95,93,90,88,86,84,80]},
+      {slug:"wisp_prime_set",   minSellPlat:73, median:75, change24h:-12,change7d:-18,trend:"down",ducats:175, ducatsPerPlat:2.40, alert:"drop", spark:[95,92,90,88,82,79,73]},
+      {slug:"khora_prime_set",  minSellPlat:85, median:85, change24h:0, change7d:2,  trend:"flat",ducats:175, ducatsPerPlat:2.06, spark:[83,84,85,85,84,85,85]},
+      {slug:"gauss_prime_set",  minSellPlat:49, median:50, change24h:1, change7d:-3, trend:"up",  ducats:175, ducatsPerPlat:3.57, spark:[53,52,51,50,49,49,49]},
+      {slug:"arcane_energize",  minSellPlat:95, median:99, change24h:5, change7d:14, trend:"up",  ducats:0,   ducatsPerPlat:null, spark:[80,82,85,88,90,93,95]},
+      {slug:"primed_flow",      minSellPlat:49, median:52, change24h:9, change7d:9,  trend:"up",  ducats:0,   ducatsPerPlat:null, alert:"spike", spark:[40,42,44,46,48,49,49]},
+    ]},
+  },
+  news:{ updated_utc:new Date(_now-3600000).toISOString().slice(0,10), source:"warframestat /pc/news",
+    items:[
+      {message:"Jade Shadows: Constellations — disponible le 17 juin", link:"https://www.warframe.com/news", date:inMin(-60*24*1), tag:"update"},
+      {message:"Styanax Prime Access arrive le 17 juin", link:"https://www.warframe.com/news", date:inMin(-60*24*1), tag:"primeAccess"},
+      {message:"Devstream 196 : Sirius & Orion — récap complet", link:"https://www.warframe.com/news", date:inMin(-60*24*3), tag:"stream"},
+      {message:"Update 42 : The Shadowgrapher — notes de mise à jour", link:"https://www.warframe.com/news", date:inMin(-60*24*9), tag:"update"},
+      {message:"Pride 2026 dans Warframe", link:"https://www.warframe.com/news", date:inMin(-60*24*4), tag:"news"},
+    ]},
+};
+
+/* ───────────────────────── 🔔 Notifications navigateur (opt-in, 100 % client) ─────────────────────────
+   Faceless, sans serveur, sans secret, AUCUN réseau : API Notification du navigateur uniquement.
+   - Aucune donnée envoyée nulle part. Choix mémorisés en localStorage (vr_notif).
+   - Alerte quand un cycle bascule (nuit Cetus, Orb Vallis, Cambion) ou quand Baro arrive.
+   - Anti-spam : on notifie SEULEMENT au changement d'état réel (mémorise le dernier état vu) ; jamais au chargement.
+   - Limite honnête : le navigateur n'alerte que si l'onglet VoidRelay est ouvert (pas de push hors-ligne). */
+const NOTIF_KEY="vr_notif";
+const NOTIF_EVENTS=[
+  {id:"cetusNight", label:"🌙 Nuit sur Cetus (Eidolons)"},
+  {id:"vallis",     label:"🌡️ Bascule Orb Vallis (chaud/froid)"},
+  {id:"cambion",    label:"🪲 Bascule Cambion (Fass/Vome)"},
+  {id:"baro",       label:"🛰️ Arrivée de Baro Ki'Teer"},
+];
+const isEN=(document.documentElement.lang||"fr").slice(0,2).toLowerCase()==="en";
+const NTXT={
+  cetusNight: isEN?"Cetus is now night — Eidolon hunt!":"Cetus passe à la nuit — chasse aux Eidolons !",
+  warm: isEN?"Orb Vallis: warm.":"Orb Vallis : chaud.",
+  cold: isEN?"Orb Vallis: cold.":"Orb Vallis : froid.",
+  fass: isEN?"Cambion Drift: Fass.":"Cambion : Fass.",
+  vome: isEN?"Cambion Drift: Vome.":"Cambion : Vome.",
+  baro: isEN?"Baro Ki'Teer has arrived!":"Baro Ki'Teer est arrivé !",
+};
+let notifPrefs={cetusNight:false,vallis:false,cambion:false,baro:false};
+let notifSeen={};   // dernier état notifié par cycle / fenêtre Baro (anti-doublon)
+function notifLoad(){ try{ const p=JSON.parse(localStorage.getItem(NOTIF_KEY)||"{}");
+  NOTIF_EVENTS.forEach(e=>{ if(typeof p[e.id]==="boolean") notifPrefs[e.id]=p[e.id]; }); }catch(e){} }
+function notifSave(){ try{ localStorage.setItem(NOTIF_KEY, JSON.stringify(notifPrefs)); }catch(e){} }
+function notifAnyOn(){ return Object.values(notifPrefs).some(Boolean); }
+function fire(body){
+  try{ if(window.Notification && Notification.permission==="granted")
+    new Notification("VoidRelay — Warframe", {body:body, tag:"voidrelay", icon:"assets/og.png"}); }catch(e){}
+}
+function currentCycleState(key){
+  const cur=((DATA&&DATA.cycles)||{})[key]||{};
+  if(!cur.state) return null;
+  return rollCycle(key, cur.state, ms(cur.expiryUtc), Date.now()).state;
+}
+function checkNotifs(){
+  if(!DATA || !notifAnyOn()) return;
+  if(!(window.Notification && Notification.permission==="granted")) return;
+  const checkCycle=(key, prefId, onChange)=>{
+    const st=currentCycleState(key); if(!st) return;
+    const prev=notifSeen[key];
+    if(prev===undefined){ notifSeen[key]=st; return; }     // 1er passage : on enregistre, pas d'alerte
+    if(st!==prev){ notifSeen[key]=st; if(notifPrefs[prefId]) onChange(st); }
+  };
+  checkCycle("cetus","cetusNight", st=>{ if(st==="night") fire(NTXT.cetusNight); });
+  checkCycle("vallis","vallis",    st=>{ fire(st==="warm"?NTXT.warm:NTXT.cold); });
+  checkCycle("cambion","cambion",  st=>{ fire(st==="fass"?NTXT.fass:NTXT.vome); });
+  const b=(DATA&&DATA.baro)||{};
+  if(notifPrefs.baro && b.active && b.endUtc){
+    const key="baro:"+b.endUtc;
+    if(notifSeen._baro!==key){ notifSeen._baro=key; fire(NTXT.baro); }
+  }
+}
+function updNote(denied){
+  const n=$("#notifNote"); if(!n) return;
+  if(!("Notification" in window)){ n.className="note bad";
+    n.textContent=isEN?"This browser doesn't support notifications.":"Ce navigateur ne gère pas les notifications."; return; }
+  if(denied || Notification.permission==="denied"){ n.className="note bad";
+    n.textContent=isEN?"Notifications are blocked in your browser settings.":"Les notifications sont bloquées dans les réglages du navigateur."; return; }
+  n.className="note";
+  n.textContent=isEN?"Alerts fire only while VoidRelay is open in a tab (no offline push)."
+                    :"Les alertes ne se déclenchent que si VoidRelay reste ouvert dans un onglet (pas de push hors-ligne).";
+}
+function buildNotifPanel(){
+  const p=$("#notifPanel"); if(!p) return; p.innerHTML="";
+  p.append(el("div",{class:"ttl"}, isEN?"🔔 Browser alerts":"🔔 Alertes navigateur"));
+  p.append(el("div",{class:"lead"}, isEN
+    ? "Free, private, no account — your choices stay in this browser."
+    : "Gratuit, privé, sans compte — tes choix restent dans ce navigateur."));
+  NOTIF_EVENTS.forEach(e=>{
+    const lab=el("label",{});
+    const cb=el("input",{type:"checkbox"}); cb.checked=!!notifPrefs[e.id];
+    cb.onchange=async()=>{
+      if(cb.checked && window.Notification && Notification.permission!=="granted"){
+        let perm=Notification.permission;
+        try{ if(perm!=="denied") perm=await Notification.requestPermission(); }catch(err){}
+        if(perm!=="granted"){ cb.checked=false; updNote(true); return; }
+      }
+      notifPrefs[e.id]=cb.checked; notifSave(); notifSeen={}; updNote(false);  // ré-amorce : pas d'alerte immédiate
+    };
+    lab.append(cb, el("span",{}, e.label)); p.append(lab);
+  });
+  p.append(el("div",{class:"note", id:"notifNote"})); updNote(false);
+}
+function initNotif(){
+  notifLoad();
+  const btn=$("#btnNotif"), panel=$("#notifPanel"); if(!btn||!panel) return;
+  buildNotifPanel();
+  btn.addEventListener("click", ()=>{
+    if(panel.hasAttribute("hidden")){ panel.removeAttribute("hidden"); btn.setAttribute("aria-expanded","true"); }
+    else { panel.setAttribute("hidden",""); btn.setAttribute("aria-expanded","false"); }
+  });
+  setInterval(checkNotifs, 15000);
+}
+
+/* go */
+loadPrefs();   // restaure les préférences locales (filtres/tri) avant le premier rendu
+load();
+initNotif();   // 🔔 alertes opt-in (n'envoie rien tant que l'utilisateur n'a pas activé + autorisé)
+</script>
+  <!-- Cloudflare Web Analytics — gratuit, sans cookie, conforme RGPD. INERTE par défaut :
+       ne charge RIEN tant que __CF_BEACON_TOKEN__ n'est pas remplacé (cf. ACTIVATION_VOIDRELAY.md). -->
+  <script>/* beacon analytics : chargé UNIQUEMENT si le token est collé — 0 requête sinon */(function(){var T="__CF_BEACON_TOKEN__";if(/^__CF/.test(T))return;var s=document.createElement("script");s.defer=true;s.src="https://static.cloudflareinsights.com/beacon.min.js";s.setAttribute("data-cf-beacon",JSON.stringify({token:T}));(document.head||document.documentElement).appendChild(s);})();</script>
+  <script defer src="/js/sync.js"></script>
+  <script defer>
+  /* Branchement de la synchronisation. Tout le travail est dans js/sync.js ;
+     ici on ne fait qu'écouter, afficher, et surtout DIRE ce qui se passe —
+     un dispositif sans récupération possible doit être bavard. */
+  document.addEventListener("DOMContentLoaded", function () {
+    var S = window.VRSync, etat = document.getElementById("syncEtat");
+    if (!S || !etat) return;
+    var champ = document.getElementById("syncCode");
+    var MEM = "vr-sync-code";
+    try { var d = localStorage.getItem(MEM); if (d) champ.value = d; } catch (e) {}
+    function dis(html) { etat.innerHTML = html; }
+    function retiens(code) { try { localStorage.setItem(MEM, code); } catch (e) {} }
+    /* Un 404 (serveur de fichiers) ou un 503 (liaison D1 absente) ne sont pas
+       des pannes : c'est le dispositif qui n'est pas encore branché. Le dire
+       ainsi, plutôt que de recracher « réponse illisible » à un visiteur. */
+    function souci(r) {
+      var st = r && r.statut, c = (r && r.corps) || {};
+      // 0 = réseau, 404/501 = serveur de fichiers (501 sur un POST), 503 =
+      // liaison D1 absente, « réponse illisible » = ce n'était pas du JSON.
+      if (st === 0 || st === 404 || st === 501 || st === 503 || c.error === "r\u00e9ponse illisible") {
+        return "La synchronisation n'est pas encore branch\u00e9e sur ce site" +
+          (st ? " (" + st + ")" : "") + ". " + (c.detail || "Tes donn\u00e9es restent dans ce navigateur, comme avant.");
+      }
+      return c.error || ("erreur " + st);
+    }
+
+    document.getElementById("syncNew").addEventListener("click", function () {
+      var code = S.genereCode();
+      champ.value = code;
+      retiens(code);
+      dis('Ton code : <span class="code">' + code + "</span> — note-le maintenant, il ne sera pas retrouvable. Envoi\u2026");
+      S.envoie(code).then(function (r) {
+        dis(r.corps && r.corps.ok
+          ? 'Sauvegard\u00e9. Ton code : <span class="code">' + code + "</span> — recopie-le sur ton autre appareil."
+          : "Le code est cr\u00e9\u00e9, mais rien n'a \u00e9t\u00e9 sauvegard\u00e9. " + souci(r));
+      });
+    });
+
+    document.getElementById("syncPush").addEventListener("click", function () {
+      var code = champ.value;
+      if (!S.codeValide(code)) { dis("Entre d'abord un code valide (ou cr\u00e9e-en un)."); return; }
+      retiens(code);
+      dis("Envoi\u2026");
+      S.envoie(code).then(function (r) {
+        dis(r.corps && r.corps.ok ? "Sauvegard\u00e9." : souci(r));
+      });
+    });
+
+    document.getElementById("syncPull").addEventListener("click", function () {
+      var code = champ.value;
+      if (!S.codeValide(code)) { dis("Ce code n'a pas la bonne forme (20 signes, en 4 groupes)."); return; }
+      retiens(code);
+      dis("R\u00e9cup\u00e9ration\u2026");
+      S.recupere(code).then(function (r) {
+        dis(r.corps && r.corps.ok
+          ? r.corps.restaurees + " \u00e9l\u00e9ment(s) restaur\u00e9(s). Recharge la page pour les voir."
+          : souci(r));
+      });
+    });
+  });
+  </script>
+</body>
+</html>

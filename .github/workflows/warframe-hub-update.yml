@@ -1,0 +1,85 @@
+name: Warframe Hub - data update (1x/jour)
+
+# Rafraîchit les données du Hub une fois par jour, puis commit -> redéploie
+# automatiquement (githack/Pages servent les fichiers à jour).
+#
+# Cadence choisie le 05/06/2026 (bot amélioration continue) : les failles vivent ~1 h,
+# le marché bouge en continu → 1×/jour rendait le « direct » daté 95 % du temps.
+# 28/07/2026 : cadence 2 h -> 4 h. L'estimation « ~370 min/mois » supposait ~1 min/run ;
+# durée réelle mesurée = 3,2 min/run, soit ~1 150 min/mois à 2 h — le quota gratuit
+# (2 000 min/mois, repo privé) a été épuisé le 15/07 et données+CI gelées jusqu'au 1er août.
+# À 4 h : 6 runs/jour × 3,2 min ≈ 580 min/mois, marge restaurée sans dépenser un centime.
+# 27/09/2026 : cadence 4 h -> 1×/jour, à la demande de l'admin. Le quota a de nouveau été
+# épuisé le 22/09 et les prix sont restés figés 5 jours. À 1×/jour : ~7 min × 30 ≈ 210 min/mois
+# (au lieu de ~1 260). Les failles/Baro/sortie du Hub restent exactes : au-delà de 1 h 30,
+# hub.html les relit en direct sur warframestat (WS_LIVE_MS). Les prix ont jusqu'à ~24 h.
+# Minute 17 (pas 0) : les crons GitHub à la minute 0 sont retardés/sautés en pic de charge.
+#
+# AUCUN secret, AUCUN PAT requis au runtime : le commit/push utilise le jeton
+# GITHUB_TOKEN fourni AUTOMATIQUEMENT par GitHub Actions (permission contents:write).
+# Le workflow n'écrit QUE dans data/ : il ne peut pas casser le site.
+
+on:
+  schedule:
+    - cron: "17 5 * * *"       # une fois par jour, 05:17 UTC (07:17 à Paris l'été)
+  workflow_dispatch: {}         # bouton "Run workflow" pour un test manuel immédiat
+
+# Une seule exécution à la fois (évite les conflits de push).
+concurrency:
+  group: warframe-hub-update
+  cancel-in-progress: false
+
+permissions:
+  contents: write               # nécessaire pour committer data/ ; rien de plus.
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        # Épinglé par SHA (durcissement chaîne d'appro) = commit du tag v4,
+        # vérifié via api.github.com le 05/06/2026.
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Rafraîchir les données (Python stdlib, aucune install)
+        run: python3 scripts/update_warframe_data.py
+
+      - name: Valider que tous les data/*.json sont du JSON correct
+        run: |
+          set -e
+          for f in data/*.json; do
+            python3 -c "import json,sys; json.load(open(sys.argv[1]))" "$f"
+            echo "OK  $f"
+          done
+
+      - name: Garde-fou CONTRAT - summary.json garde la forme que hub.html attend
+        # Si l'API amont change de forme, on REFUSE le commit → le site garde les
+        # dernières données saines au lieu de casser. (scripts/check_contract.py, stdlib,
+        # banc de pannes 7/7 le 05/06/2026.)
+        run: python3 scripts/check_contract.py data/summary.json
+
+      - name: Garde-fou - ne stager QUE data/ (jamais les fichiers du site)
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/
+          # Refuser de continuer si autre chose que data/ a changé.
+          if ! git diff --cached --quiet -- ':(exclude)data/*' ':(exclude)data'; then
+            echo "::error::Des fichiers hors data/ ont changé — abandon par sécurité."
+            git reset
+            exit 1
+          fi
+
+      - name: Commit + push (seulement si les données ont changé)
+        run: |
+          if git diff --cached --quiet; then
+            echo "Aucun changement de données — rien à committer."
+            exit 0
+          fi
+          # PAS de flag [skip ci] : Cloudflare Pages saute les builds si un flag skip est en
+          # PRÉFIXE du message (doc officielle) → on n'en met nulle part pour que chaque
+          # commit data redéploie bien le site. (Les pushes GITHUB_TOKEN ne re-déclenchent
+          # de toute façon aucun workflow Actions : pas de boucle possible.)
+          git commit -m "chore(data): maj Warframe Hub $(date -u +'%Y-%m-%d %H:%MZ')"
+          git push

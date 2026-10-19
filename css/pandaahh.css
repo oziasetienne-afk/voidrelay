@@ -1,0 +1,809 @@
+/* ============================================================================
+   VoidRelay — thème « clair & doré » (rendu calqué sur l'esprit de pandaahh.fr)
+   Header flottant, mise en page bento, cartes arrondies flottantes, titres or.
+   CSS original (aucun asset tiers) reproduisant la palette : fond clair,
+   texte navy, accent doré.
+   ========================================================================== */
+/* ==========================================================================
+   DESIGN SYSTEM v2 — tokens (échelles cohérentes : couleur, typo, espace,
+   profondeur, états). Défaut = thème CLAIR ci-dessous ; le thème SOMBRE
+   (forcé par défaut sur le site) est plus bas dans le fichier.
+   Direction A « Orokin » = valeurs de base. Direction B « Void Tech » =
+   surcouche css/direction-b.css qui ne redéfinit que ces tokens + qq états.
+   ========================================================================== */
+:root{
+  /* — surfaces & profondeur (thème clair) — */
+  --bg:#f5f2ea;            /* fond chaud clair */
+  --bg2:#ece7db;           /* zone en creux : inputs, puits */
+  --surface:#ffffff;       /* carte niveau 1 */
+  --surface-2:#fbf8f1;     /* carte survol / niveau 2 */
+  --surface-3:#ffffff;     /* pop-overs, menus */
+  --card:#ffffff;          /* alias historique = surface */
+  /* — texte — */
+  --ink:#111a2b;           /* texte principal (navy) */
+  --muted:#556884;         /* texte secondaire */
+  --muted-2:#5c6b80;       /* texte tertiaire — 5.43:1 sur blanc, AA (corrige un echec verifie 3.25:1) */
+  /* — accent doré (tonal) — */
+  --gold:#b6923c;          /* doré primaire lisible sur clair */
+  --gold-2:#87600f;        /* doré « données/titres » — 5.66:1 sur blanc, AA texte normal */
+  --gold-3:#d8b45a;        /* doré clair (ornement) */
+  --gold-soft:rgba(169,121,31,.12); /* fond doré discret */
+  /* — bordures — */
+  --line:#e4ddcf;          /* filet neutre */
+  --line-2:rgba(169,121,31,.28); /* filet doré (accent) */
+  /* — sections sombres — */
+  --navy:#0e1729; --navy-2:#16223b;
+  /* — rayons — */
+  --r:20px; --r-sm:14px; --r-lg:26px; --r-pill:999px;
+  /* — profondeur (ombres calibrées thème clair) — */
+  --sh:0 10px 28px -16px rgba(14,23,41,.28);
+  --sh-soft:0 6px 18px -12px rgba(14,23,41,.20);
+  --sh-1:0 1px 0 rgba(255,255,255,.6) inset, 0 8px 22px -16px rgba(14,23,41,.22);
+  --sh-2:0 1px 0 rgba(255,255,255,.7) inset, 0 22px 46px -22px rgba(14,23,41,.30);
+  /* — échelle typographique (ratio ~1.22, base 16px) — */
+  --step--1:.8125rem; --step-0:1rem; --step-1:1.2rem; --step-2:1.5rem;
+  --step-3:1.85rem; --step-4:2.35rem; --step-5:clamp(2.3rem,5vw,3.4rem);
+  /* — échelle d'espacement (base 4px) — */
+  --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:24px;
+  --sp-6:32px; --sp-7:48px; --sp-8:64px; --sp-9:96px;
+  /* — transition standard — */
+  --ease:.18s cubic-bezier(.2,.6,.2,1);
+  /* — états sémantiques (mêmes valeurs que css/style.css, AA sur --surface) — */
+  --good:#087043; --warn:#a35f08; --bad:#b8203c; /* 5.67:1 sur --bg creme (marge sure au-dela de --surface blanc) */
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+/* Transitions de page douces (09/07/2026) : opt-in CSS pur, ignoré silencieusement par les
+   navigateurs qui ne supportent pas les View Transitions cross-document (aucun risque). */
+@view-transition{navigation:auto}
+@media(prefers-reduced-motion:reduce){
+  ::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}
+}
+/* Accessibilité (09/07/2026) : anneau de focus visible uniquement au clavier
+   (:focus-visible n'apparaît pas sur un simple clic souris). */
+:focus-visible{outline:2px solid var(--gold-2);outline-offset:2px;border-radius:6px}
+.search input:focus-visible{outline:2px solid var(--gold-2);outline-offset:2px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0,0,0,0);white-space:nowrap;border:0}
+body{margin:0;background:
+    radial-gradient(1100px 460px at 88% -120px,rgba(196,173,130,.22),transparent 60%),
+    radial-gradient(900px 420px at 4% -80px,rgba(91,122,158,.14),transparent 60%),
+    var(--bg);
+  color:var(--ink);font-family:"Inter","Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+  line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+/* Interlettrage PAR TAILLE (WWDC « The details of UI typography ») : les grands
+   titres se resserrent, les petits labels uppercase s'aèrent — jamais une valeur
+   unique pour toutes les tailles. Oswald est condensée + souvent en capitales :
+   on reste en positif léger, mais échelonné. */
+h1,h2,h3,.kicker{font-family:"Oswald","Inter",system-ui,sans-serif}
+h1{letter-spacing:.01em;overflow-wrap:break-word;hyphens:auto}
+/* ↑ Police en display=optional : à la 1re visite le titre s'affiche en police de repli, plus large qu'Oswald.
+   « confidentialité » en capitales y dépassait de l'écran à 320 px (page +4 px) ; il se coupe désormais. */
+h2{letter-spacing:.02em}
+h3{letter-spacing:.03em}
+.kicker{letter-spacing:.08em}
+.wrap{max-width:1200px;margin:0 auto;padding:0 18px}
+
+/* deux-tons doré + navy pour les titres de section/héros */
+.gold{color:var(--gold-2)}
+.tt{font-weight:700;text-transform:uppercase;line-height:1.04}
+
+/* ---------- HEADER FLOTTANT (pilule) ---------- */
+.topwrap{position:sticky;top:0;z-index:40;padding:14px 18px;background:linear-gradient(var(--bg),rgba(244,241,234,.0))}
+/* Anti-CLS (03/09/2026) : js/warp.js INJECTE .langbtn juste avant #themebtn,
+   après le premier rendu. Sur mobile .topbar passe à la ligne (flex-wrap) et
+   l'en-tete gagne une rangee : mesure 56 px sur /codex.html, CLS 0.2687 — le
+   fil d'Ariane et TOUT le contenu descendent. On reserve sa place des le
+   premier rendu ; le bouton vient s'y loger sans rien pousser, et la reserve
+   disparait des qu'il est la (donc aucun espace mort si une page l'ecrit
+   deja elle-meme dans son HTML). Largeur = min-width 34px + margin-right 6px,
+   valeurs posees par warp.js.
+
+   ATTENTION : la reserve ne disparait que grace a :has(). Sur un navigateur
+   qui l'ignore, elle resterait EN PLUS du bouton — 80px au lieu de 40 — et
+   provoquerait justement le passage a la ligne qu'on evite. D'ou le @supports :
+   sans :has(), aucune reserve n'est posee et le comportement reste celui
+   d'avant ce correctif. Rien a perdre, le correctif la ou il est sur. */
+@supports selector(:has(*)) {
+  .topbar::before{content:"";flex:none;width:40px;height:0}
+  .topbar:has(.langbtn)::before{display:none}
+}
+/* Matériau (WWDC) : la pilule du header est une vraie couche translucide sous
+   laquelle le contenu défile — blur plus net, opacité un peu relâchée. */
+.topbar{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:18px;
+  background:rgba(255,255,255,.85);backdrop-filter:saturate(1.4) blur(16px);-webkit-backdrop-filter:saturate(1.4) blur(16px);
+  border:1px solid var(--line);border-radius:var(--r-pill);box-shadow:var(--sh-soft);
+  padding:10px 16px}
+.brand{display:flex;align-items:center;gap:10px;font-family:"Oswald",sans-serif;font-weight:700;
+  font-size:1.25rem;letter-spacing:.6px;color:var(--ink);text-transform:uppercase;white-space:nowrap}
+.brand .logo{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--gold-2),var(--gold));color:#1a1300;font-size:18px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)}
+.search{flex:1;max-width:340px;display:flex;align-items:center;gap:8px;background:var(--bg2);
+  border:1px solid var(--line);border-radius:999px;padding:8px 14px;color:var(--muted);font-size:.92rem}
+.search input{border:0;background:transparent;outline:none;color:var(--ink);font:inherit;width:100%}
+.search kbd{margin-left:auto;font:600 11px/1 ui-monospace,monospace;color:var(--muted);
+  border:1px solid var(--line);border-radius:6px;padding:3px 6px;background:#fff}
+.topnav{display:flex;align-items:center;gap:4px;margin-left:auto;flex-wrap:wrap}
+.topnav a{padding:8px 12px;border-radius:12px;color:var(--ink);font-weight:600;font-size:.94rem;transition:.15s}
+.topnav a:hover{background:var(--bg2);color:var(--ink)}
+.topnav a.cur{color:var(--gold-2)}
+.avatar{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;flex:none;
+  background:linear-gradient(135deg,var(--navy),var(--navy-2));color:var(--gold-3);border:1px solid var(--line)}
+.navburger{display:none;width:38px;height:38px;border-radius:50%;place-items:center;flex:none;
+  background:var(--bg2);border:1px solid var(--line);color:var(--ink);cursor:pointer;font-size:1.15rem;line-height:1;order:1}
+
+/* ---------- Recherche instantanée (accueil) : autocomplete client-side, js/search.js ---------- */
+.search{position:relative}
+.topnav-search{display:none;position:relative}
+.vr-search-results{position:absolute;top:calc(100% + 8px);left:0;right:0;background:var(--card);
+  border:1px solid var(--line);border-radius:14px;box-shadow:var(--sh);max-height:360px;overflow-y:auto;
+  z-index:60;padding:6px;list-style:none}
+.vr-search-opt{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 12px;
+  border-radius:10px;color:var(--ink);text-decoration:none;font-size:.92rem;transition:background .12s}
+.vr-search-opt:hover,.vr-search-opt.active{background:var(--bg2)}
+.vr-search-opt mark{background:rgba(212,175,55,.35);color:inherit;border-radius:3px;padding:0 1px}
+.vr-search-label{padding:6px 12px 4px;font:700 10px/1 "Oswald",sans-serif;letter-spacing:1.2px;
+  text-transform:uppercase;color:var(--muted)}
+.vr-search-price{color:var(--gold-2);font-weight:700;font-size:.85rem;white-space:nowrap;flex:none}
+/* Badge « build » de la palette de recherche (14/07/2026) — mêmes contrastes AA que -price. */
+.vr-search-build{flex:none;font:700 .72rem/1 "Oswald",sans-serif;letter-spacing:.06em;color:var(--gold-2);border:1px solid var(--line-2);border-radius:999px;padding:4px 8px}
+.vr-search-empty{padding:12px;color:var(--muted);font-size:.9rem;text-align:center}
+
+/* ---------- Nav mobile repliée (≤900px) : bouton burger + panneau déroulant ---------- */
+@media(max-width:900px){
+  .search{display:none}
+  .topbar{position:relative;flex-wrap:wrap}
+  .navburger{display:grid}
+  .topnav{display:none;position:absolute;left:0;right:0;top:100%;margin:8px 0 0;flex-direction:column;
+    align-items:stretch;gap:2px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm);
+    padding:10px;max-height:calc(100vh - 90px);overflow-y:auto;box-shadow:var(--sh);z-index:41}
+  .topnav.open{display:flex}
+  .topnav a{width:100%;padding:12px 14px}
+  .topnav-search{display:block;order:-1;margin-bottom:8px}
+  .topnav-search input{width:100%;padding:10px 14px;border-radius:999px;border:1px solid var(--line);
+    background:var(--bg2);color:var(--ink);font:inherit}
+}
+/* En-tête mobile sur UNE ligne (26/09/2026). Mesuré à 320–414 px (tous les téléphones
+   courants) : logo + EN + thème + ◈ + ☰ + écarts de 18 px ≈ 340 px pour 260–320 de place
+   → l'en-tête passait sur deux rangées (112–116 px au lieu de 60) et le ☰ changeait de
+   place selon la largeur (fin de 1re rangée à 414, milieu de la 2de à 320). On resserre
+   les écarts, on réduit la marque, et on masque ◈ : il mène à /outils, déjà dans le menu. */
+@media(max-width:480px){
+  .topwrap{padding:10px 12px}
+  .topbar{flex-wrap:nowrap;gap:6px;padding:8px 10px}
+  .topbar .brand{margin-right:auto;gap:8px;font-size:1.02rem;letter-spacing:.3px}
+  .topbar .brand .logo{width:30px;height:30px;font-size:16px}
+  .topbar .avatar{display:none}
+  .topbar .themebtn{margin-left:0}
+}
+/* En-tête ordinateur (26/09/2026). Mesuré de 1024 à 1920 px : les 14 liens FR font
+   1 451 px pour 1 166 disponibles dans la pilule. Tout se disputait une seule rangée
+   flexible et c'est la recherche qui cédait — champ de saisie de 4 px de large, donc
+   inutilisable à la souris, et un en-tête de 150 px (194 à 1024). On sépare : rangée 1
+   = marque + recherche (vraie largeur) + boutons ; rangée 2 = le menu, compacté. Le lien
+   « Accueil » est masqué ici seulement — la marque y mène déjà, convention universelle ;
+   il reste dans le menu mobile. */
+@media(min-width:901px){
+  .topbar{flex-wrap:wrap;row-gap:4px}
+  .topbar .search{flex:1 1 260px;min-width:220px;max-width:420px;margin-right:auto}
+  .topbar .topnav{order:2;flex:1 0 100%;margin-left:0;justify-content:center;gap:0}
+  .topbar .topnav > a{padding:6px 7px;font-size:.88rem}
+  .topbar .topnav > a[href="/"]{display:none}
+}
+[data-theme="dark"] .navburger{background:#0c1424}
+[data-theme="dark"] .topnav-search input{background:#0c1424}
+
+/* ---------- HERO ---------- */
+main{padding-bottom:60px}
+.hero{position:relative;margin:14px 0;border-radius:var(--r);overflow:hidden;border:1px solid var(--line);
+  box-shadow:var(--sh);min-height:330px;display:flex;align-items:flex-end;
+  background:
+    radial-gradient(120% 130% at 80% 0%,rgba(212,175,55,.20),transparent 55%),
+    linear-gradient(180deg,#16223b 0%,#0e1729 70%)}
+.hero::after{content:"";position:absolute;inset:0;background:
+  repeating-linear-gradient(125deg,rgba(255,255,255,.03) 0 2px,transparent 2px 26px),
+  radial-gradient(circle at 14% 32%,rgba(255,255,255,.08),transparent 18%),
+  radial-gradient(circle at 88% 20%,rgba(159,216,255,.08),transparent 14%);pointer-events:none}
+/* min-width:0 (16/07/2026) : .in est l'enfant flex de .hero — sans lui, le min-content de la
+   grille .hero-stats (3×120px + gaps + padding = 464px) empêche le bloc de rétrécir sous cette
+   largeur ; sur un écran de 390px, texte et cartes étaient COUPÉS à droite (masqués par
+   l'overflow:hidden du hero, donc invisibles au garde scrollWidth — repéré par l'admin sur iPhone). */
+.hero .in{position:relative;padding:40px 38px 32px;max-width:720px;min-width:0}
+.hero h1{font-size:clamp(2.3rem,5vw,3.4rem);margin:0 0 .35rem;color:#fff;letter-spacing:.02em;line-height:1.02}
+.hero p{color:#d4dce8;margin:.4rem 0 0;max-width:44ch;font-size:1rem;line-height:1.7}
+.hero-meta{margin:18px 0 0;color:#c7d4e8;font-size:.96rem;max-width:52ch;line-height:1.7}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;margin-bottom:14px;font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#a7b8d2}
+.eyebrow::before{content:'';width:28px;height:1px;background:linear-gradient(90deg,var(--gold-2),rgba(212,175,55,0));display:inline-block}
+.hero-stats{display:grid;grid-template-columns:repeat(3,minmax(120px,1fr));gap:14px;margin:22px 0 0}
+.hero-stats div{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);border-radius:20px;padding:16px 18px;display:grid;gap:4px;backdrop-filter:blur(4px)}
+.hero-stats strong{display:block;font-size:1rem;color:#fff;font-weight:700}
+.hero-stats span{font-size:.82rem;color:#c7d4e6;text-transform:uppercase;letter-spacing:.7px}
+/* Mobile : les 3 cartes stats doivent pouvoir rétrécir sous 120px (minmax(0,1fr)) pour tenir
+   à trois de front dans 390px ; padding et typo resserrés en proportion. */
+@media(max-width:640px){
+  .hero .in{padding:28px 18px 24px}
+  .hero-stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .hero-stats div{padding:12px 10px;border-radius:14px}
+  .hero-stats strong{font-size:.92rem}
+  .hero-stats span{font-size:.68rem;letter-spacing:.4px}
+}
+.hero-items{display:flex;flex-wrap:wrap;gap:12px;margin:24px 0 0}
+.hero-items a{display:inline-flex;align-items:center;gap:12px;padding:10px 14px;border-radius:18px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#f8fbff;transition:.18s}
+.hero-items a:hover{background:rgba(255,255,255,.16);transform:translateY(-2px)}
+.hero-thumb{width:48px;height:48px;border-radius:16px;background-size:cover;background-position:center;box-shadow:0 0 0 1px rgba(255,255,255,.15),inset 0 0 0 1px rgba(255,255,255,.07)}
+.hero-items span{font-size:.95rem;font-weight:700;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.18)}
+.cta-group{display:flex;flex-wrap:wrap;gap:12px;margin:22px 0 0}
+.hero .cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;margin-top:0;background:linear-gradient(135deg,rgba(212,175,55,.98),rgba(214,175,55,.78));
+  color:#10131b;font-weight:800;padding:14px 22px;border-radius:20px;box-shadow:0 14px 34px -16px rgba(212,175,55,.55);text-transform:uppercase;letter-spacing:.8px}
+.hero .cta.alt{background:rgba(255,255,255,.08);color:#f9f9ff;border:1px solid rgba(255,255,255,.16);box-shadow:0 10px 26px -16px rgba(0,0,0,.25)}
+.hero .cta:hover{filter:brightness(1.04);transform:translateY(-1px)}
+.hero .cta.alt:hover{background:rgba(255,255,255,.16)}
+.hero-labels{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 0}
+.hero-labels span{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);font-size:.82rem;color:#f5f7fb;text-transform:uppercase;letter-spacing:.75px}
+.home-features{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin:24px 0 0;grid-auto-rows:minmax(180px,auto)}
+.feature-headline{grid-column:1/-1;display:flex;flex-direction:column;gap:10px;padding-bottom:4px}
+.feature-headline .feyebrow{font:700 .82rem/1.3 "Oswald",sans-serif;text-transform:uppercase;letter-spacing:1px;color:var(--gold-2)}
+.feature-headline h2{margin:0;font-size:2rem;line-height:1.05;color:var(--ink);max-width:720px}
+.fcard{background:linear-gradient(180deg,rgba(19,28,46,.98),rgba(9,16,30,.95));border:1px solid rgba(255,255,255,.08);border-radius:24px;box-shadow:0 18px 40px -24px rgba(0,0,0,.55);overflow:hidden;padding:24px;transition:transform .18s,box-shadow .18s}
+.fcard:hover{transform:translateY(-2px);box-shadow:0 24px 54px -24px rgba(0,0,0,.45)}
+.fcard .fmeta{display:inline-flex;align-items:center;gap:8px;font:700 .75rem/1.2 "Oswald",sans-serif;text-transform:uppercase;letter-spacing:.18em;color:var(--gold-2);background:rgba(212,175,55,.12);padding:6px 12px;border-radius:999px;margin-bottom:18px}
+.fcard h3{margin:0 0 .75rem;font-size:1.4rem;line-height:1.15;color:#fff}
+.fcard p{margin:0;color:#c7d4e8;line-height:1.75;max-width:42ch}
+.hero-labels{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 0}
+.hero-labels span{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);font-size:.82rem;color:#f5f7fb;text-transform:uppercase;letter-spacing:.75px}
+
+/* ---------- BENTO ---------- */
+.bento{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin:18px 0}
+.feature-headline{grid-column:1/-1;display:flex;flex-direction:column;gap:10px;padding-bottom:4px}
+.feature-headline .feyebrow{font:700 .82rem/1.3 "Oswald",sans-serif;text-transform:uppercase;letter-spacing:1px;color:var(--gold-2)}
+.feature-headline h2{margin:0;font-size:2rem;line-height:1.05;color:var(--ink);max-width:720px}
+.span2{grid-column:1 / -1}
+.scard{position:relative;border-radius:var(--r);overflow:hidden;border:1px solid var(--line);
+  box-shadow:var(--sh);min-height:220px;display:flex;flex-direction:column;justify-content:flex-end;
+  color:#fff;transition:transform .18s,box-shadow .18s;background:linear-gradient(180deg,#1b2942,#0e1729)}
+.scard:hover{transform:translateY(-3px);box-shadow:0 22px 44px -20px rgba(14,23,41,.45)}
+.scard.v1{background:radial-gradient(120% 120% at 85% 0,rgba(212,175,55,.22),transparent 55%),linear-gradient(180deg,#1d2c49,#0e1729)}
+.scard.v2{background:radial-gradient(120% 120% at 15% 0,rgba(91,122,158,.30),transparent 55%),linear-gradient(180deg,#16243d,#0e1729)}
+.scard.v3{background:radial-gradient(120% 120% at 50% 0,rgba(212,175,55,.16),transparent 60%),linear-gradient(180deg,#1a2740,#0e1729)}
+.scard .in{position:relative;padding:24px 24px 22px}
+.scard h2{font-size:1.9rem;margin:0 0 .25rem;color:var(--gold-2);text-transform:uppercase}
+.scard p{margin:0;color:#c7d4e6;max-width:46ch}
+.scard .arrow{position:absolute;top:18px;right:20px;color:var(--gold-3);opacity:.85;font-size:1.2rem}
+
+/* Carte partenaire (09/07/2026) : même langage visuel que .scard.v1, mais pas un lien
+   plein-carte (CTA explicite à l'intérieur) + étiquette "Partenaire" pour la transparence. */
+.sponsor-card{position:relative;border-radius:var(--r);overflow:hidden;border:1px solid var(--line);
+  background:radial-gradient(120% 120% at 85% 0,rgba(212,175,55,.16),transparent 55%),linear-gradient(180deg,#1d2c49,#0e1729);
+  padding:24px 24px 22px}
+.sponsor-card .tag{display:inline-block;font:700 .7rem/1 inherit;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--gold-3);background:rgba(212,175,55,.14);border-radius:999px;padding:4px 10px;margin-bottom:.7rem}
+.sponsor-card h2{font-size:1.3rem;margin:0 0 .35rem;color:#fff}
+.sponsor-card p{margin:0 0 1rem;color:#c7d4e6;max-width:46ch}
+.sponsor-card .btn{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(--gold-2),var(--gold));
+  color:#1a1300;font-weight:700;padding:10px 18px;border-radius:999px;text-decoration:none;font-size:.92rem}
+.sponsor-card .btn:hover{filter:brightness(1.05)}
+
+/* ---------- petites cartes (builds en vedette) ---------- */
+.row3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin:16px 0}
+.bcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm);overflow:hidden;
+  box-shadow:var(--sh-soft);transition:transform .18s,box-shadow .18s,border-color .18s;display:flex;flex-direction:column}
+.bcard:hover{transform:translateY(-3px);box-shadow:var(--sh);border-color:rgba(212,175,55,.4)}
+.bcard .thumb{height:120px;background:linear-gradient(135deg,#1b2942,#0e1729);position:relative;overflow:hidden}
+.bcard .thumb::after{content:"";position:absolute;inset:0;background:radial-gradient(90% 120% at 80% 0,rgba(212,175,55,.25),transparent 60%)}
+.bcard .thumb img{transition:transform .35s ease}
+.bcard:hover .thumb img{transform:scale(1.08)}
+.bcard .b{padding:14px 16px 16px}
+.bcard h3{margin:0 0 .15rem;font-size:1.15rem;color:var(--gold-2);text-transform:uppercase}
+.bcard .sub{color:var(--muted);font-size:.92rem;margin:0 0 10px}
+.bcard .tag{display:inline-block;font:700 10px/1 "Oswald",sans-serif;letter-spacing:1.5px;color:var(--muted);
+  border:1px solid var(--line);border-radius:6px;padding:5px 8px;text-transform:uppercase}
+
+.itemgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin:24px 0}
+.item-card{display:block;overflow:hidden;border-radius:24px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(244,241,234,.93));box-shadow:var(--sh-soft);transition:transform .18s,box-shadow .18s,border-color .18s;min-height:380px}
+.item-card:hover{transform:translateY(-4px);box-shadow:0 24px 54px -24px rgba(14,23,41,.35);border-color:rgba(212,175,55,.5)}
+.item-card .item-thumb{height:180px;background-size:cover;background-position:center;position:relative;overflow:hidden;transition:background-size .35s ease}
+.item-card:hover .item-thumb{background-size:112%}
+.item-card .item-thumb::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 32%,rgba(14,23,41,.40) 100%)}
+.item-card .item-info{padding:20px 18px 24px}
+/* Fond de carte volontairement clair (fixe, ne suit pas le thème) : le texte doit donc
+   rester en couleurs sombres fixes, PAS var(--ink)/var(--muted) qui passent en clair en
+   dark mode et deviennent illisibles sur ce fond (bug corrigé le 09/07/2026). */
+.item-card .item-tag{display:inline-block;font:700 10px/1 "Oswald",sans-serif;letter-spacing:1.5px;text-transform:uppercase;color:#a9791f;margin-bottom:10px}
+.item-card .item-info h3{margin:0 0 .35rem;font-size:1.24rem;color:#0e1729;text-transform:uppercase}
+.item-card .item-info p{margin:0;color:#456080;font-size:.95rem;line-height:1.6;max-width:40ch}
+
+@media(max-width:980px){.itemgrid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){.itemgrid{grid-template-columns:1fr}}
+/* ---------- en-tête de section ( | Titre  …  Voir tout ) ---------- */
+.shead{display:flex;align-items:center;gap:12px;margin:34px 0 14px;flex-wrap:wrap}
+.shead h2{margin:0;font-size:1.5rem;text-transform:uppercase;display:flex;align-items:center;gap:12px}
+.shead h2::before{content:"";width:5px;height:1.2em;border-radius:3px;background:linear-gradient(var(--gold-2),var(--gold))}
+.shead .all{margin-left:auto;color:var(--gold-2);font-weight:700;font-size:.85rem;letter-spacing:.5px;text-transform:uppercase}
+.shead .all:hover{text-decoration:underline}
+.video-note{grid-column:1/-1;color:var(--muted);font-size:.95rem;margin-bottom:12px;max-width:920px}
+
+/* ---------- vidéos ---------- */
+.vgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px}
+.vcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm);overflow:hidden;box-shadow:var(--sh-soft);transition:transform .18s,box-shadow .18s,border-color .18s}
+.vcard:hover{transform:translateY(-3px);box-shadow:0 18px 32px -16px rgba(14,23,41,.2);border-color:rgba(212,175,55,.4)}
+.vcard .th{aspect-ratio:16/9;background:#0e1729;position:relative;overflow:hidden}
+.vcard .th img{width:100%;height:100%;object-fit:cover;transition:transform .35s ease}
+.vcard:hover .th img{transform:scale(1.08)}
+.vcard .th .pl{position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:30px;
+  background:linear-gradient(0deg,rgba(14,23,41,.5),transparent 60%)}
+.vcard .vt{padding:12px 14px;font-weight:600;font-size:.95rem;color:var(--ink);line-height:1.5;min-height:76px}
+
+@media(max-width:1120px){.vgrid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){.vgrid{grid-template-columns:1fr}}
+
+.wtabs{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 12px}
+.wtab{background:var(--bg2);border:1px solid var(--line);border-radius:999px;padding:10px 16px;font-weight:700;color:var(--ink);cursor:pointer;transition:.18s}
+.wtab.on{background:linear-gradient(135deg,rgba(212,175,55,.95),rgba(214,175,55,.7));color:#10131b;border-color:rgba(212,175,55,.35)}
+.wtab:hover{background:var(--gold-3);color:#10131b}
+.wsearch{width:100%;max-width:520px;margin:0 0 12px;padding:12px 14px;border:1px solid var(--line);border-radius:999px;background:var(--bg2);color:var(--ink);font:inherit}
+.wcount{color:var(--muted);font-size:.95rem;margin-bottom:18px}
+.wempty{text-align:center;padding:48px 20px;color:var(--muted)}
+.wempty p{margin:0 0 8px;font-size:1.05rem}
+.wempty button{background:none;border:0;color:var(--gold-2);font:inherit;font-weight:700;cursor:pointer;padding:0;text-decoration:underline}
+.wempty button:hover{filter:brightness(1.15)}
+.wgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+.wc{display:grid;grid-template-columns:100px 1fr;gap:14px;padding:18px;border:1px solid var(--line);border-radius:22px;background:var(--card);box-shadow:var(--sh-soft);transition:transform .18s,box-shadow .18s}
+.wc:hover{transform:translateY(-2px);box-shadow:0 20px 44px -24px rgba(14,23,41,.16)}
+.wimg{width:100px;height:75px;display:grid;place-items:center;overflow:hidden;border-radius:18px;background:linear-gradient(135deg,#1d2c49,#0e1729)}
+.wimg img{width:100%;height:100%;object-fit:cover}
+.wb{display:flex;flex-direction:column;gap:8px}
+.wn{font-size:1.05rem;font-weight:700;color:var(--ink);text-transform:uppercase;letter-spacing:.3px}
+.wm{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:.88rem;color:var(--muted)}
+.wm span{display:inline-flex;align-items:center;gap:6px}
+.wcat{font-size:.88rem;color:var(--muted);font-weight:600}
+.wdisp{padding:4px 8px;border-radius:999px;background:rgba(212,175,55,.13);color:var(--gold-2);font-size:.82rem}
+.wmods{display:flex;flex-wrap:wrap;gap:8px;font-size:.88rem;color:var(--ink);margin-top:6px}
+.wmods strong{font-weight:700;color:var(--ink);margin-right:6px}
+.wmod{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;background:rgba(212,175,55,.12);border:1px solid rgba(212,175,55,.18);color:var(--ink);font-weight:600}
+/* ---------- contenu type article (pages de section/builds) ---------- */
+.article{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-soft);
+  padding:30px 30px;margin:16px 0}
+.article h1{font-size:clamp(1.8rem,4vw,2.5rem);text-transform:uppercase;margin:.1em 0 .3em}
+.article h2{font-size:1.4rem;text-transform:uppercase;color:var(--gold-2);margin:1.5em 0 .5em}
+.article p,.article li{color:#33405a}
+/* Les URL longues en texte de lien (ex. policies.google.com/technologies/ads sur
+   /confidentialite) doivent pouvoir se couper : sinon défilement horizontal à 390px. */
+.article p a,.article li a{overflow-wrap:anywhere}
+.article a{color:var(--gold-2);font-weight:600}
+.article a:hover{text-decoration:underline}
+.article .sub{color:var(--muted);font-size:1.05rem}
+/* Boutons de partage (guides) : jamais stylés sur ce fichier avant ce jour (10/07/2026)
+   -> bouton natif du navigateur, 21-23px de haut, sous le minimum WCAG 2.5.8 (24x24).
+   Repris de css/style.css (.sbtn, deja correct a 34px sur les pages objet) avec un
+   padding vertical legerement plus genereux pour clairer 24px avec marge. */
+.sharebar{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin:1.2rem 0}
+.sbtn{cursor:pointer;font:inherit;font-size:.85rem;padding:.5rem .75rem;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--muted)}
+.sbtn:hover{border-color:var(--gold-2);color:var(--ink)}
+.bc{font-size:.85rem;color:var(--muted);margin-bottom:10px}
+/* Cible tactile (07/2026, WCAG 2.5.8) : lien nu ~16px de haut sans padding, sous le
+   minimum 24x24. inline-block + marge negative = zone cliquable agrandie sans deplacer
+   le texte ni casser le fil " › " du fil d'Ariane. */
+.bc a{color:var(--muted);display:inline-block;padding:6px 4px;margin:-6px -4px} .bc a:hover{color:var(--gold-2)}
+.grid.cols-auto{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.card.tile{display:block;background:var(--bg2);border:1px solid var(--line);border-radius:var(--r-sm);padding:16px 18px;transition:.16s}
+.card.tile:hover{transform:translateY(-2px);box-shadow:var(--sh-soft);border-color:var(--gold)}
+.card.tile .t{font-family:"Oswald",sans-serif;font-weight:600;font-size:1.05rem;color:var(--ink);margin-bottom:4px}
+.card.tile .d{color:var(--muted);font-size:.92rem}
+
+/* ---------- FOOTER ---------- */
+.foot{background:var(--navy);color:#aebccf;margin-top:50px;border-top:3px solid var(--gold)}
+.foot .in{max-width:1200px;margin:0 auto;padding:30px 18px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+.foot a{color:var(--gold-3)} .foot a:hover{color:#fff}
+/* Cible tactile (07/2026, WCAG 2.5.8) : 2e bloc ".in" du footer (mentions legales,
+   phrase courante avec liens separes par " · "), jamais couvert par le fix .foot
+   .links a -- ~20px de haut, sous 24x24. Meme trucage (inline-block + marge
+   negative), cible seulement le 2e .in via + pour ne pas toucher .foot .links. */
+.foot .in+.in a{display:inline-block;padding:6px 4px;margin:-6px -4px}
+/* Correctif debordement horizontal mobile (piege flexbox classique) : .links
+   est un enfant flex de .in (display:flex) — sans min-width:0, un enfant flex
+   ne retrecit jamais sous la largeur intrinseque de son contenu, meme avec
+   flex-wrap:wrap sur le parent. Verifie : 12 pages debordaient de 21-180px
+   sur mobile (390px), 0 apres correctif. */
+.foot .links{min-width:0;display:flex;flex-wrap:wrap;row-gap:6px}
+/* Cible tactile (07/2026, WCAG 2.5.8) : lien ~20px de haut (margin sans padding), sous
+   24x24. .links est deja display:flex -> les <a> sont blockifies en items flex, le
+   padding s'ajoute donc proprement sans chevaucher les liens voisins (pas besoin du
+   trucage marge negative utilise pour un fil d'Ariane en texte courant). Marge reduite
+   en compensation pour garder le meme espacement visuel total qu'avant. */
+.foot .links a{margin:0 4px;padding:6px 4px}
+
+@media(max-width:760px){
+  .bento{grid-template-columns:1fr}
+  .row3,.vgrid{grid-template-columns:1fr}
+  .search{display:none}
+  .topnav{gap:2px}
+  .topnav a{padding:6px 8px;font-size:.86rem}
+}
+
+
+/* ===================== PAGES BUILD (format type pandaahh) ===================== */
+.bhero{background:linear-gradient(120deg,#16223b,#0e1729);border:1px solid var(--line);border-radius:var(--r);
+  box-shadow:var(--sh);padding:26px 28px;margin:16px 0;color:#fff;position:relative;overflow:hidden}
+.bhero::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 130% at 88% 0,rgba(212,175,55,.22),transparent 55%);pointer-events:none}
+.bhero .nm{font-family:"Oswald",sans-serif;font-weight:700;font-size:2.4rem;text-transform:uppercase;color:var(--gold-2);line-height:1;margin:0}
+.bhero .ep{font-family:"Oswald",sans-serif;text-transform:uppercase;letter-spacing:1px;color:#d7e0ee;margin:.2rem 0 .5rem}
+.bhero .role{color:#c7d4e6;max-width:60ch;margin:.4rem 0 0}
+.btag{display:inline-block;font:700 11px/1 "Oswald",sans-serif;letter-spacing:1.5px;color:#9fd4ff;border:1px solid rgba(159,212,255,.4);border-radius:6px;padding:5px 9px;text-transform:uppercase;margin-top:10px}
+.bcols{display:grid;grid-template-columns:1.2fr 1fr;gap:16px;margin:16px 0}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-soft);padding:20px 22px}
+.panel h3{margin:.1em 0 .5em;font-size:1rem;text-transform:uppercase;letter-spacing:.6px;color:var(--muted)}
+.radar{display:block;margin:0 auto;max-width:320px}
+.proscons{list-style:none;padding:0;margin:0;display:grid;gap:7px}
+.proscons li{display:flex;gap:9px;align-items:flex-start;font-size:.95rem;color:#33405a}
+.proscons li .s{font-weight:800;flex:none;width:16px;text-align:center}
+.proscons li.pro .s{color:#1f9d57}.proscons li.con .s{color:#d9533f}
+
+.loadout{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-soft);padding:20px 22px;margin:16px 0}
+.loadout h2{margin:0 0 4px;font-size:1.3rem;text-transform:uppercase;color:var(--ink)}
+.aura{display:inline-flex;align-items:center;gap:8px;font-size:.85rem;color:var(--muted);margin:8px 0 14px}
+.aura b{color:var(--ink)}
+.modgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:0 0 6px}
+.mod{position:relative;background:linear-gradient(180deg,#1b2942,#111c30);border:1px solid #26324a;border-top:3px solid var(--gold);
+  border-radius:12px;padding:12px 12px 11px;min-height:64px;color:#eaf1fb;display:flex;align-items:flex-end}
+.mod.survie{border-top-color:#4a90d9}.mod.pouvoir{border-top-color:#d4af37}.mod.utilitaire{border-top-color:#46b98a}
+.mod .mn{font-family:"Oswald",sans-serif;font-weight:600;font-size:.9rem;line-height:1.1;letter-spacing:.2px}
+.mod .rk{position:absolute;top:7px;right:9px;font:700 10px/1 "Oswald",sans-serif;color:var(--gold-3);letter-spacing:.5px}
+.modlegend{display:flex;gap:16px;flex-wrap:wrap;font-size:.8rem;color:var(--muted);margin-top:10px}
+.modlegend span{display:inline-flex;align-items:center;gap:6px}
+.dot{width:10px;height:10px;border-radius:3px;display:inline-block}
+.dot.survie{background:#4a90d9}.dot.pouvoir{background:#d4af37}.dot.utilitaire{background:#46b98a}
+
+.binfo{width:100%;border-collapse:collapse;margin-top:4px}
+.binfo td{padding:11px 6px;border-bottom:1px solid var(--line);font-size:.95rem;vertical-align:top}
+.binfo td:first-child{color:var(--muted);width:42%}.binfo td:last-child{color:var(--ink);font-weight:600;text-align:right}
+.binfo tr:last-child td{border-bottom:none}
+.shards{list-style:none;padding:0;margin:8px 0 0;display:grid;gap:8px}
+.shards li{display:flex;gap:10px;align-items:center;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-size:.93rem;color:#33405a}
+.shards li .g{width:14px;height:18px;flex:none;border-radius:3px;background:linear-gradient(var(--gold-2),var(--gold));box-shadow:0 0 8px rgba(212,175,55,.4)}
+@media(max-width:760px){.bcols{grid-template-columns:1fr}.modgrid{grid-template-columns:repeat(2,1fr)}}
+
+
+/* ===================== THÈME SOMBRE (toggle visiteur) ===================== */
+:root{--body:#33405a;--link:#9a7b2e}
+[data-theme="dark"]{
+  /* Direction A « Orokin » — thème sombre par défaut du site.
+     Échelle de surfaces qui s'éclaircit avec l'élévation : le contenu ne se
+     noie plus dans le fond (défaut principal corrigé). */
+  --bg:#090d16;            /* base profonde */
+  --bg2:#111726;           /* puits : inputs, sections en creux */
+  --surface:#151c2d;       /* carte niveau 1 */
+  --surface-2:#1c2438;      /* carte survol / niveau 2 */
+  --surface-3:#232c43;      /* pop-overs / overlay */
+  --card:#151c2d;          /* alias historique = surface */
+  --ink:#eef3fb; --muted:#9fb1cb; --muted-2:#8290b0; /* corrige un echec AA verifie (4.48:1 -> 5.31:1) */
+  --line:#28324a;          /* filet neutre visible sur sombre */
+  --line-2:rgba(212,175,55,.30); /* filet doré (accent) */
+  --gold:#c9a24a; --gold-2:#e2c05a; --gold-3:#efd79a; /* doré vif lisible AA sur sombre */
+  --gold-soft:rgba(212,175,55,.14);
+  --navy:#060a13; --body:#c4d2e6; --link:#e2c873;
+  --good:#34d399; --warn:#fbbf24; --bad:#fb7185;
+  /* profondeur recalibrée pour le sombre : filet clair en haut (relief) + ombre portée réelle */
+  --sh:0 1px 0 rgba(255,255,255,.05) inset, 0 14px 32px -18px rgba(0,0,0,.75);
+  --sh-soft:0 1px 0 rgba(255,255,255,.045) inset, 0 8px 20px -14px rgba(0,0,0,.65);
+  --sh-1:0 1px 0 rgba(255,255,255,.055) inset, 0 10px 24px -16px rgba(0,0,0,.7);
+  --sh-2:0 1px 0 rgba(255,255,255,.08) inset, 0 24px 50px -22px rgba(0,0,0,.85);
+}
+[data-theme="dark"] body{background:
+  radial-gradient(1100px 460px at 88% -120px,rgba(212,175,55,.14),transparent 60%),
+  radial-gradient(900px 420px at 4% -80px,rgba(91,122,158,.12),transparent 60%),var(--bg)}
+[data-theme="dark"] .topbar{background:rgba(18,28,48,.82)}
+[data-theme="dark"] .search,[data-theme="dark"] .search kbd{background:#0c1424}
+[data-theme="dark"] .topnav a{color:var(--ink)}
+[data-theme="dark"] .topnav a:hover{background:#0c1424}
+[data-theme="dark"] .article,[data-theme="dark"] .panel,[data-theme="dark"] .loadout,
+[data-theme="dark"] .bcard,[data-theme="dark"] .vcard{background:var(--card)}
+[data-theme="dark"] .article p,[data-theme="dark"] .article li,[data-theme="dark"] .panel p,
+[data-theme="dark"] .proscons li,[data-theme="dark"] .shards li,[data-theme="dark"] .bodytext,
+[data-theme="dark"] .abil .ad,[data-theme="dark"] .vcard .vt{color:var(--body)}
+[data-theme="dark"] .card.tile,[data-theme="dark"] .shards li,[data-theme="dark"] .abil{background:#0e1729}
+[data-theme="dark"] .article a{color:var(--gold-3)}
+[data-theme="dark"] .bcard .sub,[data-theme="dark"] .bcard .tag{color:var(--muted)}
+
+/* bouton thème */
+.themebtn{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;flex:none;
+  background:var(--bg2);border:1px solid var(--line);color:var(--ink);cursor:pointer;font-size:1.05rem;transition:.15s}
+.themebtn:hover{border-color:var(--gold);color:var(--gold-2)}
+.topbar .themebtn{margin-left:4px}
+
+/* ===================== COMPÉTENCES (interface du jeu) ===================== */
+.abilities{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.abil{display:flex;gap:13px;align-items:flex-start;background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:13px 15px}
+.abil img{width:50px;height:50px;flex:none;border-radius:10px;background:#0e1729;border:1px solid var(--line);padding:5px;object-fit:contain}
+.abil .ab{min-width:0}
+.abil .an{font-family:"Oswald",sans-serif;font-weight:600;color:var(--ink);text-transform:uppercase;font-size:.96rem;letter-spacing:.3px}
+.abil .ad{color:var(--body);font-size:.9rem;line-height:1.45;margin-top:2px}
+.passive{margin-top:12px;font-size:.92rem;color:var(--body)}
+.passive b{color:var(--ink)}
+
+/* ===================== POLARITÉS ===================== */
+.polrow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:4px 0 2px}
+.polgrp{display:flex;align-items:center;gap:7px}
+.pollabel{font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.polslot{width:34px;height:34px;border-radius:9px;background:#0e1729;border:1px solid var(--line);display:grid;place-items:center}
+.polslot.aura{border-color:var(--gold-2);box-shadow:0 0 0 1px rgba(212,175,55,.3) inset}
+.polslot svg{width:18px;height:18px}
+
+/* ===================== MODS = CARTES IMAGE (rendu du jeu) ===================== */
+.modg{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:2px 0 8px}
+.modc{position:relative;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#0b1322;display:block;aspect-ratio:1/1}
+.modc img{width:100%;height:100%;object-fit:cover;display:block}
+.modc .pol{position:absolute;top:6px;left:6px;width:22px;height:22px;background:rgba(6,10,20,.7);border-radius:7px;display:grid;place-items:center}
+.modc .pol svg{width:13px;height:13px}
+.modc .rk{position:absolute;top:6px;right:7px;font:700 11px/1 "Oswald",sans-serif;color:#fff;background:rgba(6,10,20,.7);border-radius:6px;padding:4px 6px}
+.modc .nm{position:absolute;left:0;right:0;bottom:0;padding:16px 7px 6px;background:linear-gradient(transparent,rgba(6,10,20,.92));
+  color:#fff;font:600 11px/1.15 "Oswald",sans-serif;text-align:center;text-transform:uppercase;letter-spacing:.2px}
+.modslot{display:flex;align-items:center;gap:10px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:.92rem}
+.modslot .pol{width:26px;height:26px;background:#0e1729;border:1px solid var(--line);border-radius:7px;display:grid;place-items:center;flex:none}
+.modslot .pol svg{width:14px;height:14px}
+.modnote{font-size:.82rem;color:var(--muted);margin-top:6px}
+@media(max-width:760px){.abilities{grid-template-columns:1fr}.modg{grid-template-columns:repeat(2,1fr)}}
+
+
+/* ===================== CATALOGUE D'ARMES ===================== */
+.wtabs{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.wtab{padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);
+  font:600 .9rem "Inter",sans-serif;cursor:pointer;transition:.15s}
+.wtab:hover{border-color:var(--gold)}
+.wtab.on{background:linear-gradient(135deg,var(--gold-2),var(--gold));color:#1a1300;border-color:transparent}
+.wsearch{width:100%;max-width:420px;padding:11px 16px;border-radius:999px;border:1px solid var(--line);
+  background:var(--card);color:var(--ink);font:inherit;margin:0 0 8px}
+.wcount{color:var(--muted);font-size:.9rem;margin:6px 0 14px}
+.wgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+.wc{background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm);overflow:hidden;box-shadow:var(--sh-soft);
+  transition:transform .15s,box-shadow .15s;display:flex;flex-direction:column}
+.wc:hover{transform:translateY(-3px);box-shadow:var(--sh);border-color:var(--gold)}
+.wc .wimg{aspect-ratio:16/10;background:#0b1322;display:grid;place-items:center;padding:10px}
+.wc .wimg img{max-width:100%;max-height:100%;object-fit:contain}
+.wc .wb{padding:10px 12px 12px}
+.wc .wn{font-family:"Oswald",sans-serif;font-weight:600;color:var(--ink);font-size:1rem;line-height:1.1}
+.wc .wm{color:var(--muted);font-size:.8rem;margin-top:3px;display:flex;justify-content:space-between;gap:6px}
+.wc .wcat{display:inline-block;font:700 9px/1 "Oswald",sans-serif;letter-spacing:1px;color:var(--gold-2);
+  border:1px solid var(--line);border-radius:5px;padding:4px 6px;text-transform:uppercase;margin-top:7px;
+  /* 16/07/2026 : warframes/ et compagnons/ mettent une longue ligne de stats dans ce badge
+     (Santé · Bouclier · Armure · Énergie) — la primitive badge (inline-flex, section 4) ne
+     revenait jamais à la ligne et COUPAIT les stats à droite sur mobile (masqué par le
+     border-radius des cartes, invisible au garde scrollWidth). Wrap + largeur bornée. */
+  flex-wrap:wrap;max-width:100%;line-height:1.5}
+.wdisp{color:var(--gold-2)}
+
+/* ---------- BANNIERES GUIDES (self-hosted /assets/banners) ---------- */
+.guide-banner{display:block;width:100%;aspect-ratio:1200/360;object-fit:cover;
+  border-radius:var(--r);border:1px solid var(--line);box-shadow:var(--sh);margin:6px 0 20px}
+.card.tile.has-thumb{padding:0;overflow:hidden}
+.card.tile.has-thumb .gthumb{display:block;width:100%;aspect-ratio:1200/360;object-fit:cover;border-bottom:1px solid var(--line)}
+.card.tile.has-thumb .t{padding:14px 16px 0}
+.card.tile.has-thumb .d{padding:6px 16px 16px}
+
+
+/* ============================================================================
+   DESIGN SYSTEM v2 — COMPOSANTS UNIFIÉS (Direction A « Orokin »)
+   Surcouche par cascade : ne réécrit pas les règles existantes, les supersède.
+   Objectif : profondeur cohérente (échelle de surfaces), une seule grammaire de
+   cartes/boutons/badges/tableaux, doré réservé aux accents & aux données.
+   ========================================================================== */
+
+/* ---- 1. CARTES : une seule grammaire d'élévation (clair ET sombre) ---------
+   Les fonds « navy fixe » d'origine sont remplacés par --surface (s'adapte au
+   thème) ; survol = surface plus claire + filet doré + relief accru. */
+.fcard,.bcard,.vcard,.wc,.item-card,.panel,.loadout,.article,.scard{
+  background:var(--surface);
+  border:1px solid var(--line);
+  box-shadow:var(--sh-1);
+  transition:transform var(--ease),box-shadow var(--ease),border-color var(--ease),background var(--ease);
+}
+.fcard:hover,.bcard:hover,.vcard:hover,.wc:hover,.item-card:hover{
+  background:var(--surface-2);
+  border-color:var(--line-2);
+  box-shadow:var(--sh-2);
+  transform:translateY(-3px);
+}
+/* Les grandes cartes bento gardent leur profondeur navy mais via un dégradé
+   dérivé des surfaces + halo doré discret, cohérent en clair comme en sombre. */
+.scard{
+  background:
+    radial-gradient(120% 130% at 85% -10%,var(--gold-soft),transparent 55%),
+    var(--surface);
+  color:var(--ink);
+}
+.scard:hover{border-color:var(--line-2);box-shadow:var(--sh-2);transform:translateY(-3px)}
+.scard p,.fcard p{color:var(--muted)}
+
+/* ---- 2. item-card : FIN du fond crème incohérent → surface unifiée --------- */
+.item-card{
+  background:var(--surface)!important;
+}
+.item-card .item-info h3{color:var(--ink)}
+.item-card .item-info p{color:var(--muted)}
+.item-card .item-tag{color:var(--gold-2)}
+.item-card .item-thumb::after{background:linear-gradient(180deg,transparent 40%,rgba(6,10,20,.5) 100%)}
+
+/* ---- 3. HIÉRARCHIE : doré réservé aux accents & données -------------------
+   Les TITRES de carte passent en encre (near-white en sombre) ; le doré est
+   concentré sur eyebrows, tags, données, liens, CTA, arrows. Réduit la
+   « fatigue majuscule dorée » et fait ressortir la vraie hiérarchie. */
+.bcard h3,.item-card .item-info h3,.wc .wn,.wn,.fcard h3{color:var(--ink)}
+.scard h2{color:var(--ink)}
+.scard:hover h2{color:var(--gold-2)}
+.scard .arrow{color:var(--gold-2);opacity:1;transition:transform var(--ease)}
+.scard:hover .arrow{transform:translate(2px,-2px)}
+.feature-headline h2,.shead h2{color:var(--ink)}
+/* eyebrows / kickers dorés cohérents */
+.fcard .fmeta,.feature-headline .feyebrow,.shead .all{color:var(--gold-2)}
+
+/* ---- 4. BADGES : primitive unique (pill Oswald micro, filet doré discret) -- */
+.tag,.item-tag,.btag,.wc .wcat,.wdisp,.fcard .fmeta{
+  display:inline-flex;align-items:center;gap:6px;
+  font:700 10px/1 "Oswald","Inter",sans-serif;letter-spacing:.14em;text-transform:uppercase;
+  padding:5px 9px;border-radius:999px;
+  background:var(--gold-soft);border:1px solid var(--line-2);color:var(--gold-2);
+}
+.btag{background:rgba(120,180,230,.12);border-color:rgba(120,180,230,.32);color:#8fc4ef}
+
+/* ---- 5. BOUTONS : primaire doré / secondaire surface + états -------------- */
+.hero .cta,.wtab.on{
+  background:linear-gradient(135deg,var(--gold-3),var(--gold));
+  color:#181203;font-weight:800;border:1px solid transparent;
+  box-shadow:0 10px 26px -14px rgba(212,175,55,.6);
+}
+.hero .cta:hover,.wtab.on:hover{filter:brightness(1.05);transform:translateY(-1px)}
+.hero .cta.alt{background:var(--surface-2);color:var(--ink);border:1px solid var(--line)}
+.hero .cta.alt:hover{background:var(--surface-3);border-color:var(--line-2)}
+.wtab{background:var(--bg2);border:1px solid var(--line);color:var(--ink)}
+.wtab:hover{border-color:var(--line-2);color:var(--ink)}
+:disabled,[aria-disabled="true"],.is-disabled{opacity:.5;cursor:not-allowed;filter:grayscale(.3)}
+
+/* ---- 6. CHAMPS : recherche & filtres cohérents ---------------------------- */
+.wsearch,.search,.topnav-search input{
+  background:var(--bg2);border:1px solid var(--line);color:var(--ink);
+  transition:border-color var(--ease),box-shadow var(--ease);
+}
+.wsearch:focus,.wsearch:focus-visible{border-color:var(--gold-2);box-shadow:0 0 0 3px var(--gold-soft);outline:none}
+
+/* ---- 7. EN-TÊTE : nav plus aérée, état courant net ------------------------ */
+.topnav a{border-radius:10px;transition:background var(--ease),color var(--ease)}
+.topnav a:hover{background:var(--gold-soft);color:var(--gold-2)}
+.topnav a.cur{color:var(--gold-2);position:relative}
+.topnav a.cur::after{content:"";position:absolute;left:12px;right:12px;bottom:3px;height:2px;
+  border-radius:2px;background:linear-gradient(90deg,var(--gold-2),transparent)}
+.brand .logo{background:linear-gradient(135deg,var(--gold-3),var(--gold));color:#181203}
+
+/* ---- 8. SECTIONS : rythme vertical régulier (échelle d'espace) ------------ */
+.shead{margin:var(--sp-8) 0 var(--sp-4)}
+.bento,.row3,.itemgrid,.vgrid{margin:var(--sp-4) 0}
+.home-features{margin-top:var(--sp-6);gap:var(--sp-4)}
+.shead h2::before{background:linear-gradient(var(--gold-2),var(--gold));width:4px}
+
+/* ---- 9. PAGE OBJET : le prix devient la donnée-héros ---------------------- */
+.panel .binfo tr:first-child td,
+.binfo tr:first-child td:last-child{font-size:var(--step-2);color:var(--gold-2);font-weight:800}
+.binfo td:last-child{color:var(--ink)}
+.binfo tr:hover td{background:var(--bg2)}
+
+/* ---- 10. TABLEAUX (hub/marché) : lisibilité, en-tête net, zébrage --------- */
+.binfo th,.wgrid th{color:var(--muted-2);text-transform:uppercase;letter-spacing:.08em;font-size:var(--step--1)}
+
+/* ---- 11. FOOTER : filet doré plus fin, cohérent -------------------------- */
+.foot{border-top:2px solid var(--line-2)}
+
+/* ---- Retour à l'appui (Designing Fluid Interfaces) ------------------------
+   Réponse à l'INSTANT de l'appui, pas au relâchement. */
+.hero .cta:active,.wtab:active,.topnav a:active,.themebtn:active,.navburger:active,
+.sponsor-card .btn:active,.sbtn:active,.wempty button:active,.hero-items a:active{
+  transform:scale(.97);transition-duration:.06s}
+.scard:active,.bcard:active,.vcard:active,.wc:active,.item-card:active,.fcard:active,
+.card.tile:active{transform:translateY(-1px) scale(.99);transition-duration:.06s}
+
+/* ---- 12. ACCESSIBILITÉ MOUVEMENT (WWDC : 3 réglages système distincts) ---- */
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{transition:none!important}
+  .fcard:hover,.bcard:hover,.vcard:hover,.wc:hover,.item-card:hover,.scard:hover,
+  .hero .cta:hover,.wtab.on:hover,.hero-items a:hover{transform:none}
+  .bcard:hover .thumb img,.vcard:hover .th img{transform:none}
+  /* la barre de lecture (scroll-driven) reste : feedback fonctionnel couplé au
+     geste de l'utilisateur, pas un mouvement autonome */
+}
+/* Transparence réduite : la pilule du header et les stats du hero deviennent opaques. */
+@media(prefers-reduced-transparency:reduce){
+  .topbar{background:#fff;backdrop-filter:none;-webkit-backdrop-filter:none}
+  [data-theme="dark"] .topbar{background:#121c30;backdrop-filter:none;-webkit-backdrop-filter:none}
+  .hero-stats div{background:rgba(20,30,50,.92);backdrop-filter:none}
+}
+/* Contraste renforcé : filets définis sur cartes et contrôles. */
+@media(prefers-contrast:more){
+  .fcard,.bcard,.vcard,.wc,.item-card,.scard,.panel,.loadout,.article,.card.tile,
+  .wtab,.wsearch,.topbar{border-color:var(--muted)}
+}
+
+/* ---- Correctif AA : builds/index.html porte un style inline hardcode -----
+   (color:#5b7a9e, ancienne palette pre-refonte, prioritaire sur tout CSS
+   externe sauf !important) -> echec AA verifie (4.37:1 dark / 3.98:1 clair,
+   min 4.5). Renfort universel et sans risque : .bcard .sub / .article .sub
+   pointent deja vers var(--muted), donc cette regle ne fait que garantir la
+   meme valeur partout, y compris la ou un style inline s'interpose. */
+.sub{color:var(--muted)!important}
+
+/* ---- Correctif AA : .polslot (emplacement mod vide "aucun") a un fond ----
+   TOUJOURS sombre (#0e1729, non thematise) mais le texte "aucun" est en
+   style inline color:var(--muted), qui devient fonce en theme clair -> 
+   illisible sur ce fond fixe (echec verifie 3.15:1, present sur ~13 pages
+   builds/*.html generees statiquement). Gris fixe, ne suit pas le theme
+   (comme le fond), gagne sur le style inline via !important (seul moyen). */
+.polslot span[style]{color:#8a97ac!important}
+
+/* Barre de lecture (16/07/2026) : progression de lecture des guides (main.article),
+   3 px dorés en haut de l'écran — animation pilotée par le défilement (CSS pur,
+   animation-timeline scroll(root)), aucune frame JS. @supports : les navigateurs
+   sans scroll-driven animations n'affichent simplement rien. z-index 60 : au-dessus
+   du header sticky (.topwrap, 40). */
+@supports (animation-timeline: scroll()) {
+  body:has(main.article)::before{
+    content:"";position:fixed;top:0;left:0;width:100%;height:3px;z-index:60;
+    background:linear-gradient(90deg,var(--gold),var(--gold-2));
+    transform-origin:0 50%;transform:scaleX(0);
+    animation:vr-lecture linear both;animation-timeline:scroll(root);
+    pointer-events:none}
+  @keyframes vr-lecture{to{transform:scaleX(1)}}
+}
+
+/* ==== AMBIANCE RICHE GLOBALE (17/07/2026, demande de l'admin) =====================
+   Fond profond étoilé + aurore dorée (thème sombre), apparitions au
+   défilement, tilt 3D et survols premium des cartes — sur tout le site.
+   prefers-reduced-motion : tout est coupé. Thème clair : fond inchangé. */
+
+/* fond étoilé + nébuleuse (sombre seulement, fixe, zéro coût de layout) */
+[data-theme="dark"] body::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
+  background:
+    radial-gradient(1100px 600px at 85% -10%,rgba(47,86,144,.14),transparent 60%),
+    radial-gradient(900px 520px at 8% 110%,rgba(84,52,132,.10),transparent 65%),
+    radial-gradient(1.2px 1.2px at 12% 22%,rgba(255,255,255,.30),transparent 55%),
+    radial-gradient(1px 1px at 35% 68%,rgba(255,255,255,.22),transparent 55%),
+    radial-gradient(1.4px 1.4px at 58% 14%,rgba(255,255,255,.26),transparent 55%),
+    radial-gradient(1px 1px at 76% 44%,rgba(255,255,255,.20),transparent 55%),
+    radial-gradient(1.2px 1.2px at 91% 80%,rgba(255,255,255,.24),transparent 55%),
+    radial-gradient(1px 1px at 22% 88%,rgba(255,255,255,.18),transparent 55%),
+    radial-gradient(1.3px 1.3px at 47% 38%,rgba(255,255,255,.22),transparent 55%),
+    radial-gradient(1px 1px at 66% 92%,rgba(255,255,255,.16),transparent 55%)}
+[data-theme="dark"] body::after{content:"";position:fixed;left:0;right:0;top:0;height:42vh;z-index:-1;
+  pointer-events:none;opacity:.5;
+  background:conic-gradient(from 180deg at 50% -20%,transparent 42%,rgba(212,175,55,.07) 50%,transparent 58%)}
+
+/* apparition en fondu-remontée (opacity/transform : zéro décalage de mise en page) */
+@media (prefers-reduced-motion: no-preference){
+  .amb-obs{opacity:.001;transform:translateY(14px)}
+  .amb-in{opacity:1;transform:none;transition:opacity .5s ease,transform .55s cubic-bezier(.2,.7,.2,1)}
+}
+
+/* tilt 3D + survol premium des cartes (variables posées par warp.js) */
+@media (pointer:fine) and (prefers-reduced-motion: no-preference){
+  .scard,.modc,.card,.modslot,.wc{transform-style:preserve-3d}
+  .amb-tilt{transform:perspective(760px) rotateX(var(--ambRx,0deg)) rotateY(var(--ambRy,0deg)) translateY(-2px);
+    transition:box-shadow .2s ease;box-shadow:0 14px 34px -16px rgba(0,0,0,.65),0 0 0 1px rgba(212,175,55,.25);
+    z-index:2;position:relative}
+  .amb-tilt::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+    background:linear-gradient(115deg,transparent 42%,rgba(255,245,210,.08) 50%,transparent 58%)}
+}
+
+/* Bandeau « profil de marché » (js/profil.js). Posé en HTML puis rempli PENDANT
+   l'analyse de la page, jamais après : rempli au chargement, il décalerait tout
+   ce qui suit — exactement ce que le garde-fou CLS traque. */
+.vr-profil-bandeau{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:14px 0;padding:11px 14px;min-height:44px;background:var(--bg2);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:var(--r-sm);color:var(--ink);text-decoration:none;font-size:.93rem}
+.vr-profil-bandeau:hover{border-color:var(--gold)}
+.vr-profil-bandeau .ico{font-size:1.15rem;line-height:1}
+.vr-profil-bandeau .go{margin-left:auto;color:var(--gold-2);font-weight:700;white-space:nowrap}
+/* « Tes outils » sur /outils : la boîte est posée VIDE pendant l'analyse de la page
+   et remplie juste après la grille — min-height réserve la ligne, donc la remplir ne
+   décale rien. La carte retenue prend un outline : contrairement à une bordure ou à
+   un badge, il ne prend aucune place et ne peut donc pas déformer la grille. */
+.vr-profil-outils{min-height:1.5em;margin:0 0 4px;font-size:.92rem;color:var(--muted);line-height:1.5}
+.vr-profil-outils b{color:var(--ink);font-weight:700}
+.vr-profil-outils a{color:var(--gold-2);text-decoration:none;font-weight:600}
+.vr-profil-outils a:hover{text-decoration:underline}
+.tool-card.pf-mien{outline:2px solid var(--gold);outline-offset:-1px}

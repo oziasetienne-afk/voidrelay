@@ -1,0 +1,11 @@
+{
+  "name": "voidrelay-tooling",
+  "private": true,
+  "description": "Dépendances des scripts de garde-fou (scripts/verifier_*.mjs) et chaîne de données de l'arsenal (npm run arsenal:data — les DEUX étapes, dans l'ordre). Le site lui-même est du HTML/CSS/JS statique, aucun build requis.",
+  "devDependencies": {
+    "playwright": "^1.49.0"
+  },
+  "scripts": {
+    "arsenal:data": "node scripts/generer_arsenal_data.mjs && node scripts/enrichir_stats_capacites.mjs"
+  }
+}

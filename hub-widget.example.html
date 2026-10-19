@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VoidRelay — widget exemple</title>
+<!--
+  EXEMPLE de consommation des données. Optionnel.
+  Place ce fichier à la racine du dépôt (à côté du dossier data/) et il affichera
+  le contenu de data/summary.json. Tu peux copier ce code dans ta page Hub
+  existante au lieu d'utiliser ce fichier tel quel.
+  Contrat de données = data/summary.json (voir README_Warframe.md).
+-->
+<style>
+  :root { --bg:#0b0f14; --card:#121922; --ink:#e6edf3; --mut:#8aa0b3; --acc:#d4af37; --warn:#f0a020; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink);
+         font:15px/1.5 system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif; padding:24px; }
+  h1 { font-size:20px; margin:0 0 4px; letter-spacing:.5px; }
+  .sub { color:var(--mut); font-size:13px; margin-bottom:18px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:14px; }
+  .card { background:var(--card); border:1px solid #1d2935; border-radius:12px; padding:14px 16px; }
+  .card h2 { font-size:13px; text-transform:uppercase; letter-spacing:1px; color:var(--acc);
+             margin:0 0 10px; }
+  .row { display:flex; justify-content:space-between; gap:10px; padding:3px 0; }
+  .row .k { color:var(--mut); } .row .v { text-align:right; }
+  .pill { display:inline-block; padding:1px 8px; border-radius:999px; font-size:12px;
+          background:#0d2a2c; color:var(--acc); border:1px solid #154; }
+  .warn { color:var(--warn); }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  td { padding:2px 0; } td:last-child { text-align:right; color:var(--mut); }
+  #err { color:var(--warn); }
+  footer { color:var(--mut); font-size:12px; margin-top:18px; }
+</style>
+</head>
+<body>
+  <h1>VoidRelay</h1>
+  <div class="sub" id="meta">Chargement…</div>
+  <div id="err"></div>
+  <div class="grid" id="grid"></div>
+  <footer>Données : warframe.com (officiel) · warframestat.us · warframe.market — mises à jour quotidiennement.</footer>
+
+<script>
+const DATA_URL = "data/summary.json"; // chemin relatif à la racine du dépôt
+
+function secs(s){ if(s==null) return "—"; s=Math.max(0,s|0);
+  const h=(s/3600|0), m=(s%3600/60|0); return h?`${h}h ${m}m`:`${m}m`; }
+function card(title, rowsHtml){ return `<div class="card"><h2>${title}</h2>${rowsHtml}</div>`; }
+function row(k,v){ return `<div class="row"><span class="k">${k}</span><span class="v">${v}</span></div>`; }
+
+fetch(DATA_URL, {cache:"no-store"})
+  .then(r => { if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); })
+  .then(render)
+  .catch(e => { document.getElementById("err").textContent =
+    "Impossible de charger "+DATA_URL+" : "+e.message+" (servez le dossier via http, pas file://)"; });
+
+function render(s){
+  document.getElementById("meta").textContent =
+    "Maj : " + (s.updated_utc||"?") + "  ·  sources : " + JSON.stringify(s.sources||{});
+  const g = document.getElementById("grid"); const cy=s.cycles||{};
+  let html = "";
+
+  html += card("Cycles", ["cetus","vallis","cambion","earth"].map(n=>{
+    const c=cy[n]||{}; return row(n[0].toUpperCase()+n.slice(1),
+      `<span class="pill">${c.state||"—"}</span> ${secs(c.timeLeftSeconds)}`); }).join(""));
+
+  const b=s.baro||{};
+  html += card("Baro Ki'Teer", row("Statut", b.active?'<span class="pill">ICI</span>':'<span class="warn">absent</span>')
+    + row("Lieu", b.location||"—") + row(b.active?"Repart":"Arrive", (b.active?b.endUtc:b.startUtc)||"—"));
+
+  const so=s.sortie||{};
+  html += card("Sortie", row("Boss", so.boss||"—") + row("Faction", so.faction||"—")
+    + row("Missions", (so.missions||[]).length));
+
+  const ah=s.archonHunt||{};
+  html += card("Archon Hunt", row("Boss", ah.boss||"—") + row("Faction", ah.faction||"—"));
+
+  const f=s.fissures||{};
+  html += card("Failles", row("Total", f.count||0) + row("Steel Path", f.steelPathCount||0)
+    + Object.entries(f.byTier||{}).map(([k,v])=>row(k,v)).join(""));
+
+  const nw=s.nightwave||{};
+  html += card("Nightwave", row("Saison", nw.season??"—") + row("Phase", nw.phase??"—")
+    + row("Défis actifs", nw.activeChallenges??"—"));
+
+  const inv=s.invasions||{};
+  html += card("Invasions ("+(inv.count||0)+")",
+    "<table>"+(inv.list||[]).slice(0,6).map(i=>`<tr><td>${i.attacker} vs ${i.defenderFaction}</td><td>${i.node||""}</td></tr>`).join("")+"</table>");
+
+  const m=s.market||{};
+  html += card("Marché ("+(m.platform||"")+")",
+    "<table>"+(m.items||[]).map(i=>`<tr><td>${i.slug}</td><td>${i.minSellPlat??"—"} p</td></tr>`).join("")+"</table>");
+
+  g.innerHTML = html;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+name: Pages objets (SEO)
+
+# Régénère les pages SEO par objet (/o/<slug>) + l'index + le sitemap.
+# Rafraîchit le catalogue depuis warframe.market, puis génère, puis pousse sur MAIN.
+# Cadence hebdo : le catalogue d'objets bouge lentement ; les PRIX restent live
+# (hydratés côté client), donc pas besoin de régénérer pour les prix.
+#
+# ⚠️ HISTOIRE (09/07/2026) : ce workflow travaillait sur la branche
+# claude/warframe-updates-app-thkv5, que sync-main.yml recopiait ensuite sur main
+# en FORCE-PUSH. Quand main a commencé à recevoir des commits directs (sessions
+# de travail, refonte design, données), cette branche est devenue obsolète et
+# chaque exécution du couple pages-objets→sync-main aurait ÉCRASÉ tout le travail
+# récent de main avec un état vieux de plusieurs jours. Le flux est désormais :
+# tout se passe sur main, sync-main.yml est supprimé, et la branche
+# claude/warframe-updates-app-thkv5 ne doit plus JAMAIS être utilisée (la pousser
+# redéclencherait son sync-main.yml embarqué, qui force-pushe main).
+
+on:
+  schedule:
+    - cron: "23 6 * * 1"        # lundi 06:23 UTC (minute ≠ 0/17 des autres workflows)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pages-objets
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # historique complet requis : lastmod réels du sitemap dérivés de git log
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Rafraîchir le catalogue (warframe.market)
+        run: node scripts/maj_catalogue_objets.mjs
+      - name: Générer les pages objet + index + sitemap
+        run: node scripts/generer_pages_objets.mjs
+      - name: Garde-fou invariants (dont design des guides — bloque toute régression)
+        run: bash scripts/verifier_invariants.sh
+      - name: Commit si changement
+        run: |
+          git config user.name "voidrelay-bot"
+          git config user.email "bot@voidrelay.fr"
+          git add o/ en/o/ sitemap.xml data/wm_catalog.json guides/ en/guides/ scripts/.generated-manifest.json
+          if git diff --cached --quiet; then
+            echo "Aucun changement de pages objet."
+          else
+            git commit -m "chore(seo): régénération pages objet $(date -u +'%Y-%m-%d')"
+            # main reçoit aussi des commits d'autres workflows : on rebase avant de pousser.
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi

@@ -1,0 +1,49 @@
+name: Rapport hebdo EN objets
+
+# Mesure la performance réelle du lot EN restreint (/en/o/, 250 objets +
+# /en/guides/) — Google Search Console + Cloudflare Web Analytics, filtrés
+# par chemin. Décision Chef (2026-07-10) : ne pas étendre aux 3834 objets à
+# l'aveugle, mesurer le trafic réel 4-6 semaines d'abord.
+#
+# Nécessite 4 secrets de dépôt (Settings > Secrets and variables > Actions) :
+#   GSC_SA_KEY_JSON, GSC_SITE_URL, CF_API_TOKEN, CF_ACCOUNT_ID
+# Voir l'en-tête de scripts/rapport_en_objets.mjs pour la procédure complète.
+# Tant qu'ils ne sont pas configurés, ce workflow tourne à vide (exit 0),
+# pas d'échec bruyant.
+
+on:
+  schedule:
+    - cron: "17 8 * * 1"        # lundi 08:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  rapport:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Générer le rapport EN objets
+        env:
+          GSC_SA_KEY_JSON: ${{ secrets.GSC_SA_KEY_JSON }}
+          GSC_SITE_URL: ${{ secrets.GSC_SITE_URL }}
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+        run: node scripts/rapport_en_objets.mjs
+      - name: Commit si rapport généré
+        run: |
+          git config user.name "voidrelay-bot"
+          git config user.email "bot@voidrelay.fr"
+          git add reports/en-objects/
+          if git diff --cached --quiet; then
+            echo "Aucun rapport généré (credentials manquantes ou aucune donnée)."
+          else
+            git commit -m "chore(rapport): suivi EN objets $(date -u +'%Y-%m-%d')"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi

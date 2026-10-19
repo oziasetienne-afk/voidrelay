@@ -1,0 +1,12 @@
+# Règles gitleaks par défaut + exclusion des faux positifs connus (audit du 19/10/2026) :
+# - .generated-manifest.json : empreintes SHA-256 des pages générées, pas des clés
+# - data/wm_thumbs.json : noms de fichiers d'images warframe.market
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Faux positifs connus"
+paths = [
+  '''scripts/\.generated-manifest\.json''',
+  '''data/wm_thumbs\.json''',
+]

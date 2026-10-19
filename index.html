@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head><script>(function(){try{var t=localStorage.getItem("vr-theme")||"dark";document.documentElement.setAttribute("data-theme",t)}catch(e){document.documentElement.setAttribute("data-theme","dark")}})();</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3315165542909837" crossorigin="anonymous"></script>
+<meta charset="UTF-8" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com https://pagead2.googlesyndication.com https://partner.googleadservices.com https://tpc.googlesyndication.com https://adservice.google.com https://www.googletagservices.com https://fundingchoicesmessages.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://i.ytimg.com https://raw.githubusercontent.com https://*.googlesyndication.com https://*.g.doubleclick.net https://*.google.com; connect-src 'self' https://cloudflareinsights.com https://pagead2.googlesyndication.com https://*.g.doubleclick.net https://*.googlesyndication.com https://ep1.adtrafficquality.google https://fundingchoicesmessages.google.com; manifest-src 'self'; worker-src 'self'; form-action 'self'; frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://*.google.com; upgrade-insecure-requests" />
+<meta http-equiv="X-Content-Type-Options" content="nosniff" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+<script>/* anciens domaines -> voidrelay.fr ; anciens liens app (#/route) -> leur page canonique.
+L'app /warframe est démantelée (16/07/2026, décision de l'admin) : chaque route mène à la vraie page du site,
+défaut /outils. */(function(){var h=location.hostname;if(h==='warframe-hub.pages.dev'||h.slice(-10)==='.github.io'){location.replace('https://voidrelay.fr'+location.pathname.replace(/^\/test(?=\/|$)/,'')+location.search+location.hash);return}var hash=location.hash;if(hash&&/^#\//.test(hash)){var r=hash.slice(2).split('/')[0];var MAP={'marche':'/marche','favoris':'/favoris','estimateur':'/estimateur','digest':'/digest','bons-plans':'/bons-plans','trade':'/trade','courses':'/courses','ducats':'/ducats','endo':'/endo','codex':'/codex','foundry':'/fonderie','taches':'/taches','reliquecalc':'/calc-reliques','relic-optim':'/reliques-ce-soir','assistant':'/assistant-farm','riven-eval':'/outils','accueil':'/outils','builds':'/builds/','guide':'/guides/farmer-platine-gratuit','monde':'/hub','mondes-ouverts':'/hub','actus':'/hub','historique':'/estimateur','rivens':'/outils','comparateur':'/o/','planner':'/builds/','farmer':'/marche','reglages':'/outils','compte':'/favoris'};location.replace(MAP[r]||'/outils')}})()</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>VoidRelay — Warframe : La Voie du Platine, builds, guides & prix du platine</title>
+<meta name="description" content="VoidRelay : ton hub Warframe en français. La Voie du Platine (guide débutant), builds, guides, skins, prix du platine en direct et tableau de bord du monde. Gratuit, sans compte." />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta name="author" content="VoidRelay" />
+<link rel="canonical" href="https://voidrelay.fr/" />
+<link rel="alternate" hreflang="fr" href="https://voidrelay.fr/" />
+<link rel="alternate" hreflang="en" href="https://voidrelay.fr/en/" />
+<link rel="alternate" hreflang="x-default" href="https://voidrelay.fr/" />
+<link rel="alternate" type="application/rss+xml" title="VoidRelay — Nouveautés Warframe" href="/data/feed.xml">
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="VoidRelay" />
+<meta property="og:title" content="VoidRelay — Warframe : La Voie du Platine, builds, guides & prix" />
+<meta property="og:description" content="Ton hub Warframe en français : La Voie du Platine, builds, guides, skins, prix du platine en direct et tableau de bord du monde." />
+<meta property="og:url" content="https://voidrelay.fr/" />
+<meta property="og:image" content="https://voidrelay.fr/assets/og.png" />
+<meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" />
+<meta property="og:locale" content="fr_FR" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="VoidRelay — Warframe : La Voie du Platine, builds, guides & prix" />
+<meta name="twitter:image" content="https://voidrelay.fr/assets/og.png" />
+<meta name="theme-color" content="#f4f1ea" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230e1729'/%3E%3Cpath d='M14 18 L32 48 L50 18' fill='none' stroke='%23d4af37' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="apple-touch-icon" href="/assets/icon-192.png" />
+<!-- display=optional (PAS swap) : mesure CLS reelle 10/07/2026 (PerformanceObserver, repete 3x) -> swap causait un reflow au moment exact du chargement de la police (CLS jusqu'a 1.03), optional -> CLS 0.0000. NE PAS repasser a swap sans re-mesurer le CLS reel avant/apres sur plusieurs essais. Contexte complet : commit git "la prochaine classe de bug — CLS massif du au swap de police web". -->
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Oswald:wght@400;500;600;700&display=optional" rel="stylesheet" />
+<link rel="stylesheet" href="/css/pandaahh.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://voidrelay.fr/#org","name":"VoidRelay","url":"https://voidrelay.fr/","logo":"https://voidrelay.fr/assets/og.png","description":"Hub Warframe en français : La Voie du Platine, builds, guides, skins, prix du platine et état du monde."},{"@type":"WebSite","@id":"https://voidrelay.fr/#site","url":"https://voidrelay.fr/","name":"VoidRelay","inLanguage":"fr","publisher":{"@id":"https://voidrelay.fr/#org"},"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://voidrelay.fr/o/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"WebPage","name":"VoidRelay — Warframe","url":"https://voidrelay.fr/","about":{"@type":"VideoGame","name":"Warframe","publisher":"Digital Extremes"}},{"@type":"ItemList","name":"Objets en vedette","itemListElement":[{"@type":"ListItem","position":1,"name":"Excalibur","url":"https://voidrelay.fr/builds/excalibur"},{"@type":"ListItem","position":2,"name":"Ignis Wraith","url":"https://voidrelay.fr/builds/ignis-wraith"},{"@type":"ListItem","position":3,"name":"Mesa","url":"https://voidrelay.fr/builds/mesa"},{"@type":"ListItem","position":4,"name":"Galatine Prime","url":"https://voidrelay.fr/builds/galatine-prime"}]}]}</script>
+<style>
+/* Ambiance du hero d'accueil — scoped à cette page, n'affecte aucune autre page du site.
+   Pile de calques : .hero-bg (photo, z0) < .hero-veil (voile léger, z1) < .hero-stretch (lien plein cadre, z2)
+   < .hero-pulse (respiration lumineuse, z3) < .hero-fx (canvas carte stellaire, z4) < .in (texte/CTA, z5). */
+.hero-bg{position:absolute;inset:0;z-index:0;overflow:hidden}
+.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center}
+.hero-veil{position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(100deg,rgba(8,11,18,.55) 0%,rgba(8,11,18,.28) 42%,rgba(8,11,18,0) 68%)}
+.hero-pulse{position:absolute;left:76%;top:54%;width:34%;padding-top:34%;transform:translate(-50%,-50%);
+  border-radius:50%;background:radial-gradient(circle,rgba(255,159,67,.35),rgba(212,175,55,.14) 55%,transparent 75%);
+  z-index:3;pointer-events:none;animation:heroPulse 6s ease-in-out infinite}
+@keyframes heroPulse{0%,100%{opacity:.5;transform:translate(-50%,-50%) scale(.94)}50%{opacity:.85;transform:translate(-50%,-50%) scale(1.05)}}
+.hero-fx{position:absolute;inset:0;z-index:4;pointer-events:none;mix-blend-mode:screen}
+.hero .in{position:relative;z-index:5}
+.hero-stretch{position:absolute;inset:0;z-index:2}
+/* Invite à scroller : chevron discret, respire doucement en bas du hero. */
+.hero-scrollcue{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:5;
+  display:flex;flex-direction:column;align-items:center;gap:2px;color:rgba(255,255,255,.7);
+  text-decoration:none;font:700 10px/1 "Oswald",sans-serif;letter-spacing:.16em;text-transform:uppercase;
+  pointer-events:auto;transition:color .18s}
+.hero-scrollcue:hover{color:#fff}
+.hero-scrollcue svg{animation:scrollCue 1.8s ease-in-out infinite}
+@keyframes scrollCue{0%,100%{transform:translateY(0);opacity:.6}50%{transform:translateY(5px);opacity:1}}
+@media (prefers-reduced-motion: reduce){.hero-pulse{animation:none}.hero-scrollcue svg{animation:none}}
+@media (max-width:767px){.hero-pulse{display:none}.hero-scrollcue{display:none}}
+
+/* vidéo d'ambiance du hero (17/07/2026, Higgsfield) : par-dessus la photo,
+   fondu à la lecture ; jamais sur mobile/reduced-motion/Save-Data (JS). */
+.hero-video{position:absolute;inset:0;z-index:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transition:opacity 1.2s ease}
+.hero-video.pret{opacity:1}
+</style>
+</head>
+<body>
+
+<div class="topwrap">
+  <header class="topbar">
+    <a href="/" class="brand"><span class="logo">◆</span> VoidRelay</a>
+    <div class="search">
+      <span>🔎</span>
+      <input type="search" id="vr-search" class="vr-search-input" placeholder="Rechercher un objet, un build…" aria-label="Rechercher un objet Warframe" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="vr-search-results" aria-autocomplete="list">
+      <kbd>K</kbd>
+      <div class="vr-search-results" id="vr-search-results" role="listbox" aria-label="Résultats de recherche" hidden></div>
+    </div>
+    <nav class="topnav">
+      <div class="topnav-search">
+        <input type="search" id="vr-search-m" class="vr-search-input" placeholder="Rechercher un objet…" aria-label="Rechercher un objet Warframe" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="vr-search-results-m" aria-autocomplete="list">
+        <div class="vr-search-results" id="vr-search-results-m" role="listbox" aria-label="Résultats de recherche" hidden></div>
+      </div>
+      <a href="/" class="cur">Accueil</a><a href="/voie-du-platine/">La Voie du Platine</a><a href="/builds/">Builds</a><a href="/warframes/">Warframes</a><a href="/armes/">Armes</a><a href="/compagnons/">Compagnons</a><a href="/ressources/">Ressources</a><a href="/arcanes/">Arcanes</a><a href="/guides/">Guides</a><a href="/skins/">Skins</a><a href="/o/">Objets</a><a href="/hub">Tableau de bord</a><a href="/outils">Outils</a><a href="/faq">FAQ</a></nav>
+    <button class="navburger" id="navburger" type="button" aria-label="Menu" aria-expanded="false">&#9776;</button>
+<button class="themebtn" id="themebtn" type="button" aria-label="Basculer le thème" title="Thème sombre / clair">☾</button><a href="/outils" class="avatar" title="Outils Warframe" aria-label="Outils Warframe">◈</a>
+  </header>
+</div>
+
+<main class="wrap">
+
+  <div class="hero">
+    <picture class="hero-bg" aria-hidden="true">
+      <source type="image/webp" srcset="/images/hero/voidrelay-hero-war.webp">
+      <img src="/images/hero/voidrelay-hero-war.jpg" alt="" width="2560" height="1440" fetchpriority="high" decoding="async">
+    </picture>
+    <video class="hero-video" muted loop playsinline preload="none" aria-hidden="true" hidden></video>
+    <div class="hero-veil" aria-hidden="true"></div>
+    <a class="hero-stretch" href="/voie-du-platine/" aria-hidden="true" tabindex="-1"></a>
+    <div class="hero-pulse" aria-hidden="true"></div>
+    <div class="in">
+      <div class="eyebrow">Hub Warframe français</div>
+      <h1 class="tt"><span class="gold">La Voie</span> du Platine</h1>
+      <p>Guide complet, builds triés, items rares et état du monde en direct — la référence pour progresser sans perdre de temps.</p>
+      <div class="hero-meta">Recherche instantanée, pages d'objets complètes et stats du monde mises à jour automatiquement.</div>
+      <div class="hero-stats">
+        <div><strong>3 800+</strong><span>items indexés</span></div>
+        <div><strong>750+</strong><span>builds & guides</span></div>
+        <div><strong>Actualisé</strong><span>1×/jour</span></div>
+      </div>
+      <div class="cta-group">
+        <a class="cta" href="/voie-du-platine/">Commencer La Voie</a>
+        <a class="cta alt" href="/marche-complet">Marché en direct</a>
+        <a class="cta alt" href="/arsenal">Simuler un build</a>
+      </div>
+      <div class="hero-labels">
+        <span>Prix du platine</span>
+        <span>Simulateur d'Arsenal</span>
+        <span>État du monde</span>
+      </div>
+      <div class="hero-items">
+        <a href="/builds/excalibur.html"><span class="hero-thumb" style="background-image:url('/assets/frames/Excalibur.webp')"></span><span>Excalibur</span></a>
+        <a href="/builds/ignis-wraith.html"><span class="hero-thumb" style="background-image:url('/assets/weapons/IgnisWraith.png')"></span><span>Ignis Wraith</span></a>
+        <a href="/builds/mesa.html"><span class="hero-thumb" style="background-image:url('/assets/frames/Mesa.webp')"></span><span>Mesa</span></a>
+        <a href="/builds/rhino.html"><span class="hero-thumb" style="background-image:url('/assets/frames/Rhino.webp')"></span><span>Rhino</span></a>
+      </div>
+    </div>
+    <a class="hero-scrollcue" href="#home-features" aria-label="Découvrir la suite">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Découvrir</span>
+    </a>
+  </div>
+
+  <!-- Les 3 piliers (17/07/2026, demande de l'admin) : le site sert d'abord à GAGNER du
+       platine (La Voie + marché/outils en direct) et à PRÉPARER ses builds
+       (simulateur d'Arsenal, introuvable sur les autres hubs) — mis en avant
+       AVANT tout le reste ; builds/guides restent en dessous. -->
+  <section class="bento" id="piliers" aria-label="Les trois piliers du site">
+    <a class="scard v1" href="/voie-du-platine/"><div class="in"><span class="arrow">↗</span><span style="display:inline-block;font:700 .7rem/1 'Oswald',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-3);background:rgba(212,175,55,.14);border-radius:999px;padding:4px 10px;margin-bottom:.7rem">💰 Pilier nº 1</span><h2>La Voie du Platine</h2><p>Le parcours complet pour <b>gagner du platine sans payer</b> : reliques, ducats, trading — étape par étape, du premier jour au end-game.</p></div></a>
+    <a class="scard v2" href="/marche-complet"><div class="in"><span class="arrow">↗</span><span style="display:inline-block;font:700 .7rem/1 'Oswald',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-3);background:rgba(212,175,55,.14);border-radius:999px;padding:4px 10px;margin-bottom:.7rem">📈 En direct</span><h2>Marché &amp; outils platine</h2><p><b>3 800+ objets aux prix live</b>, vérificateur de prix, ducats, endo, favoris avec alertes — tout ce qu'il faut pour acheter et vendre au bon prix.</p></div></a>
+    <a class="scard v3" href="/arsenal"><div class="in"><span class="arrow">↗</span><span style="display:inline-block;font:700 .7rem/1 'Oswald',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-3);background:rgba(212,175,55,.14);border-radius:999px;padding:4px 10px;margin-bottom:.7rem">⚔️ Exclusif</span><h2>Simulateur d'Arsenal</h2><p>L'Arsenal du jeu dans ton navigateur : mods, polarités, forma, arcanes et <b>vraies statistiques calculées en direct</b> — teste ton build avant de dépenser tes formas.</p></div></a>
+  </section>
+
+  <section class="home-features" id="home-features">
+    <div class="feature-headline">
+      <span class="feyebrow">Ce que tu gagnes</span>
+      <h2>Un hub Warframe simple, précis et à jour</h2>
+    </div>
+    <article class="fcard">
+      <span class="fmeta">Guide</span>
+      <h3>Builds testés et à jour</h3>
+      <p>Des configurations recommandées pour chaque Warframe, choisies pour l’efficacité et la cohérence du jeu.</p>
+    </article>
+    <article class="fcard">
+      <span class="fmeta">Objet</span>
+      <h3>Marché & prix en direct</h3>
+      <p>Consulte les prix du platine, les ducats et les meilleures affaires sans quitter le hub.</p>
+    </article>
+    <article class="fcard">
+      <span class="fmeta">Monde</span>
+      <h3>Statut du monde instantané</h3>
+      <p>Cycles, fissures, invasions et Baro Ki'Teer : tout ce qu’il faut savoir en un coup d’œil.</p>
+    </article>
+  </section>
+
+  <section class="bento">
+    <a class="scard v3 span2" href="/guides/ombres-de-jade-constellations"><div class="in"><span class="arrow">↗</span><span style="display:inline-block;font:700 .7rem/1 'Oswald',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-3);background:rgba(212,175,55,.14);border-radius:999px;padding:4px 10px;margin-bottom:.7rem">Mise à jour 43</span><h2>Les Ombres de Jade : Constellations</h2><p><b>Sirius &amp; Orion</b> la Warframe double, <b>Styanax Prime</b>, le retour du <b>Railjack</b> en Steel Path, 5 Incarnons, arcanes et augments — le récap complet en français.</p></div></a>
+  </section>
+
+  <section class="bento">
+    <a class="scard v1 span2" href="/guides/tennocon-2026-annonces"><div class="in"><span class="arrow">↗</span><span style="display:inline-block;font:700 .7rem/1 'Oswald',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-3);background:rgba(212,175,55,.14);border-radius:999px;padding:4px 10px;margin-bottom:.7rem">À venir · TennoCon 2026</span><h2>Brysko, Narin &amp; le Système Tau</h2><p>Toutes les annonces de la TennoCon 2026 : la nouvelle Warframe <b>Brysko</b>, le <b>Système Tau</b> et son hub-casino, <b>Citrine Prime</b>, le rework de <b>Banshee</b> — le récap complet.</p></div></a>
+  </section>
+
+  <section class="bento">
+    <a class="scard v2" href="/warframes/"><div class="in"><span class="arrow">↗</span><h2>Warframes</h2><p>Les 117 Warframes du jeu (standard et Prime) : stats, capacités et passifs.</p></div></a>
+    <a class="scard v3" href="/guides/"><div class="in"><span class="arrow">↗</span><h2>Guides</h2><p>Astuces, tutoriels et mécaniques cachées : platine, ducats, Steel Path, Nightwave, Eidolons…</p></div></a>
+    <a class="scard v1" href="/builds/"><div class="in"><span class="arrow">↗</span><h2>Builds</h2><p>Optimise ton arsenal avec des configurations claires et polyvalentes.</p></div></a>
+  </section>
+
+  <div class="shead"><h2>Guides en vedette</h2><a class="all" href="/guides/">Tous les guides →</a></div>
+  <section class="bento">
+    <a class="scard v1" href="/guides/farmer-platine-gratuit"><div class="in"><span class="arrow">↗</span><h2>Farmer du platine gratuitement</h2><p>Gagner du platine sans payer : vendre pièces Prime, mods et reliques, fixer ses prix et éviter les pièges.</p></div></a>
+    <a class="scard v2" href="/guides/tier-list-warframes"><div class="in"><span class="arrow">↗</span><h2>Tier list des Warframes 2026</h2><p>Les frames les plus fortes par rôle — DPS, tank, soutien, furtivité — et pourquoi elles dominent le méta.</p></div></a>
+    <a class="scard v3" href="/guides/bien-modder"><div class="in"><span class="arrow">↗</span><h2>Bien modder ses armes</h2><p>La recette universelle : ordre des mods, seuils crit/statut, éléments par faction. La logique de build, enfin claire.</p></div></a>
+    <a class="scard v2" href="/guides/steel-path-debuter"><div class="in"><span class="arrow">↗</span><h2>Débuter en Steel Path</h2><p>À quoi sert le mode difficile, quand s'y mettre, les récompenses (essences, Teshin) et les builds pour tenir.</p></div></a>
+    <a class="scard v3" href="/guides/meilleures-warframes-debutant"><div class="in"><span class="arrow">↗</span><h2>Meilleures Warframes pour débuter</h2><p>Quelles frames choisir quand on commence : faciles à jouer, polyvalentes et faciles à obtenir.</p></div></a>
+    <a class="scard v1" href="/guides/nightwave-explication"><div class="in"><span class="arrow">↗</span><h2>Nightwave expliqué</h2><p>Défis, rangs et récompenses (Aya, réacteurs, cosmétiques) : comment ne rien rater de la saison en cours.</p></div></a>
+  </section>
+
+  <div class="shead"><h2>Builds en vedette</h2><a class="all" href="/builds/">Voir tout →</a></div>
+  <section class="row3">
+    <a class="bcard" href="/builds/rhino"><div class="thumb" style="display:grid;place-items:center;padding:14px;background-image:linear-gradient(135deg,rgba(212,175,55,.2),rgba(14,23,41,.65));"><img loading="lazy" src="/assets/frames/Rhino.webp" alt="Rhino" style="max-height:96px;max-width:100%;object-fit:contain"></div><div class="b"><h3>Rhino</h3><p class="sub">Tank increvable</p><span class="tag">Warframe</span></div></a>
+    <a class="bcard" href="/builds/saryn"><div class="thumb" style="display:grid;place-items:center;padding:14px;background-image:linear-gradient(135deg,rgba(91,122,158,.25),rgba(14,23,41,.65));"><img loading="lazy" src="/assets/frames/Saryn.webp" alt="Saryn" style="max-height:96px;max-width:100%;object-fit:contain"></div><div class="b"><h3>Saryn</h3><p class="sub">Reine de l'AoE</p><span class="tag">Warframe</span></div></a>
+    <a class="bcard" href="/builds/mesa"><div class="thumb" style="display:grid;place-items:center;padding:14px;background-image:linear-gradient(135deg,rgba(212,175,55,.2),rgba(14,23,41,.65));"><img loading="lazy" src="/assets/frames/Mesa.webp" alt="Mesa" style="max-height:96px;max-width:100%;object-fit:contain"></div><div class="b"><h3>Mesa</h3><p class="sub">DPS pure</p><span class="tag">Warframe</span></div></a>
+  </section>
+
+  <!-- Builds populaires (2026-07-15) : croise le volume du marché (data/market.json, maj 2 h) avec les
+       fiches builds (data/builds_index.json). Rempli en JS APRÈS la ligne de flottaison : l'insertion se
+       fait hors du viewport initial -> aucun CLS mesurable (vérifié garde CLS). Si un fetch échoue, le
+       bloc reste simplement absent (aucune erreur visible). -->
+  <div class="shead" id="vr-pop-head" hidden><h2>🔥 Populaires sur le marché</h2><a class="all" href="/marche">Prix du jour →</a></div>
+  <section class="row3" id="vr-pop" hidden></section>
+  <script>
+  (function(){
+    function esc(x){return String(x).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+    Promise.all([
+      fetch("/data/market.json").then(function(r){return r.json();}),
+      fetch("/data/builds_index.json").then(function(r){return r.json();})
+    ]).then(function(res){
+      var items=(res[0]&&res[0].items)||[], builds={};
+      (res[1]||[]).forEach(function(b){builds[b.s]=b;});
+      var top=items.map(function(it){
+        var slug=String(it.slug||"").replace(/_set$/,"").replace(/_/g,"-");
+        var b=builds[slug];
+        return b?{b:b,slug:slug,median:it.median,orders:it.sellOrders||0}:null;
+      }).filter(Boolean).sort(function(a,c){return c.orders-a.orders;}).slice(0,6);
+      if(top.length<3)return;
+      var grid=document.getElementById("vr-pop");
+      grid.innerHTML=top.map(function(t){
+        var name=String(t.b.n).replace(/^Build /,"");
+        var img=t.b.i?'<img loading="lazy" src="'+esc(t.b.i)+'" alt="'+esc(name)+'" style="max-height:96px;max-width:100%;object-fit:contain">':"";
+        return '<a class="bcard" href="/builds/'+esc(t.slug)+'"><div class="thumb" style="display:grid;place-items:center;padding:14px;background-image:linear-gradient(135deg,rgba(212,175,55,.16),rgba(14,23,41,.65));">'+img+'</div><div class="b"><h3>'+esc(name)+'</h3><p class="sub">'+(t.median?esc(t.median)+" PL · ":"")+esc(t.orders)+' offres en cours</p><span class="tag">Build 3 paliers</span></div></a>';
+      }).join("");
+      document.getElementById("vr-pop-head").hidden=false;
+      grid.hidden=false;
+    }).catch(function(){});
+  })();
+  </script>
+
+  <section class="bento">
+    <a class="scard v2 span2" href="/armes/"><div class="in"><span class="arrow">↗</span><h2>Armes</h2><p>658 armes — <b>principales</b>, <b>secondaires</b>, <b>mêlée</b> et <b>Archwing</b> — avec image, type, rang de maîtrise et disposition Riven.</p></div></a>
+  </section>
+  <section class="bento">
+    <a class="scard v1" href="/compagnons/"><div class="in"><span class="arrow">↗</span><h2>Compagnons</h2><p>Sentinelles, kubrows, kavats et MOA : stats et rang de maîtrise.</p></div></a>
+    <a class="scard v3" href="/ressources/"><div class="in"><span class="arrow">↗</span><h2>Ressources</h2><p>Matériaux, gemmes et plantes à farmer pour tes fabrications.</p></div></a>
+    <a class="scard v3" href="/arcanes/"><div class="in"><span class="arrow">↗</span><h2>Arcanes</h2><p>Les 168 arcanes du jeu : effets, rareté, où les farmer — avec les conseils Pandaahh.</p></div></a>
+    <a class="scard v2" href="/outils"><div class="in"><span class="arrow">↗</span><h2>Outils de trade</h2><p>Marché en direct, estimateur de prix, ducats, Endo, favoris avec alertes et liste de courses — gratuits, sans compte.</p></div></a>
+  </section>
+
+  <div class="shead"><h2>Warframes &amp; armes en vedette</h2><a class="all" href="/builds/">Voir tout →</a></div>
+  <section class="itemgrid">
+    <a class="item-card" href="/builds/excalibur">
+      <div class="item-thumb" style="background-image:url('/assets/frames/Excalibur.webp')"></div>
+      <div class="item-info">
+        <span class="item-tag">Warframe</span>
+        <h3>Excalibur</h3>
+        <p>Un classique iconique, idéal pour démarrer avec style et efficacité.</p>
+      </div>
+    </a>
+    <a class="item-card" href="/builds/ignis-wraith">
+      <div class="item-thumb" style="background-image:url('/assets/weapons/IgnisWraith.png')"></div>
+      <div class="item-info">
+        <span class="item-tag">Arme</span>
+        <h3>Ignis Wraith</h3>
+        <p>Arme incendiaire raffinée, parfaite pour farmer et briller sur le marché.</p>
+      </div>
+    </a>
+    <a class="item-card" href="/builds/mesa">
+      <div class="item-thumb" style="background-image:url('/assets/frames/Mesa.webp')"></div>
+      <div class="item-info">
+        <span class="item-tag">Warframe</span>
+        <h3>Mesa</h3>
+        <p>DAO de précision et élégance, un choix premium pour les joueurs exigeants.</p>
+      </div>
+    </a>
+    <a class="item-card" href="/builds/galatine-prime">
+      <div class="item-thumb" style="background-image:url('/assets/weapons/GalatinePrime.png')"></div>
+      <div class="item-info">
+        <span class="item-tag">Arme</span>
+        <h3>Galatine Prime</h3>
+        <p>Une lame légendaire, lourde et splendide, pour une présence visuelle très forte.</p>
+      </div>
+    </a>
+  </section>
+
+  <section class="bento">
+    <a class="scard v3" href="/hub"><div class="in"><span class="arrow">↗</span><h2>Tableau de bord</h2><p>L'état du monde en direct : cycles jour/nuit, fissures du Vide, invasions, Baro Ki'Teer, alertes.</p></div></a>
+    <a class="scard v1" href="/skins/"><div class="in"><span class="arrow">↗</span><h2>Skins</h2><p>Découvre les cosmétiques pour personnaliser ton arsenal et réussir ta Fashion Frame.</p></div></a>
+  </section>
+
+  <section class="bento">
+    <a class="scard v2" href="/o/"><div class="in"><span class="arrow">↗</span><h2>Prix &amp; objets</h2><p>3 800+ pages d'objets avec prix du platine et ducats, tendances et liens warframe.market.</p></div></a>
+    <a class="scard v3" href="/compagnon"><div class="in"><span class="arrow">↗</span><h2>Compagnon</h2><p>Recherche instantanée d'objets, sets et reliques — trouve le meilleur prix en un clin d'œil.</p></div></a>
+  </section>
+
+  <section class="bento">
+    <aside class="sponsor-card span2"><span class="tag">Partenaire</span><h2>🎮 Boutique gaming Razer</h2><p>Tu farmes du platine pour t'équiper ? Souris, claviers &amp; casques Razer.</p><a class="btn" href="https://www.razer.com/affiliate" target="_blank" rel="noopener noreferrer sponsored">Voir les offres Razer ↗</a></aside>
+  </section>
+
+  <div class="shead"><h2>Dernières vidéos</h2><a class="all" href="https://www.youtube.com/@pandaahh2/videos" target="_blank" rel="noopener">Voir tout →</a></div>
+  <div class="video-note">Sélection de vidéos Warframe approuvées, incluant des guides et builds en anglais pour compléter les ressources françaises.</div>
+  <section class="vgrid">
+    <a class="vcard" href="https://www.youtube.com/watch?v=YJ1HkdAEKE0" target="_blank" rel="noopener"><div class="th"><img loading="lazy" src="https://i.ytimg.com/vi/YJ1HkdAEKE0/hqdefault.jpg" alt="" width="320" height="180"><span class="pl">▶</span></div><div class="vt">Tennocon 2026 : Banshee Rework, Système Tau, Brysko et Citrine Prime</div></a>
+    <a class="vcard" href="https://www.youtube.com/watch?v=nxJo4OJl_FI" target="_blank" rel="noopener"><div class="th"><img loading="lazy" src="https://i.ytimg.com/vi/nxJo4OJl_FI/hqdefault.jpg" alt="" width="320" height="180"><span class="pl">▶</span></div><div class="vt">Jour 2 du Périple du Tenno : mastery, Fortuna, Rhino et Mercure</div></a>
+    <a class="vcard" href="https://www.youtube.com/watch?v=hY5gBOf55Hw" target="_blank" rel="noopener"><div class="th"><img loading="lazy" src="https://i.ytimg.com/vi/hY5gBOf55Hw/hqdefault.jpg" alt="" width="320" height="180"><span class="pl">▶</span></div><div class="vt">Ces frames transforment n'importe quelle arme — Tier List Buffers</div></a>
+    <a class="vcard" href="https://www.youtube.com/watch?v=8pt7a-c0Gh8" target="_blank" rel="noopener"><div class="th"><img loading="lazy" src="https://i.ytimg.com/vi/8pt7a-c0Gh8/hqdefault.jpg" alt="" width="320" height="180"><span class="pl">▶</span></div><div class="vt">Les Ombres de Jade : Constellations — debrief</div></a>
+    <a class="vcard" href="https://www.youtube.com/watch?v=JOG3pB-OtmY" target="_blank" rel="noopener"><div class="th"><img loading="lazy" src="https://i.ytimg.com/vi/JOG3pB-OtmY/hqdefault.jpg" alt="" width="320" height="180"><span class="pl">▶</span></div><div class="vt">PlayWarframe — Devstream 195 : nouvelle quête, Protoframes et retour du Railjack</div></a>
+    <a class="vcard" href="https://www.youtube.com/watch?v=JdcN9X8RziQ" target="_blank" rel="noopener"><div class="th"><img loading="lazy" src="https://i.ytimg.com/vi/JdcN9X8RziQ/hqdefault.jpg" alt="" width="320" height="180"><span class="pl">▶</span></div><div class="vt">WarframeFlo — 5 builds énormes à tester dans Warframe en 2026</div></a>
+    <a class="vcard" href="https://www.youtube.com/watch?v=d3q-ObZsyRs" target="_blank" rel="noopener"><div class="th"><img loading="lazy" src="https://i.ytimg.com/vi/d3q-ObZsyRs/hqdefault.jpg" alt="" width="320" height="180"><span class="pl">▶</span></div><div class="vt">turbomonk — Jade Shadows: Constellations, la review sans concession</div></a>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="in">
+    <div><span class="brand" style="color:#fff"><span class="logo">◆</span> VoidRelay</span><div style="font-size:.85rem;margin-top:6px">Hub Warframe non officiel — fan-made, gratuit.</div></div>
+    <div class="links" style="font-size:.9rem">
+      <a href="/voie-du-platine/">La Voie</a><a href="/builds/">Builds</a><a href="/guides/">Guides</a><a href="/skins/">Skins</a><a href="/o/">Objets</a><a href="/outils">Outils</a><a href="/hub">Tableau de bord</a><a href="/faq">FAQ</a><a href="/a-propos">À propos</a><a href="mailto:contact@voidrelay.fr">Feedback</a>
+    </div>
+  </div>
+  <div class="in" style="padding-top:0;font-size:.8rem;color:#8294ab">« Warframe » est une marque de Digital Extremes. Prix : warframe.market. · <a href="/confidentialite">Confidentialité</a> · <a href="/mentions-legales">Mentions légales</a> · <a href="/data/feed.xml" title="Flux RSS des nouveautés Warframe">📡 RSS</a></div>
+  <div class="in" style="margin-top:10px;font-size:.8rem;color:#94a0b3">
+    Site statique fan-made, mis à jour automatiquement chaque jour via warframestat.us et warframe.market. Aucun compte requis, pas de pub intrusive.
+  </div>
+</footer>
+
+<script>(function(){var b=document.getElementById("themebtn");if(!b)return;function ic(){b.textContent=document.documentElement.getAttribute("data-theme")==="dark"?"☾":"☀";}ic();b.onclick=function(){var t=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",t);try{localStorage.setItem("vr-theme",t)}catch(e){}ic();};})();</script>
+<script defer src="/js/hero-fx.js"></script>
+<script defer src="/js/nav-toggle.js"></script>
+<script defer src="/js/search.js"></script><script defer src="/js/warp.js"></script>
+<script>
+/* Service worker (hors-ligne, PWA installable) : n'était enregistré que depuis /warframe (l'app riche),
+   jamais depuis l'accueil réel — corrigé le 09/07/2026. Silencieux si indisponible. */
+if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));}
+</script>
+<script>
+/* hero vidéo : desktop + souris + pas d'économie de données + pas de reduced-motion */
+addEventListener("load", function () {
+  try {
+    if (innerWidth < 900) return;
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!matchMedia("(pointer:fine)").matches) return;
+    if (navigator.connection && navigator.connection.saveData) return;
+    var v = document.querySelector(".hero-video");
+    if (!v) return;
+    /* rotation d'ambiances (17/07/2026) : trésorerie, plaines lunaires, relique, arène */
+    var srcs = ["/assets/hero/ambiance.mp4", "/assets/hero/ambiance2.mp4", "/assets/hero/ambiance3.mp4", "/assets/hero/ambiance4.mp4"];
+    v.src = srcs[Math.floor(Math.random() * srcs.length)];
+    v.hidden = false;
+    v.addEventListener("playing", function () { v.classList.add("pret"); }, { once: true });
+    v.play().catch(function () {});
+  } catch (e) {}
+});
+</script>
+</body>
+</html>

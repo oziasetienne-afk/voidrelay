@@ -1,0 +1,79 @@
+<!DOCTYPE html><html lang="en"><head><script>(function(){try{var t=localStorage.getItem("vr-theme")||"dark";document.documentElement.setAttribute("data-theme",t)}catch(e){document.documentElement.setAttribute("data-theme","dark")}})();</script>
+<link rel="preconnect" href="https://pagead2.googlesyndication.com"><link rel="dns-prefetch" href="https://googleads.g.doubleclick.net"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3315165542909837" crossorigin="anonymous"></script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com https://pagead2.googlesyndication.com https://partner.googleadservices.com https://tpc.googlesyndication.com https://adservice.google.com https://www.googletagservices.com https://fundingchoicesmessages.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://warframe.market https://*.googlesyndication.com https://*.g.doubleclick.net https://*.google.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://api.warframestat.us https://cloudflareinsights.com https://warframe-proxy.oziasetienne.workers.dev https://api.allorigins.win https://api.codetabs.com https://api.warframe.market https://pagead2.googlesyndication.com https://*.g.doubleclick.net https://*.googlesyndication.com https://ep1.adtrafficquality.google https://fundingchoicesmessages.google.com; form-action 'self'; frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://*.google.com; upgrade-insecure-requests">
+<meta http-equiv="X-Content-Type-Options" content="nosniff"><meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Warframe weapon modding guide: the build logic explained (2026)</title>
+<meta name="description" content="The universal recipe to mod any weapon: mod order, crit/status thresholds, elements per faction, common traps — distilled from the best FR and EN video guides.">
+<link rel="canonical" href="https://voidrelay.fr/en/guides/modding-guide"><link rel="alternate" hreflang="en" href="https://voidrelay.fr/en/guides/modding-guide"><link rel="alternate" hreflang="fr" href="https://voidrelay.fr/guides/bien-modder"><link rel="alternate" hreflang="x-default" href="https://voidrelay.fr/guides/bien-modder"><meta name="robots" content="index, follow, max-image-preview:large"><meta name="author" content="VoidRelay"><meta name="theme-color" content="#0b0f14">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0f14'/%3E%3Cpath d='M14 18 L32 48 L50 18' fill='none' stroke='%23d4af37' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"><link rel="stylesheet" href="/css/pandaahh.css"><link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<meta property="og:type" content="article"><meta property="og:site_name" content="VoidRelay"><meta property="og:locale" content="en_US"><meta property="og:title" content="Weapon modding guide: the build logic"><meta property="og:description" content="Mod order, crit/status thresholds, elements per faction, common traps: the universal recipe to build any weapon."><meta property="og:url" content="https://voidrelay.fr/en/guides/modding-guide">
+<script type="application/ld+json">[{"@context":"https://schema.org","@type":"Article","headline":"Weapon modding guide: the build logic","description":"The universal recipe to mod any weapon: mod order, crit/status thresholds, elements per faction, common traps.","url":"https://voidrelay.fr/en/guides/modding-guide","author":{"@type":"Organization","name":"VoidRelay"},"publisher":{"@id":"https://voidrelay.fr/#org"},"mainEntityOfPage":"https://voidrelay.fr/en/guides/modding-guide","inLanguage":"en"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://voidrelay.fr/en/"},{"@type":"ListItem","position":2,"name":"Guides","item":"https://voidrelay.fr/en/guides/"},{"@type":"ListItem","position":3,"name":"Weapon modding guide","item":"https://voidrelay.fr/en/guides/modding-guide"}]},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Should you stack several base damage mods?","acceptedAnswer":{"@type":"Answer","text":"No. One base mod (Serration, Hornet Strike, Pressure Point…) is enough: extra ones bring diminishing returns while multishot, crit and elements multiply the result."}},{"@type":"Question","name":"Why does my copied build deal less damage than in the video?","acceptedAnswer":{"@type":"Answer","text":"Slot ORDER matters: elements combine left to right. The same mods placed differently produce a different combined element (Viral, Gas, Magnetic…) — respect the exact slots, or check the result live in the arsenal simulator."}},{"@type":"Question","name":"Is status chance capped at 100%?","acceptedAnswer":{"@type":"Answer","text":"No: above 100%, each shot applies several effects (2 guaranteed at 200%, and so on). Status builds thrive on it with Weeping Wounds on melee."}}]}]</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Oswald:wght@400;500;600;700&display=optional" rel="stylesheet">
+<meta property="og:image" content="https://voidrelay.fr/assets/banners/fam-progression.jpg">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Weapon modding guide: the build logic"><meta name="twitter:description" content="Mod order, crit/status thresholds, elements per faction, common traps: the universal recipe to build any weapon."><meta name="twitter:image" content="https://voidrelay.fr/assets/banners/fam-progression.jpg">
+</head><body>
+<div class="topwrap"><header class="topbar"><a href="/en/" class="brand"><span class="logo">◆</span> VoidRelay</a><div class="search"><span>🔎</span><input type="search" id="vr-search" class="vr-search-input" placeholder="Search an item or build…" aria-label="Search a Warframe item" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="vr-search-results" aria-autocomplete="list"><kbd>K</kbd><div class="vr-search-results" id="vr-search-results" role="listbox" aria-label="Search results" hidden></div></div><nav class="topnav"><div class="topnav-search"><input type="search" id="vr-search-m" class="vr-search-input" placeholder="Search an item…" aria-label="Search a Warframe item" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="vr-search-results-m" aria-autocomplete="list"><div class="vr-search-results" id="vr-search-results-m" role="listbox" aria-label="Search results" hidden></div></div><a href="/en/">Home</a><a href="/en/platinum-path/">Platinum Path</a><a href="/en/builds/">Builds</a><a href="/en/o/">Items</a><a href="/en/guides/" class="cur">Guides</a><a href="/en/tools">Tools</a><a href="/hub">Dashboard</a><a href="/faq-en">FAQ</a><a href="/guides/bien-modder" hreflang="fr" title="Version française">FR</a></nav><button class="navburger" id="navburger" type="button" aria-label="Menu" aria-expanded="false">&#9776;</button>
+<button class="themebtn" id="themebtn" type="button" aria-label="Toggle theme" title="Dark / light theme">☾</button><a href="/outils" class="avatar" title="Warframe tools" aria-label="Warframe tools">◈</a></header></div>
+<main class="wrap article">
+<nav class="bc"><a href="/en/">Home</a> › <a href="/en/guides/">Guides</a> › <span>Weapon modding guide</span></nav>
+<img class="guide-banner" loading="lazy" alt="" src="/assets/banners/fam-progression.webp">
+<h1>Weapon modding guide: the build logic</h1>
+
+<p>Copying a build without understanding it means breaking it the moment one mod is missing. Here is the <b>logic</b> behind 99% of weapon builds — distilled from the best FR and EN video guides (credits below) and verified in our <a href="/en/arsenal">arsenal simulator</a>, where every rule on this page is computed live.</p>
+
+<h2>The universal recipe (in order)</h2>
+<ol>
+<li><b>ONE base damage mod</b> — Serration (rifle), Hornet Strike (secondary), Point Blank (shotgun), Pressure Point (melee). Just one: extras bring diminishing returns, everything else multiplies.</li>
+<li><b>Multishot</b> — Split Chamber, then its <b>Galvanized</b> version as soon as you can (it's not an alternative, it's a replacement). Works on 99% of weapons.</li>
+<li><b>Crit, always as a pair</b> — crit chance (Point Strike) + crit damage (Vital Sense). One without the other wastes the slot.</li>
+<li><b>1–2 elements</b> — 90% mods for raw damage, 60/60 mods for status builds. Pick the combined element for the enemy (table below).</li>
+<li><b>The rest as needed</b> — status, fire rate, reload, Riven… that's your flex zone.</li>
+</ol>
+<p>Melee: same spirit, with <b>attack speed</b> high on the list, then Blood Rush + Organ Shatter (combo crit), Weeping Wounds (combo status) and Reach.</p>
+
+<h2>Thresholds that matter</h2>
+<ul>
+<li><b>Status &gt; 100% = multiple procs</b>: 200% = 2 guaranteed effects per hit. Status never "wastes".</li>
+<li><b>Crit tiers</b>: 100% = guaranteed (yellow) crits, 200% = orange, 300% = red — each tier multiplies further. Aiming above 100% makes your damage consistent.</li>
+<li><b>Viral multiplies health damage up to +325%</b> at 10 stacks; Corrosive strips up to 80% armor; Heat merges its burns into one refreshing stack.</li>
+</ul>
+
+<h2>Which element against whom?</h2>
+<p>Since the damage rework (Update 36), each faction has simple vulnerabilities: <b>×1.5</b> if vulnerable, <b>×0.5</b> if resistant.</p>
+<ul>
+<li><b>Grineer / Scaldra</b>: Impact, <b>Corrosive</b></li>
+<li><b>Corpus</b>: Puncture, <b>Magnetic</b> (or Toxin to bypass shields entirely)</li>
+<li><b>Infested</b>: Slash, <b>Heat</b></li>
+<li><b>Corrupted (Orokin)</b>: Puncture, <b>Viral</b> — resist Radiation</li>
+<li><b>Murmur</b>: Electricity, <b>Radiation</b> — resist Viral</li>
+<li><b>Techrot</b>: <b>Magnetic</b>, Gas — resist Cold</li>
+</ul>
+<p>The all-purpose meta duo remains <b>Viral + Heat</b> (or Viral + Slash on crit weapons): Viral inflates health damage, Heat burns and melts armor. Our <a href="/en/arsenal">arsenal</a> applies these multipliers to the effective DPS against the target you pick.</p>
+
+<h2>The traps that ruin a build</h2>
+<ul>
+<li><b>Slot order matters</b>: elements combine left to right. The same mods placed differently produce a DIFFERENT combined element — that's THE reason copied builds "hit weaker". Check the result live in the simulator.</li>
+<li><b>Stacking base damage mods</b>: no. One base, the rest multiplies.</li>
+<li><b>A single crit mod</b> "to try": the pair or nothing.</li>
+<li><b>Melee without combo</b>: without combo duration (Drifting Contact) and Blood Rush, you hit for nothing.</li>
+<li><b>Forgetting the Orokin Catalyst</b>: without it, half your mod capacity doesn't exist.</li>
+<li><b>Overpaying a Riven</b>: the meta rotates, prices collapse. The higher the weapon's disposition, the harder the Riven hits.</li>
+</ul>
+
+<h2>Going expert</h2>
+<p><b>Galvanized</b> mods (20 Vitus Essence at the Arbiters) replace their classic versions: same bonuses, plus on-kill stacks that make them explode in long missions. <b>Weapon arcanes</b> (Merciless, Deadhead…) add one more multiplicative layer — our arsenal's auto-build equips them for you, and the "max stacks" toggle shows the full potential.</p>
+
+<p><b>⚙ Put the logic to work</b>: open the <a href="/en/arsenal">arsenal simulator</a>, pick your weapon, hit "Auto build" and watch every rule on this page apply — then tweak and compare, stats move live.</p>
+
+<h2>Credits</h2>
+<p class="muted">This guide distills lessons from videos by <b>Pandaahh Warframe Chronicles</b> (FR), <b>Kili Mrt</b> (FR), <b>NoSympathyyCA</b> (2026 weapon &amp; elements guides, EN) and <b>MHBlacky</b> (2026 essential mods, EN) — thanks to them; go watch their channels. Figures were cross-checked against the official wiki.</p>
+
+<div class="sharebar" data-share><span class="muted">Share:</span><button class="sbtn" data-net="x">𝕏</button><button class="sbtn" data-net="reddit">Reddit</button><button class="sbtn" data-net="copy">Copy link</button></div>
+<p class="muted"><a href="/en/guides/">← All guides</a> · <a href="/en/arsenal">Arsenal simulator</a> · <a href="/en/builds/">Builds</a> · <a href="/en/o/">Item prices</a></p>
+</main>
+<footer class="foot"><div class="in"><div><span class="brand" style="color:#fff"><span class="logo">◆</span> VoidRelay</span><div style="font-size:.85rem;margin-top:6px">Unofficial Warframe hub — fan-made, free.</div></div><div class="links" style="font-size:.9rem"><a href="/en/platinum-path/">Platinum Path</a><a href="/en/builds/">Builds</a><a href="/en/guides/">Guides</a><a href="/en/o/">Items</a><a href="/hub">Dashboard</a><a href="/faq-en">FAQ</a><a href="/a-propos">About</a></div></div><div class="in" style="padding-top:0;font-size:.8rem;color:#8294ab">"Warframe" is a trademark of Digital Extremes. Prices: warframe.market. · <a href="/confidentialite">Privacy</a> · <a href="/mentions-legales">Legal</a></div></footer>
+<script defer src="/js/ads.js"></script>
+<script defer src="/js/share.js"></script>
+<script>(function(){var b=document.getElementById("themebtn");if(!b)return;function ic(){b.textContent=document.documentElement.getAttribute("data-theme")==="dark"?"☾":"☀";}ic();b.onclick=function(){var t=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",t);try{localStorage.setItem("vr-theme",t)}catch(e){}ic();};})();</script><script defer src="/js/nav-toggle.js"></script><script defer src="/js/search.js"></script><script defer src="/js/warp.js"></script>
+</body></html>

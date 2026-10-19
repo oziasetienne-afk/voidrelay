@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 520" role="img" aria-label="VoidRelay">
+  <defs>
+    <radialGradient id="sky" cx="0.5" cy="0.2" r="0.9">
+      <stop offset="0" stop-color="#10182a"/>
+      <stop offset="0.5" stop-color="#0a0e18"/>
+      <stop offset="1" stop-color="#06080e"/>
+    </radialGradient>
+    <radialGradient id="rift" cx="0.5" cy="0.42" r="0.32">
+      <stop offset="0" stop-color="#d4af37" stop-opacity="0.85"/>
+      <stop offset="0.4" stop-color="#818cf8" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#818cf8" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#818cf8" stop-opacity="0.25"/>
+      <stop offset="1" stop-color="#818cf8" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="gl" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="7" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  <pattern id="hex" width="56" height="64" patternUnits="userSpaceOnUse" patternTransform="scale(1)">
+    <path d="M28 0 L56 16 L56 48 L28 64 L0 48 L0 16 Z" fill="none"
+          stroke="#818cf8" stroke-width="1" opacity="0.08"/>
+  </pattern>
+  </defs>
+  <rect width="1600" height="520" fill="url(#sky)"/>
+  <rect width="1600" height="520" fill="url(#hex)"/>
+  <!-- étoiles -->
+  <g fill="#eaf1fb">
+    <circle cx="0" cy="0" r="1.8" opacity="0.2"/><circle cx="97" cy="53" r="1" opacity="0.325"/><circle cx="194" cy="106" r="1" opacity="0.45"/><circle cx="291" cy="159" r="1.8" opacity="0.575"/><circle cx="388" cy="212" r="1" opacity="0.2"/><circle cx="485" cy="265" r="1" opacity="0.325"/><circle cx="582" cy="18" r="1.8" opacity="0.45"/><circle cx="679" cy="71" r="1" opacity="0.575"/><circle cx="776" cy="124" r="1" opacity="0.2"/><circle cx="873" cy="177" r="1.8" opacity="0.325"/><circle cx="970" cy="230" r="1" opacity="0.45"/><circle cx="1067" cy="283" r="1" opacity="0.575"/><circle cx="1164" cy="36" r="1.8" opacity="0.2"/><circle cx="1261" cy="89" r="1" opacity="0.325"/><circle cx="1358" cy="142" r="1" opacity="0.45"/><circle cx="1455" cy="195" r="1.8" opacity="0.575"/><circle cx="1552" cy="248" r="1" opacity="0.2"/><circle cx="49" cy="1" r="1" opacity="0.325"/><circle cx="146" cy="54" r="1.8" opacity="0.45"/><circle cx="243" cy="107" r="1" opacity="0.575"/><circle cx="340" cy="160" r="1" opacity="0.2"/><circle cx="437" cy="213" r="1.8" opacity="0.325"/><circle cx="534" cy="266" r="1" opacity="0.45"/><circle cx="631" cy="19" r="1" opacity="0.575"/><circle cx="728" cy="72" r="1.8" opacity="0.2"/><circle cx="825" cy="125" r="1" opacity="0.325"/><circle cx="922" cy="178" r="1" opacity="0.45"/><circle cx="1019" cy="231" r="1.8" opacity="0.575"/><circle cx="1116" cy="284" r="1" opacity="0.2"/><circle cx="1213" cy="37" r="1" opacity="0.325"/><circle cx="1310" cy="90" r="1.8" opacity="0.45"/><circle cx="1407" cy="143" r="1" opacity="0.575"/><circle cx="1504" cy="196" r="1" opacity="0.2"/><circle cx="1" cy="249" r="1.8" opacity="0.325"/><circle cx="98" cy="2" r="1" opacity="0.45"/><circle cx="195" cy="55" r="1" opacity="0.575"/><circle cx="292" cy="108" r="1.8" opacity="0.2"/><circle cx="389" cy="161" r="1" opacity="0.325"/><circle cx="486" cy="214" r="1" opacity="0.45"/><circle cx="583" cy="267" r="1.8" opacity="0.575"/><circle cx="680" cy="20" r="1" opacity="0.2"/><circle cx="777" cy="73" r="1" opacity="0.325"/><circle cx="874" cy="126" r="1.8" opacity="0.45"/><circle cx="971" cy="179" r="1" opacity="0.575"/><circle cx="1068" cy="232" r="1" opacity="0.2"/><circle cx="1165" cy="285" r="1.8" opacity="0.325"/><circle cx="1262" cy="38" r="1" opacity="0.45"/><circle cx="1359" cy="91" r="1" opacity="0.575"/><circle cx="1456" cy="144" r="1.8" opacity="0.2"/><circle cx="1553" cy="197" r="1" opacity="0.325"/><circle cx="50" cy="250" r="1" opacity="0.45"/><circle cx="147" cy="3" r="1.8" opacity="0.575"/><circle cx="244" cy="56" r="1" opacity="0.2"/><circle cx="341" cy="109" r="1" opacity="0.325"/><circle cx="438" cy="162" r="1.8" opacity="0.45"/><circle cx="535" cy="215" r="1" opacity="0.575"/><circle cx="632" cy="268" r="1" opacity="0.2"/><circle cx="729" cy="21" r="1.8" opacity="0.325"/><circle cx="826" cy="74" r="1" opacity="0.45"/><circle cx="923" cy="127" r="1" opacity="0.575"/>
+  </g>
+  <!-- faille du Vide -->
+  <ellipse cx="800" cy="220" rx="520" ry="360" fill="url(#rift)"/>
+  <g filter="url(#gl)" fill="none" stroke="#d4af37" stroke-width="3" stroke-linecap="round">
+    <path d="M800 40 C 760 160, 840 260, 800 400" opacity="0.9"/>
+    <path d="M740 80 C 720 180, 770 280, 745 380" opacity="0.5"/>
+    <path d="M860 80 C 880 180, 830 280, 855 380" opacity="0.5"/>
+  </g>
+  <!-- horizon / sol néon -->
+  <rect x="0" y="380" width="1600" height="140" fill="url(#floor)"/>
+  <g stroke="#818cf8" stroke-width="1.5" opacity="0.5">
+    <line x1="800" y1="392" x2="-200" y2="520"/><line x1="800" y1="392" x2="0" y2="520"/><line x1="800" y1="392" x2="200" y2="520"/><line x1="800" y1="392" x2="400" y2="520"/><line x1="800" y1="392" x2="600" y2="520"/><line x1="800" y1="392" x2="800" y2="520"/><line x1="800" y1="392" x2="1000" y2="520"/><line x1="800" y1="392" x2="1200" y2="520"/><line x1="800" y1="392" x2="1400" y2="520"/><line x1="800" y1="392" x2="1600" y2="520"/><line x1="800" y1="392" x2="1800" y2="520"/>
+    <line x1="0" y1="392" x2="1600" y2="392" stroke="#d4af37" stroke-opacity="0.7"/>
+  </g>
+</svg>
