@@ -98,6 +98,15 @@ plus de 4 h = mise à jour bloquée.
 warframe.market et une URL de proxy personnelle, pas des progrès de jeu.
 `verifier_sync.mjs` l'interdit.
 
+## Sous-agents (19/10/2026, système repris du projet Application)
+
+Dans `.claude/agents/`, chacun avec son modèle : `relecteur-code` (Sonnet, après chaque modif),
+`invariants` (Haiku, avant chaque push, vrai code de sortie), `securite-depot-public` (Opus, avant
+chaque push : dépôt public), `debogueur` (Opus, garde-fou rouge ou chiffre faux), `verificateur-warframe`
+(Sonnet, tout fait Warframe vérifié sur le wiki / warframe.market), `passation-doc` (Sonnet, fin de
+chantier), `Explore` (Haiku, recherche). Le hook `.claude/hooks/taille-de-session.mjs` prévient à 250 000
+jetons ajoutés et demande la passation à 350 000.
+
 ## Conventions locales
 
 - **Cartes d'outils** (`outils.html`, `en/tools.html`) : chaque `.tool-card` porte un
