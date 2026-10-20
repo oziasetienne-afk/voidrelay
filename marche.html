@@ -126,7 +126,7 @@
         <button class="mk-star" data-fav="${esc(r.name)}" title="Suivre cet objet">${favs[r.name]?"★":"☆"}</button>
         ${typeof Thumbs!=="undefined"?Thumbs.img(sl(r.name),"mk-vig",r.name):""}
         <a class="mk-name" href="https://warframe.market/items/${esc(sl(r.name))}" target="_blank" rel="noopener noreferrer">${esc(r.name)} ↗</a>
-        <span class="mk-val">${valFn(r)} <span class="u">${esc(unit)}</span>${typeof r.ch==="number"?`<span class="mk-ch ${r.ch>0?"up":"down"}" title="Variation du prix médian sur 24 h">${r.ch>0?"▲":"▼"} ${Math.abs(r.ch)}</span>`:""}${showSell&&r.price>0?`<span class="sell">vendre ~${sell(r.price)} PL</span>`:""}</span>
+        <span class="mk-val">${valFn(r)} <span class="u">${esc(unit)}</span>${typeof r.ch==="number"?`<span class="mk-ch ${r.ch>0?"up":"down"}" title="Variation du prix plancher sur 24 h, en platine, au même rang">${r.ch>0?"▲":"▼"} ${Math.abs(r.ch)}</span>`:""}${showSell&&r.price>0?`<span class="sell">vendre ~${sell(r.price)} PL</span>`:""}</span>
       </li>`).join("")||'<li class="mk-row"><span class="mk-num">—</span><span class="mk-name" style="color:var(--muted)">Aucune donnée</span></li>'}</ol></div>`;
   }
 

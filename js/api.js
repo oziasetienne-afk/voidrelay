@@ -34,6 +34,17 @@ async function getJSONProxy(target){
   throw err||new Error("proxy indisponible");
 }
 
+/* Points de market_history.json d'UN seul rang : celui du dernier point étiqueté.
+   Depuis le 20/10/2026 chaque point d'un objet à rangs porte r ; avant, le rang
+   basculait 0 ↔ max d'une passe à l'autre et la série alternait 30 / 90 sur Primed
+   Flow. Un point sans r d'un objet à rangs est écarté ; un objet sans rang n'a
+   aucun r et garde tout. */
+function memeRang(serie){
+  const tag=(serie||[]).filter(p=>p.r!==undefined);
+  if(!tag.length) return serie||[];
+  const r=tag[tag.length-1].r; return tag.filter(p=>p.r===r);
+}
+
 const API={
   news:()=>getJSON(`${WS}/pc/news?language=${apiLang()}`),
   world:()=>{const u=`${WS}/pc?language=${apiLang()}`;_cache.delete(u);return getJSON(u);},
@@ -61,7 +72,7 @@ const API={
     let d90 = [];
     try {
       const hist = await getJSON("/data/market_history.json");
-      d90 = (((hist && hist.items) || hist || {})[u] || []).map(p => ({ datetime: p.d + "T12:00:00Z", median: p.median, volume: 0 }));
+      d90 = memeRang(((hist && hist.items) || hist || {})[u] || []).map(p => ({ datetime: p.d + "T12:00:00Z", median: p.median, volume: 0 }));
     } catch (e) {}
     const res = { payload: { statistics_closed: { "48hours": h48, "90days": d90.concat(h48) }, statistics_live: { "48hours": h48, "90days": d90 } }, _fallback: "v2-top+historique-local" };
     _cache.set(key, res);

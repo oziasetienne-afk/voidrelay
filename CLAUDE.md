@@ -80,6 +80,13 @@ prix différents, délibérément, chacun répondant à une question distincte :
 
 Ne les uniformise pas sans lire `HANDOFF.md` v67–v71 : ils ne mesurent pas la même chose.
 
+**Le RANG, lui, est fixé (20/10/2026)** : mods Primés et arcanes → rang max partout ;
+autres mods → rang de la passe précédente (`_choisir_rang`). Chaque point d'historique
+d'un objet à rangs porte `r`, et variations, alertes et sparkline ne lisent que
+`serie_du_rang()`. Un point sans `r` sur un objet à rangs ne compte pour rien : avant,
+le rang basculait 0 ↔ max d'une passe à l'autre (Primed Flow « +65 % » sur un prix
+immobile). `change24h`/`change7d` sont en **platine**, `…Pct` en %, `null` = non disponible.
+
 ### 6bis. Dépôt PUBLIC : rien de secret ni de personnel, jamais
 Depuis le 19/10/2026 le dépôt est public (plus de quota Actions ; le Worker
 `voidrelay-quota-guard` a été supprimé, l'historique est reparti de zéro). Tout ce qui est
@@ -91,7 +98,8 @@ poussé est lisible par tout le monde, pour toujours.
 - `garde-secrets.yml` (gitleaks + `scripts/garde_perso.py`) bloque sinon. Ne le
   contourne pas : un secret poussé une fois est compromis, il faut le révoquer.
 Le vrai témoin d'une mise à jour bloquée reste `data/last_update.json` → `updated_utc` :
-plus de 4 h = mise à jour bloquée.
+plus de 8 h = mise à jour bloquée. (Le cron demande 2 h, mais GitHub retarde les crons :
+mesuré le 19–20/10/2026, 5 passes en 29 h, écarts de 3 h 46 à 6 h 46 entre deux départs.)
 
 ### 6. La liste blanche de synchro
 `js/sync.js` : **ne jamais y ajouter `wmuser` ni `wfproxy`.** Ce sont un compte

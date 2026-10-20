@@ -674,13 +674,15 @@ def refresh_items_catalog(cfg, data_dir):
 
 
 # --- warframe.market (prix + ducats) ---------------------------------------
-def fetch_market(cfg, ducats_cache=None):
-    """Renvoie {platform, items:[{slug,minSellPlat,sellOrders,...,ducats}], errors:{...}}.
+def fetch_market(cfg, ducats_cache=None, prev_items=None):
+    """Renvoie {platform, items:[{slug,minSellPlat,sellOrders,...,ducats,rang}], errors:{...}}.
 
     ducats_cache : dict slug->ducats (statique). On ne refetch /v2/item que pour
     les slugs absents du cache => courtoisie envers l'API.
+    prev_items : dict slug->objet du market.json précédent (rang suivi, rang max connu).
     """
     ducats_cache = dict(ducats_cache or {})
+    prev_items = prev_items or {}
     base = cfg["market_base"].rstrip("/")
     platform = cfg.get("platform", "pc")
     lang = cfg.get("language", "en")
@@ -695,16 +697,13 @@ def fetch_market(cfg, ducats_cache=None):
         if err or not data:
             result["errors"][slug] = err or "no data"
             continue
-        # Un seul calcul de prix pour tout le site (cf. _prix_ordres) : vendeurs
-        # en jeu, et surtout un seul RANG à la fois — mélanger un arcane rang 0
-        # et rang 5 invente des marges qui n'existent pas.
-        item = {"slug": slug}
-        item.update(_prix_ordres(data.get("data") or []))
-        if item.get("rang") is None:
-            del item["rang"]
+        prec = prev_items.get(slug) or {}
 
-        # ducats (statique) : cache d'abord, sinon /v2/item/<slug>
+        # Fiche de l'objet (ducats, rang max, famille) : cache d'abord, sinon /v2/item.
+        # Arcanes et mods n'ont pas de ducats : leur fiche est donc relue à chaque
+        # passe, ce qui donne aussi leur rang max et leurs tags à jour.
         ducats = ducats_cache.get(slug)
+        rang_max, tags = prec.get("rangMax"), None
         if ducats is None and cfg.get("market_fetch_ducats", True):
             iurl = "%s/v2/item/%s" % (base, slug)
             idata, ierr = http_get_json(iurl, headers=headers,
@@ -713,13 +712,76 @@ def fetch_market(cfg, ducats_cache=None):
             if idata:
                 d = idata.get("data") or {}
                 ducats = d.get("ducats")
+                if isinstance(d.get("maxRank"), int):
+                    rang_max = d["maxRank"]
+                tags = d.get("tags") or []
             time.sleep(0.3)
+
+        # Un seul calcul de prix pour tout le site (cf. _prix_ordres) : vendeurs
+        # en jeu, et surtout un seul RANG à la fois — mélanger un arcane rang 0
+        # et rang 5 invente des marges qui n'existent pas.
+        orders = data.get("data") or []
+        rang, regle = _choisir_rang(slug, orders, tags, rang_max,
+                                    prec.get("rang"), prec.get("rangRegle"))
+        item = {"slug": slug}
+        item.update(_prix_ordres(orders, rang))
+        # Toujours présent (null sur un set) : dit à quel rang se rapportent
+        # minSellPlat, median, avgTop5 et toute la série d'historique.
+        item["rang"] = rang
+        if rang is not None:
+            item["rangRegle"] = regle
+            if rang_max is not None:
+                item["rangMax"] = rang_max
         if ducats is not None:
             item["ducats"] = ducats
 
         result["items"].append(item)
         time.sleep(0.4)  # courtoisie envers l'API
     return result
+
+
+def _choisir_rang(slug, orders, tags, rang_max, rang_prec, regle_prec=None):
+    """Rang auquel un objet est coté, et la règle qui l'a fixé : (rang, règle).
+
+    POURQUOI UNE RÈGLE FIXE. Jusqu'au 20/10/2026 on prenait à CHAQUE passe le
+    rang qui portait le plus de ventes. Or Primed Flow a autant de vendeurs au
+    rang 0 (≈ 30 p) qu'au rang 10 (≈ 90 p) : le rang retenu basculait d'une
+    passe à l'autre, la série d'historique alternait 28, 99, 90, 33… et
+    /bons-plans titrait « +65 % en 24 h » sur un prix qui n'avait pas bougé.
+    Relevé dans market.json du 20/10 : 8 objets en fausse alerte, dont
+    Arcane Velocity « +151 % sur 7 j » (8 → 170 : rang 0 contre rang 5).
+
+      - Mods Primés et arcanes → rang MAX, toujours. C'est le rang qu'on cite
+        (« un Flow Primé vaut 90 ») et celui que retiennent déjà js/api.js et
+        js/objet.js : les trois calculs parlent enfin du même objet.
+      - Autres mods à rangs → le rang de la passe précédente tant qu'il a des
+        vendeurs en jeu (« suivi »), sinon le rang le plus vendu. Plus de
+        bascule, donc plus de série en dents de scie.
+      - Objet sans rang (set, pièce) → (None, None).
+
+    rang_max vient de /v2/item ; à défaut, le plus haut rang vu dans les ordres
+    (un ordre ne peut pas dépasser le rang max du jeu).
+    """
+    rangs = {o.get("rank") for o in orders if isinstance(o.get("rank"), int)}
+    if not rangs:
+        return None, None
+    if tags is None:
+        # Fiche /v2/item indisponible : on garde la règle de la passe précédente.
+        a_rang_max = slug.startswith("primed_") or regle_prec == "max"
+    else:
+        a_rang_max = slug.startswith("primed_") or "arcane_enhancement" in tags
+    if a_rang_max:
+        return (rang_max if isinstance(rang_max, int) else max(rangs)), "max"
+    ventes = [o for o in orders if o.get("type") == "sell"
+              and (o.get("user") or {}).get("status") == "ingame"]
+    if isinstance(rang_prec, int) and any(o.get("rank") == rang_prec for o in ventes):
+        return rang_prec, "suivi"
+    r = _rang_marchand(ventes)
+    if r is None:
+        # Aucun vendeur en jeu : l'objet reste un objet À RANG (sinon sa série se
+        # mélangerait à celle d'un objet sans rang) ; son prix sera null.
+        r = rang_prec if isinstance(rang_prec, int) else max(rangs)
+    return r, "plus-vendu"
 
 
 def _rang_marchand(sells):
@@ -748,8 +810,14 @@ def _rang_marchand(sells):
     return min(r for r, n in compte.items() if n == haut)
 
 
-def _prix_ordres(orders):
+_AUTO = object()
+
+
+def _prix_ordres(orders, rang=_AUTO):
     """Prix d'un objet depuis ses ordres v2 — vendeurs EN JEU, à rang comparable.
+
+    `rang` : le rang imposé par `_choisir_rang` ; sans lui (pièces de set),
+    le rang le plus vendu.
 
     Seuls les vendeurs « ingame » comptent : un prix affiché par un joueur hors
     ligne n'est pas un prix auquel on peut acheter maintenant. Sur les pièces la
@@ -764,7 +832,8 @@ def _prix_ordres(orders):
     ingame = [o for o in orders if (o.get("user") or {}).get("status") == "ingame"]
     sells = sorted((o for o in ingame if o.get("type") == "sell"),
                    key=lambda o: o.get("platinum", 10 ** 9))
-    rang = _rang_marchand(sells)
+    if rang is _AUTO:
+        rang = _rang_marchand(sells)
     if rang is not None:
         sells = [o for o in sells if o.get("rank") == rang]
         buys = [o for o in ingame if o.get("type") == "buy" and o.get("rank") == rang]
@@ -832,27 +901,72 @@ def _median(nums):
     return round((xs[m - 1] + xs[m]) / 2, 1)
 
 
+def serie_du_rang(series, rang):
+    """Les points d'historique qui décrivent CE rang — et seulement eux.
+
+    Chaque point d'un objet à rangs porte `r` depuis le 20/10/2026. Un point
+    sans `r` sur un objet à rangs a été écrit quand le rang basculait d'une
+    passe à l'autre : on ne sait pas quel objet il décrit, il n'entre dans
+    AUCUN calcul (ni variation, ni alerte, ni sparkline). Sur un objet sans
+    rang, au contraire, aucun point n'a de `r`.
+    """
+    if rang is None:
+        return [p for p in series or [] if "r" not in p]
+    return [p for p in series or [] if p.get("r") == rang]
+
+
 def update_market_history(prev_hist, market, cap_days=90):
-    """Ajoute (ou remplace) le point du jour pour chaque item. Renvoie l'historique capé."""
+    """Ajoute (ou remplace) le point du jour pour chaque (objet, rang). Renvoie l'historique capé.
+
+    Une seule série par objet dans le fichier (les pages la lisent telle quelle),
+    mais chaque point d'un objet à rangs porte son rang `r` : la série d'un rang
+    se lit avec `serie_du_rang`. Le cap garde les `cap_days` dernières DATES.
+    """
     hist = dict(prev_hist or {})
     today = today_utc_date()
     for it in market.get("items", []):
         slug = it.get("slug")
         if not slug or it.get("minSellPlat") is None:
             continue
+        rang = it.get("rang")
         point = {"d": today, "min": it.get("minSellPlat"), "median": it.get("median")}
-        series = list(hist.get(slug, []))
-        if series and series[-1].get("d") == today:
-            series[-1] = point
-        else:
-            series.append(point)
-        hist[slug] = series[-cap_days:]
+        if rang is not None:
+            point["r"] = rang
+        series = [p for p in hist.get(slug, [])
+                  if not (p.get("d") == today and p.get("r") == point.get("r"))
+                  # Objet à rangs : un point sans r ne décrit aucun rang connu
+                  # (écrit quand le rang basculait) ; on le retire du fichier
+                  # plutôt que de laisser chaque lecteur s'en méfier.
+                  and not (rang is not None and "r" not in p)]
+        series.append(point)
+        # Tri STABLE sur la date seule : dans une même journée, le dernier point
+        # reste le dernier écrit (memeRang côté client lit le dernier r).
+        series.sort(key=lambda p: p.get("d") or "")
+        dates = sorted({p.get("d") for p in series})[-cap_days:]
+        hist[slug] = [p for p in series if p.get("d") in set(dates)]
     return hist
+
+
+def _jour(d, decalage):
+    """'AAAA-MM-JJ' décalé de `decalage` jours."""
+    t = calendar.timegm(time.strptime(d, "%Y-%m-%d")) + decalage * 86400
+    return time.strftime("%Y-%m-%d", time.gmtime(t))
+
+
+def _pct(nouveau, ancien):
+    return round((nouveau - ancien) * 100.0 / ancien) if ancien else None
 
 
 def enrich_market_items(market, hist, alert_pct=15):
     """Ajoute median/avgTop5/ducatsPerPlat/trend/change24h/change7d/spark (déterministe).
 
+    Tout se calcule sur la série DU RANG affiché (cf. serie_du_rang), et
+    seulement avec un point de référence daté honnêtement : la veille pour
+    24 h, J-6 à J-8 pour 7 jours. Sans ce point, la variation vaut null
+    (« non disponible ») — jamais une comparaison avec un point de 3 semaines
+    présentée comme « 24 h ».
+
+    change24h / change7d sont en PLATINE ; change24hPct / change7dPct en %.
     Renvoie la liste 'movers' (top hausses/baisses 24 h).
     """
     movers = []
@@ -864,30 +978,36 @@ def enrich_market_items(market, hist, alert_pct=15):
         mn = it.get("minSellPlat")
         if isinstance(ducats, (int, float)) and isinstance(mn, (int, float)) and mn > 0:
             it["ducatsPerPlat"] = round(ducats / mn, 2)  # plus haut = meilleur rendement
-        series = (hist or {}).get(it.get("slug"), [])
-        # spark = derniers <=14 mins
-        it["spark"] = [p.get("min") for p in series[-14:] if isinstance(p.get("min"), (int, float))]
-        # change24h : vs dernier jour distinct précédent
-        prev_min = None
-        for p in reversed(series[:-1]):  # exclut aujourd'hui
-            if isinstance(p.get("min"), (int, float)):
-                prev_min = p["min"]
-                break
-        if isinstance(mn, (int, float)) and isinstance(prev_min, (int, float)):
-            it["change24h"] = mn - prev_min
-            it["trend"] = "up" if mn > prev_min else ("down" if mn < prev_min else "flat")
-            if prev_min > 0 and abs(mn - prev_min) * 100.0 / prev_min >= alert_pct:
-                it["alert"] = "drop" if mn < prev_min else "spike"
-        else:
-            it["trend"] = "flat"
-        # change7d : vs ~7 entrées en arrière
-        if len(series) >= 8 and isinstance(mn, (int, float)):
-            ref = series[-8].get("min")
+        series = [p for p in serie_du_rang((hist or {}).get(it.get("slug"), []), it.get("rang"))
+                  if isinstance(p.get("min"), (int, float))]
+        # spark = derniers <=14 mins, tous du même rang
+        it["spark"] = [p["min"] for p in series[-14:]]
+        it.pop("alert", None)
+        for k in ("change24h", "change24hPct", "change7d", "change7dPct", "trend"):
+            it[k] = None
+        if not isinstance(mn, (int, float)) or not series:
+            continue
+        jour = series[-1]["d"]
+        par_jour = {p["d"]: p["min"] for p in series}
+        # change24h : vs la VEILLE, et elle seule
+        veille = par_jour.get(_jour(jour, -1))
+        if isinstance(veille, (int, float)):
+            it["change24h"] = mn - veille
+            it["change24hPct"] = _pct(mn, veille)
+            it["trend"] = "up" if mn > veille else ("down" if mn < veille else "flat")
+            if veille > 0 and abs(mn - veille) * 100.0 / veille >= alert_pct:
+                it["alert"] = "drop" if mn < veille else "spike"
+        # change7d : vs J-7, ou J-6 / J-8 si le robot a sauté ce jour-là
+        for dec in (-7, -6, -8):
+            ref = par_jour.get(_jour(jour, dec))
             if isinstance(ref, (int, float)):
                 it["change7d"] = mn - ref
+                it["change7dPct"] = _pct(mn, ref)
+                break
         if it.get("change24h"):
             movers.append({"slug": it["slug"], "change24h": it["change24h"],
-                           "minSellPlat": mn})
+                           "change24hPct": it["change24hPct"], "minSellPlat": mn,
+                           "rang": it.get("rang")})
     movers.sort(key=lambda m: abs(m["change24h"]), reverse=True)
     return movers[:6]
 
@@ -1051,7 +1171,8 @@ def main():
     prev_market = read_json(data_dir, "market.json") or {}
     ducats_cache = {i.get("slug"): i.get("ducats")
                     for i in (prev_market.get("items") or []) if i.get("ducats") is not None}
-    market = fetch_market(cfg, ducats_cache=ducats_cache)
+    market = fetch_market(cfg, ducats_cache=ducats_cache,
+                          prev_items={i.get("slug"): i for i in (prev_market.get("items") or [])})
     movers = []
     if market["items"]:
         status["market"] = "ok" if not market["errors"] else "partial"
@@ -1299,7 +1420,54 @@ def selftest():
         ("mkt.change7d", it0["change7d"] == (80 - 98)),   # vs series[-8] = 98 (26-05, 7 j avant)
         ("mkt.spark.len", len(it0["spark"]) == 9 or len(it0["spark"]) == 14),
         ("mkt.movers", movers and movers[0]["slug"] == "octavia_prime_set"),
+        ("mkt.change24hPct", it0["change24hPct"] == -20),
+        ("mkt.change7dPct", it0["change7dPct"] == round(-18 * 100 / 98)),
     ]
+
+    # --- Rangs : la série du rang affiché, rien d'autre ---------------------
+    # Primed Flow tel que market_history.json l'avait le 20/10/2026 : rangs 0 et 10
+    # mêlés (28, 30, 99…). Seuls les points r=10 comptent ; le reste n'existe pas.
+    flow = {"slug": "primed_flow", "rang": 10, "minSellPlat": 80, "low5SellPlat": [80]}
+    hf = {"primed_flow": [
+        {"d": "2026-06-01", "min": 28}, {"d": "2026-06-01", "min": 30, "r": 0},
+        {"d": "2026-06-01", "min": 90, "r": 10}, {"d": "2026-06-02", "min": 80, "r": 10},
+    ]}
+    enrich_market_items({"items": [flow]}, hf)
+    checks += [
+        ("rang.spark", flow["spark"] == [90, 80]),
+        ("rang.change24h", flow["change24h"] == -10 and flow.get("alert") is None),
+        ("rang.change7d.null", flow["change7d"] is None and flow["change7dPct"] is None),
+    ]
+    # Un seul point au bon rang : aucune variation n'est inventée.
+    seul = {"slug": "arcane_velocity", "rang": 5, "minSellPlat": 170, "low5SellPlat": [170]}
+    enrich_market_items({"items": [seul]}, {"arcane_velocity": [
+        {"d": "2026-06-01", "min": 8}, {"d": "2026-06-02", "min": 170, "r": 5}]})
+    checks += [
+        ("rang.seul.null", seul["change24h"] is None and seul["trend"] is None
+         and seul.get("alert") is None and seul["spark"] == [170]),
+    ]
+    # Point de référence trop vieux : pas de « 24 h » sur 3 semaines d'écart.
+    vieux = {"slug": "x_set", "rang": None, "minSellPlat": 50, "low5SellPlat": [50]}
+    enrich_market_items({"items": [vieux]}, {"x_set": [
+        {"d": "2026-05-10", "min": 100}, {"d": "2026-06-02", "min": 50}]})
+    checks += [("ref.trop.vieille", vieux["change24h"] is None and vieux["change7d"] is None)]
+    # Règle de rang : Primé / arcane → max, même si le rang 0 a plus de vendeurs.
+    def _o(p, r, t="sell"):
+        return {"type": t, "platinum": p, "rank": r, "user": {"status": "ingame"}}
+    ordres = [_o(30, 0)] * 40 + [_o(90, 10)] * 30
+    checks += [
+        ("regle.primed.max", _choisir_rang("primed_flow", ordres, ["mod", "legendary"], 10, 0) == (10, "max")),
+        ("regle.arcane.max", _choisir_rang("arcane_aegis", [_o(8, 0)] * 9 + [_o(130, 5)],
+                                           ["arcane_enhancement"], 5, 0) == (5, "max")),
+        ("regle.mod.suivi", _choisir_rang("blind_rage", ordres, ["mod"], 10, 10) == (10, "suivi")),
+        ("regle.set.sans", _choisir_rang("x_set", [{"type": "sell", "platinum": 5}], [], None, None)
+         == (None, None)),
+    ]
+    h4 = update_market_history({"primed_flow": [{"d": today_utc_date(), "min": 30, "r": 0}]},
+                               {"items": [{"slug": "primed_flow", "rang": 10,
+                                           "minSellPlat": 90, "median": 92}]})
+    checks += [("hist.par.rang", len(h4["primed_flow"]) == 2
+                and h4["primed_flow"][-1] == {"d": today_utc_date(), "min": 90, "median": 92, "r": 10})]
 
     # --- Historique : ajout/MAJ du jour + cap ------------------------------
     h2 = update_market_history({"x": [{"d": "2026-06-01", "min": 10}]},
