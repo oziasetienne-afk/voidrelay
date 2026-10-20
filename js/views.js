@@ -462,7 +462,7 @@ async function renderBuilds(){
       let gen,ctx="";
       if(st.cat==="warframes"){
         gen=GEN_FRAME;
-        if(it.passiveDescription) ctx+=`<h3>${t("bld.passive")}</h3><p class="muted">${esc(it.passiveDescription)}</p>`;
+        ctx+=passifHTML(it);
         if(Array.isArray(it.abilities)&&it.abilities.length) ctx+=`<h3>${t("bld.abilities")}</h3><ul>${it.abilities.map(a=>`<li><b>${esc(a.name)}</b> — ${esc(a.description||"")}</li>`).join("")}</ul>`;
       }else{
         gen=GEN_WEAPON[st.cat];
@@ -634,11 +634,37 @@ function dropsHtml(it,cat){
 }
 
 /* Infos essentielles supplémentaires (passif, polarités, maîtrise, riven…) */
+/* Passif chiffré (20/10/2026). L'API renvoie « Excalibur deals |DAMAGE|% increased damage » :
+   les marqueurs s'affichaient en clair. On pose un emplacement, puis on le remplit avec le texte
+   de data/passifs.json (wiki en EN, arsenal en FR, ~35 Ko chargés une fois). Passif sans
+   marqueur : affiché tel quel. Rien de fiable : bloc retiré plutôt qu'une phrase fausse. */
+const MARQUEUR_PASSIF=/\|[A-Z_0-9]+\|/;
+let _passifs=null;
+function passifHTML(it){
+  const brut=it&&it.passiveDescription;
+  if(!brut) return "";
+  if(!MARQUEUR_PASSIF.test(brut)) return `<h3>${t("bld.passive")}</h3><p class="muted">${esc(brut)}</p>`;
+  setTimeout(remplirPassifs,0); // le HTML est inséré juste après le retour de cette fonction
+  return `<div data-passif="${esc(it.name||"")}" hidden><h3>${t("bld.passive")}</h3><p class="muted"></p></div>`;
+}
+async function remplirPassifs(){
+  const blocs=[...document.querySelectorAll("[data-passif]")];
+  if(!blocs.length) return;
+  try{ _passifs=_passifs||await fetch("/data/passifs.json").then(r=>{if(!r.ok)throw new Error(r.status);return r.json();}); }
+  catch(e){ blocs.forEach(b=>b.remove()); return; }
+  const table=(getLang()==="en"?_passifs.passifs:_passifs.passifs_fr)||{};
+  for(const b of blocs){
+    const txt=table[b.dataset.passif];
+    if(txt&&!MARQUEUR_PASSIF.test(txt)){ b.querySelector("p").textContent=txt; b.hidden=false; b.removeAttribute("data-passif"); }
+    else b.remove();
+  }
+}
+
 function codexExtra(it,cat){
   const kvline=(k,v)=>`<div class="kv"><span class="k">${k}</span><span class="v">${esc(v)}</span></div>`;
   let h="";
   if(cat==="warframes"){
-    if(it.passiveDescription) h+=`<h3>${t("bld.passive")}</h3><p class="muted">${esc(it.passiveDescription)}</p>`;
+    h+=passifHTML(it);
     const kv=[];
     if(it.aura) kv.push([t("cx.auraPolarity"),it.aura]);
     if(it.exilus) kv.push([t("cx.exilusPolarity"),it.exilus]);

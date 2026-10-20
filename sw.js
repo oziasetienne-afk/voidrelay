@@ -1,5 +1,5 @@
 /* Service worker : coque en cache (stale-while-revalidate), données réseau d'abord. */
-const CACHE="wf-hub-v148";
+const CACHE="wf-hub-v149";
 /* items.json (~198 Ko) n'est PAS pré-caché : il est chargé à la demande (palette de
    recherche) puis mis en cache par le handler fetch ci-dessous. Évite 198 Ko forcés
    à la 1re visite. */

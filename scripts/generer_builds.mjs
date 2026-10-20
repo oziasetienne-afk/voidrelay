@@ -43,14 +43,13 @@ const wfs = JSON.parse(fs.readFileSync(path.join(ROOT, "data/warframes.json"), "
 // Passifs AVEC leurs chiffres (20/10/2026). `data/warframes.json` → `passive` a perdu ses
 // nombres (marqueurs |VAL| de WFCD effacés) : 91 frames affichaient « sidearms % faster ».
 // FR : texte de l'arsenal (chiffres identiques au wiki pour 88/91, vérifié) ; EN : module du
-// wiki (`scripts/maj_passifs_wiki.py`). Marqueur non résolu ou absent → pas de ligne Passif,
+// wiki ; les deux réunis dans `data/passifs.json` par `scripts/maj_passifs_wiki.py`. Marqueur non résolu ou absent → pas de ligne Passif,
 // plutôt qu'une phrase fausse : c'est le cas en FR de Caliban, Caliban Prime et Sirius & Orion
 // (l'arsenal garde |PCT|, |EFFICIENCY|, |COUNT|), alors que leur page EN a un passif.
 const MARQUEUR = /\|[A-Z_0-9]+\|/;
-const PASSIF_FR = new Map(JSON.parse(fs.readFileSync(path.join(ROOT, "data/arsenal/warframes.json"), "utf8"))
-  .filter(w => w.n && w.passive && !MARQUEUR.test(w.passive)).map(w => [w.n, w.passive]));
-const PASSIF_EN = new Map(Object.entries(JSON.parse(fs.readFileSync(path.join(ROOT, "data/passifs_en.json"), "utf8")).passifs)
-  .filter(([, t]) => t && !MARQUEUR.test(t)));
+const PASSIFS = JSON.parse(fs.readFileSync(path.join(ROOT, "data/passifs.json"), "utf8"));
+const propres = o => new Map(Object.entries(o || {}).filter(([, t]) => t && !MARQUEUR.test(t)));
+const PASSIF_FR = propres(PASSIFS.passifs_fr), PASSIF_EN = propres(PASSIFS.passifs);
 const lignePassif = (label, texte) => texte ? `<p class="passive"><b>${label}</b> ${esc(texte)}</p>` : "";
 const weapons = JSON.parse(fs.readFileSync(path.join(ROOT, "data/weapons.json"), "utf8"))
   .filter(w => !/Component/.test(w.t || ""));
