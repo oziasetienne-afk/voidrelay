@@ -92,7 +92,7 @@ export const EFFECTS_EN = {
   "Primed Animal Instinct": "greatly enlarged loot/enemy radar (Primed)",
   "Fetch": "vacuums loot (13.5m)", "Vacuum": "vacuums loot (13.5m)",
   "Pack Leader": "your melee hits heal the companion",
-  "Bite": "big companion crit bonus", "Maul": "+330% Claws melee damage",
+  "Bite": "+330% crit chance · +220% crit damage (Claws)", "Maul": "+330% Claws melee damage",
   "Savagery": "rushes 8 enemies (10m), knocked down at the end",
   "Hunter Recovery": "your damage heals the companion (30%)",
   "Momentous Bond": "Eximus kill: +120% random element (30s), −18s recovery",
@@ -173,7 +173,7 @@ export const TYPE_NOTE_EN = {
 export const COMP_RULES_EN = {
   "Bête": {
     deb:  { cost: "0–1 forma", note: "Link Health/Armor (inherit YOUR stats), Fetch (loot vacuum) and Pack Leader (heal via your melee): the survival kit of every beast." },
-    mid:  { cost: "1–2 formas", note: "Hunter Recovery (Ostron bounties) heals your companion when YOU deal damage. Bite pushes companion crits." },
+    mid:  { cost: "1–2 formas", note: "Hunter Recovery (Ostron bounties) heals your companion when YOU deal damage. Since Update 37, Bite and Maul go on the Claws (the beast's weapon), not in its mods." },
     exp:  { cost: "2–3 formas", note: "Bond mods (Duviri/Cavia) turn the companion into a real squadmate; Primed Animal Instinct from Baro. Since the companion rework, companions no longer die permanently." },
   },
   "Sentinelle": {
@@ -214,7 +214,7 @@ export const UI_EN = {
   statH: "Health", statS: "Shield", statAr: "Armor", statE: "Energy", statSpd: "Sprint speed", statMr: "Mastery required",
   sheet: "Info", cat: "Category", type: "Type", riven: "Riven disposition",
   catFr: { Primary: "Primary weapon", Secondary: "Secondary weapon", Melee: "Melee" },
-  aura: "Aura", exilus: "Exilus", mainMods: "Main mods", arcanes: "Arcanes",
+  aura: "Aura", exilus: "Exilus", mainMods: "Main mods", arcanes: "Arcanes", claws: "Claws (beast weapon, since Update 37)",
   shards: (p) => `Archon Shards — 5 slots (profile: ${p})`,
   costDebW: " · early-planet mods", costMidW: " · syndicate 60/60s, common rares", costExpW: " · Galvanized (Arbitrations), Primed (Baro), Riven",
   costDebC: " · common drop mods", costExpC: " · Bond mods (Cavia) + Primed (Baro)",

@@ -230,7 +230,7 @@ const EFFECTS = {
   "Primed Animal Instinct": "radar butin/ennemis fortement agrandi (Primed)",
   "Fetch": "aspire le butin (13,5 m)", "Vacuum": "aspire le butin (13,5 m)",
   "Pack Leader": "tes coups de mêlée soignent le compagnon",
-  "Bite": "gros bonus de critique du compagnon", "Maul": "+330 % dégâts de mêlée des griffes",
+  "Bite": "+330 % chance critique · +220 % dégâts critiques des griffes", "Maul": "+330 % dégâts de mêlée des griffes",
   "Savagery": "ruée sur 8 ennemis (10 m), renversés à la fin",
   "Hunter Recovery": "tes dégâts soignent le compagnon (30 %)",
   "Momentous Bond": "kill d'Eximus : +120 % élément aléatoire (30 s), −18 s de récupération",
@@ -756,10 +756,10 @@ const slugNote = (slug, lang) => SLUG_NOTES[slug]?.[lang]
 
 const COMP_RULES = {
   "Bête": {
-    deb:  { mods: ["Link Vitality", "Link Fiber", "Animal Instinct", "Fetch", "Pack Leader", "Bite", "Maul", "Savagery"], cost: "0–1 forma",
+    deb:  { mods: ["Link Vitality", "Link Fiber", "Animal Instinct", "Fetch", "Pack Leader"], claws: ["Maul", "Bite"], cost: "0–1 forma",
             note: "Link Health/Armor (héritent de TES stats), Fetch (aimant à loot) et Pack Leader (soin via ta mêlée) : le kit de survie de toute bête." },
-    mid:  { mods: ["Link Vitality", "Link Fiber", "Animal Instinct", "Fetch", "Pack Leader", "Hunter Recovery", "Bite", "Maul"], cost: "1–2 formas",
-            note: "Hunter Recovery (chasses Ostrons) soigne ton compagnon quand TU fais des dégâts. Bite pousse le crit du compagnon." },
+    mid:  { mods: ["Link Vitality", "Link Fiber", "Animal Instinct", "Fetch", "Pack Leader", "Hunter Recovery"], claws: ["Maul", "Bite"], cost: "1–2 formas",
+            note: "Hunter Recovery (chasses Ostrons) soigne ton compagnon quand TU fais des dégâts. Depuis la 37.0, Bite et Maul se posent sur les griffes (l'arme de la bête), plus dans ses mods." },
     exp:  { mods: ["Link Vitality", "Link Fiber", "Primed Animal Instinct", "Fetch", "Momentous Bond", "Tenacious Bond", "Duplex Bond", "Hunter Recovery"], cost: "2–3 formas",
             note: "Les mods Bond (Duviri/Cavia) transforment le compagnon en vrai coéquipier ; Primed Animal Instinct chez Baro. Depuis la refonte, les compagnons ne meurent plus définitivement." },
   },
@@ -808,8 +808,21 @@ function modCard(name) {
   return `<div class="modc modc-txt" title="${esc(name)}"><span class="pol">${POL.V}</span><span class="nm">${esc(name)}</span>${fx}</div>`;
 }
 
+/* Griffes des Bêtes (37.0) : Maul et Bite sont des mods de cette arme, pas du compagnon
+   (wiki.warframe.com/w/Maul et /w/Bite, lus le 21/10/2026). */
+const clawBlock = (claws, titre, carte) => claws && claws.length
+  ? `<h4 class="btier-sub">${titre}</h4><div class="modg" style="margin:6px 0">${claws.map(carte).join("")}</div>` : "";
+/* Les Hounds et les MOA sont rangés en « Bête » mais sont robotiques : pas de griffes.
+   Savagery est le précepte du seul Sunika Kubrow (wiki.warframe.com/w/Savagery). */
+const aDesGriffes = c => c.k === "Bête" && !/\b(Hound|Moa)\b/.test(c.n);
+function reglesComp(c) {
+  const R = COMP_RULES[c.k] || COMP_RULES["Bête"];
+  if (c.k !== "Bête") return R;
+  const g = aDesGriffes(c), t = p => ({ ...p, claws: g ? p.claws : undefined });
+  return { deb: { ...t(R.deb), mods: c.n === "Sunika Kubrow" ? [...R.deb.mods, "Savagery"] : R.deb.mods }, mid: t(R.mid), exp: t(R.exp) };
+}
 function bulle(tier, opts) {
-  const { aura, exilus, mods, note, cost, arcanes, shards, sim } = opts;
+  const { aura, exilus, mods, note, cost, arcanes, shards, sim, claws } = opts;
   const simHtml = sim
     ? `<p style="margin:10px 0 0"><a class="simbtn" href="/arsenal?sim=${encodeURIComponent(sim.slug)}&tier=${sim.tier}">⚔ Simuler ce palier dans l'Arsenal →</a></p>` : "";
   const auraHtml = aura ? `<div class="pollabel" style="margin:0 0 6px">Aura</div>${modCard(aura)}` : "";
@@ -819,7 +832,7 @@ function bulle(tier, opts) {
     ? `<h4 class="btier-sub">Arcanes</h4><div class="abilities">${arcanes.map(a => `<div class="modslot"><span class="pol"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="5" fill="none" stroke="#e2c873" stroke-width="2"/></svg></span><span><b>${esc(a)}</b></span></div>`).join("")}</div>` : "";
   const shHtml = shards
     ? `<h4 class="btier-sub">Fragments d'Archon — 5 emplacements (profil : ${esc(shards.profil)})</h4><ol class="shardlist">${shards.slots.map(s => `<li>${esc(s)}</li>`).join("")}</ol><p class="modnote">${esc(shards.alt)}</p>` : "";
-  return `<section class="panel btier"><h3>${tier.t}</h3><p class="btier-cost">${esc(tier.cost || cost)}</p>${side ? `<div class="bcols" style="grid-template-columns:1fr 3fr;align-items:start;margin:10px 0 6px">${side}<div><div class="pollabel" style="margin-bottom:6px">Mods principaux</div><div class="modg">${mods.map(modCard).join("")}</div></div></div>` : `<div class="modg" style="margin:10px 0 6px">${mods.map(modCard).join("")}</div>`}<p class="bodytext btier-note">${note}</p>${arcHtml}${shHtml}${simHtml}</section>`;
+  return `<section class="panel btier"><h3>${tier.t}</h3><p class="btier-cost">${esc(tier.cost || cost)}</p>${side ? `<div class="bcols" style="grid-template-columns:1fr 3fr;align-items:start;margin:10px 0 6px">${side}<div><div class="pollabel" style="margin-bottom:6px">Mods principaux</div><div class="modg">${mods.map(modCard).join("")}</div></div></div>` : `<div class="modg" style="margin:10px 0 6px">${mods.map(modCard).join("")}</div>`}<p class="bodytext btier-note">${note}</p>${clawBlock(claws, "Griffes (arme de la bête, depuis la 37.0)", modCard)}${arcHtml}${shHtml}${simHtml}</section>`;
 }
 
 const EXTRA_CSS = `<style>
@@ -970,15 +983,15 @@ function compPage(c) {
   const slug = slugify(c.n);
   const url = `${SITE}/builds/${slug}`;
   const hl = hreflangPair(`/builds/${slug}`, `/en/builds/${slug}`);
-  const R = COMP_RULES[c.k] || COMP_RULES["Bête"];
+  const R = reglesComp(c);
   const title = `Build ${c.n} (compagnon) Warframe : débutant à expert | VoidRelay`;
   const desc = `Build ${c.n} (${c.k}) en 3 paliers : survie et utilitaires accessibles, puis mods Bond et Primed pour un compagnon expert.`;
   const img = heroImg("companions", c.i);
   const stats = `<table class="bstats"><tr><td>Type</td><td>${esc(c.k)}${c.prime ? " · Prime" : ""}</td></tr>${c.h ? `<tr><td>Santé</td><td>${esc(c.h)}</td></tr>` : ""}${c.ar ? `<tr><td>Armure</td><td>${esc(c.ar)}</td></tr>` : ""}<tr><td>Maîtrise requise</td><td>MR ${esc(c.mr || 0)}</td></tr></table>`;
   const bulles = anchorize(
-    bulle({ t: "🌱 Débutant", cost: R.deb.cost + " · mods de drops courants" }, { mods: R.deb.mods, note: R.deb.note })
-    + bulle({ t: "⚙️ Intermédiaire", cost: R.mid.cost }, { mods: R.mid.mods, note: R.mid.note })
-    + bulle({ t: "🔥 Expert", cost: R.exp.cost + " · mods Bond (Cavia) + Primed (Baro)" }, { mods: R.exp.mods, note: R.exp.note })
+    bulle({ t: "🌱 Débutant", cost: R.deb.cost + " · mods de drops courants" }, { mods: R.deb.mods, claws: R.deb.claws, note: R.deb.note })
+    + bulle({ t: "⚙️ Intermédiaire", cost: R.mid.cost }, { mods: R.mid.mods, claws: R.mid.claws, note: R.mid.note })
+    + bulle({ t: "🔥 Expert", cost: R.exp.cost + " · mods Bond (Cavia) + Primed (Baro)" }, { mods: R.exp.mods, claws: R.exp.claws, note: R.exp.note })
   );
   return head(title, desc, url, "fr", hl, img) + TOPBAR + `<main class="wrap">
 <nav class="bc"><a href="/">Accueil</a> › <a href="/builds/">Builds</a> › <span>${esc(c.n)}</span></nav>
@@ -1036,7 +1049,7 @@ function modCardEN(name) {
 }
 
 function bulleEN(tier, opts) {
-  const { aura, exilus, mods, note, cost, arcanes, shards, sim } = opts;
+  const { aura, exilus, mods, note, cost, arcanes, shards, sim, claws } = opts;
   const simHtml = sim
     ? `<p style="margin:10px 0 0"><a class="simbtn" href="/en/arsenal?sim=${encodeURIComponent(sim.slug)}&tier=${sim.tier}">⚔ Simulate this tier in the Arsenal →</a></p>` : "";
   const auraHtml = aura ? `<div class="pollabel" style="margin:0 0 6px">${UI_EN.aura}</div>${modCardEN(aura)}` : "";
@@ -1046,7 +1059,7 @@ function bulleEN(tier, opts) {
     ? `<h4 class="btier-sub">${UI_EN.arcanes}</h4><div class="abilities">${arcanes.map(a => `<div class="modslot"><span class="pol"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="5" fill="none" stroke="#e2c873" stroke-width="2"/></svg></span><span><b>${esc(a)}</b></span></div>`).join("")}</div>` : "";
   const shHtml = shards
     ? `<h4 class="btier-sub">${esc(UI_EN.shards(shards.profil))}</h4><ol class="shardlist">${shards.slots.map(s => `<li>${esc(s)}</li>`).join("")}</ol><p class="modnote">${esc(shards.alt)}</p>` : "";
-  return `<section class="panel btier"><h3>${tier.t}</h3><p class="btier-cost">${esc(tier.cost || cost)}</p>${side ? `<div class="bcols" style="grid-template-columns:1fr 3fr;align-items:start;margin:10px 0 6px">${side}<div><div class="pollabel" style="margin-bottom:6px">${UI_EN.mainMods}</div><div class="modg">${mods.map(m => modCardEN(m)).join("")}</div></div></div>` : `<div class="modg" style="margin:10px 0 6px">${mods.map(m => modCardEN(m)).join("")}</div>`}<p class="bodytext btier-note">${note}</p>${arcHtml}${shHtml}${simHtml}</section>`;
+  return `<section class="panel btier"><h3>${tier.t}</h3><p class="btier-cost">${esc(tier.cost || cost)}</p>${side ? `<div class="bcols" style="grid-template-columns:1fr 3fr;align-items:start;margin:10px 0 6px">${side}<div><div class="pollabel" style="margin-bottom:6px">${UI_EN.mainMods}</div><div class="modg">${mods.map(m => modCardEN(m)).join("")}</div></div></div>` : `<div class="modg" style="margin:10px 0 6px">${mods.map(m => modCardEN(m)).join("")}</div>`}<p class="bodytext btier-note">${note}</p>${clawBlock(claws, UI_EN.claws, modCardEN)}${arcHtml}${shHtml}${simHtml}</section>`;
 }
 
 const TOPBAR_EN = `<div class="topwrap"><header class="topbar"><a href="/en/" class="brand"><span class="logo">◆</span> VoidRelay</a><div class="search"><span>🔎</span><input type="search" id="vr-search" class="vr-search-input" placeholder="Search an item or build…" aria-label="Search a Warframe item" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="vr-search-results" aria-autocomplete="list"><kbd>K</kbd><div class="vr-search-results" id="vr-search-results" role="listbox" aria-label="Search results" hidden></div></div><nav class="topnav"><div class="topnav-search"><input type="search" id="vr-search-m" class="vr-search-input" placeholder="Search an item…" aria-label="Search a Warframe item" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="vr-search-results-m" aria-autocomplete="list"><div class="vr-search-results" id="vr-search-results-m" role="listbox" aria-label="Search results" hidden></div></div><a href="/en/">Home</a><a href="/en/platinum-path/">Platinum Path</a><a href="/en/builds/" class="cur">Builds</a><a href="/en/o/">Items</a><a href="/en/guides/">Guides</a><a href="/en/tools">Tools</a><a href="/hub">Dashboard</a><a href="/faq-en">FAQ</a><a href="/" hreflang="fr" title="Version française">FR</a></nav><button class="navburger" id="navburger" type="button" aria-label="Menu" aria-expanded="false">&#9776;</button>
@@ -1172,15 +1185,15 @@ function compPageEN(c) {
   const slug = slugify(c.n);
   const url = `${SITE}/en/builds/${slug}`;
   const hl = hreflangPair(`/builds/${slug}`, `/en/builds/${slug}`);
-  const R = COMP_RULES[c.k] || COMP_RULES["Bête"];
+  const R = reglesComp(c);
   const RE = COMP_RULES_EN[c.k] || COMP_RULES_EN["Bête"];
   const title = UI_EN.titleComp(c.n), desc = UI_EN.descComp(c.n, c.k);
   const img = heroImg("companions", c.i);
   const stats = `<table class="bstats"><tr><td>${UI_EN.type}</td><td>${esc(c.k === "Bête" ? "Beast" : "Sentinel")}${c.prime ? " · Prime" : ""}</td></tr>${c.h ? `<tr><td>${UI_EN.statH}</td><td>${esc(c.h)}</td></tr>` : ""}${c.ar ? `<tr><td>${UI_EN.statAr}</td><td>${esc(c.ar)}</td></tr>` : ""}<tr><td>${UI_EN.statMr}</td><td>MR ${esc(c.mr || 0)}</td></tr></table>`;
   const bulles = anchorize(
-    bulleEN({ t: "🌱 Beginner", cost: RE.deb.cost + UI_EN.costDebC }, { mods: R.deb.mods, note: RE.deb.note })
-    + bulleEN({ t: "⚙️ Intermediate", cost: RE.mid.cost }, { mods: R.mid.mods, note: RE.mid.note })
-    + bulleEN({ t: "🔥 Expert", cost: RE.exp.cost + UI_EN.costExpC }, { mods: R.exp.mods, note: RE.exp.note })
+    bulleEN({ t: "🌱 Beginner", cost: RE.deb.cost + UI_EN.costDebC }, { mods: R.deb.mods, claws: R.deb.claws, note: RE.deb.note })
+    + bulleEN({ t: "⚙️ Intermediate", cost: RE.mid.cost }, { mods: R.mid.mods, claws: R.mid.claws, note: RE.mid.note })
+    + bulleEN({ t: "🔥 Expert", cost: RE.exp.cost + UI_EN.costExpC }, { mods: R.exp.mods, claws: R.exp.claws, note: RE.exp.note })
   );
   return head(title, desc, url, "en", hl, img) + TOPBAR_EN + `<main class="wrap">
 <nav class="bc"><a href="/en/">${UI_EN.home}</a> › <a href="/en/builds/">${UI_EN.breadcrumbBuilds}</a> › <span>${esc(c.n)}</span></nav>
