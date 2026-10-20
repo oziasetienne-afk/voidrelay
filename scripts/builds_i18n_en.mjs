@@ -99,7 +99,7 @@ export const EFFECTS_EN = {
   "Tenacious Bond": "bond: shared crit companion/frame",
   "Duplex Bond": "bond: companion periodically duplicates",
   "Manifold Bond": "bond: faster Regen recharges",
-  "Enhanced Vitality": "+440% companion Health", "Metal Fiber": "+110% companion Armor",
+  "Enhanced Vitality": "+250% companion Health", "Metal Fiber": "+250% companion Armor",
   "Regen": "the Sentinel revives itself (once)", "Primed Regen": "the Sentinel revives itself (3 times)",
   "Assault Mode": "the Sentinel attacks nearby enemies",
   "Guardian": "restores your shields when they break",
