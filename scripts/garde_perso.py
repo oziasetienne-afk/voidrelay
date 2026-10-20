@@ -3,7 +3,7 @@
 
 Bloque un push / une PR si :
   1. un commit est signé avec une identité qui n'est pas anonyme
-     (seules les adresses noreply GitHub, noreply@anthropic.com et @voidrelay.fr passent) ;
+     (seules les adresses noreply GitHub, noreply@github.com des fusions, noreply@anthropic.com et @voidrelay.fr passent) ;
   2. une ligne AJOUTÉE contient un terme personnel interdit, ou une adresse
      email perso (gmail, hotmail, outlook, icloud, yahoo, orange, free, sfr, laposte, wanadoo).
 
@@ -27,8 +27,13 @@ TERMES_INTERDITS = {
     "bf43f7b77bcaa5f3",
 }
 
+# ^noreply@github.com$ : committer que GitHub pose lui-même sur toute fusion faite par
+# le bouton ou l'API (« GitHub <noreply@github.com> »). Adresse de GitHub, pas d'une
+# personne : sans elle, la fusion de la PR #1 (93ed59a, 20/10/2026) a rougi le garde.
+# Adresse EXACTE seulement (ancrée ^…$) ; test : scripts/verifier_garde_perso.py.
 IDENTITES_OK = re.compile(
-    r"(@users\.noreply\.github\.com|^noreply@anthropic\.com|@voidrelay\.fr)$", re.I
+    r"(@users\.noreply\.github\.com|^noreply@anthropic\.com|^noreply@github\.com|@voidrelay\.fr)$",
+    re.I,
 )
 EMAIL_PERSO = re.compile(
     r"[A-Za-z0-9._%+-]+@(gmail|googlemail|hotmail|outlook|live|icloud|me|yahoo|"
