@@ -96,6 +96,8 @@ def main():
     bad = []
     n = 0
     for dirpath, dirs, files in os.walk(ROOT):
+        # _site/ = copie publiée (scripts/construire_site.sh) : la compter doublerait tout.
+        dirs[:] = [d for d in dirs if d not in (".git", "node_modules", "_site")]
         if "/.git" in dirpath or "/node_modules" in dirpath:
             continue
         for f in files:

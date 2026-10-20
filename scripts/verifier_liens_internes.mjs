@@ -20,7 +20,10 @@
 import fs from "fs";
 import path from "path";
 
-const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
+const DEPOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
+/* VR_RACINE = le dossier PUBLIÉ (_site/, 21/10/2026) : les mêmes contrôles y disent
+   si la liste blanche de scripts/construire_site.sh a oublié un fichier du site. */
+const ROOT = process.env.VR_RACINE ? path.resolve(process.env.VR_RACINE) : DEPOT;
 const SITE = "https://voidrelay.fr";
 let ok = 0, ko = 0;
 const dit = (c, quoi, det) => { c ? ok++ : ko++; console.log(`  ${c ? "✓" : "✗"} ${quoi}${det ? " — " + det : ""}`); };
@@ -195,7 +198,7 @@ for (const f of fs.readdirSync(path.join(ROOT, "js")).filter((x) => x.endsWith("
     /* /api/* n'est pas un fichier : c'est une fonction Cloudflare Pages, servie
        depuis functions/api/<nom>.js. On la vérifie là où elle vit réellement,
        plutôt que de l'inscrire sur une liste d'exceptions qui rouillerait. */
-    const cible = u.startsWith("/api/") ? path.join(ROOT, "functions", u.slice(1) + ".js") : path.join(ROOT, u.slice(1));
+    const cible = u.startsWith("/api/") ? path.join(DEPOT, "functions", u.slice(1) + ".js") : path.join(ROOT, u.slice(1));
     if (!fs.existsSync(cible)) fetchFautifs.push(`js/${f} → ${u} (absent : ${path.relative(ROOT, cible)})`);
   }
 }
