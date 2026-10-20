@@ -237,7 +237,7 @@ const EFFECTS = {
   "Tenacious Bond": "bond : +crit. partagé compagnon/frame",
   "Duplex Bond": "bond : le compagnon se duplique périodiquement",
   "Manifold Bond": "bond : recharges de Regen accélérées",
-  "Enhanced Vitality": "+440 % santé du compagnon", "Metal Fiber": "+110 % armure du compagnon",
+  "Enhanced Vitality": "+250 % santé du compagnon", "Metal Fiber": "+250 % armure du compagnon",
   "Regen": "la sentinelle se relève (1 fois)", "Primed Regen": "la sentinelle se relève (3 fois)",
   "Assault Mode": "la sentinelle attaque les ennemis proches",
   "Guardian": "restaure tes boucliers quand ils tombent",
