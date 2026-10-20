@@ -30,6 +30,7 @@ TERMES_INTERDITS = {
 # ^noreply@github.com$ : committer que GitHub pose lui-même sur toute fusion faite par
 # le bouton ou l'API (« GitHub <noreply@github.com> »). Adresse de GitHub, pas d'une
 # personne : sans elle, la fusion de la PR #1 (93ed59a, 20/10/2026) a rougi le garde.
+# Adresse EXACTE seulement (ancrée ^…$) ; test : scripts/verifier_garde_perso.py.
 IDENTITES_OK = re.compile(
     r"(@users\.noreply\.github\.com|^noreply@anthropic\.com|^noreply@github\.com|@voidrelay\.fr)$",
     re.I,

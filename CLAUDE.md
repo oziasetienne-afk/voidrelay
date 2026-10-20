@@ -13,7 +13,7 @@ bash scripts/verifier_invariants.sh     # ~25 s — à passer AVANT chaque push
 Elle enchaîne l'accessibilité, le SEO, la synchro, et **dix garde-fous purs** :
 `verifier_profils` · `verifier_prix_rangs{,_client}` · `verifier_prix_objet` ·
 `verifier_historique_coherent` · `verifier_api_builds` · `verifier_api_evt` · `verifier_cartes_partage` ·
-`verifier_liens_internes` · `verifier_sync` · le gabarit des pages générées.
+`verifier_liens_internes` · `verifier_sync` · `verifier_garde_perso` · le gabarit des pages générées.
 
 Chacun a été **mis en échec sur un vrai défaut** avant d'être branché. Si l'un d'eux
 rougit, il a probablement raison : lis son message avant de le contourner.

@@ -334,6 +334,12 @@ for g in verifier_sync.mjs verifier_api_builds.mjs verifier_api_evt.mjs verifier
   [ -f "scripts/$g" ] || continue
   node "scripts/$g" >/dev/null 2>&1 || { fail "garde-fou $g : au moins une vérification échoue (relance-le pour le détail)"; pur_ko=1; }
 done
+# Le garde perso lui-même (20/10/2026) : la fusion web de la PR #1 l'a rougi sans fuite
+# (committer « GitHub <noreply@github.com> »). Vrais commits dans un dépôt jetable.
+if [ -f scripts/verifier_garde_perso.py ]; then
+  python3 scripts/verifier_garde_perso.py >/dev/null 2>&1 \
+    || { fail "garde-fou verifier_garde_perso.py : le garde perso bloque une fusion GitHub ou laisse passer une adresse perso"; pur_ko=1; }
+fi
 if [ -f scripts/verifier_prix_rangs.py ]; then
   python3 scripts/verifier_prix_rangs.py >/dev/null 2>&1 \
     || { fail "garde-fou verifier_prix_rangs.py : le calcul de prix ne tient plus (rangs mélangés ?)"; pur_ko=1; }

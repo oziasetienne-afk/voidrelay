@@ -88,8 +88,11 @@ concurrency:
 jobs:
   rendu:
     runs-on: ubuntu-latest
-    # 20 -> 30 (20/10/2026) : durée réelle mesurée 20 min 26 s sur 93ed59a, toutes les
-    # étapes vertes puis job « cancelled » par le délai — un vert qui s'affiche annulé.
+    # 20 -> 30 (20/10/2026). Mesuré sur les jobs : 93ed59a a duré 20 min 27 s, ses 5
+    # vérifications vertes, puis « cancelled » par ce délai (GitHub affiche un délai
+    # dépassé comme une annulation). Les 3 annulations du matin, elles, venaient de la
+    # concurrency ci-dessus (chaque job coupé 2 s avant le départ du suivant) : voulu,
+    # le run suivant vérifie l'état le plus récent. Durées réelles : 9 à 20,5 min.
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
