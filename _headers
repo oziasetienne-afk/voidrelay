@@ -53,3 +53,13 @@
   X-Robots-Tag: noindex
 /en/o/*
   X-Robots-Tag: noindex
+
+# Exception (20/10/2026, décision de l'admin) : les 2 pages-listes /o/ et /en/o/ redeviennent
+# indexables. Search Console : elles portaient 56 % des impressions Google avant le noindex
+# (1 628 sur 2 910, 01/08–17/09) ; après, ~4 impressions/jour pour tout le site. Le refus
+# AdSense visait les milliers de fiches minces, pas ces 2 index. Les fiches /o/xxx restent noindex.
+# Même mécanisme que /embed/* : « ! » retire l'en-tête posé par la règle générale.
+/o/
+  ! X-Robots-Tag
+/en/o/
+  ! X-Robots-Tag

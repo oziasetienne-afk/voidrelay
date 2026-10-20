@@ -1068,8 +1068,15 @@ function sitemap() {
   const _all = base.concat(cats, items, itemsEn);
   // AdSense (2026-09) : /o/ et /en/o/ sont passees en noindex (via _headers) pour
   // l'evaluation qualite du site. Un sitemap ne doit pas lister d'URL noindex :
-  // on exclut toute page objet (hub /o/, categories /o/c/, items FR et EN).
-  const _indexable = _all.filter(e => !/<loc>[^<]*\/(?:en\/)?o(?:\/|<\/loc>)/.test(e));
+  // on exclut les pages objet (categories /o/c/, items FR et EN).
+  // Exception 20/10/2026 : les 2 pages-listes /o/ et /en/o/ sont de nouveau indexables
+  // (exception dans _headers) → elles restent dans le sitemap.
+  const _listesIndexables = new Set([`${SITE}/o/`, `${SITE}/en/o/`]);
+  const _indexable = _all.filter(e => {
+    const loc = (e.match(/<loc>([^<]*)<\/loc>/) || [])[1];
+    if (_listesIndexables.has(loc)) return true;
+    return !/<loc>[^<]*\/(?:en\/)?o(?:\/|<\/loc>)/.test(e);
+  });
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${_indexable.join("\n")}\n</urlset>\n`;
 }
 
