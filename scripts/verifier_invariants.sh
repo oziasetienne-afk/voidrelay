@@ -360,6 +360,23 @@ if [ -f scripts/generer_builds.mjs ]; then
   node scripts/generer_builds.mjs --verifier >/dev/null 2>&1 \
     || { fail "garde-fou générateur de builds : builds/ ou en/builds/ ne correspondent plus au gabarit (node scripts/generer_builds.mjs --verifier pour le détail)"; pur_ko=1; }
 fi
+# Passifs troués (20/10/2026) : les marqueurs |VAL| de WFCD étaient effacés au lieu d'être
+# résolus → « sidearms % faster », « within a m radius » dans 168 pages de builds, sans
+# qu'aucun garde-fou ne bouge. Mis en échec sur l'état d'avant : 115 pages détectées (filet
+# textuel, il ne voit pas tous les trous ; la vraie correction est en amont).
+passifs_troues=$(python3 - <<'PY'
+import glob, re
+mauvais = re.compile(r"\|[A-Z_0-9]+\||(^|[\s+(x])%|\bwithin a m\b|\s th\b|\s{2,}|\s[.,]|\\[rnt]")
+n = 0
+for f in glob.glob("builds/*.html") + glob.glob("en/builds/*.html"):
+    for t in re.findall(r'class="passive"><b>[^<]*</b>\s*([^<]*)</p>', open(f, encoding="utf-8").read()):
+        if mauvais.search(t.strip()):
+            n += 1
+            break
+print(n)
+PY
+)
+[ "$passifs_troues" = "0" ] || { fail "passifs de Warframes troués dans $passifs_troues page(s) de builds (chiffres manquants : relance scripts/maj_passifs_wiki.py puis generer_builds.mjs --force)"; pur_ko=1; }
 [ "$pur_ko" -eq 0 ] && ok "garde-fous de calcul : synchro, API builds, classements de marché, prix par rang, gabarit des pages générées (objets et builds), cartes de partage, liens internes, fil d'Ariane, outils déclarés, stats et textes wiki de l'arsenal"
 
 # ÂGE DES DONNÉES (27/09/2026) — AVERTISSEMENT, jamais bloquant. Du 22 au 27/09 les

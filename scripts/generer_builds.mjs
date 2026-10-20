@@ -40,6 +40,18 @@ const slugify = s => String(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g
   .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 
 const wfs = JSON.parse(fs.readFileSync(path.join(ROOT, "data/warframes.json"), "utf8"));
+// Passifs AVEC leurs chiffres (20/10/2026). `data/warframes.json` → `passive` a perdu ses
+// nombres (marqueurs |VAL| de WFCD effacés) : 91 frames affichaient « sidearms % faster ».
+// FR : texte de l'arsenal (chiffres identiques au wiki pour 88/91, vérifié) ; EN : module du
+// wiki (`scripts/maj_passifs_wiki.py`). Marqueur non résolu ou absent → pas de ligne Passif,
+// plutôt qu'une phrase fausse : c'est le cas en FR de Caliban, Caliban Prime et Sirius & Orion
+// (l'arsenal garde |PCT|, |EFFICIENCY|, |COUNT|), alors que leur page EN a un passif.
+const MARQUEUR = /\|[A-Z_0-9]+\|/;
+const PASSIF_FR = new Map(JSON.parse(fs.readFileSync(path.join(ROOT, "data/arsenal/warframes.json"), "utf8"))
+  .filter(w => w.n && w.passive && !MARQUEUR.test(w.passive)).map(w => [w.n, w.passive]));
+const PASSIF_EN = new Map(Object.entries(JSON.parse(fs.readFileSync(path.join(ROOT, "data/passifs_en.json"), "utf8")).passifs)
+  .filter(([, t]) => t && !MARQUEUR.test(t)));
+const lignePassif = (label, texte) => texte ? `<p class="passive"><b>${label}</b> ${esc(texte)}</p>` : "";
 const weapons = JSON.parse(fs.readFileSync(path.join(ROOT, "data/weapons.json"), "utf8"))
   .filter(w => !/Component/.test(w.t || ""));
 const comps = JSON.parse(fs.readFileSync(path.join(ROOT, "data/companions.json"), "utf8"));
@@ -916,7 +928,7 @@ function framePage(f) {
   return head(title, desc, url, "fr", hl, img) + TOPBAR + `<main class="wrap">
 <nav class="bc"><a href="/">Accueil</a> › <a href="/builds/">Builds</a> › <span>${esc(f.n)}</span></nav>
 <div class="bhero">${img ? `<img class="bhero-img" src="${vignette(img)}" alt="${esc(f.n)}" width="132" height="132" loading="eager">` : ""}<h1 class="nm">Build ${esc(f.n)}</h1><span class="btag">◈ Warframe${f.prime ? " Prime" : ""} · MR ${esc(f.mr)}</span><p class="role">${esc(f.desc || "")}</p></div>
-<div class="bcols"><div class="panel"><h3>Statistiques de base</h3>${stats}</div><div class="panel"><h3>Compétences</h3><div class="abilities" style="margin-bottom:8px">${abils}</div><p class="passive"><b>Passif :</b> ${esc(f.passive || "—")}</p></div></div>
+<div class="bcols"><div class="panel"><h3>Statistiques de base</h3>${stats}</div><div class="panel"><h3>Compétences</h3><div class="abilities" style="margin-bottom:8px">${abils}</div>${lignePassif("Passif :", PASSIF_FR.get(f.n))}</div></div>
 ${slugNote(slug, "fr")}<h2 style="margin:18px 0 4px">Les 3 builds</h2>${TIERJUMP}${bulles}${DISCLAIMER}
 <p class="bc" style="margin-top:14px"><a href="/builds/">← Tous les builds</a> · <a href="/warframes/">Fiche ${esc(f.n)}</a> · ${marketLink(f.n)?`<a href="${marketLink(f.n)}">💰 Prix du set ${esc(f.n)}</a>`:`<a href="/o/">Prix des objets</a>`}</p>${guidesLinkLine(f.n, "fr")}
 </main>` + FOOTER;
@@ -1071,7 +1083,7 @@ function framePageEN(f) {
   return head(title, desc, url, "en", hl, img) + TOPBAR_EN + `<main class="wrap">
 <nav class="bc"><a href="/en/">${UI_EN.home}</a> › <a href="/en/builds/">${UI_EN.breadcrumbBuilds}</a> › <span>${esc(f.n)}</span></nav>
 <div class="bhero">${img ? `<img class="bhero-img" src="${vignette(img)}" alt="${esc(f.n)}" width="132" height="132" loading="eager">` : ""}<h1 class="nm">${esc(f.n)} build</h1><span class="btag">${f.prime ? UI_EN.heroFramePrime(f.mr) : UI_EN.heroFrame(f.mr)}</span><p class="role">${esc(f.desc || "")}</p></div>
-<div class="bcols"><div class="panel"><h3>${UI_EN.baseStats}</h3>${stats}</div><div class="panel"><h3>${UI_EN.abilities}</h3><div class="abilities" style="margin-bottom:8px">${abils}</div><p class="passive"><b>${UI_EN.passive}</b> ${esc(f.passive || "—")}</p></div></div>
+<div class="bcols"><div class="panel"><h3>${UI_EN.baseStats}</h3>${stats}</div><div class="panel"><h3>${UI_EN.abilities}</h3><div class="abilities" style="margin-bottom:8px">${abils}</div>${lignePassif(UI_EN.passive, PASSIF_EN.get(f.n))}</div></div>
 ${slugNote(slug, "en")}<h2 style="margin:18px 0 4px">${UI_EN.the3builds}</h2>${TIERJUMP_EN}${bulles}${DISCLAIMER_EN}
 <p class="bc" style="margin-top:14px"><a href="/en/builds/">${UI_EN.allBuilds}</a> · ${marketLink(f.n)?`<a href="${marketLink(f.n)}">${esc(UI_EN.priceOfSet(f.n))}</a>`:`<a href="/en/o/">${UI_EN.itemPrices}</a>`}</p>${guidesLinkLine(f.n, "en")}
 </main>` + FOOTER_EN;
