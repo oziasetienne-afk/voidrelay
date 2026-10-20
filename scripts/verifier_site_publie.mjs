@@ -64,6 +64,7 @@ const INTERDITS = [
   [/\.(md|py|sh|mjs|cjs|ts|sql|toml|ya?ml|lock|env|key|pem|bak)$/i, "fichier d'outillage"],
   [/(^|\/)(\.DS_Store|\.gitignore|\.gitleaks\.toml|\.indexnow_key|\.nojekyll|\.dev\.vars.*|\.env.*)$/, "fichier de config"],
   [/^package(-lock)?\.json$/, "manifeste npm"],
+  [/(^|\/)secrets[^/]*\.json$|\.local$|(^|\/)worldstate(_raw)?\.json$/, "fichier ignoré par git"],
 ];
 const fautifs = [];
 for (const f of publies) {

@@ -22,6 +22,8 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 SORTIE="${1:-_site}"
+# Le dossier est vidé avant copie : jamais la racine du dépôt ni au-dessus.
+case "$SORTIE" in ""|.|./|..|../*|/) echo "❌ construire_site : sortie refusée : $SORTIE" >&2; exit 1;; esac
 
 # Fichiers de la racine servis tels quels (en plus de tous les *.html racine).
 # Le fichier de clé IndexNow DOIT être servi à la racine : son nom est la clé.
@@ -38,6 +40,8 @@ DOSSIERS=(
   images js o ressources skins social voie-du-platine warframes widget
 )
 
+# Seulement des fichiers SUIVIS par git : un data/worldstate.json ou un secret
+# ignoré qui traîne sur un poste ne part pas avec une construction locale.
 # Et dans ces dossiers, seulement des types web : assets/gen_visuels.py vivait
 # dans assets/ et partait en prod avec le reste.
 EXTENSIONS='html|css|js|json|png|webp|jpg|jpeg|gif|svg|ico|ics|mp4|webm|txt|xml|webmanifest|woff2?'
@@ -46,13 +50,13 @@ liste="$(mktemp)"
 trap 'rm -f "$liste"' EXIT
 
 for f in "${FICHIERS[@]}"; do
-  [ -f "$f" ] || { echo "❌ construire_site : fichier attendu absent : $f" >&2; exit 1; }
+  [ -n "$(git ls-files -- "$f")" ] || { echo "❌ construire_site : fichier attendu absent de git : $f" >&2; exit 1; }
   echo "$f"
 done > "$liste"
-find . -maxdepth 1 -type f -name '*.html' -printf '%P\n' >> "$liste"
+git -c core.quotepath=off ls-files -- '*.html' | grep -v / >> "$liste"
 for d in "${DOSSIERS[@]}"; do
   [ -d "$d" ] || { echo "❌ construire_site : dossier attendu absent : $d" >&2; exit 1; }
-  find "$d" -type f | grep -E "\.(${EXTENSIONS})$" >> "$liste" || true
+  git -c core.quotepath=off ls-files -- "$d" | grep -E "\.(${EXTENSIONS})$" >> "$liste" || true
 done
 
 rm -rf "$SORTIE"
