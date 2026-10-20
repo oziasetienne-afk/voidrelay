@@ -47,7 +47,10 @@ def main():
     def best(name):
         c = [x for x in db if x.get("name") == name and "imageName" in x
              and "/Beginner/" not in x.get("uniqueName", "")
-             and "/Intermediate/" not in x.get("uniqueName", "")]
+             and "/Intermediate/" not in x.get("uniqueName", "")
+             # /Expert/ (20/10/2026) : variantes rang 10 d'Intensify et Stretch ; le jeu et
+             # warframe.market disent rang max 5 → la carte affichait « 10/10 ».
+             and "/Expert/" not in x.get("uniqueName", "")]
         return max(c, key=lambda x: x.get("fusionLimit") or 0) if c else None
 
     cards, miss = {}, []

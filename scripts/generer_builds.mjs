@@ -148,8 +148,10 @@ const MODS = JSON.parse(fs.readFileSync(path.join(ROOT, "data/mods_cards.json"),
    qualitatif quand la valeur varie ou est moins connue — jamais d'invention) ---------- */
 const EFFECTS = {
   // Warframe
-  "Vitality": "+440 % santé", "Redirection": "+440 % bouclier", "Steel Fiber": "+110 % armure",
-  "Flow": "+150 % énergie max", "Primed Flow": "+185 % énergie max",
+  // Vitality/Redirection/Steel Fiber/Flow : +100 % au rang max (wiki, vérifié le 20/10/2026) ;
+  // le site affichait +440 / +440 / +110 / +150 %, valeurs d'avant leur refonte.
+  "Vitality": "+100 % santé", "Redirection": "+100 % bouclier", "Steel Fiber": "+100 % armure",
+  "Flow": "+100 % énergie max", "Primed Flow": "+185 % énergie max",
   "Continuity": "+30 % durée", "Primed Continuity": "+55 % durée",
   "Intensify": "+30 % force", "Umbral Intensify": "+44 % force (bonus set Umbral)",
   "Umbral Vitality": "+100 % santé (bonus set Umbral)",
@@ -1064,17 +1066,68 @@ function shardPlanEN(f) {
   return caster ? SHARD_EN.caster : tank ? SHARD_EN.tank : fast ? SHARD_EN.fast : SHARD_EN.poly;
 }
 
+/* Builds EN PROPRES à une Warframe (20/10/2026). Le gabarit par archétype donnait à Mesa une
+   aura de mêlée (Steel Charge) et Archon Stretch (énergie sur dégâts Électricité, qu'elle
+   n'inflige pas), sans Mesa's Waltz ni Peacemaker. Ce sont les 2 seules pages qui gardent des
+   impressions Google (« mesa build », « excalibur build », position ~30). Valeurs : wiki
+   officiel consulté le 20/10/2026 ; méta : warframegodbuilds.com (05/09/2026). Détail et sources :
+   Project « voidrelay/contenu/BUILDS_MESA_EXCALIBUR_VERIFIES_2026-10-20.md ».
+   Pas de lien « simuler » : l'arsenal simule les paliers génériques, pas ceux-ci. */
+const BUILD_MESA = {
+  nom: "Mesa",
+  title: "Mesa build (Peacemaker): beginner to Steel Path | VoidRelay",
+  desc: "Mesa Peacemaker build in 3 tiers: Pistol Amp aura, Mesa's Waltz, Shatter Shield at its 95% cap, arcanes, Archon Shards and Helminth. Values checked on the official wiki.",
+  deb: { aura: "Pistol Amp", exilus: "Power Drift",
+    mods: ["Intensify", "Continuity", "Streamline", "Flow", "Vitality", "Redirection", "Stretch", "Steel Fiber"],
+    note: "Pistol Amp, not Steel Charge: Peacemaker fires the Regulators, which count as a secondary weapon, so a melee aura does nothing for them. Intensify + Power Drift give 145% Ability Strength, above the 119% that caps Shatter Shield at 95% damage reduction." },
+  mid: { aura: "Pistol Amp", exilus: "Mesa's Waltz",
+    mods: ["Intensify", "Blind Rage", "Transient Fortitude", "Primed Continuity", "Primed Flow", "Adaptation", "Rolling Guard", "Narrow Minded"],
+    note: "Mesa's Waltz is an Exilus augment: it lets you move at 50% speed while Peacemaker is active and frees a main slot. Narrow Minded doubles Shatter Shield uptime; Peacemaker's 50 m targeting range does not depend on Ability Range. Rolling Guard (3 s of invulnerability on dodge) is your escape from melee enemies, which Shatter Shield does not stop.",
+    arcanes: ["Arcane Energize", "Arcane Velocity"] },
+  exp: { aura: "Pistol Amp", exilus: "Mesa's Waltz",
+    mods: ["Umbral Intensify", "Blind Rage", "Transient Fortitude", "Primed Continuity", "Primed Flow", "Adaptation", "Rolling Guard", "Narrow Minded"],
+    note: "Umbral Intensify (+44%) replaces Intensify (+30%). Subsume Grendel's Nourish over Ballistic Battery for extra energy and Viral damage. Peacemaker costs 25 energy then 15 per second, so keep Arcane Energize. Put Secondary Merciless in the Regulators' arcane slot if you own it (community pick, not confirmed by the wiki).",
+    arcanes: ["Arcane Energize", "Arcane Velocity"],
+    shards: { profil: "Peacemaker", slots: ["🟠 Topaz — Secondary crit chance per Heat kill (Regulators need a Heat source)", "🟠 Topaz — Secondary crit chance per Heat kill", "🟠 Topaz — Secondary crit chance per Heat kill", "🟡 Amber — +Casting Speed", "🔴 Crimson — +Secondary Critical Chance"], alt: "Survival swap: Azure (+Health/Armor) instead of Amber. Tauforged shards give +50%." } },
+  howto: "Stack your buffs in order: Nourish (1) if subsumed, Shatter Shield (3), Shooting Gallery (2), then hold Peacemaker (4). Peacemaker's damage ramps up by 7.5% per burst to +150% after 20 bursts, and drops when you release it (with Mesa's Waltz the bonus decays over time). Shatter Shield reflects gunfire but not melee or area damage: release Peacemaker and roll away when enemies close in. Never channel into a Nullifier bubble — pop it first, then recast.",
+};
+const BUILD_EXCALIBUR = {
+  nom: "Excalibur",
+  title: "Excalibur build (Exalted Blade): beginner to Steel Path | VoidRelay",
+  desc: "Excalibur Exalted Blade build in 3 tiers: Steel Charge, Chromatic Blade, Radial Blind, arcanes, Archon Shards. Values checked on the official wiki.",
+  deb: { aura: "Steel Charge", exilus: "Power Drift",
+    mods: ["Intensify", "Continuity", "Stretch", "Streamline", "Flow", "Vitality", "Steel Fiber", "Augur Secrets"],
+    note: "Steel Charge works here: Exalted Blade counts as a melee weapon, so the +60% melee aura boosts it. Strength and duration first, the rest keeps Radial Blind long and wide." },
+  mid: { aura: "Steel Charge", exilus: "Power Drift",
+    mods: ["Chromatic Blade", "Blind Rage", "Intensify", "Primed Continuity", "Primed Flow", "Equilibrium", "Rolling Guard", "Adaptation"],
+    note: "Chromatic Blade turns the blade into an elemental status sword (+300% Status Chance, element set by your energy color). Equilibrium turns health orbs into energy for the blade's upkeep.",
+    arcanes: ["Arcane Fury", "Arcane Guardian"] },
+  exp: { aura: "Steel Charge", exilus: "Power Drift",
+    mods: ["Chromatic Blade", "Blind Rage", "Umbral Intensify", "Primed Continuity", "Primed Flow", "Equilibrium", "Rolling Guard", "Adaptation"],
+    note: "Arcane Fury (+180% melee damage on crit) applies to Exalted Blade; Molt Augmented stacks up to +60% Ability Strength, which also raises Chromatic Blade's status. Put Melee Influence in the blade's arcane slot and set your energy color to Electric. Variant: Furious Javelin instead of Chromatic Blade (+15% melee damage per enemy hit for 16 s), keeping Radial Javelin.",
+    arcanes: ["Arcane Fury", "Molt Augmented"],
+    shards: { profil: "Exalted Blade", slots: ["🔴 Crimson — +Ability Strength", "🔴 Crimson — +Ability Strength", "🟣 Violet — +Melee Critical Damage", "🟣 Violet — +Melee Critical Damage", "🟡 Amber — +Casting Speed"], alt: "Tauforged shards give +50%: save them for your main frame." } },
+  howto: "Cast Radial Blind (2) to blind the room, then summon Exalted Blade (4) and swing: every swing sends out an energy wave that passes through enemies, so blinded targets die at range. Slash Dash (1) crosses the room and each hit also releases a wave. The blade costs 25 energy to summon and 2.5 per second to keep: recast Radial Blind whenever enemies start shooting again.",
+};
+const BUILDS_SPECIFIQUES_EN = { "mesa": BUILD_MESA, "mesa-prime": BUILD_MESA, "excalibur": BUILD_EXCALIBUR, "excalibur-prime": BUILD_EXCALIBUR };
+
 function framePageEN(f) {
   const slug = slugify(f.n);
+  const B = BUILDS_SPECIFIQUES_EN[slug];
   const url = `${SITE}/en/builds/${slug}`;
   const hl = hreflangPair(`/builds/${slug}`, `/en/builds/${slug}`);
-  const title = UI_EN.titleFrame(f.n), desc = UI_EN.descFrame(f.n);
+  // Variante Prime : même build, nom de la frame substitué dans le titre et la description.
+  const title = B ? B.title.replace(B.nom, f.n) : UI_EN.titleFrame(f.n), desc = B ? B.desc.replace(B.nom, f.n) : UI_EN.descFrame(f.n);
   const stats = `<table class="bstats"><tr><td>${UI_EN.statH}</td><td>${esc(f.h)}</td></tr><tr><td>${UI_EN.statS}</td><td>${esc(f.s)}</td></tr><tr><td>${UI_EN.statAr}</td><td>${esc(f.ar)}</td></tr><tr><td>${UI_EN.statE}</td><td>${esc(f.e)}</td></tr><tr><td>${UI_EN.statSpd}</td><td>${esc(f.spd)}</td></tr><tr><td>${UI_EN.statMr}</td><td>MR ${esc(f.mr)}</td></tr></table>`;
   const abils = (f.ab || []).map(a => `<span class="modslot"><b>${esc(a)}</b></span>`).join("");
   const img = heroImg("frames", f.i);
   const shards = shardPlanEN(f);
   const T = FRAME_TIERS_EN, TF = FRAME_TIERS;
-  const bulles = anchorize(
+  const bulles = B ? anchorize(
+    bulleEN(T.deb, { ...B.deb })
+    + bulleEN(T.mid, { ...B.mid })
+    + bulleEN(T.exp, { ...B.exp })
+  ) + `<section class="panel"><h3>How to play</h3><p>${esc(B.howto)}</p><p class="modnote">Values checked on the official Warframe wiki on 20 October 2026.</p></section>` : anchorize(
     bulleEN(T.deb, { aura: TF.deb.aura, exilus: TF.deb.exilus, mods: TF.deb.mods, note: T.deb.note, sim: { slug, tier: "deb" } })
     + bulleEN(T.mid, { aura: TF.mid.aura, exilus: TF.mid.exilus, mods: TF.mid.mods, note: T.mid.note, arcanes: UI_EN.midArcanes, sim: { slug, tier: "mid" } })
     + bulleEN(T.exp, { aura: TF.exp.aura, exilus: TF.exp.exilus, mods: TF.exp.mods, note: T.exp.note, arcanes: UI_EN.expArcanes, shards, sim: { slug, tier: "exp" } })

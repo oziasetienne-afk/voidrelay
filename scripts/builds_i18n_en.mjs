@@ -7,8 +7,13 @@
 
 export const EFFECTS_EN = {
   // Warframe
-  "Vitality": "+440% Health", "Redirection": "+440% Shield", "Steel Fiber": "+110% Armor",
-  "Flow": "+150% Energy Max", "Primed Flow": "+185% Energy Max",
+  // +100 % au rang max (wiki, vérifié le 20/10/2026) ; avant : +440/+440/+110/+150 %, périmés.
+  "Vitality": "+100% Health", "Redirection": "+100% Shield", "Steel Fiber": "+100% Armor",
+  "Flow": "+100% Energy Max",
+  // Builds propres à Mesa et Excalibur (20/10/2026), valeurs wiki au rang max.
+  "Pistol Amp": "aura: +27% pistol damage (squad)", "Narrow Minded": "+99% Duration / −66% Range",
+  "Rolling Guard": "3 s invulnerable on dodge (7 s cooldown)", "Equilibrium": "Health orbs +110% Energy, Energy orbs +110% Health",
+  "Mesa's Waltz": "Move at 50% speed during Peacemaker", "Chromatic Blade": "+300% Status Chance, element = energy color", "Primed Flow": "+185% Energy Max",
   "Continuity": "+30% Ability Duration", "Primed Continuity": "+55% Ability Duration",
   "Intensify": "+30% Ability Strength", "Umbral Intensify": "+44% Strength (Umbral set bonus)",
   "Umbral Vitality": "+100% Health (Umbral set bonus)",
