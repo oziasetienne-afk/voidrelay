@@ -457,7 +457,10 @@
     if (main && wrap) {
       try {
         const hist = await fetch("/data/market_history.json").then(r => r.ok ? r.json() : null).catch(() => null);
-        const rows = hist && hist[slug];
+        // Seulement les points du rang affiché (champ r, depuis le 20/10/2026) : un
+        // point sans r sur un objet à rangs date de l'époque où le rang basculait
+        // 0 ↔ max d'une passe à l'autre, sa médiane ne décrit pas cet objet-ci.
+        const rows = hist && (hist[slug] || []).filter(p => main.rang != null ? p.r === main.rang : p.r === undefined);
         if (rows && rows.length >= 3) {
           const medians = rows.map(r => r.median);
           const sorted = medians.slice().sort((a, b) => a - b);

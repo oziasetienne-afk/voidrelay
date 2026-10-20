@@ -23,7 +23,6 @@ const titleCase = s => String(s || "").replace(/_/g, " ").replace(/\b\w/g, c => 
 
 const s = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "summary.json"), "utf8"));
 const items = (s.market && s.market.items) || [];
-const movers = s.marketMovers || [];
 
 /* --- choix de l'évènement --- */
 function pickEvent() {
@@ -32,12 +31,14 @@ function pickEvent() {
   const resu = s.resurgence || {};
   if (resu.active && (resu.featured || []).length) return { type: "resurgence", tag: "PRIME RESURGENCE", title: (resu.featured || []).slice(0, 2).join(" · "), sub: "Primes obtenables chez Varzia (Aya régalien)", cta: "/bons-plans" };
   // plus gros mouvement de prix
-  const pool = items.filter(i => typeof i.change24h === "number");
-  pool.sort((a, b) => Math.abs(b.change24h) - Math.abs(a.change24h));
-  const top = pool[0] || movers[0];
-  if (top && Math.abs(top.change24h || 0) >= 3) {
-    const upd = (top.change24h || 0) >= 0;
-    return { type: "mover", tag: upd ? "EN HAUSSE AUJOURD'HUI" : "EN BAISSE — À ACHETER", title: titleCase(top.slug), sub: `${upd ? "+" : ""}${top.change24h}% en 24 h · ${top.minSellPlat || top.median || "?"} platine`, cta: "/o/" + top.slug };
+  // change24h est en platine, change24hPct en % (avant le 20/10/2026, les platines
+  // partaient suivies d'un « % »). Seuil de 3 % sur le pourcentage, pas 3 platine.
+  const pool = items.filter(i => typeof i.change24hPct === "number" && typeof i.change24h === "number");
+  pool.sort((a, b) => Math.abs(b.change24hPct) - Math.abs(a.change24hPct));
+  const top = pool[0];
+  if (top && Math.abs(top.change24hPct) >= 3) {
+    const upd = top.change24h >= 0;
+    return { type: "mover", tag: upd ? "EN HAUSSE AUJOURD'HUI" : "EN BAISSE — À ACHETER", title: titleCase(top.slug), sub: `${upd ? "+" : ""}${top.change24hPct}% en 24 h · ${top.minSellPlat || top.median || "?"} platine${top.rang != null ? " (rang " + top.rang + ")" : ""}`, cta: "/o/" + top.slug };
   }
   // meilleur rendement ducats
   const duc = items.filter(i => i.ducatsPerPlat).sort((a, b) => b.ducatsPerPlat - a.ducatsPerPlat)[0];

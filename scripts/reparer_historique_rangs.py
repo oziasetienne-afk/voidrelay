@@ -60,7 +60,7 @@ def main():
     sec = "--dry" in sys.argv
     marche = lire("market.json")
     hist = lire("market_history.json")
-    ranges = {it["slug"]: it["rang"] for it in marche.get("items", []) if "rang" in it}
+    ranges = {it["slug"]: it["rang"] for it in marche.get("items", []) if it.get("rang") is not None}
     print("objets à rangs : %d" % len(ranges))
 
     change = 0
@@ -79,7 +79,12 @@ def main():
             if not j:
                 continue
             # Dernier relevé du jour, comme le fait le pipeline.
-            parJour[j] = {"d": j, "median": round(b["median"], 1),
+            # r : depuis le 20/10/2026, un point d'objet à rangs sans r est retiré
+            # par le pipeline. ATTENTION : ces points sont des ÉCHANGES conclus
+            # (min_price), le pipeline écrit des ORDRES de vente en jeu ; un
+            # change24h à cheval sur les deux compare deux mesures voisines, pas
+            # identiques. Ne relancer qu'en connaissance de cause.
+            parJour[j] = {"d": j, "median": round(b["median"], 1), "r": rang,
                           "min": round(b.get("min_price") or b["median"], 1)}
         serie = [parJour[j] for j in sorted(parJour)][-90:]
         if not serie:

@@ -13,10 +13,17 @@
     // map slug->item pour enrichir les movers
     const bySlug={}; items.forEach(i=>bySlug[i.slug]=i);
 
+    // change24h est en PLATINE (prix plancher d'aujourd'hui moins celui de la veille,
+    // au même rang) : jusqu'au 20/10/2026 il était affiché suivi d'un « % ». Le
+    // pourcentage vient de change24hPct ; un objet sans ce chiffre n'est pas classé.
+    const pl=i=>`${i.change24h>0?"+":""}${i.change24h} PL (${i.change24hPct>0?"+":""}${i.change24hPct} %) / 24 h`;
+    const rg=i=>i.rang!=null?` · rang ${i.rang}`:"";
+    const okPct=i=>typeof i.change24hPct==="number";
+
     // 🔥 hausses
-    const up=[...items].filter(i=>i.change24h>0).sort((a,b)=>b.change24h-a.change24h)
-      .concat(movers.filter(m=>m.change24h>0&&!bySlug[m.slug]))
-      .slice(0,8).map(i=>card(i.slug,`+${i.change24h}% / 24 h`,`${i.minSellPlat||i.median||"?"} PL`));
+    const up=[...items].filter(i=>i.change24h>0&&okPct(i)).sort((a,b)=>b.change24hPct-a.change24hPct)
+      .concat(movers.filter(m=>m.change24h>0&&okPct(m)&&!bySlug[m.slug]))
+      .slice(0,8).map(i=>card(i.slug,pl(i),`${i.minSellPlat||i.median||"?"} PL${rg(i)}`));
     sec("up",up);
 
     // 💎 ducats/platine
@@ -25,8 +32,8 @@
     sec("duc",duc);
 
     // 📉 baisses (bon moment pour acheter)
-    const down=[...items].filter(i=>i.change24h<0).sort((a,b)=>a.change24h-b.change24h)
-      .slice(0,8).map(i=>card(i.slug,`${i.change24h}% / 24 h`,`${i.minSellPlat||i.median} PL`));
+    const down=[...items].filter(i=>i.change24h<0&&okPct(i)).sort((a,b)=>a.change24hPct-b.change24hPct)
+      .slice(0,8).map(i=>card(i.slug,pl(i),`${i.minSellPlat||i.median} PL${rg(i)}`));
     down.length?sec("down",down):hide("down");
 
     // 🔄 Prime Resurgence (Varzia)

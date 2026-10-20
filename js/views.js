@@ -1025,7 +1025,7 @@ async function getHistoryFile(){
   try{
     const h=await getJSON("/data/market_history.json");
     const raw=(h&&h.items)||h||{}; const items={};
-    for(const k in raw){ if(Array.isArray(raw[k])) items[k]=raw[k].map(pt=>({d:pt.d,p:(pt.p!=null?pt.p:pt.median)})); }
+    for(const k in raw){ if(Array.isArray(raw[k])) items[k]=memeRang(raw[k]).map(pt=>({d:pt.d,p:(pt.p!=null?pt.p:pt.median)})); }
     _histFile={items};
   }catch(e){_histFile={items:{}};}
   return _histFile;

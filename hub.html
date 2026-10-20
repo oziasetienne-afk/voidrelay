@@ -723,6 +723,8 @@ function spark(arr){
   const up=pts[pts.length-1]>pts[0]; const col=up?"var(--bad)":(pts[pts.length-1]<pts[0]?"var(--ok)":"var(--mut)");
   return `<svg class="spark" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-hidden="true"><polyline points="${d}" fill="none" stroke="${col}" stroke-width="1.6"/></svg>`;
 }
+// Variation sans point de référence au même rang : on le dit, on n'invente pas de 0.
+const ND=`<abbr title="non disponible" style="text-decoration:none">n.d.</abbr>`;
 function renderMarket(s){
   const host=$("#marketTable"); if(!host) return;
   const m=s.market||{items:[]};
@@ -739,15 +741,15 @@ function renderMarket(s){
     const c24=i.change24h, c7=i.change7d;
     const url="https://warframe.market/items/"+encodeURIComponent(i.slug);
     h+=`<tr class="${i.alert?'alert':''}">
-      <td><a href="${url}" target="_blank" rel="noopener noreferrer">${esc(i.slug.replace(/_/g," "))}</a>${i.alert?` <span class="sp" title="variation forte">●</span>`:''}</td>
+      <td><a href="${url}" target="_blank" rel="noopener noreferrer">${esc(i.slug.replace(/_/g," "))}</a>${i.rang!=null?` <span class="muted" title="prix et variations du rang ${i.rang}">R${i.rang}</span>`:''}${i.alert?` <span class="sp" title="variation forte">●</span>`:''}</td>
       <td class="r"><b>${i.minSellPlat??"—"}</b>p</td>
       <td class="r muted">${i.median??"—"}</td>
-      <td class="r ${c24>0?'trend up':(c24<0?'trend down':'muted')}">${c24!=null?(c24>0?'+':'')+c24:'·'}</td>
-      <td class="r ${c7>0?'trend up':(c7<0?'trend down':'muted')}">${c7!=null?(c7>0?'+':'')+c7:'·'}</td>
+      <td class="r ${c24>0?'trend up':(c24<0?'trend down':'muted')}">${c24!=null?(c24>0?'+':'')+c24:ND}</td>
+      <td class="r ${c7>0?'trend up':(c7<0?'trend down':'muted')}">${c7!=null?(c7>0?'+':'')+c7:ND}</td>
       <td class="r"><span class="trend ${tr}">${arr}</span> ${spark(i.spark)}</td>
       <td class="r muted">${i.ducatsPerPlat!=null?i.ducatsPerPlat:'—'}</td></tr>`;
   });
-  h+=`</tbody></table><div class="muted" style="margin-top:8px;font-size:11.5px">Δ = variation du prix plancher (plat). « Duc/plat » : ducats obtenus par plat dépensé (plus haut = meilleur farm de ducats).</div>`;
+  h+=`</tbody></table><div class="muted" style="margin-top:8px;font-size:11.5px">Δ = variation du prix plancher (plat), calculée au même rang que le prix (R10 = rang 10). « n.d. » = non disponible : pas encore assez de relevés à ce rang. « Duc/plat » : ducats obtenus par plat dépensé (plus haut = meilleur farm de ducats).</div>`;
   host.innerHTML=h;
 }
 

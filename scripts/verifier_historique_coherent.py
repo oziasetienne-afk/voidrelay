@@ -22,9 +22,11 @@ en attrapant un basculement de rang, qui commence à ×8.
 
     python3 scripts/verifier_historique_coherent.py
 """
+import calendar
 import json
 import os
 import sys
+import time
 
 RACINE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(RACINE, "data")
@@ -50,7 +52,9 @@ def main():
     for it in marche.get("items", []):
         slug = it.get("slug")
         med = it.get("median")
-        serie = hist.get(slug) or []
+        rang = it.get("rang")
+        serie = [p for p in hist.get(slug) or []
+                 if (p.get("r") == rang if rang is not None else "r" not in p)]
         if not med or not serie:
             continue
         der = (serie[-1] or {}).get("median")
@@ -60,6 +64,42 @@ def main():
         ecart = max(med, der) / max(0.1, min(med, der))
         if ecart >= SEUIL:
             fautifs.append((slug, der, med, ecart, it.get("rang")))
+
+    # 2) Les VARIATIONS et la sparkline d'un objet à rangs viennent de la série de
+    #    SON rang. Le 20/10/2026, Primed Flow affichait spark [28, 30, 99, 90, 90,
+    #    75, 33…] et « +65 % en 24 h » : le rang retenu basculait 0 ↔ 10 d'une
+    #    passe à l'autre et rien ne le voyait, parce que le contrôle ci-dessus ne
+    #    regarde que le DERNIER point. Un saut ×3 entre deux points voisins d'une
+    #    sparkline n'est pas un marché, c'est un changement d'objet.
+    melanges = []
+    for it in marche.get("items", []):
+        rang = it.get("rang")
+        if rang is None:
+            continue
+        sp = [v for v in (it.get("spark") or []) if isinstance(v, (int, float)) and v > 0]
+        saut = max((max(a, b) / min(a, b) for a, b in zip(sp, sp[1:])), default=1)
+        serie = [p for p in hist.get(it.get("slug")) or []
+                 if p.get("r") == rang and isinstance(p.get("min"), (int, float))]
+        motif = None
+        if saut >= SEUIL:
+            motif = "sparkline à rangs mêlés (saut ×%.1f)" % saut
+        elif it.get("change24h") is not None:
+            par_jour = {p["d"]: p["min"] for p in serie}
+            veille = None
+            if serie:
+                t = time.strptime(serie[-1]["d"], "%Y-%m-%d")
+                veille = par_jour.get(time.strftime(
+                    "%Y-%m-%d", time.gmtime(calendar.timegm(t) - 86400)))
+            if veille is None or it["change24h"] != it.get("minSellPlat") - veille:
+                motif = "change24h %s sans point de la veille au rang %s" % (it["change24h"], rang)
+        if motif:
+            melanges.append((it.get("slug"), motif))
+    if melanges:
+        print("  ✗ %d objet(s) à rangs dont les variations mélangent les rangs :" % len(melanges))
+        for slug, motif in melanges[:10]:
+            print("      %-26s %s" % (slug, motif))
+        print("    → scripts/update_warframe_data.py doit calculer sur serie_du_rang()")
+        return 1
 
     if fautifs:
         print("  ✗ %d objet(s) dont la série et le prix courant ne décrivent PAS "

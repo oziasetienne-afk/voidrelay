@@ -75,7 +75,7 @@
     if(!fk.length) return `<section class="dg-card"><h2>Tes favoris</h2><p class="dg-muted" style="margin:0">Tu ne suis aucun objet. Ajoute des favoris depuis le <a href="/marche">Marché</a> ou l'<a href="/estimateur">Estimateur</a> pour voir ici l'évolution de leurs prix.</p></section>`;
     /* market_history.json (pipeline hub, 90 j) : {slug:[{d,median,min}]} — normalisé en {d,p}.
        (L'ancien history.json et son workflow horaire ont été retirés le 16/07/2026.) */
-    let hist={}; try{const h=await(await fetch("/data/market_history.json")).json();const raw=(h&&h.items)||h||{};for(const k in raw){if(Array.isArray(raw[k]))hist[k]=raw[k].map(pt=>({d:pt.d,p:(pt.p!=null?pt.p:pt.median)}));}}catch(e){}
+    let hist={}; try{const h=await(await fetch("/data/market_history.json")).json();const raw=(h&&h.items)||h||{};for(const k in raw){if(Array.isArray(raw[k])){/* un seul rang (champ r, cf. memeRang de js/api.js) */const tg=raw[k].filter(pt=>pt.r!==undefined),sr=tg.length?tg.filter(pt=>pt.r===tg[tg.length-1].r):raw[k];hist[k]=sr.map(pt=>({d:pt.d,p:(pt.p!=null?pt.p:pt.median)}));}}}catch(e){}
     const rows=[];
     for(const n of fk){
       const slugN=favs[n].url||sl(n); let ch=change7d(hist[slugN]);

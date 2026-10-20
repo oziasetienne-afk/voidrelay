@@ -15,7 +15,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from update_warframe_data import _prix_ordres, _rang_marchand  # noqa: E402
+from update_warframe_data import _choisir_rang, _prix_ordres, _rang_marchand  # noqa: E402
 
 OK = KO = 0
 
@@ -54,14 +54,36 @@ dit(px["maxBuyPlat"] == 840 and px["high5BuyPlat"][1] == 150,
 dit(px["maxBuyPlat"] - px["minSellPlat"] == 720 and 840 - 10 == 830,
     "la fausse marge de 830 platine a disparu", "le calcul reste dans un seul rang")
 
-# Primed Flow : le prix le plus bas est un rang 1 isolé ; le marché est au rang 0.
+# Sans rang imposé (pièces de set) : le rang le plus vendu, un rang 1 isolé écarté.
 flow = ([o("sell", 35, 1)] + [o("sell", 38 + i, 0) for i in range(32)]
         + [o("sell", 200 + i, 10) for i in range(30)]
         + [o("buy", 36, 10), o("buy", 15, 0)])
 px = _prix_ordres(flow)
-dit(px["rang"] == 0, "à 32 ventes contre 30, le rang 0 l'emporte", "rang retenu : %s" % px["rang"])
+dit(px["rang"] == 0, "sans rang imposé, à 32 ventes contre 30, le rang 0 l'emporte",
+    "rang retenu : %s" % px["rang"])
 dit(px["minSellPlat"] == 38, "le rang 1 isolé ne tire pas le prix vers le bas", "38, pas 35")
 dit(px["maxBuyPlat"] == 15, "l'achat au rang 10 n'est pas comparé à une vente au rang 0")
+
+print("règle de rang (20/10/2026)")
+# Le défaut : à 32 contre 30 vendeurs, le rang « le plus vendu » basculait d'une
+# passe à l'autre (relevé réel : la série de Primed Flow alternait 28, 99, 90, 33).
+rang, regle = _choisir_rang("primed_flow", flow, ["mod", "legendary"], 10, 0)
+dit((rang, regle) == (10, "max"), "un mod Primé est TOUJOURS coté au rang max",
+    "rang %s (%s), même si le rang 0 a plus de vendeurs" % (rang, regle))
+px = _prix_ordres(flow, rang)
+dit(px["minSellPlat"] == 200 and px["maxBuyPlat"] == 36,
+    "et tout le calcul reste dans ce rang", "200 / 36")
+dit(_choisir_rang("arcane_energize", steadfast, ["arcane_enhancement"], 5, 0)[0] == 5,
+    "un arcane aussi, quel que soit le rang de la passe précédente")
+dit(_choisir_rang("primed_reach", flow, None, None, 0) == (10, "max"),
+    "fiche /v2/item indisponible : le plus haut rang vu dans les ordres",
+    "Primed Reach n'est plus coté au rang 0")
+dit(_choisir_rang("blind_rage", flow, ["mod"], 10, 10) == (10, "suivi"),
+    "autre mod : le rang précédent est suivi tant qu'il a des vendeurs", "pas de bascule 0 ↔ 10")
+dit(_choisir_rang("blind_rage", flow, ["mod"], 10, None) == (0, "plus-vendu"),
+    "sans rang précédent : le rang le plus vendu")
+dit(_choisir_rang("x_set", [o("sell", 5), o("buy", 4)], [], None, None) == (None, None),
+    "un set n'a pas de rang")
 
 print("objets sans rang")
 sets = [o("sell", 78), o("sell", 79), o("sell", 80),

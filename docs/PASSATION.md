@@ -2,7 +2,7 @@
 
 Ce fichier est le point d'entrée unique pour toute IA (Claude Code, Cowork, ou autre) qui reprend VoidRelay. Avant de coder quoi que ce soit, lis-le en entier, puis HANDOFF.md (détail technique complet, fonctionnalité par fonctionnalité) et CLAUDE.md (pièges et garde-fous du dépôt).
 
-## À faire en premier (état au 19/10/2026)
+## À faire en premier (état au 20/10/2026)
 
 **Migration du 19/10/2026 : le dépôt de travail est maintenant `oziasetienne-afk/voidrelay` (PUBLIC).** L'ancien `test` est archivé, privé, en lecture seule ; son historique n'a pas été repris (il contenait des infos personnelles). Ne rien pousser ailleurs que sur `voidrelay`.
 
@@ -14,6 +14,9 @@ Ce fichier est le point d'entrée unique pour toute IA (Claude Code, Cowork, ou 
 6. **SEO, 20/10/2026 (commit `e885ab1`)** : les 2 pages-listes `/o/` et `/en/o/` sont de nouveau indexables (exception `! X-Robots-Tag` dans `_headers`, retour dans le sitemap via `generer_pages_objets.mjs`). Les fiches `/o/xxx` restent en noindex (AdSense). Raison : elles portaient 56 % des impressions Google avant le noindex. Vérifié en ligne : `/o/` et `/en/o/` sans `x-robots-tag`, fiches toujours `noindex`, CSP/HSTS intacts.
 7. **Rapport hebdo EN objets retiré** : il aurait publié les chiffres de trafic dans le dépôt public. Les chiffres restent dans Cloudflare Web Analytics et Search Console.
 8. **Après chaque mise à jour du jeu** : `python3 scripts/maj_catalogue_wfcd.py` (+ `--rafraichir "Nom"` pour une refonte vérifiée dans les notes officielles) → `python3 scripts/maj_passifs_wiki.py` (passifs EN chiffrés, depuis le 20/10/2026) → `python3 scripts/generer_vignettes.py` → `node scripts/generer_builds.mjs` → `node scripts/maj_catalogue_objets.mjs && node scripts/generer_pages_objets.mjs` → `python3 scripts/enrichir_ressources.py` → `npm run arsenal:data` → invariants. Guide de mise à jour : copier le modèle `guides/iceblade-de-narin.html`.
+9. **PR #1 ouverte, NON fusionnée** (brouillon, branche `claude/upbeat-ritchie-rbd9bo`) : prix du marché au rang fixe. Mods Primés et arcanes au rang max, autres mods au rang suivi. Chaque point de `market_history.json` d'un objet à rangs porte `r`. Variations et alertes se calculent sur la seule série du rang (`null` = « n.d. » sinon). Champs `change24hPct` et `change7dPct` ajoutés (`/bons-plans` affichait des platines suivies de « % »). Après fusion, `change24h` des objets à rangs revient au bout d'un jour, `change7d` au bout de 7 jours : c'est normal, pas un bug. Le job « Garde-fou rendu » était rouge à cause des `<summary>` de `/ressources` (21 px) : corrigé dans la même PR.
+10. **Cadence réelle des données** : le cron en vigueur est `17 */2 * * *` (toutes les 2 h). GitHub retarde les crons : 5 passes planifiées en 29 h les 19 et 20/10, avec 3 h 46 à 6 h 46 entre deux départs. Ce retard seul ne prouve pas une panne ; le témoin reste `data/last_update.json` → `updated_utc` (plus de 8 h = à regarder, cf. CLAUDE.md).
+11. **Décision de l'admin en attente** : fusionner ou non la PR #1 (fusion = déploiement immédiat, vérifier avant).
 
 ## Historique : à faire au 28/09/2026 (dépôt `test`, avant migration)
 
@@ -51,6 +54,7 @@ Ce fichier est le point d'entrée unique pour toute IA (Claude Code, Cowork, ou 
 - **v103 (28/09/2026) — maj 44 « Iceblade of Narin » intégrée** : Narin, Citrine Prime et 5 armes dans les builds (nouveau `scripts/maj_catalogue_wfcd.py`), 55 nouveaux objets de marché, guide FR/EN de la mise à jour, notes de builds et FAQ remises à jour, Hydroid corrigé. **Reste à faire : `npm run arsenal:data` dès que api.warframestat.us connaît Narin** (le simulateur en dépend ; l'API avait du retard le 28/09).
 - **v104 (28/09/2026) — audit de couverture** : Warframes, armes, compagnons, arcanes et objets échangeables complets ; la page **Ressources passait à côté de ~115 ressources** (Ferrite, Rubedo, Cellule Orokin, Argon, Nitain, Kuva…) → 356 ressources, avec rareté, quantité, lieux et **taux de drop officiels** (`scripts/enrichir_ressources.py`, à relancer après chaque mise à jour du jeu).
 - **Historique git scanné le 27/09/2026** (1 243 commits, toutes branches) à la recherche de secrets — utile parce que le Worker quota peut rendre le dépôt public quelques heures : **aucune clé ni jeton** (GitHub, AWS, Stripe, OpenAI/Anthropic, Google, Slack, Telegram, Discord, clés privées, age), **aucun `.env` jamais commité** ; seul `tiktok-bot/.env.example` contient un modèle vide (`sk-...`). Le scanner a été vérifié sur une fausse clé avant de conclure.
+- 20/10/2026 : la ligne « 1×/jour à 05:17 UTC » ci-dessus n'est plus valable. Le cron en vigueur est `17 */2 * * *` (toutes les 2 h), voir le bloc « À faire en premier ».
 - Issue #24 (le "CERVEAU" GitHub) est restée figée au 22/09 malgré tout ce travail — ce fichier PASSATION.md la remplace comme source de vérité à jour ; l'issue #24 garde son rôle d'historique/contexte réduit pour l'exposition publique.
 
 ## Décisions en attente de l'admin
