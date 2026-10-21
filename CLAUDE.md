@@ -13,7 +13,7 @@ bash scripts/verifier_invariants.sh     # ~25 s — à passer AVANT chaque push
 Elle enchaîne l'accessibilité, le SEO, la synchro, et **dix garde-fous purs** :
 `verifier_profils` · `verifier_prix_rangs{,_client}` · `verifier_prix_objet` ·
 `verifier_historique_coherent` · `verifier_api_builds` · `verifier_api_evt` · `verifier_cartes_partage` ·
-`verifier_liens_internes` · `verifier_sync` · `verifier_garde_perso` · le gabarit des pages générées.
+`verifier_liens_internes` · `verifier_site_publie` · `verifier_sync` · `verifier_garde_perso` · le gabarit des pages générées.
 
 Chacun a été **mis en échec sur un vrai défaut** avant d'être branché. Si l'un d'eux
 rougit, il a probablement raison : lis son message avant de le contourner.
@@ -100,6 +100,13 @@ poussé est lisible par tout le monde, pour toujours.
 Le vrai témoin d'une mise à jour bloquée reste `data/last_update.json` → `updated_utc` :
 plus de 8 h = mise à jour bloquée. (Le cron demande 2 h, mais GitHub retarde les crons :
 mesuré le 19–20/10/2026, 5 passes en 29 h, écarts de 3 h 46 à 6 h 46 entre deux départs.)
+
+### 6ter. Le site publié = `_site/`, par liste blanche (21/10/2026)
+Le déploiement publiait le dépôt entier (`/CLAUDE.md`, `/docs/`, `/scripts/` répondaient
+200 sur voidrelay.fr). Désormais `scripts/construire_site.sh` copie une **liste blanche**
+(dossiers + extensions web) dans `_site/`, et seul ce dossier part. **Un nouveau dossier
+ou fichier racine du site doit y être ajouté**, sinon il n'est pas publié —
+`verifier_site_publie.mjs` (dans les invariants) le dit, et refuse tout fichier interne.
 
 ### 6. La liste blanche de synchro
 `js/sync.js` : **ne jamais y ajouter `wmuser` ni `wfproxy`.** Ce sont un compte
