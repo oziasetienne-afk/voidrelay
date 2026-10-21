@@ -14,6 +14,8 @@ import { fileURLToPath } from "node:url";
 import { execSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { GUIDES, GUIDES_EN, GUIDES_FAITS_MAIN, GUIDES_FAITS_MAIN_EN } from "./guides_content.mjs";
+// Noms FR officiels des mods et arcanes (WFCD i18n) pour les pages FR — voir lib_noms_fr.mjs.
+import { nomFr, nomBilingue, franciserProse, rapportFrancisation } from "./lib_noms_fr.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const SITE = "https://voidrelay.fr";
@@ -371,6 +373,21 @@ function related(it) {
   return out;
 }
 
+/* Pages FR (21/10/2026) : le nom français officiel (catalogue WFCD) s'affiche en titre, le nom
+   anglais — celui de warframe.market, de l'URL, du <title> et des données structurées — reste
+   en petit dessous. <title>, description, URL, FAQ et fil d'Ariane ne changent pas : la fiche
+   reste trouvable par le nom du marché ; le nom FR est ajouté en `alternateName` (schema.org).
+   Sans nom FR dans le catalogue, rien ne change sur la page. */
+const CSS_NOMS_FR_FICHE = `<style>.objhead h1 .en,.rel .t .en{display:block;font-size:.62em;font-weight:400;color:var(--muted,#8294ab)}</style>
+`;
+const CSS_NOMS_FR_LISTE = `.idxlinks a .en{font-size:.78em;color:var(--muted,#8294ab);margin-left:.1em}`;
+// Tri des listes FR sur le nom AFFICHÉ (français s'il existe) : « Vitalité Améliorée » se range
+// à V, pas à E comme « Enhanced Vitality ».
+// Seuls les mods et arcanes ont vocation à être dans le catalogue FR : les pièces Prime, reliques,
+// etc. ne sont pas comptées comme « sans nom FR » dans le rapport de génération.
+const estModOuArcane = tags => (tags || []).includes("mod") || (tags || []).includes("arcane_enhancement");
+const nomAffiche = it => nomFr(it.name, false) || it.name;
+const triFr = (a, b) => nomAffiche(a).localeCompare(nomAffiche(b), "fr");
 function itemPage(it) {
   const name = it.name, slug = it.slug, tl = typeLabel(it.tags), url = `${SITE}/o/${slug}`;
   const title = `Prix de ${name} — Warframe : platine & ducats | VoidRelay`;
@@ -392,7 +409,7 @@ function itemPage(it) {
   const intro = `Le prix ${de}${name} s’affiche en direct ci-dessus (médiane, vente la plus basse, tendance), mis à jour en continu sur Warframe Market. ` + describe(name, it.tags);
   const badges = [tl, rarityFr(it.tags), eraName(it.tags) && ("Relique " + eraName(it.tags)), it.tags.includes("prime") && !tl.includes("Prime") && "Prime"].filter(Boolean);
   const ld = [
-    { "@context": "https://schema.org", "@type": "Thing", name, ...(imgAbs ? { image: imgAbs } : {}), category: tl, url, sameAs: `https://warframe.market/items/${slug}`, description: intro, brand: { "@type": "Brand", name: "Warframe" } },
+    { "@context": "https://schema.org", "@type": "Thing", name, ...(nomFr(name, false) ? { alternateName: nomFr(name, false) } : {}), ...(imgAbs ? { image: imgAbs } : {}), category: tl, url, sameAs: `https://warframe.market/items/${slug}`, description: intro, brand: { "@type": "Brand", name: "Warframe" } },
     { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [
       { "@type": "ListItem", position: 1, name: "Accueil", item: SITE + "/" },
       { "@type": "ListItem", position: 2, name: "Objets", item: SITE + "/o/" },
@@ -428,11 +445,11 @@ ${ADS_SNIPPET}
 <meta property="og:title" content="${esc("Prix de " + name + " — Warframe")}"><meta property="og:description" content="${esc(desc)}"><meta property="og:url" content="${url}">${imgAbs ? `<meta property="og:image" content="${esc(imgAbs)}">` : ""}
 <meta name="twitter:card" content="summary"><meta name="twitter:title" content="${esc("Prix de " + name + " — Warframe")}"><meta name="twitter:description" content="${esc(desc)}">${imgAbs ? `<meta name="twitter:image" content="${esc(imgAbs)}">` : ""}
 <script type="application/ld+json">${jstr(ld)}</script>
-</head><body>
+${(nomFr(name, false) || rel.some(r => nomFr(r.name, false))) ? CSS_NOMS_FR_FICHE : ""}</head><body>
 ${header()}
 <main id="objet" data-slug="${esc(slug)}" class="wrap">
 <nav class="bc" aria-label="fil d'Ariane"><a href="/">Accueil</a> › <a href="/o/">Objets</a> › <span>${esc(name)}</span></nav>
-<div class="objhead">${img ? `<img class="objimg" src="${esc(img)}" alt="${esc(name)}" width="96" height="96" loading="lazy" onerror="this.onerror=null;this.src='/assets/objets/_unknown.png'">` : ""}<div><h1>${esc(name)} — prix Warframe en direct</h1><p class="sub">${esc(tl)} · prix du platine sur Warframe Market, mis à jour en continu.</p></div></div>
+<div class="objhead">${img ? `<img class="objimg" src="${esc(img)}" alt="${esc(name)}" width="96" height="96" loading="lazy" onerror="this.onerror=null;this.src='/assets/objets/_unknown.png'">` : ""}<div><h1>${nomBilingue(name, { suivre: estModOuArcane(it.tags) })} — prix Warframe en direct</h1><p class="sub">${esc(tl)} · prix du platine sur Warframe Market, mis à jour en continu.</p></div></div>
 <div class="objbadges">${badges.map(b => `<span class="badge">${esc(b)}</span>`).join("")}</div>
 <p class="objdesc">${esc(intro)}</p>
 <section class="card pad" id="px-wrap" aria-live="polite">
@@ -448,7 +465,7 @@ ${it.tags.includes("set") ? `<section class="card pad" id="set-compare" style="m
 ${shareBar(true)}
 ${razerCta()}
 ${faqHtml}
-<section><h2>Objets similaires</h2><div class="grid cols-auto rel">${rel.map(r => `<a class="card tile" href="/o/${esc(r.slug)}"><div class="t">${esc(r.name)}</div><div class="d muted">${esc(typeLabel(r.tags))}</div></a>`).join("")}</div></section>
+<section><h2>Objets similaires</h2><div class="grid cols-auto rel">${rel.map(r => `<a class="card tile" href="/o/${esc(r.slug)}"><div class="t">${nomBilingue(r.name, { suivre: false })}</div><div class="d muted">${esc(typeLabel(r.tags))}</div></a>`).join("")}</div></section>
 <p class="muted"><a href="/o/">← Tous les objets Warframe</a>${(bl => bl ? ` · <a href="/builds/${bl.slug}">⚙️ Build ${esc(bl.base)}</a>` : "")(buildSlugFor(name))}${objGuideLinks(name, "fr")} · <a href="/hub">Tableau de bord live</a> · <a href="/faq">FAQ</a>${hasEn ? ` · <a href="${enUrl}">English version</a>` : ""}</p>
 </main>
 ${footer()}
@@ -535,10 +552,10 @@ function indexPage() {
   const groups = [...byGroup.entries()].sort((a, b) => b[1].length - a[1].length);
   const total = cat.length;
   const sections = groups.map(([g, arr]) => {
-    const links = arr.slice().sort((a, b) => a.name.localeCompare(b.name)).map(it => {
+    const links = arr.slice().sort(triFr).map(it => {
       const im = localImg(it.slug) || it.img || "";
       const icon = im ? `<img src="${esc(im)}" alt="" width="28" height="28" loading="lazy" onerror="this.onerror=null;this.src='/assets/objets/_unknown.png'">` : "";
-      return `<a href="/o/${esc(it.slug)}">${icon}${esc(it.name)}</a>`;
+      return `<a href="/o/${esc(it.slug)}">${icon}${nomBilingue(it.name, { suivre: estModOuArcane(it.tags) })}</a>`;
     }).join("");
     return `<section class="idxgrp"><h2><a href="/o/c/${slugify(g)}">${esc(g)}</a> <span class="muted">(${arr.length})</span></h2><div class="idxlinks">${links}</div></section>`;
   }).join("");
@@ -560,7 +577,7 @@ ${ADS_SNIPPET}
 <link rel="icon" href="${FAVICON}"><link rel="stylesheet" href="/css/style.css"><link rel="sitemap" type="application/xml" href="/sitemap.xml">
 <meta property="og:type" content="website"><meta property="og:site_name" content="VoidRelay"><meta property="og:title" content="Prix des objets Warframe — ${total} objets"><meta property="og:url" content="${SITE}/o/">
 <script type="application/ld+json">${jstr(ld)}</script>
-<style>.idxlinks{display:flex;flex-wrap:wrap;gap:.5rem .8rem}.idxlinks a{font-size:.9rem;display:inline-flex;align-items:center;gap:.4rem;padding:.25rem .5rem .25rem .25rem;border-radius:8px;background:var(--surface-2);border:1px solid var(--line);color:var(--gold-2)}.idxlinks a:hover{border-color:var(--line-2)}.idxlinks img{width:28px;height:28px;object-fit:contain;border-radius:5px;background:var(--bg2);flex:none}.idxgrp{margin:1.4rem 0}#oq{width:100%;max-width:480px;padding:.6rem .8rem;margin:.5rem 0 1rem;border-radius:10px;border:1px solid var(--line);background:var(--bg2);color:inherit}</style>
+<style>${CSS_NOMS_FR_LISTE}.idxlinks{display:flex;flex-wrap:wrap;gap:.5rem .8rem}.idxlinks a{font-size:.9rem;display:inline-flex;align-items:center;gap:.4rem;padding:.25rem .5rem .25rem .25rem;border-radius:8px;background:var(--surface-2);border:1px solid var(--line);color:var(--gold-2)}.idxlinks a:hover{border-color:var(--line-2)}.idxlinks img{width:28px;height:28px;object-fit:contain;border-radius:5px;background:var(--bg2);flex:none}.idxgrp{margin:1.4rem 0}#oq{width:100%;max-width:480px;padding:.6rem .8rem;margin:.5rem 0 1rem;border-radius:10px;border:1px solid var(--line);background:var(--bg2);color:inherit}</style>
 </head><body>
 ${header()}
 <main class="wrap">
@@ -729,6 +746,10 @@ function buildChipsHtml(html, lang) {
 
 function guidePage(g) {
   const url = `${SITE}/guides/${g.slug}`;
+  // Noms de mods/arcanes francisés dans le corps (anglais en infobulle) ; le style ne part
+  // que si au moins un nom a été remplacé, pour laisser les autres guides intacts.
+  const corps = franciserProse(g.body);
+  const styleNoms = corps !== g.body ? `<style>.article .nmfr{border-bottom:1px dotted currentColor;cursor:help}</style>\n` : "";
   const ld = [
     { "@context": "https://schema.org", "@type": "Article", headline: g.h1, description: g.desc, url, author: { "@type": "Organization", name: "VoidRelay" }, publisher: { "@id": SITE + "/#org" }, mainEntityOfPage: url, inLanguage: "fr" },
     { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [
@@ -750,13 +771,13 @@ ${ADS_SNIPPET}
 ${g.banner ? `<meta property="og:image" content="${SITE}${esc(g.banner).replace(/\.webp$/, ".jpg")}">\n` : ""}<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${esc(g.h1)}"><meta name="twitter:description" content="${esc(g.desc)}">${g.banner ? `<meta name="twitter:image" content="${SITE}${esc(g.banner).replace(/\.webp$/, ".jpg")}">` : ""}
 <script type="application/ld+json">${jstr(ld)}</script>
 ${FONTS_SNIPPET}
-</head><body>
+${styleNoms}</head><body>
 ${siteHeader()}
 <main class="wrap article">
 <nav class="bc"><a href="/">Accueil</a> › <a href="/guides/">Guides</a> › <span>${esc(g.h1)}</span></nav>
 ${g.banner ? `<img class="guide-banner" loading="lazy" alt="" src="${esc(g.banner)}">
 ` : ""}<h1>${esc(g.h1)}</h1>
-${g.body}
+${corps}
 ${buildChipsHtml(g.body, "fr")}
 ${shareBar(false)}
 <p class="muted"><a href="/guides/">← Tous les guides</a> · <a href="/hub">Tableau de bord</a> · <a href="/o/">Prix des objets</a> · <a href="/bons-plans">Bons plans</a></p>
@@ -928,10 +949,10 @@ const CAT_INTRO = {
 };
 function categoryPage(g, arr) {
   const total = arr.length, url = `${SITE}/o/c/${slugify(g)}`;
-  const links = arr.slice().sort((a, b) => a.name.localeCompare(b.name)).map(it => {
+  const links = arr.slice().sort(triFr).map(it => {
     const im = localImg(it.slug) || it.img || "";
     const icon = im ? `<img src="${esc(im)}" alt="" width="28" height="28" loading="lazy" onerror="this.onerror=null;this.src='/assets/objets/_unknown.png'">` : "";
-    return `<a href="/o/${esc(it.slug)}">${icon}${esc(it.name)}</a>`;
+    return `<a href="/o/${esc(it.slug)}">${icon}${nomBilingue(it.name, { suivre: estModOuArcane(it.tags) })}</a>`;
   }).join("");
   const intro = CAT_INTRO[g] || `Objets de la catégorie ${g} avec leur prix en platine en direct.`;
   const ld = [
@@ -952,7 +973,7 @@ ${ADS_SNIPPET}
 <link rel="icon" href="${FAVICON}"><link rel="stylesheet" href="/css/style.css"><link rel="sitemap" type="application/xml" href="/sitemap.xml">
 <meta property="og:type" content="website"><meta property="og:site_name" content="VoidRelay"><meta property="og:title" content="${esc(g)} Warframe — prix platine"><meta property="og:url" content="${url}">
 <script type="application/ld+json">${jstr(ld)}</script>
-<style>.idxlinks{display:flex;flex-wrap:wrap;gap:.5rem .8rem}.idxlinks a{font-size:.9rem;display:inline-flex;align-items:center;gap:.4rem;padding:.25rem .5rem .25rem .25rem;border-radius:8px;background:var(--surface-2);border:1px solid var(--line);color:var(--gold-2)}.idxlinks a:hover{border-color:var(--line-2)}.idxlinks img{width:28px;height:28px;object-fit:contain;border-radius:5px;background:var(--bg2);flex:none}#oq{width:100%;max-width:480px;padding:.6rem .8rem;margin:.5rem 0 1rem;border-radius:10px;border:1px solid var(--line);background:var(--bg2);color:inherit}</style>
+<style>${CSS_NOMS_FR_LISTE}.idxlinks{display:flex;flex-wrap:wrap;gap:.5rem .8rem}.idxlinks a{font-size:.9rem;display:inline-flex;align-items:center;gap:.4rem;padding:.25rem .5rem .25rem .25rem;border-radius:8px;background:var(--surface-2);border:1px solid var(--line);color:var(--gold-2)}.idxlinks a:hover{border-color:var(--line-2)}.idxlinks img{width:28px;height:28px;object-fit:contain;border-radius:5px;background:var(--bg2);flex:none}#oq{width:100%;max-width:480px;padding:.6rem .8rem;margin:.5rem 0 1rem;border-radius:10px;border:1px solid var(--line);background:var(--bg2);color:inherit}</style>
 </head><body>
 ${header()}
 <main class="wrap">
@@ -1256,6 +1277,7 @@ if (VERIFIER) {
     console.error("   → Répercute le changement dans le gabarit, puis régénère (node scripts/generer_pages_objets.mjs --force).");
     process.exit(1);
   }
+  rapportFrancisation("pages objets + guides FR");
   console.log(`✅ ${plannedFiles.length} fichiers générés sont conformes au gabarit.`);
   process.exit(0);
 }
@@ -1295,4 +1317,5 @@ assertNoneMissing(GDIR_EN, guidesEnBefore, "guide EN (en/guides/)");
 // désormais fidèlement le disque — sert de référence au prochain run pour détecter une dérive.
 saveManifest(plannedFiles);
 
+rapportFrancisation("pages objets + guides FR");
 console.log(`✅ ${n} pages objet + ${nc} catégories + ${GUIDES.length} guides + index + sitemap générés (+ ${enSelectedItems.length} pages objet EN)`);

@@ -29,6 +29,7 @@ import { fileURLToPath } from "node:url";
 import { EFFECTS_EN, FRAME_TIERS_EN, WEAPON_RULES_EN, TYPE_NOTE_EN, COMP_RULES_EN, SHARD_EN, UI_EN } from "./builds_i18n_en.mjs";
 import { GUIDES, GUIDES_EN, GUIDES_FAITS_MAIN } from "./guides_content.mjs";
 import { avecFilArianeDeclare } from "./lib_fil_ariane.mjs";
+import { nomFr, nomBilingue, franciserProse, rapportFrancisation } from "./lib_noms_fr.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const SITE = "https://voidrelay.fr";
@@ -459,7 +460,7 @@ const GLAXION_NOTE = {
 for (const s of ["boar", "boar-prime", "strun", "strun-wraith", "strun-prime", "mk1-strun"]) SLUG_NOTES[s] = RIVEN_SHOTGUN_NOTE;
 for (const s of ["glaxion", "glaxion-vandal"]) SLUG_NOTES[s] = GLAXION_NOTE;
 SLUG_NOTES["tenet-glaxion"] = {
-  fr: `${GLAXION_NOTE.fr} Depuis l'ajout de l'arcane <b>Affaiblissement</b> (Primary Debilitate), le Tenet Glaxion est devenu l'une des meilleures armes principales du jeu (<a href="https://www.youtube.com/watch?v=XeIHvnsM5s4" target="_blank" rel="noopener">testé en live par Pandaahh</a>) : dès qu'un élément combiné (Viral, Radiation, Magnétique…) atteint 10 cumuls sur une cible, l'arcane ajoute des cumuls d'un de ses éléments composants qui infligent des dégâts sur la durée — de quoi tenir un level cap entier sans aucun buffer de dégâts, juste avec les crits gagnés en plus. Combo testé avec Nyx (sans son 4) + Helminth <b>Prime explosive de Nova</b> ou <b>Murmure de Xata</b>, et une arme de mêlée qui maintient l'<a href="/arcanes/">arcane Tonnerre de Feu</a> à son cumul max.`,
+  fr: `${GLAXION_NOTE.fr} Depuis l'ajout de l'arcane <b>Primary Debilitate</b>, le Tenet Glaxion est devenu l'une des meilleures armes principales du jeu (<a href="https://www.youtube.com/watch?v=XeIHvnsM5s4" target="_blank" rel="noopener">testé en live par Pandaahh</a>) : dès qu'un élément combiné (Viral, Radiation, Magnétique…) atteint 10 cumuls sur une cible, l'arcane ajoute des cumuls d'un de ses éléments composants qui infligent des dégâts sur la durée — de quoi tenir un level cap entier sans aucun buffer de dégâts, juste avec les crits gagnés en plus. Combo testé avec Nyx (sans son 4) + Helminth <b>Prime explosive de Nova</b> ou <b>Murmure de Xata</b>, et une arme de mêlée qui maintient l'<a href="/arcanes/">arcane Tonnerre de Feu</a> à son cumul max.`,
   en: `${GLAXION_NOTE.en} Since the addition of the <b>Primary Debilitate</b> arcane, the Tenet Glaxion has become one of the game's best primaries (live-tested by Pandaahh): once a combined element (Viral, Radiation, Magnetic…) reaches 10 stacks on a target, the arcane adds stacks of one of its component elements that deal damage over time — enough to hold an entire level cap with no damage buffer at all, just the extra crits it grants. Combo tested with Nyx (skipping her 4) + Helminth <b>Nova's Molecular Prime</b> or <b>Xata's Whisper</b>, and a melee weapon that keeps the <a href="/arcanes/">Hot Shot arcane</a> (French) at max stacks.`,
 };
 const SLUG_NOTES_SUITE = {
@@ -799,13 +800,19 @@ function shardPlan(f) {
 }
 
 /* ---------- rendu ---------- */
+/* Pages FR (21/10/2026) : nom français officiel du catalogue WFCD en titre de carte, nom
+   anglais en petit dessous — le joueur francophone lit sa langue et garde le nom à taper sur
+   warframe.market. Sans traduction (lib_noms_fr), la carte reste en anglais, rien n'est inventé.
+   Les règles, SIM_MAP et les pages EN continuent de parler en anglais : seul l'affichage change. */
 function modCard(name) {
   const m = MODS[name];
+  const fr = nomFr(name);
+  const libelle = fr ? `${fr} (${name})` : name; // infobulle + alt : les deux noms
   const fx = EFFECTS[name] ? `<span class="fx">${esc(EFFECTS[name])}</span>` : "";
   if (m) {
-    return `<div class="modc" title="${esc(name)}"><img loading="lazy" src="${vignette(`/assets/wfimg/${m.img}`)}" alt="${esc(name)}" width="120" height="120"><span class="pol">${POL[m.pol]}</span><span class="rk">${m.rk}</span><span class="nm">${esc(name)}</span>${fx}</div>`;
+    return `<div class="modc" title="${esc(libelle)}"><img loading="lazy" src="${vignette(`/assets/wfimg/${m.img}`)}" alt="${esc(libelle)}" width="120" height="120"><span class="pol">${POL[m.pol]}</span><span class="rk">${m.rk}</span><span class="nm">${nomBilingue(name)}</span>${fx}</div>`;
   }
-  return `<div class="modc modc-txt" title="${esc(name)}"><span class="pol">${POL.V}</span><span class="nm">${esc(name)}</span>${fx}</div>`;
+  return `<div class="modc modc-txt" title="${esc(libelle)}"><span class="pol">${POL.V}</span><span class="nm">${nomBilingue(name)}</span>${fx}</div>`;
 }
 
 /* Griffes des Bêtes (37.0) : Maul et Bite sont des mods de cette arme, pas du compagnon
@@ -828,11 +835,14 @@ function bulle(tier, opts) {
   const auraHtml = aura ? `<div class="pollabel" style="margin:0 0 6px">Aura</div>${modCard(aura)}` : "";
   const exiHtml = exilus ? `<div class="pollabel" style="margin:10px 0 6px">Exilus</div>${modCard(exilus)}` : "";
   const side = (auraHtml || exiHtml) ? `<div>${auraHtml}${exiHtml}</div>` : "";
+  // Arcanes : « Arcane Grâce Arcane Grace (ou Mue Augmentée Molt Augmented) » — l'anglais
+  // reste visible (pas en infobulle) parce que c'est lui qu'on tape sur warframe.market.
   const arcHtml = arcanes && arcanes.length
-    ? `<h4 class="btier-sub">Arcanes</h4><div class="abilities">${arcanes.map(a => `<div class="modslot"><span class="pol"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="5" fill="none" stroke="#e2c873" stroke-width="2"/></svg></span><span><b>${esc(a)}</b></span></div>`).join("")}</div>` : "";
+    ? `<h4 class="btier-sub">Arcanes</h4><div class="abilities">${arcanes.map(a => `<div class="modslot"><span class="pol"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="5" fill="none" stroke="#e2c873" stroke-width="2"/></svg></span><span><b>${franciserProse(esc(a), { visible: true })}</b></span></div>`).join("")}</div>` : "";
   const shHtml = shards
     ? `<h4 class="btier-sub">Fragments d'Archon — 5 emplacements (profil : ${esc(shards.profil)})</h4><ol class="shardlist">${shards.slots.map(s => `<li>${esc(s)}</li>`).join("")}</ol><p class="modnote">${esc(shards.alt)}</p>` : "";
-  return `<section class="panel btier"><h3>${tier.t}</h3><p class="btier-cost">${esc(tier.cost || cost)}</p>${side ? `<div class="bcols" style="grid-template-columns:1fr 3fr;align-items:start;margin:10px 0 6px">${side}<div><div class="pollabel" style="margin-bottom:6px">Mods principaux</div><div class="modg">${mods.map(modCard).join("")}</div></div></div>` : `<div class="modg" style="margin:10px 0 6px">${mods.map(modCard).join("")}</div>`}<p class="bodytext btier-note">${note}</p>${clawBlock(claws, "Griffes (arme de la bête, depuis la 37.0)", modCard)}${arcHtml}${shHtml}${simHtml}</section>`;
+  // Dans la prose de la note, l'anglais passe en infobulle (title) pour ne pas alourdir la phrase.
+  return `<section class="panel btier"><h3>${tier.t}</h3><p class="btier-cost">${esc(tier.cost || cost)}</p>${side ? `<div class="bcols" style="grid-template-columns:1fr 3fr;align-items:start;margin:10px 0 6px">${side}<div><div class="pollabel" style="margin-bottom:6px">Mods principaux</div><div class="modg">${mods.map(modCard).join("")}</div></div></div>` : `<div class="modg" style="margin:10px 0 6px">${mods.map(modCard).join("")}</div>`}<p class="bodytext btier-note">${franciserProse(note)}</p>${clawBlock(claws, "Griffes (arme de la bête, depuis la 37.0)", modCard)}${arcHtml}${shHtml}${simHtml}</section>`;
 }
 
 const EXTRA_CSS = `<style>
@@ -886,6 +896,13 @@ function vignette(img) {
   return v !== img && fs.existsSync(path.join(ROOT, v.slice(1))) ? v : img;
 }
 
+/* Pages FR seulement (les pages EN restent octet pour octet identiques) : nom anglais en petit
+   sous le nom français des cartes, et pointillé sous les noms francisés de la prose (infobulle). */
+const CSS_NOMS_FR = `<style>
+.btier .modc .nm .en{display:block;margin-top:2px;font:400 .66rem/1.2 Inter,sans-serif;color:#8294ab;text-transform:none;letter-spacing:0}
+.modslot .nmfr .en{font-weight:400;font-size:.8em;color:var(--muted);margin-left:.15em}
+.btier-note .nmfr,.modnote .nmfr,.bodytext .nmfr{border-bottom:1px dotted currentColor;cursor:help;text-decoration:none}
+</style>`;
 function head(title, desc, canonical, lang = "fr", hreflangHtml = "", ogImage = "") {
   return `<!DOCTYPE html><html lang="${lang}"><head><script>(function(){try{var t=localStorage.getItem("vr-theme")||"dark";document.documentElement.setAttribute("data-theme",t)}catch(e){document.documentElement.setAttribute("data-theme","dark")}})();</script>
 ${MARKER}
@@ -900,7 +917,7 @@ ${MARKER}
 ${ogImage ? `<meta property="og:image" content="${SITE}${ogImage}"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="${SITE}${ogImage}">` : ""}<script type="application/ld+json">${JSON.stringify({ "@context": "https://schema.org", "@type": "Article", headline: title, description: desc, url: canonical, author: { "@type": "Organization", name: "VoidRelay" }, publisher: { "@id": SITE + "/#org" }, inLanguage: lang, ...(ogImage ? { image: SITE + ogImage } : {}) })}</script>
 <!-- display=optional (PAS swap) : anti-CLS mesuré 10/07/2026 — voir builds/mesa.html. -->
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Oswald:wght@400;500;600;700&display=optional" rel="stylesheet">
-${EXTRA_CSS}</head><body>`;
+${EXTRA_CSS}${lang === "fr" ? CSS_NOMS_FR : ""}</head><body>`;
 }
 
 const TOPBAR = `<div class="topwrap"><header class="topbar"><a href="/" class="brand"><span class="logo">◆</span> VoidRelay</a><div class="search"><span>🔎</span><input type="search" id="vr-search" class="vr-search-input" placeholder="Rechercher un objet, un build…" aria-label="Rechercher un objet Warframe" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="vr-search-results" aria-autocomplete="list"><kbd>K</kbd><div class="vr-search-results" id="vr-search-results" role="listbox" aria-label="Résultats de recherche" hidden></div></div><nav class="topnav"><div class="topnav-search"><input type="search" id="vr-search-m" class="vr-search-input" placeholder="Rechercher un objet…" aria-label="Rechercher un objet Warframe" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="vr-search-results-m" aria-autocomplete="list"><div class="vr-search-results" id="vr-search-results-m" role="listbox" aria-label="Résultats de recherche" hidden></div></div><a href="/">Accueil</a><a href="/voie-du-platine/">La Voie du Platine</a><a href="/builds/" class="cur">Builds</a><a href="/warframes/">Warframes</a><a href="/armes/">Armes</a><a href="/compagnons/">Compagnons</a><a href="/ressources/">Ressources</a><a href="/arcanes/">Arcanes</a><a href="/guides/">Guides</a><a href="/skins/">Skins</a><a href="/o/">Objets</a><a href="/hub">Tableau de bord</a><a href="/outils">Outils</a><a href="/faq">FAQ</a></nav><button class="navburger" id="navburger" type="button" aria-label="Menu" aria-expanded="false">&#9776;</button>
@@ -943,7 +960,7 @@ function framePage(f) {
 <nav class="bc"><a href="/">Accueil</a> › <a href="/builds/">Builds</a> › <span>${esc(f.n)}</span></nav>
 <div class="bhero">${img ? `<img class="bhero-img" src="${vignette(img)}" alt="${esc(f.n)}" width="132" height="132" loading="eager">` : ""}<h1 class="nm">Build ${esc(f.n)}</h1><span class="btag">◈ Warframe${f.prime ? " Prime" : ""} · MR ${esc(f.mr)}</span><p class="role">${esc(f.desc || "")}</p></div>
 <div class="bcols"><div class="panel"><h3>Statistiques de base</h3>${stats}</div><div class="panel"><h3>Compétences</h3><div class="abilities" style="margin-bottom:8px">${abils}</div>${lignePassif("Passif :", PASSIF_FR.get(f.n))}</div></div>
-${slugNote(slug, "fr")}<h2 style="margin:18px 0 4px">Les 3 builds</h2>${TIERJUMP}${bulles}${DISCLAIMER}
+${franciserProse(slugNote(slug, "fr"))}<h2 style="margin:18px 0 4px">Les 3 builds</h2>${TIERJUMP}${bulles}${DISCLAIMER}
 <p class="bc" style="margin-top:14px"><a href="/builds/">← Tous les builds</a> · <a href="/warframes/">Fiche ${esc(f.n)}</a> · ${marketLink(f.n)?`<a href="${marketLink(f.n)}">💰 Prix du set ${esc(f.n)}</a>`:`<a href="/o/">Prix des objets</a>`}</p>${guidesLinkLine(f.n, "fr")}
 </main>` + FOOTER;
 }
@@ -960,7 +977,7 @@ function weaponPage(w) {
   const catFr = { Primary: "Arme principale", Secondary: "Arme secondaire", Melee: "Mêlée" }[w.c] || w.c;
   const title = `Build ${w.n} Warframe : débutant, intermédiaire, expert | VoidRelay`;
   const desc = `Build ${w.n} (${R.label}) en 3 paliers : mods accessibles pour débuter, palier intermédiaire, et build expert (Galvanized/Primed + arcane d'arme).`;
-  const typeNote = TYPE_NOTE[w.t] ? `<p class="modnote">${esc(TYPE_NOTE[w.t])}</p>` : "";
+  const typeNote = TYPE_NOTE[w.t] ? `<p class="modnote">${franciserProse(esc(TYPE_NOTE[w.t]))}</p>` : "";
   const riven = (typeof w.d === "number" && w.d > 0) ? `<tr><td>Disposition Riven</td><td>${"●".repeat(Math.max(1, Math.min(5, w.d)))}${"○".repeat(5 - Math.max(1, Math.min(5, w.d)))}</td></tr>` : "";
   const img = heroImg("weapons", w.i);
   const stats = `<table class="bstats"><tr><td>Catégorie</td><td>${esc(catFr)}</td></tr><tr><td>Type</td><td>${esc(w.t)}</td></tr><tr><td>Maîtrise requise</td><td>MR ${esc(w.mr)}</td></tr>${riven}</table>`;
@@ -973,7 +990,7 @@ function weaponPage(w) {
 <nav class="bc"><a href="/">Accueil</a> › <a href="/builds/">Builds</a> › <span>${esc(w.n)}</span></nav>
 <div class="bhero">${img ? `<img class="bhero-img" src="${vignette(img)}" alt="${esc(w.n)}" width="132" height="132" loading="eager">` : ""}<h1 class="nm">Build ${esc(w.n)}</h1><span class="btag">⚔ ${esc(R.label)} · MR ${esc(w.mr)}</span><p class="role">${esc(catFr)} — 3 paliers de mods, du premier forma au build de fou.</p></div>
 <div class="panel" style="margin:14px 0"><h3>Fiche</h3>${stats}${typeNote}</div>
-${slugNote(slug, "fr")}<h2 style="margin:18px 0 4px">Les 3 builds</h2>${TIERJUMP}${bulles}${DISCLAIMER}
+${franciserProse(slugNote(slug, "fr"))}<h2 style="margin:18px 0 4px">Les 3 builds</h2>${TIERJUMP}${bulles}${DISCLAIMER}
 <p class="bc" style="margin-top:14px"><a href="/builds/">← Tous les builds</a> · <a href="/armes/">Fiche ${esc(w.n)}</a> · ${marketLink(w.n)?`<a href="${marketLink(w.n)}">💰 Prix du set ${esc(w.n)}</a>`:`<a href="/o/">Prix des objets</a>`}</p>${guidesLinkLine(w.n, "fr")}
 </main>` + FOOTER;
 }
@@ -997,7 +1014,7 @@ function compPage(c) {
 <nav class="bc"><a href="/">Accueil</a> › <a href="/builds/">Builds</a> › <span>${esc(c.n)}</span></nav>
 <div class="bhero">${img ? `<img class="bhero-img" src="${vignette(img)}" alt="${esc(c.n)}" width="132" height="132" loading="eager">` : ""}<h1 class="nm">Build ${esc(c.n)}</h1><span class="btag">🐾 Compagnon · ${esc(c.k)}</span><p class="role">${esc(c.desc || "")}</p></div>
 <div class="panel" style="margin:14px 0"><h3>Fiche</h3>${stats}</div>
-${slugNote(slug, "fr")}<h2 style="margin:18px 0 4px">Les 3 builds</h2>${TIERJUMP}${bulles}${DISCLAIMER}
+${franciserProse(slugNote(slug, "fr"))}<h2 style="margin:18px 0 4px">Les 3 builds</h2>${TIERJUMP}${bulles}${DISCLAIMER}
 <p class="bc" style="margin-top:14px"><a href="/builds/">← Tous les builds</a> · <a href="/compagnons/">Fiche ${esc(c.n)}</a> · ${marketLink(c.n)?`<a href="${marketLink(c.n)}">💰 Prix de ${esc(c.n)}</a>`:`<a href="/o/">Prix des objets</a>`}</p>${guidesLinkLine(c.n, "fr")}
 </main>` + FOOTER;
 }
@@ -1293,6 +1310,7 @@ ecrirePage(path.join(OUT_EN, "index.html"), indexPageEN(entries));
 ecrire(path.join(ROOT, "data/arsenal_builds.json"), JSON.stringify(SIM_MAP));
 ecrire(path.join(ROOT, "data/builds_index.json"),
   JSON.stringify(entries.map(e => ({ s: e.slug, n: "Build " + e.n, ...(e.img ? { i: e.img } : {}) }))));
+rapportFrancisation("builds FR");
 if (VERIFIER) {
   if (divergents.length) {
     console.error(`💥 ${divergents.length} fichier(s) diffèrent de ce que le générateur produirait — une page de builds a été retouchée à la main, ou le gabarit a changé sans régénération :`);

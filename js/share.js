@@ -14,7 +14,11 @@
         if (net === "discord") {
           e.preventDefault();
           const price = (document.getElementById("px-median") || {}).textContent || "";
-          const name = ((document.querySelector("h1") || {}).textContent || title).replace(/\s*—.*$/, "");
+          // Fiches /o/ FR : le H1 porte le nom FR puis le nom EN en petit (<span class="en">) ; on ne
+          // copie que le nom principal, sans dupliquer l'anglais dans la ligne Discord.
+          const h1 = document.querySelector("h1"), h1c = h1 && h1.cloneNode(true);
+          if (h1c) h1c.querySelectorAll(".en").forEach(e => e.remove());
+          const name = ((h1c || {}).textContent || title).replace(/\s*—.*$/, "").trim();
           const line = price && price !== "…" ? `${name} : ${price} — ${url}` : `${name} — ${url}`;
           navigator.clipboard && navigator.clipboard.writeText(line).then(() => flash(b, "Copié ✓"));
           return;
