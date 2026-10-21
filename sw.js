@@ -1,14 +1,20 @@
 /* Service worker : coque en cache (stale-while-revalidate), données réseau d'abord. */
-const CACHE="wf-hub-v151";
+const CACHE="wf-hub-v152";
+/* Caches à NE PAS purger à l'activation : « wf-alerts » porte la configuration et
+   l'historique des alertes des joueurs (écrits par le SW lui-même, voir plus bas). */
+const GARDER=[CACHE,"wf-alerts"];
+/* Délai avant de se rabattre sur le cache pour /data/*.json (21/10/2026 : un visiteur
+   revenu après 2 jours voyait « Données du 19/10 » alors que le réseau en avait de neuves). */
+const DELAI_DONNEES=2500;
 /* items.json (~198 Ko) n'est PAS pré-caché : il est chargé à la demande (palette de
    recherche) puis mis en cache par le handler fetch ci-dessous. Évite 198 Ko forcés
    à la 1re visite. */
 const SHELL=["./","./index.html","./css/style.css","./css/pandaahh.css","./js/i18n.js","./js/data.js","./js/api.js","./js/views.js","./js/outil-page.js","./js/profil.js","./js/profil-classement.js",
-  "./data/market.json","./data/market_history.json","./manifest.webmanifest","./offline.html"];
+  "./manifest.webmanifest","./offline.html"];
 self.addEventListener("install",e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)).then(()=>self.skipWaiting()));});
 /* À l'activation : si un onglet /arsenal est DÉJÀ ouvert (1re visite — la
    navigation n'est pas passée par le SW), pré-cacher l'arsenal tout de suite. */
-self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())
+self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>!GARDER.includes(k)).map(k=>caches.delete(k)))).then(()=>self.clients.claim())
   .then(()=>self.clients.matchAll({type:"window",includeUncontrolled:true}))
   .then(cls=>{if(cls.some(c=>/\/(en\/)?arsenal$/.test(new URL(c.url).pathname))) return precacheArsenal();}));});
 /* Arsenal HORS-LIGNE (17/07/2026) : à la première visite de /arsenal (FR ou EN),
@@ -23,6 +29,29 @@ const ARSENAL=["/arsenal","/en/arsenal","/js/arsenal.js","/data/arsenal/warframe
 function precacheArsenal(){
   return caches.open(CACHE).then(c=>Promise.all(ARSENAL.map(u=>
     c.match(u).then(hit=>hit?null:c.add(u).catch(()=>null)))));
+}
+/* Réponse de repli marquée « X-VR-Cache: hors-ligne » + message aux pages (bandeau). */
+async function depuisCache(e,hit){
+  try{
+    const cl=e.clientId&&await self.clients.get(e.clientId);
+    (cl?[cl]:await self.clients.matchAll({type:"window"})).forEach(c=>c.postMessage({type:"vr-donnees-hors-ligne"}));
+  }catch(_){}
+  const h=new Headers(hit.headers); h.set("X-VR-Cache","hors-ligne");
+  return new Response(hit.body,{status:hit.status,statusText:hit.statusText,headers:h});
+}
+async function donnees(e){
+  const req=e.request;
+  // Le fetch réseau continue après le délai : il met le cache à jour pour la visite suivante.
+  const reseau=fetch(req).then(r=>{if(r.ok){const c=r.clone();caches.open(CACHE).then(x=>x.put(req,c));}return r;});
+  e.waitUntil(reseau.catch(()=>null));
+  let expire=false;
+  try{
+    const r=await Promise.race([reseau,new Promise((_,ko)=>setTimeout(()=>{expire=true;ko();},DELAI_DONNEES))]);
+    if(r.status<500) return r;
+  }catch(_){}
+  const hit=await caches.open(CACHE).then(c=>c.match(req));
+  if(hit) return depuisCache(e,hit);
+  return expire?reseau:Response.error();
 }
 self.addEventListener("fetch",e=>{
   const req=e.request; if(req.method!=="GET") return;
@@ -42,6 +71,9 @@ self.addEventListener("fetch",e=>{
   // Cross-origin (images CDN OSRS/PoE, API tierces de prix, pub) : passthrough natif,
   // le SW ne doit PAS intercepter — sinon images/fetch externes cassent.
   if(url.origin!==location.origin) return;
+  // Données (/data/*.json) : RÉSEAU D'ABORD, cache seulement si le réseau échoue ou dépasse
+  // le délai. Le stale-while-revalidate ci-dessous servait des prix vieux de 2 jours.
+  if(/^\/data\/.+\.json$/.test(url.pathname)){ e.respondWith(donnees(e)); return; }
   // Coque (même origine) : stale-while-revalidate — sert le cache TOUT DE SUITE et
   // rafraîchit en arrière-plan, donc plus jamais bloqué sur une vieille version.
   e.respondWith(caches.match(req).then(hit=>{
