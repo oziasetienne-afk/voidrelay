@@ -183,26 +183,28 @@ export const COMP_RULES_EN = {
   },
 };
 
+/* Vérifié sur wiki.warframe.com/w/Archon_Shard le 21/10/2026 : pas de « Shield Regen » sur
+   l'Azure (c'est Health/s), pas de « Violet → energy gain » lié à l'Électricité. */
 export const SHARD_EN = {
   caster: {
     profil: "Ability caster",
-    slots: ["🔴 Crimson — +Ability Strength", "🔴 Crimson — +Ability Strength", "🟡 Amber — +Casting Speed", "🔵 Azure — +Energy Max", "🔵 Azure — +Armor"],
-    alt: "Variant: swap an Azure for a 🟣 Violet (Electricity damage → energy gain) if you run Archon Stretch.",
+    slots: ["🔴 Crimson — +10% Ability Strength (+15% Tauforged)", "🔴 Crimson — +10% Ability Strength (+15% Tauforged)", "🟡 Amber — +25% Casting Speed (+37.5% Tauforged)", "🔵 Azure — +50 Energy Max (+75 Tauforged)", "🔵 Azure — +150 Armor (+225 Tauforged)"],
+    alt: "Variant: a 🟣 Violet instead of one Azure if your abilities or weapon already apply Electricity status: +10% (+15% Tauforged) Ability Damage on those enemies. Only counts if the status is applied before the ability; no effect on Exalted Weapons.",
   },
   tank: {
     profil: "Tank / melee brawler",
-    slots: ["🔵 Azure — +Armor", "🔵 Azure — +Health", "🔴 Crimson — +Ability Duration", "🟡 Amber — +Health Orb Effectiveness", "🔴 Crimson — +Ability Strength"],
-    alt: "Variant: one 🟢 Emerald (+Corrosive damage) if you run Corrosive against armor.",
+    slots: ["🔵 Azure — +150 Armor (+225 Tauforged)", "🔵 Azure — +150 Health (+225 Tauforged)", "🔴 Crimson — +10% Ability Duration (+15% Tauforged)", "🟡 Amber — +100% Health Orb Effectiveness (+150% Tauforged)", "🔴 Crimson — +10% Ability Strength (+15% Tauforged)"],
+    alt: "Variant: one 🟢 Emerald if you run Corrosive: +10% (+15% Tauforged) Ability Damage on enemies affected by Corrosion, or +2 (+3) max Corrosion stacks.",
   },
   fast: {
     profil: "Mobile / skirmisher",
-    slots: ["🟡 Amber — +Parkour Velocity", "🔴 Crimson — +Ability Strength", "🔵 Azure — +Health", "🔵 Azure — +Shield Regen", "🔴 Crimson — +Ability Duration"],
-    alt: "Variant: double Amber (parkour + casting) for an ultra-nervous playstyle.",
+    slots: ["🟡 Amber — +15% Parkour Velocity (+22.5% Tauforged)", "🔴 Crimson — +10% Ability Strength (+15% Tauforged)", "🔵 Azure — +150 Health (+225 Tauforged)", "🔵 Azure — +150 Armor (+225 Tauforged)", "🔴 Crimson — +10% Ability Duration (+15% Tauforged)"],
+    alt: "Variant: a second Amber (Casting Speed) instead of Armor, to chain abilities faster.",
   },
   poly: {
     profil: "All-rounder",
-    slots: ["🔴 Crimson — +Ability Strength", "🔵 Azure — +Health", "🔵 Azure — +Armor", "🟡 Amber — +Energy on Spawn", "🔴 Crimson — +Ability Duration"],
-    alt: "Tauforged shards give +50%: save them for your main frame.",
+    slots: ["🔴 Crimson — +10% Ability Strength (+15% Tauforged)", "🔵 Azure — +150 Health (+225 Tauforged)", "🔵 Azure — +150 Armor (+225 Tauforged)", "🟡 Amber — +30% Max Energy filled on spawn (+45% Tauforged)", "🔴 Crimson — +10% Ability Duration (+15% Tauforged)"],
+    alt: "A Tauforged shard gives 1.5x the normal bonus: save them for your main frame.",
   },
 };
 
