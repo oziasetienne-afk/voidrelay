@@ -69,7 +69,9 @@ def main():
     #    SON rang. Le 20/10/2026, Primed Flow affichait spark [28, 30, 99, 90, 90,
     #    75, 33…] et « +65 % en 24 h » : le rang retenu basculait 0 ↔ 10 d'une
     #    passe à l'autre et rien ne le voyait, parce que le contrôle ci-dessus ne
-    #    regarde que le DERNIER point. Un saut ×3 entre deux points voisins d'une
+    #    regarde que le DERNIER point. Depuis la PR #8, change24h se calcule sur la
+    #    MÉDIANE du rang (et non plus sur le prix minimum) : on le recoupe donc
+    #    avec median − médiane de la veille au même rang. Un saut ×3 entre deux points voisins d'une
     #    sparkline n'est pas un marché, c'est un changement d'objet.
     melanges = []
     for it in marche.get("items", []):
@@ -79,18 +81,18 @@ def main():
         sp = [v for v in (it.get("spark") or []) if isinstance(v, (int, float)) and v > 0]
         saut = max((max(a, b) / min(a, b) for a, b in zip(sp, sp[1:])), default=1)
         serie = [p for p in hist.get(it.get("slug")) or []
-                 if p.get("r") == rang and isinstance(p.get("min"), (int, float))]
+                 if p.get("r") == rang and isinstance(p.get("median"), (int, float))]
         motif = None
         if saut >= SEUIL:
             motif = "sparkline à rangs mêlés (saut ×%.1f)" % saut
         elif it.get("change24h") is not None:
-            par_jour = {p["d"]: p["min"] for p in serie}
+            par_jour = {p["d"]: p["median"] for p in serie}
             veille = None
             if serie:
                 t = time.strptime(serie[-1]["d"], "%Y-%m-%d")
                 veille = par_jour.get(time.strftime(
                     "%Y-%m-%d", time.gmtime(calendar.timegm(t) - 86400)))
-            if veille is None or it["change24h"] != it.get("minSellPlat") - veille:
+            if veille is None or round(it["change24h"], 1) != round(it.get("median") - veille, 1):
                 motif = "change24h %s sans point de la veille au rang %s" % (it["change24h"], rang)
         if motif:
             melanges.append((it.get("slug"), motif))
