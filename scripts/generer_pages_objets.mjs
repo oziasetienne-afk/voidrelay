@@ -260,7 +260,7 @@ for (const it of cat) {
   byGroup.get(g).push(it);
 }
 
-const HEAD_CSP = "default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://warframe.market; font-src 'self'; connect-src 'self' https://api.warframestat.us https://cloudflareinsights.com https://voidrelay-prix.vercel.app https://api.allorigins.win https://api.codetabs.com https://api.warframe.market; form-action 'self'; frame-src 'none'; upgrade-insecure-requests";
+const HEAD_CSP = "default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://warframe.market; font-src 'self'; connect-src 'self' https://api.warframestat.us https://cloudflareinsights.com https://voidrelay-proxy.vercel.app https://api.allorigins.win https://api.codetabs.com https://api.warframe.market; form-action 'self'; frame-src 'none'; upgrade-insecure-requests";
 const FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0f14'/%3E%3Cpath d='M14 18 L32 48 L50 18' fill='none' stroke='%2339d0d8' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E";
 
 /* ============================================================================
@@ -434,7 +434,7 @@ function itemPage(it) {
 <link rel="canonical" href="${url}">${hreflangObjet}
 <meta name="robots" content="index, follow, max-image-preview:large"><meta name="author" content="VoidRelay"><meta name="theme-color" content="#0b0f14">
 <link rel="icon" href="${FAVICON}"><link rel="stylesheet" href="/css/style.css"><link rel="sitemap" type="application/xml" href="/sitemap.xml">
-<link rel="preconnect" href="https://voidrelay-prix.vercel.app"><link rel="dns-prefetch" href="https://api.warframe.market"><link rel="dns-prefetch" href="https://warframe.market">
+<link rel="preconnect" href="https://voidrelay-proxy.vercel.app"><link rel="dns-prefetch" href="https://api.warframe.market"><link rel="dns-prefetch" href="https://warframe.market">
 <meta property="og:type" content="product"><meta property="og:site_name" content="VoidRelay"><meta property="og:locale" content="fr_FR">
 <meta property="og:title" content="${esc("Prix de " + name + " — Warframe")}"><meta property="og:description" content="${esc(desc)}"><meta property="og:url" content="${url}">${imgAbs ? `<meta property="og:image" content="${esc(imgAbs)}">` : ""}
 <meta name="twitter:card" content="summary"><meta name="twitter:title" content="${esc("Prix de " + name + " — Warframe")}"><meta name="twitter:description" content="${esc(desc)}">${imgAbs ? `<meta name="twitter:image" content="${esc(imgAbs)}">` : ""}
@@ -503,7 +503,7 @@ function itemPageEn(it) {
 <link rel="canonical" href="${url}">${hl}
 <meta name="robots" content="index, follow, max-image-preview:large"><meta name="author" content="VoidRelay"><meta name="theme-color" content="#0b0f14">
 <link rel="icon" href="${FAVICON}"><link rel="stylesheet" href="/css/style.css"><link rel="sitemap" type="application/xml" href="/sitemap.xml">
-<link rel="preconnect" href="https://voidrelay-prix.vercel.app"><link rel="dns-prefetch" href="https://api.warframe.market"><link rel="dns-prefetch" href="https://warframe.market">
+<link rel="preconnect" href="https://voidrelay-proxy.vercel.app"><link rel="dns-prefetch" href="https://api.warframe.market"><link rel="dns-prefetch" href="https://warframe.market">
 <meta property="og:type" content="product"><meta property="og:site_name" content="VoidRelay"><meta property="og:locale" content="en_US">
 <meta property="og:title" content="${esc(name + " Price — Warframe")}"><meta property="og:description" content="${esc(desc)}"><meta property="og:url" content="${url}">${imgAbs ? `<meta property="og:image" content="${esc(imgAbs)}">` : ""}
 <meta name="twitter:card" content="summary"><meta name="twitter:title" content="${esc(name + " Price — Warframe")}"><meta name="twitter:description" content="${esc(desc)}">${imgAbs ? `<meta name="twitter:image" content="${esc(imgAbs)}">` : ""}

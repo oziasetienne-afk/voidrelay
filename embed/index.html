@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://warframe.market; font-src 'self'; connect-src 'self' https://voidrelay-prix.vercel.app https://api.allorigins.win https://api.codetabs.com https://api.warframe.market; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://warframe.market; font-src 'self'; connect-src 'self' https://voidrelay-proxy.vercel.app https://api.allorigins.win https://api.codetabs.com https://api.warframe.market; form-action 'self'">
 <meta name="referrer" content="strict-origin-when-cross-origin"><meta name="robots" content="noindex, follow">
 <title>VoidRelay price widget</title>
 <style>
@@ -42,7 +42,7 @@ html,body{margin:0;background:transparent}
   var gp=function(n){return n==null?"—":Number(n).toLocaleString("en-US")};
   if(game==="warframe"&&slug){
     var t="https://api.warframe.market/v1/items/"+slug+"/statistics";
-    var chain=[function(u){return "https://voidrelay-prix.vercel.app/?url="+encodeURIComponent(u)},function(u){return "https://api.allorigins.win/raw?url="+encodeURIComponent(u)},function(u){return "https://api.codetabs.com/v1/proxy/?quest="+encodeURIComponent(u)}];
+    var chain=[function(u){return "https://voidrelay-proxy.vercel.app/?url="+encodeURIComponent(u)},function(u){return "https://api.allorigins.win/raw?url="+encodeURIComponent(u)},function(u){return "https://api.codetabs.com/v1/proxy/?quest="+encodeURIComponent(u)}];
     (function tryN(i){
       if(i>=chain.length){pr.innerHTML='<a href="'+$("lnk").href+'" target="_blank" rel="noopener">View price →</a>';return;}
       fetch(chain[i](t),{headers:{Accept:"application/json"}}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
