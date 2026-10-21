@@ -948,16 +948,29 @@ function anchorize(html) {
    ceux de la Prime. Excalibur Umbra n'y figure pas : pouvoirs et polarités différents. */
 const BUILDS_SPECIFIQUES_FR = {
   "mesa-prime": { base: "mesa", nom: "Mesa", que: "que Mesa", titre: "Build Mesa Prime (Peacemaker) : débutant à Steel Path | VoidRelay",
+    aura: "V", slots: ["BAR", "BAR", "D", "V"],
     desc: "Build Mesa Prime pour le Peacemaker : mods, Valse de Mesa, arcanes, mods recommandés pour les Regulators, fragments d'Archon et Helminth. Valeurs vérifiées sur le wiki officiel." },
   "excalibur-prime": { base: "excalibur", nom: "Excalibur", que: "qu'Excalibur", titre: "Build Excalibur Prime (Lame Exaltée) : débutant à Steel Path | VoidRelay",
+    aura: "V", slots: ["D", "V", "V"],
     desc: "Build Excalibur Prime pour la Lame Exaltée : mods, arcanes, mods recommandés pour la Lame Exaltée, fragments d'Archon et Helminth. Valeurs vérifiées sur le wiki officiel." },
 };
-function blocBuildVerifieFR(base) {
+/* Polarités des Prime (wiki officiel, 21/10/2026) : la rangée « Emplacements d'origine » du bloc
+   de base est celle de la frame de BASE, fausse pour une Prime (Mesa : Naramon ×2 ; Mesa Prime :
+   Naramon ×2 + Vazarin + Madurai ; Excalibur Prime : Vazarin + Madurai ×2). Elle est la seule
+   partie du bloc reconstruite ; même HTML que la page faite main, Exilus « aucun ». */
+function rangeePolarites({ aura, slots }) {
+  const slot = k => `<span class="polslot">${POL[k]}</span>`;
+  return `<div class="polrow"><div class="polgrp"><span class="pollabel">Aura</span><span class="polslot aura">${POL[aura]}</span></div><div class="polgrp"><span class="pollabel">Exilus</span><span class="polslot"><span style="color:var(--muted);font-size:.85rem">aucun</span></span></div><div class="polgrp"><span class="pollabel">Emplacements d'origine</span>${slots.map(slot).join("")}</div></div>`;
+}
+function blocBuildVerifieFR(base, pol) {
   const h = fs.readFileSync(path.join(OUT, base + ".html"), "utf8");
   if (h.includes(MARKER)) throw new Error(`builds/${base}.html est généré : la source d'un build vérifié doit être une page faite main`);
   const a = h.indexOf('<div class="loadout">'), b = h.indexOf('<p class="bc"', a);
   if (a < 0 || b < 0) throw new Error(`builds/${base}.html : blocs « loadout » introuvables`);
-  return h.slice(a, b);
+  const bloc = h.slice(a, b);
+  const r0 = bloc.indexOf('<div class="polrow">'), r1 = bloc.indexOf('<div class="bcols"', r0);
+  if (r0 < 0 || r1 < 0) throw new Error(`builds/${base}.html : rangée de polarités « polrow » introuvable`);
+  return bloc.slice(0, r0) + rangeePolarites(pol) + bloc.slice(r1);
 }
 
 /* ---------- pages Warframes ---------- */
@@ -982,7 +995,7 @@ function framePage(f) {
 <nav class="bc"><a href="/">Accueil</a> › <a href="/builds/">Builds</a> › <span>${esc(f.n)}</span></nav>
 <div class="bhero">${img ? `<img class="bhero-img" src="${vignette(img)}" alt="${esc(f.n)}" width="132" height="132" loading="eager">` : ""}<h1 class="nm">Build ${esc(f.n)}</h1><span class="btag">◈ Warframe${f.prime ? " Prime" : ""} · MR ${esc(f.mr)}</span><p class="role">${esc(f.desc || "")}</p></div>
 <div class="bcols"><div class="panel"><h3>Statistiques de base</h3>${stats}</div><div class="panel"><h3>Compétences</h3><div class="abilities" style="margin-bottom:8px">${abils}</div>${lignePassif("Passif :", PASSIF_FR.get(f.n))}</div></div>
-${franciserProse(slugNote(slug, "fr"))}${B ? `<p class="modnote" style="margin:14px 0">Mêmes pouvoirs ${B.que} : le build est identique. <a href="/builds/${B.base}">Voir le build ${B.nom}</a>.</p>${blocBuildVerifieFR(B.base)}` : `<h2 style="margin:18px 0 4px">Les 3 builds</h2>${TIERJUMP}${bulles}${DISCLAIMER}`}
+${franciserProse(slugNote(slug, "fr"))}${B ? `<p class="modnote" style="margin:14px 0">Mêmes pouvoirs ${B.que} : le build est identique. <a href="/builds/${B.base}">Voir le build ${B.nom}</a>.</p>${blocBuildVerifieFR(B.base, B)}` : `<h2 style="margin:18px 0 4px">Les 3 builds</h2>${TIERJUMP}${bulles}${DISCLAIMER}`}
 <p class="bc" style="margin-top:14px"><a href="/builds/">← Tous les builds</a> · <a href="/warframes/">Fiche ${esc(f.n)}</a> · ${marketLink(f.n)?`<a href="${marketLink(f.n)}">💰 Prix du set ${esc(f.n)}</a>`:`<a href="/o/">Prix des objets</a>`}</p>${guidesLinkLine(f.n, "fr")}
 </main>` + FOOTER;
 }
