@@ -35,7 +35,10 @@ const CARTE = /<div class="modc( modc-txt)?" title="([^"]*)">((?:(?!<\/div>).)*)
 export function harmoniser(html) {
   return html.replace(CARTE, (tout, txt, titre, corps) => {
     /* Polarité recopiée telle quelle, enveloppe .pol ou svg nu (variante de certaines pages). */
-    const pol = (corps.match(/(?:<span class="pol">)?<svg.*?<\/svg>(?:<\/span>)?/s) || [""])[0];
+    /* Polarité : 12 pages la collaient en <svg> nu, sans l'enveloppe .pol qui la place en haut à gauche
+       (pandaahh.css) — elle n'apparaissait pas. On la ré-enveloppe toujours, une seule fois. */
+    const svg = (corps.match(/<svg.*?<\/svg>/s) || [""])[0];
+    const pol = svg && `<span class="pol">${svg}</span>`;
     const nm = corps.match(/<span class="nm">(.*?)<\/span>(?=<span class="fx">|$)/s);
     const fx = (corps.match(/<span class="fx">.*?<\/span>/s) || [""])[0];
     if (!pol || !nm) return tout;
