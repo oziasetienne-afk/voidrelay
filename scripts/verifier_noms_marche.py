@@ -15,6 +15,7 @@ Mis en échec avant branchement : « primed_fury » (hors catalogue) rougit.
 
     python3 scripts/verifier_noms_marche.py
 """
+import json
 import os
 import re
 import sys
@@ -52,9 +53,17 @@ sans_fr = [s for s in a_rang if not (noms.get(s) or {}).get("nomFr")]
 dit(not sans_fr, "%d mods et arcanes, tous nommés en français" % len(a_rang), ", ".join(sans_fr))
 dit(all((noms.get(s) or {}).get("nomFr") != s.replace("_", " ").title() for s in a_rang),
     "aucun nom français n'est la simple mise en forme du slug")
-dit((noms.get("primed_flow") or {}).get("nomFr") == "Flux Accru Prime"
+dit((noms.get("primed_flow") or {}).get("nomFr") == "Flux Accru"
     and (noms.get("arcane_energize") or {}).get("nomFr") == "Arcane Énergétique",
-    "Primed Flow → Flux Accru Prime, Arcane Energize → Arcane Énergétique")
+    "Primed Flow → Flux Accru (noms_fr.json, pas « Flux Accru Prime »), Arcane Energize → Arcane Énergétique")
+# UNE seule source FR sur le site : les noms du marché sont ceux de data/noms_fr.json.
+with open(os.path.join(DATA, "noms_fr.json"), encoding="utf-8") as fh:
+    off = json.load(fh)
+off_par_en = dict(off.get("mods") or {})
+off_par_en.update(off.get("arcanes") or {})
+divergents = [s for s in a_rang if noms[s]["nom"] in off_par_en
+              and noms[s].get("nomFr") != off_par_en[noms[s]["nom"]]]
+dit(not divergents, "aucun nom FR du marché ne diverge de data/noms_fr.json", ", ".join(divergents))
 
 print("rien n'est inventé")
 m = attacher_noms({"items": [{"slug": "objet_qui_n_existe_pas"}, {"slug": "ash_prime_set"}]}, noms)

@@ -74,7 +74,7 @@ def main():
         pg.wait_for_selector("#marketTable table", timeout=15000)
         txt = pg.text_content("#marketTable")
         ok("/hub : Arcane Energize s'appelle « Arcane Énergétique »", "Arcane Énergétique" in txt)
-        ok("/hub : Primed Flow s'appelle « Flux Accru Prime »", "Flux Accru Prime" in txt)
+        ok("/hub : Primed Flow s'appelle « Flux Accru » (noms_fr.json)", "Flux Accru" in txt and "Flux Accru Prime" not in txt)
         ok("/hub : aucun nom n'est le slug (« ash prime set »)", "ash prime set" not in txt and "arcane_energize" not in txt)
         titre = pg.get_attribute("#marketTable a[title='Arcane Energize']", "title")
         ok("/hub : le nom EN du catalogue reste en infobulle (lien warframe.market)", titre == "Arcane Energize")
@@ -109,7 +109,7 @@ def main():
         pg.click('.mk-pill[data-c="mods"]')
         pg.wait_for_timeout(300)
         txt = pg.text_content("#mkGrid")
-        ok("/marche : mods nommés en français (Flux Accru Prime, rang 10)", "Flux Accru Prime" in txt and "R10" in txt)
+        ok("/marche : mods nommés en français (Flux Accru, rang 10)", "Flux Accru" in txt and "R10" in txt)
 
         # ---- /bons-plans : classements
         pg.goto(BASE + "/bons-plans", wait_until="networkidle", timeout=30000)

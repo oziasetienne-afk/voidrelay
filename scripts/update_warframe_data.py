@@ -899,8 +899,12 @@ def noms_catalogue(data_dir):
     française) : un nom inventé par le code, pas le nom du jeu. Les noms
     existent déjà dans le dépôt, on les lit — jamais déduits du slug :
       - data/items.json   : nom EN de warframe.market (3 892 objets) ;
-      - data/arcanes.json : nom FR des arcanes (champ f, slug w) ;
-      - data/arsenal/mods.json : nom FR des mods (champ n, nom EN en `en`).
+      - data/noms_fr.json : LA source FR du site (i18n officielle WFCD, mods +
+        arcanes par nom EN ; écrit par scripts/generer_noms_fr.mjs, lu par les
+        builds, guides et fiches /o/) — « Flux Accru », pas « Flux Accru Prime » ;
+      - repli, seulement si un nom manque dans noms_fr.json : data/arcanes.json
+        (champ f) et data/arsenal/mods.json (champ n, nom EN en `en`), dont les
+        libellés des mods Primés ajoutent « Prime » (5 écarts relevés le 21/10).
     Un slug absent du catalogue n'a PAS de nom : la page montre le slug tel
     quel, et le garde-fou verifier_noms_marche.py le signale.
     """
@@ -908,16 +912,19 @@ def noms_catalogue(data_dir):
     for it in read_json(data_dir, "items.json") or []:
         if it.get("u") and it.get("n"):
             noms[it["u"]] = {"nom": it["n"]}
+    officiel = read_json(data_dir, "noms_fr.json") or {}
     fr_par_en = {}
     for mod in read_json(os.path.join(data_dir, "arsenal"), "mods.json") or []:
         if mod.get("en") and mod.get("n"):
             fr_par_en[mod["en"]] = mod["n"]
-    for arc in read_json(data_dir, "arcanes.json") or []:
-        if arc.get("w") and arc.get("f") and arc["w"] in noms:
-            noms[arc["w"]]["nomFr"] = arc["f"]
+    fr_par_en.update(officiel.get("mods") or {})
+    fr_par_en.update(officiel.get("arcanes") or {})
+    repli_arcanes = {arc["w"]: arc["f"] for arc in read_json(data_dir, "arcanes.json") or []
+                     if arc.get("w") and arc.get("f")}
     for slug, d in noms.items():
-        if "nomFr" not in d and d["nom"] in fr_par_en:
-            d["nomFr"] = fr_par_en[d["nom"]]
+        fr = fr_par_en.get(d["nom"]) or repli_arcanes.get(slug)
+        if fr and fr != d["nom"]:
+            d["nomFr"] = fr
     return noms
 
 
