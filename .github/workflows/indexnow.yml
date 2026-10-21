@@ -3,34 +3,59 @@ name: IndexNow (Bing/Yandex…)
 # Notifie les moteurs IndexNow (Bing, Yandex, Seznam, Naver…) des URLs du site,
 # pour une indexation rapide PARTOUT (pas seulement Google). Aucun compte requis :
 # le fichier-clé <key>.txt est servi à la racine du site.
+#
+# Trois déclencheurs :
+#  - lundi 07:11 UTC + manuel : tout le sitemap (filet de sécurité) ;
+#  - après « Pages objets (SEO) » réussi : tout le sitemap (pages régénérées) ;
+#  - 21/10/2026 : après chaque « Déploiement Cloudflare Pages » réussi ET issu d'un
+#    push humain sur main (PR fusionnée) : seulement les pages HTML de ce commit.
+#    Avant, une page fusionnée un mercredi attendait le lundi suivant. On attend la
+#    FIN du déploiement pour que Bing trouve la nouvelle version en venant la lire.
+#    Les passes du robot de données (toutes les 2 h) arrivent par workflow_run, pas
+#    par push : elles ne déclenchent rien (et ne changent d'ailleurs aucune page).
 
 on:
   schedule:
     - cron: "11 7 * * 1"        # lundi 07:11 UTC (filet de sécurité hebdo)
-  # 09/07/2026 : ping aussi juste APRÈS chaque régénération de contenu réussie,
-  # au lieu d'un seul rendez-vous hebdo en aveugle — les moteurs sont notifiés
-  # dès que les pages changent réellement.
   workflow_run:
-    workflows: ["Pages objets (SEO)"]
+    workflows: ["Pages objets (SEO)", "Déploiement Cloudflare Pages"]
     types: [completed]
   workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: indexnow
+  cancel-in-progress: false
+
 jobs:
   ping:
-    # Déclenché par workflow_run : ne pinger que si la régénération a réussi
-    # (un échec = pages inchangées, inutile de notifier les moteurs).
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    if: >-
+      github.event_name != 'workflow_run' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       (github.event.workflow_run.name == 'Pages objets (SEO)' ||
+        (github.event.workflow_run.event == 'push' && github.event.workflow_run.head_branch == 'main')))
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      # 09/07/2026 : lit le sitemap depuis MAIN (la branche claude/warframe-updates-app-thkv5
-      # est abandonnée et figée — elle faisait pinger des URLs obsolètes ; cf. pages-objets.yml).
+      # Après un déploiement : le commit EXACT qui a été déployé, avec son parent
+      # (fetch-depth 2) pour calculer ce qu'il a changé. Sinon : main.
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.name == 'Déploiement Cloudflare Pages' && github.event.workflow_run.head_sha || 'main' }}
+          fetch-depth: 2
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
       - name: Soumettre les URLs à IndexNow
-        run: node scripts/indexnow.mjs
+        env:
+          APRES_DEPLOIEMENT: ${{ github.event.workflow_run.name == 'Déploiement Cloudflare Pages' && 'oui' || '' }}
+          SHA_DEPLOYE: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          if [ "$APRES_DEPLOIEMENT" = "oui" ]; then
+            # ^1 = premier parent : couvre un squash (1 commit) comme un commit de fusion.
+            node scripts/indexnow.mjs --depuis "${SHA_DEPLOYE}^1"
+          else
+            node scripts/indexnow.mjs
+          fi

@@ -347,6 +347,13 @@ for g in verifier_sync.mjs verifier_api_builds.mjs verifier_api_evt.mjs verifier
   [ -f "scripts/$g" ] || continue
   node "scripts/$g" >/dev/null 2>&1 || { fail "garde-fou $g : au moins une vérification échoue (relance-le pour le détail)"; pur_ko=1; }
 done
+# IndexNow (21/10/2026) : sans fichier-clé à la racine, Bing répond 403 à tout ; si la
+# correspondance fichier → URL du sitemap casse, les pages modifiées ne sont plus
+# signalées, sans erreur visible. --verifier est hors ligne : il n'envoie rien.
+if [ -f scripts/indexnow.mjs ]; then
+  node scripts/indexnow.mjs --verifier >/dev/null 2>&1 \
+    || { fail "garde-fou indexnow.mjs --verifier : fichier-clé absent ou correspondance fichier → URL du sitemap cassée (relance-le pour le détail)"; pur_ko=1; }
+fi
 # Le garde perso lui-même (20/10/2026) : la fusion web de la PR #1 l'a rougi sans fuite
 # (committer « GitHub <noreply@github.com> »). Vrais commits dans un dépôt jetable.
 if [ -f scripts/verifier_garde_perso.py ]; then
