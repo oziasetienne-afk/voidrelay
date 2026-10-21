@@ -749,6 +749,12 @@ const SLUG_NOTES_MAJ44 = {
     en: `<a href="/en/builds/narin">Narin</a>'s signature pistols (Update 44, <a href="/en/guides/iceblade-of-narin">Iceblade of Narin</a>): reloading releases a freezing mist that applies Cold, wider the more rounds you reload. Blueprints from Cephalon Melica for Entropic Kuva.`,
   },
 };
+/* Excalibur Umbra (21/10/2026) : ce qui diffère d'Excalibur. Wiki officiel lu le 21/10/2026
+   (Excalibur/Umbra, Exalted Blade) ; projet : voidrelay/contenu/FAQ_EXCALIBUR_2026-10-21.md. */
+SLUG_NOTES["excalibur-umbra"] = {
+  fr: `Excalibur Umbra garde les pouvoirs d'Excalibur sauf le 2 : <b>Hurlement Radial</b> (Radial Howl) aveugle ou étourdit comme l'Aveuglement Radial, et retire en plus les résistances des Sentients et du Shadow Stalker. Sa Lame Exaltée Umbra a les mêmes stats que la Lame Exaltée, donc le build est le même. Il a 3 emplacements de polarité Umbra (plus 1 Madurai) et arrive avec 3 mods Umbraux (Intensité, Fibre, Vitalité). Son passif ajoute la Sentience : il continue à se battre seul quand tu passes en Opérateur. Au rang 30 : 315 d'armure et 225 d'énergie (Excalibur : 240 et 150). Il s'obtient par la quête The Sacrifice, un seul par compte.`,
+  en: `Excalibur Umbra keeps Excalibur's abilities except the 2: <b>Radial Howl</b> blinds or staggers like Radial Blind, and also strips the resistances of Sentients and the Shadow Stalker. Its Exalted Umbra Blade has the same stats as Exalted Blade, so the build is the same. It has 3 Umbra polarity slots (plus 1 Madurai) and comes with 3 Umbral mods (Intensify, Fiber, Vitality). Its passive adds Sentience: it keeps fighting on its own while you play as the Operator. At rank 30: 315 armor and 225 energy (Excalibur: 240 and 150). It comes from The Sacrifice quest, one per account.`,
+};
 Object.assign(SLUG_NOTES, SLUG_NOTES_SUITE);
 Object.assign(SLUG_NOTES, SLUG_NOTES_MAJ44);
 const slugNote = (slug, lang) => SLUG_NOTES[slug]?.[lang]
@@ -953,6 +959,12 @@ const BUILDS_SPECIFIQUES_FR = {
   "excalibur-prime": { base: "excalibur", nom: "Excalibur", que: "qu'Excalibur", titre: "Build Excalibur Prime (Lame Exaltée) : débutant à Steel Path | VoidRelay",
     polAura: "V", slots: ["D", "V", "V"],
     desc: "Build Excalibur Prime pour la Lame Exaltée : mods, arcanes, mods recommandés pour la Lame Exaltée, fragments d'Archon et Helminth. Valeurs vérifiées sur le wiki officiel." },
+  /* Umbra (21/10/2026) : pouvoir 2 différent (Hurlement Radial), mais Lame Exaltée Umbra = mêmes
+     stats que la Lame Exaltée (wiki Excalibur/Umbra) → même build ; la différence est dite dans
+     SLUG_NOTES["excalibur-umbra"]. Polarités wiki : aura Madurai, Madurai + 3 Umbra. */
+  "excalibur-umbra": { base: "excalibur", nom: "Excalibur", que: "qu'Excalibur, sauf le 2 (voir ci-dessus)", titre: "Build Excalibur Umbra (Lame Exaltée) : débutant à Steel Path | VoidRelay",
+    polAura: "V", slots: ["V", "U", "U", "U"],
+    desc: "Build Excalibur Umbra pour la Lame Exaltée Umbra : Hurlement Radial, emplacements Umbra, mods, arcanes, fragments d'Archon. Valeurs vérifiées sur le wiki officiel." },
 };
 /* Polarités des Prime (wiki officiel, 21/10/2026) : la rangée « Emplacements d'origine » du bloc
    de base est celle de la frame de BASE, fausse pour une Prime (Mesa : Naramon ×2 ; Mesa Prime :
@@ -1208,7 +1220,7 @@ const BUILD_EXCALIBUR = {
     ["Excalibur, Excalibur Prime or Excalibur Umbra: does the build change?", "<b>Prime</b>: same abilities, same build. At rank 30 it has 315 armor (240 for Excalibur), 225 energy (150), starts with 100 energy (50), a Madurai aura and 3 innate polarities (2 on Excalibur). It was a Founders exclusive and can no longer be obtained. <b>Umbra</b>: same passive (+10% damage and attack speed with swords) and same abilities except the 2: <b>Radial Howl</b>, which blinds or staggers and also strips the resistances of Sentients and the Shadow Stalker. Its Exalted Umbra Blade has the same stats; its 3 Umbra slots take Umbral mods. It comes from The Sacrifice quest, one per account."],
   ],
 };
-const BUILDS_SPECIFIQUES_EN = { "mesa": BUILD_MESA, "mesa-prime": BUILD_MESA, "excalibur": BUILD_EXCALIBUR, "excalibur-prime": BUILD_EXCALIBUR };
+const BUILDS_SPECIFIQUES_EN = { "mesa": BUILD_MESA, "mesa-prime": BUILD_MESA, "excalibur": BUILD_EXCALIBUR, "excalibur-prime": BUILD_EXCALIBUR, "excalibur-umbra": BUILD_EXCALIBUR };
 
 function framePageEN(f) {
   const slug = slugify(f.n);
