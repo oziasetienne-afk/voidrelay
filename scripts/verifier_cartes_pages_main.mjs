@@ -4,6 +4,7 @@
    data/noms_fr.json et 34 rangs faux (10/10 au lieu de 5/5). Pour chaque carte .modc :
      • si un nom FR existe, le nom affiché est le nom FR (et l'anglais reste dans le title) ;
      • le rang vaut celui de data/mods_cards.json ;
+     • la polarité (svg) est dans <span class="pol"> (sinon elle n'est pas positionnée, donc invisible) ;
      • un mod qui a une image dans mods_cards.json n'est pas une carte texte.
    Pour corriger : node scripts/harmoniser_pages_main.mjs
 
@@ -28,6 +29,7 @@ for (const rel of pages) {
     const en = dec((nm.match(/<span class="en" lang="en">(.*?)<\/span>/) || [])[1] || titre);
     const fr = nomFr(en, false);
     if (fr && !nm.includes('class="en"')) erreurs.push(`${rel} : « ${en} » affiché en anglais (FR : ${fr})`);
+    if (/<svg/.test(corps.replace(/<span class="pol"><svg.*?<\/svg><\/span>/gs, ""))) erreurs.push(`${rel} : « ${en} » polarité (svg) hors de <span class="pol"> : elle ne s'affiche pas`);
     const m = CARTES[en], rk = (corps.match(/<span class="rk">(.*?)<\/span>/) || [])[1];
     if (m && rk !== m.rk) erreurs.push(`${rel} : « ${en} » rang ${rk} au lieu de ${m.rk}`);
     if (m && txt) erreurs.push(`${rel} : « ${en} » est une carte texte alors qu'une image existe`);

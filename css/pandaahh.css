@@ -539,6 +539,9 @@ main{padding-bottom:60px}
 .modc .rk{position:absolute;top:6px;right:7px;font:700 11px/1 "Oswald",sans-serif;color:#fff;background:rgba(6,10,20,.7);border-radius:6px;padding:4px 6px}
 .modc .nm{position:absolute;left:0;right:0;bottom:0;padding:16px 7px 6px;background:linear-gradient(transparent,rgba(6,10,20,.92));
   color:#fff;font:600 11px/1.15 "Oswald",sans-serif;text-align:center;text-transform:uppercase;letter-spacing:.2px}
+/* Nom anglais sous le nom FR : sans cette règle il héritait des MAJUSCULES et restait sur la même ligne
+   (« VITALITÉ VITALITY ») sur les builds faits main. Les pages générées la surchargent (.btier .modc .nm .en). */
+.modc .nm .en{display:block;margin-top:2px;font:400 .66rem/1.2 Inter,sans-serif;color:#8294ab;text-transform:none;letter-spacing:0}
 .modslot{display:flex;align-items:center;gap:10px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:.92rem}
 .modslot .pol{width:26px;height:26px;background:#0e1729;border:1px solid var(--line);border-radius:7px;display:grid;place-items:center;flex:none}
 .modslot .pol svg{width:14px;height:14px}
