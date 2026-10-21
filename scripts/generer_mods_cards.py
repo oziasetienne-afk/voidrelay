@@ -4,7 +4,7 @@
 Pour CHAQUE mod utilisé par les règles de scripts/generer_builds.mjs : la vraie
 carte (imageName), la vraie polarité et le rang max réel (fusionLimit), en
 écartant les variantes tuto (/Beginner/, /Intermediate/) qui partagent le nom.
-Télécharge les cartes manquantes depuis cdn.warframestat.us vers assets/wfimg/
+Télécharge les cartes manquantes depuis le dépôt WFCD (raw, cdn.warframestat.us y redirige en 301) vers assets/wfimg/
 (même pipeline que les 51 cartes d'origine) avec vérification taille+signature.
 
 Usage :  python3 scripts/generer_mods_cards.py
@@ -21,7 +21,7 @@ def _ctx():
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DB_URL = "https://raw.githubusercontent.com/WFCD/warframe-items/master/data/json/Mods.json"
-CDN = "https://cdn.warframestat.us/img/"
+CDN = "https://raw.githubusercontent.com/WFCD/warframe-items/master/data/img/"
 # Formes SVG du site (voir POL dans generer_builds.mjs). Pas de glyphe officiel
 # par école ici : on mappe sur les 5 formes existantes, harmonisées avec les
 # 22 fiches manuelles (zenurik = double barre comme mesa.html/rhino.html).
@@ -39,18 +39,24 @@ def main():
         db = json.load(urllib.request.urlopen(DB_URL, timeout=120, context=_ctx()))
     src = open(os.path.join(ROOT, "scripts/generer_builds.mjs"), encoding="utf-8").read()
     listed = set()
-    for m in re.finditer(r'mods: \[([^\]]+)\]', src):
+    for m in re.finditer(r'(?:mods|claws): \[([^\]]+)\]', src):
         listed.update(x.group(1) for x in re.finditer(r'"([^"]+)"', m.group(1)))
+    # ajouts dynamiques « [...R.deb.mods, "Savagery"] » : sans eux la carte disparaissait
+    # de mods_cards.json à la régénération (Bite, Maul, Savagery, constaté le 21/10/2026).
+    for m in re.finditer(r'\.\.\.[\w.]+, ("[^"]+")\]', src):
+        listed.add(m.group(1).strip('"'))
     for m in re.finditer(r'aura: "([^"]+)"|exilus: "([^"]+)"', src):
         listed.add(m.group(1) or m.group(2))
 
     def best(name):
         c = [x for x in db if x.get("name") == name and "imageName" in x
              and "/Beginner/" not in x.get("uniqueName", "")
-             and "/Intermediate/" not in x.get("uniqueName", "")
-             # /Expert/ (20/10/2026) : variantes rang 10 d'Intensify et Stretch ; le jeu et
-             # warframe.market disent rang max 5 → la carte affichait « 10/10 ».
-             and "/Expert/" not in x.get("uniqueName", "")]
+             and "/Intermediate/" not in x.get("uniqueName", "")]
+        # /Expert/ (21/10/2026) : tous les Primed y sont (Primed Flow, Continuity…), mais
+        # Intensify et Stretch y ont aussi une variante rang 10 que le jeu et warframe.market
+        # (maxRank 5) ignorent. On préfère donc le hors-/Expert/ s'il existe, sinon /Expert/.
+        hors = [x for x in c if "/Expert/" not in x.get("uniqueName", "")]
+        c = hors or c
         return max(c, key=lambda x: x.get("fusionLimit") or 0) if c else None
 
     cards, miss = {}, []

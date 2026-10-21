@@ -8,7 +8,9 @@
 import { writeFileSync, mkdirSync, existsSync } from "node:fs";
 
 const SRC_ARCANES = "https://raw.githubusercontent.com/WFCD/warframe-items/master/data/json/Arcanes.json";
-const SRC_I18N = "https://raw.githubusercontent.com/WFCD/warframe-items/master/data/json/i18n.json";
+const SRC_I18N = "https://raw.githubusercontent.com/WFCD/warframe-items/master/data/json/i18n/fr.json";
+// i18n.json (fichier unique) renvoie 404 depuis 2026 : une langue par fichier, clé = uniqueName
+// directement (plus de niveau « .fr »). Même source que generer_noms_fr.mjs.
 const CDN_IMG = "https://cdn.warframestat.us/img/";
 const IMG_DIR = "assets/arcanes";
 const OUT = "data/arcanes.json";
@@ -72,9 +74,12 @@ const wmSlug = (name) => name.toLowerCase().replace(/['’]/g, "").replace(/[^a-
 
 async function main() {
   console.log("Téléchargement des données WFCD…");
-  const [arcanes, i18n] = await Promise.all([
+  const [arcanes, i18nFr] = await Promise.all([
     fetch(SRC_ARCANES).then((r) => r.json()),
-    fetch(SRC_I18N).then((r) => r.json()),
+    fetch(SRC_I18N).then((r) => {
+      if (!r.ok) throw new Error(`i18n/fr.json : HTTP ${r.status}`);
+      return r.json();
+    }),
   ]);
   mkdirSync(IMG_DIR, { recursive: true });
 
@@ -82,7 +87,7 @@ async function main() {
   let dl = 0;
   for (const a of arcanes) {
     if (a.excludeFromCodex) continue;
-    const fr = i18n[a.uniqueName]?.fr || {};
+    const fr = i18nFr[a.uniqueName] || {};
     const stats = (fr.levelStats?.length ? fr.levelStats : a.levelStats) || [];
     let dernier;
     if (stats.length) {
