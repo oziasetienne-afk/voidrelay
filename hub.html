@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3315165542909837" crossorigin="anonymous"></script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -9,7 +8,7 @@
      Site statique mono-fichier → script/style inline requis ('unsafe-inline'). Tout le reste est verrouillé sur 'self' :
      aucun script/objet externe, aucun fetch hors same-origin (connect-src 'self'), pas d'iframe, base/form verrouillés, http→https.
      Durcissement supérieur (CSP par hash, en-têtes frame-ancestors/HSTS via Cloudflare _headers) : voir SECURITE_site.md -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com https://pagead2.googlesyndication.com https://partner.googleadservices.com https://tpc.googlesyndication.com https://adservice.google.com https://www.googletagservices.com https://fundingchoicesmessages.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://*.googlesyndication.com https://*.g.doubleclick.net https://*.google.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://api.warframestat.us https://cloudflareinsights.com https://pagead2.googlesyndication.com https://*.g.doubleclick.net https://*.googlesyndication.com https://ep1.adtrafficquality.google https://fundingchoicesmessages.google.com; form-action 'self'; frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://*.google.com; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://api.warframestat.us https://cloudflareinsights.com; form-action 'self'; frame-src 'none'; upgrade-insecure-requests">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <script>/* Domaine officiel : voidrelay.fr — redirige les anciennes adresses (pages.dev, github.io) en gardant le chemin */(function(){var h=location.hostname;if(h==='warframe-hub.pages.dev'||h.slice(-10)==='.github.io'){location.replace('https://voidrelay.fr'+location.pathname.replace(/^\/test(?=\/|$)/,'')+location.search+location.hash)}})()</script>
@@ -184,25 +183,11 @@ const SUMMARY_URL = "data/summary.json";
 const NEWS_URL    = "data/news.json";
 const REFRESH_MS  = 5 * 60 * 1000;   // re-fetch des données toutes les 5 min
 
-/* ──────────────────── Affiliation (revenus passifs) ────────────────────
-   ToS Warframe OK : « pub passive » + « sponsor raisonnable, clairement divulgué » autorisés
-   (warframe.com/contentpolicy, vérifié 2026-06-04). Programme : Razer (gratuit, non exclusif,
-   sans frais — vérifié). RÈGLES tenues ici : pseudo uniquement · AUCUN tracker/pixel/script tiers ·
-   liens simples rel="sponsored noopener nofollow" · divulgation visible · encart DISCRET.
-   ⚙️ ACTIVATION en 1 commande (voir REVENUS_affiliation.md) : remplacer le placeholder ci-dessous
-   par TON lien de parrainage Razer. Tant que le placeholder est là, AUCUN encart ne s'affiche
-   (rien de promotionnel n'est publié tant que tu n'as pas activé). */
-/* Plusieurs programmes possibles (tous gratuits, non exclusifs). Chacun reste INACTIF tant que
-   son placeholder n'est pas remplacé par un vrai lien https — un encart ne s'affiche QUE pour les
-   programmes activés. Rien de promotionnel n'apparaît tant qu'aucun lien n'est collé.
-   ⚙️ Activation : remplacer le placeholder voulu (voir ACTIVATION_VOIDRELAY.md). Le lien Razer garde
-   le même token qu'avant (__RAZER_AFFILIATE_LINK__) — la commande d'activation existante marche toujours. */
-const AFF = {
-  razer:     {label:"Razer",             note:"Matériel gaming (souris, casques…)", url:"__RAZER_AFFILIATE_LINK__"},
-  fanatical: {label:"Fanatical",         note:"Jeux & clés Steam (réductions)",     url:"__FANATICAL_AFFILIATE_LINK__"},
-  humble:    {label:"Humble Bundle",     note:"Jeux & bundles caritatifs",          url:"__HUMBLE_AFFILIATE_LINK__"},
-  gmg:       {label:"Green Man Gaming",  note:"Clés de jeux PC (promos)",           url:"__GMG_AFFILIATE_LINK__"},
-};
+/* Affiliation : AUCUN programme (22/10/2026). Le site est non commercial : le proxy de prix
+   tourne sur une équipe Vercel Hobby, qui interdit publicité et affiliation. Les placeholders
+   Razer / Fanatical / Humble / Green Man Gaming ont été retirés ; l'encart « Matos & jeux »
+   reste masqué (AFF vide). Voir CLAUDE.md, « Site NON commercial ». */
+const AFF = {};
 const AFF_ACTIVE = Object.keys(AFF).filter(k => /^https:\/\//.test(AFF[k].url)); // actifs = lien https collé
 const AFF_ON     = AFF_ACTIVE.length > 0;
 
