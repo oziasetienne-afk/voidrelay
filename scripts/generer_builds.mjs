@@ -1130,11 +1130,11 @@ const BUILD_EXCALIBUR = {
     note: "Steel Charge works here: Exalted Blade counts as a melee weapon, so the +60% melee aura boosts it. Strength and duration first, the rest keeps Radial Blind long and wide." },
   mid: { aura: "Steel Charge", exilus: "Power Drift",
     mods: ["Chromatic Blade", "Blind Rage", "Intensify", "Primed Continuity", "Primed Flow", "Equilibrium", "Rolling Guard", "Adaptation"],
-    note: "Chromatic Blade turns the blade into an elemental status sword (+300% Status Chance, element set by your energy color). Equilibrium turns health orbs into energy for the blade's upkeep.",
+    note: "Chromatic Blade turns the blade into an elemental status sword (+300% Status Chance, element set by your primary emissive color). Equilibrium turns health orbs into energy for the blade's upkeep.",
     arcanes: ["Arcane Fury", "Arcane Guardian"] },
   exp: { aura: "Steel Charge", exilus: "Power Drift",
     mods: ["Chromatic Blade", "Blind Rage", "Umbral Intensify", "Primed Continuity", "Primed Flow", "Equilibrium", "Rolling Guard", "Adaptation"],
-    note: "Arcane Fury (+180% melee damage on crit) applies to Exalted Blade; Molt Augmented stacks up to +60% Ability Strength, which also raises Chromatic Blade's status. Put Melee Influence in the blade's arcane slot and set your energy color to Electric. Variant: Furious Javelin instead of Chromatic Blade (+15% melee damage per enemy hit for 16 s), keeping Radial Javelin.",
+    note: "Arcane Fury (+180% melee damage on crit) applies to Exalted Blade; Molt Augmented stacks up to +60% Ability Strength, which also raises Chromatic Blade's status. Put Melee Influence in the blade's arcane slot and pick a blue or purple primary emissive color for Electricity. Variant: Furious Javelin instead of Chromatic Blade (+15% melee damage per enemy hit for 16 s), keeping Radial Javelin.",
     arcanes: ["Arcane Fury", "Molt Augmented"],
     shards: { profil: "Exalted Blade", slots: ["🔴 Crimson — +Ability Strength", "🔴 Crimson — +Ability Strength", "🟣 Violet — +Melee Critical Damage", "🟣 Violet — +Melee Critical Damage", "🟡 Amber — +Casting Speed"], alt: "Tauforged shards give +50%: save them for your main frame." } },
   howto: "Cast Radial Blind (2) to blind the room, then summon Exalted Blade (4) and swing: every swing sends out an energy wave that passes through enemies, so blinded targets die at range. Slash Dash (1) crosses the room and each hit also releases a wave. The blade costs 25 energy to summon and 2.5 per second to keep: recast Radial Blind whenever enemies start shooting again.",
@@ -1311,7 +1311,29 @@ ecrire(path.join(ROOT, "data/arsenal_builds.json"), JSON.stringify(SIM_MAP));
 ecrire(path.join(ROOT, "data/builds_index.json"),
   JSON.stringify(entries.map(e => ({ s: e.slug, n: "Build " + e.n, ...(e.img ? { i: e.img } : {}) }))));
 rapportFrancisation("builds FR");
+/* Lame Chromatique (wiki, 21/10/2026) : l'élément suit la couleur ÉMISSIVE PRIMAIRE et c'est un
+   élément simple. Trois pages disaient « couleur d'énergie » et « Corrosif ou Viral » directement. */
+function chromatiqueFaux() {
+  const faux = [];
+  for (const dossier of [OUT, OUT_EN]) for (const f of fs.readdirSync(dossier).filter(x => x.endsWith(".html"))) {
+    const txt = fs.readFileSync(path.join(dossier, f), "utf8").replace(/<[^>]+>/g, " ");
+    const re = /Chromatic Blade|Lame Chromatique/gi;
+    let m;
+    while ((m = re.exec(txt))) {
+      const zone = txt.slice(Math.max(0, m.index - 150), m.index + 300);
+      if (/energy colou?r|couleur d.énergie/i.test(zone) || /\bViral/.test(zone)
+        || (/Corrosi(f|ve)/.test(zone) && !/Toxi(n|ne)/.test(zone))) { faux.push(path.relative(ROOT, path.join(dossier, f))); break; }
+    }
+  }
+  return faux;
+}
 if (VERIFIER) {
+  const fauxChrom = chromatiqueFaux();
+  if (fauxChrom.length) {
+    console.error("💥 Lame Chromatique : élément lié à la couleur d'énergie ou à Corrosif/Viral direct (c'est la couleur émissive primaire, élément simple) :");
+    for (const f of fauxChrom) console.error("   " + f);
+    process.exit(1);
+  }
   if (divergents.length) {
     console.error(`💥 ${divergents.length} fichier(s) diffèrent de ce que le générateur produirait — une page de builds a été retouchée à la main, ou le gabarit a changé sans régénération :`);
     for (const f of divergents.slice(0, 10)) console.error("   " + f);
