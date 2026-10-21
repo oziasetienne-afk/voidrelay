@@ -891,6 +891,49 @@ def pieces_perimees(prec, heures=20):
     return (time.time() - calendar.timegm(t)) > heures * 3600
 
 
+def noms_catalogue(data_dir):
+    """slug -> {"nom": nom EN du catalogue, "nomFr": nom FR du catalogue (si connu)}.
+
+    POURQUOI. Jusqu'au 21/10/2026, /hub, /marche et /bons-plans fabriquaient le
+    nom affiché depuis le slug (« ash prime set », « Primed Flow » sur une page
+    française) : un nom inventé par le code, pas le nom du jeu. Les noms
+    existent déjà dans le dépôt, on les lit — jamais déduits du slug :
+      - data/items.json   : nom EN de warframe.market (3 892 objets) ;
+      - data/arcanes.json : nom FR des arcanes (champ f, slug w) ;
+      - data/arsenal/mods.json : nom FR des mods (champ n, nom EN en `en`).
+    Un slug absent du catalogue n'a PAS de nom : la page montre le slug tel
+    quel, et le garde-fou verifier_noms_marche.py le signale.
+    """
+    noms = {}
+    for it in read_json(data_dir, "items.json") or []:
+        if it.get("u") and it.get("n"):
+            noms[it["u"]] = {"nom": it["n"]}
+    fr_par_en = {}
+    for mod in read_json(os.path.join(data_dir, "arsenal"), "mods.json") or []:
+        if mod.get("en") and mod.get("n"):
+            fr_par_en[mod["en"]] = mod["n"]
+    for arc in read_json(data_dir, "arcanes.json") or []:
+        if arc.get("w") and arc.get("f") and arc["w"] in noms:
+            noms[arc["w"]]["nomFr"] = arc["f"]
+    for slug, d in noms.items():
+        if "nomFr" not in d and d["nom"] in fr_par_en:
+            d["nomFr"] = fr_par_en[d["nom"]]
+    return noms
+
+
+def attacher_noms(market, noms):
+    """Pose nom / nomFr sur chaque objet du marché depuis le catalogue (rien d'autre)."""
+    for it in market.get("items", []):
+        d = noms.get(it.get("slug"))
+        it.pop("nom", None)
+        it.pop("nomFr", None)
+        if d:
+            it["nom"] = d["nom"]
+            if d.get("nomFr"):
+                it["nomFr"] = d["nomFr"]
+    return market
+
+
 def _median(nums):
     xs = sorted(n for n in nums if isinstance(n, (int, float)))
     if not xs:
@@ -960,6 +1003,18 @@ def _pct(nouveau, ancien):
 def enrich_market_items(market, hist, alert_pct=15):
     """Ajoute median/avgTop5/ducatsPerPlat/trend/change24h/change7d/spark (déterministe).
 
+    LE PRIX DE RÉFÉRENCE EST LA MÉDIANE (des cinq offres les plus basses de
+    vendeurs en jeu, au rang affiché), PAS L'OFFRE LA PLUS BASSE. Mesuré le
+    21/10/2026 sur 6 703 couples J/J-1 de market_history.json : 707 « alertes »
+    (≥ 15 %) calculées sur minSellPlat, dont 258 (36 %) avec une médiane quasi
+    immobile (< 5 %). Une seule offre isolée suffisait : Lex Prime Set, 7, 8, 8
+    puis 3 platine (la 2e offre à 5, la 3e à 9) → « −62 % », tête des baisses
+    de /bons-plans et « meilleur farm de ducats » du Hub à 18,3 ducats/plat ;
+    trois heures plus tard l'offre avait disparu (11,0 en direct). Gauss Prime
+    « +43 % » (35 → 50) pendant que la médiane faisait 50 → 55. minSellPlat
+    reste publié (c'est le prix d'achat immédiat), mais variations, alertes,
+    sparkline, movers et ducats/platine se calculent sur la médiane.
+
     Tout se calcule sur la série DU RANG affiché (cf. serie_du_rang), et
     seulement avec un point de référence daté honnêtement : la veille pour
     24 h, J-6 à J-8 pour 7 jours. Sans ce point, la variation vaut null
@@ -975,38 +1030,40 @@ def enrich_market_items(market, hist, alert_pct=15):
         it["median"] = _median(low5)
         it["avgTop5"] = round(sum(low5) / len(low5), 1) if low5 else None
         ducats = it.get("ducats")
-        mn = it.get("minSellPlat")
-        if isinstance(ducats, (int, float)) and isinstance(mn, (int, float)) and mn > 0:
-            it["ducatsPerPlat"] = round(ducats / mn, 2)  # plus haut = meilleur rendement
+        ref = it.get("median")
+        it.pop("ducatsPerPlat", None)
+        if isinstance(ducats, (int, float)) and isinstance(ref, (int, float)) and ref > 0:
+            it["ducatsPerPlat"] = round(ducats / ref, 2)  # plus haut = meilleur rendement
         series = [p for p in serie_du_rang((hist or {}).get(it.get("slug"), []), it.get("rang"))
-                  if isinstance(p.get("min"), (int, float))]
-        # spark = derniers <=14 mins, tous du même rang
-        it["spark"] = [p["min"] for p in series[-14:]]
+                  if isinstance(p.get("median"), (int, float))]
+        # spark = dernières <=14 médianes, toutes du même rang
+        it["spark"] = [p["median"] for p in series[-14:]]
         it.pop("alert", None)
         for k in ("change24h", "change24hPct", "change7d", "change7dPct", "trend"):
             it[k] = None
-        if not isinstance(mn, (int, float)) or not series:
+        if not isinstance(ref, (int, float)) or not series:
             continue
         jour = series[-1]["d"]
-        par_jour = {p["d"]: p["min"] for p in series}
+        par_jour = {p["d"]: p["median"] for p in series}
         # change24h : vs la VEILLE, et elle seule
         veille = par_jour.get(_jour(jour, -1))
         if isinstance(veille, (int, float)):
-            it["change24h"] = mn - veille
-            it["change24hPct"] = _pct(mn, veille)
-            it["trend"] = "up" if mn > veille else ("down" if mn < veille else "flat")
-            if veille > 0 and abs(mn - veille) * 100.0 / veille >= alert_pct:
-                it["alert"] = "drop" if mn < veille else "spike"
+            it["change24h"] = round(ref - veille, 1)
+            it["change24hPct"] = _pct(ref, veille)
+            it["trend"] = "up" if ref > veille else ("down" if ref < veille else "flat")
+            if veille > 0 and abs(ref - veille) * 100.0 / veille >= alert_pct:
+                it["alert"] = "drop" if ref < veille else "spike"
         # change7d : vs J-7, ou J-6 / J-8 si le robot a sauté ce jour-là
         for dec in (-7, -6, -8):
-            ref = par_jour.get(_jour(jour, dec))
-            if isinstance(ref, (int, float)):
-                it["change7d"] = mn - ref
-                it["change7dPct"] = _pct(mn, ref)
+            prec = par_jour.get(_jour(jour, dec))
+            if isinstance(prec, (int, float)):
+                it["change7d"] = round(ref - prec, 1)
+                it["change7dPct"] = _pct(ref, prec)
                 break
         if it.get("change24h"):
-            movers.append({"slug": it["slug"], "change24h": it["change24h"],
-                           "change24hPct": it["change24hPct"], "minSellPlat": mn,
+            movers.append({"slug": it["slug"], "nom": it.get("nom"), "nomFr": it.get("nomFr"),
+                           "change24h": it["change24h"], "change24hPct": it["change24hPct"],
+                           "minSellPlat": it.get("minSellPlat"), "median": ref,
                            "rang": it.get("rang")})
     movers.sort(key=lambda m: abs(m["change24h"]), reverse=True)
     return movers[:6]
@@ -1180,6 +1237,7 @@ def main():
         # on calcule median d'abord pour le stocker).
         for it in market["items"]:
             it.setdefault("median", _median(it.get("low5SellPlat") or []))
+        attacher_noms(market, noms_catalogue(data_dir))
         prev_hist = read_json(data_dir, "market_history.json") or {}
         hist = update_market_history(prev_hist, market, cap_days=cfg.get("market_history_days", 90))
         movers = enrich_market_items(market, hist, alert_pct=cfg.get("market_alert_pct", 15))
@@ -1396,52 +1454,68 @@ def selftest():
     ]
 
     # --- Enrichissement marché : math déterministe -------------------------
+    # Le prix de référence est la MÉDIANE des cinq offres les plus basses (90
+    # ici), pas l'offre isolée (80) : cf. enrich_market_items.
     mkt = {"platform": "pc", "items": [
         {"slug": "octavia_prime_set", "minSellPlat": 80, "low5SellPlat": [80, 85, 90, 95, 100],
          "ducats": 175},
     ]}
     # historique : 8 jours pour exercer change24h, change7d et spark
     hist = {"octavia_prime_set": [
-        {"d": "2026-05-25", "min": 100}, {"d": "2026-05-26", "min": 98},
-        {"d": "2026-05-27", "min": 96}, {"d": "2026-05-28", "min": 95},
-        {"d": "2026-05-29", "min": 92}, {"d": "2026-05-30", "min": 90},
-        {"d": "2026-05-31", "min": 88}, {"d": "2026-06-01", "min": 100},
-        {"d": "2026-06-02", "min": 80},
+        {"d": "2026-05-25", "min": 100, "median": 100}, {"d": "2026-05-26", "min": 98, "median": 98},
+        {"d": "2026-05-27", "min": 96, "median": 96}, {"d": "2026-05-28", "min": 95, "median": 95},
+        {"d": "2026-05-29", "min": 92, "median": 92}, {"d": "2026-05-30", "min": 90, "median": 90},
+        {"d": "2026-05-31", "min": 88, "median": 88}, {"d": "2026-06-01", "min": 100, "median": 110},
+        {"d": "2026-06-02", "min": 80, "median": 90},
     ]}
     movers = enrich_market_items(mkt, hist, alert_pct=15)
     it0 = mkt["items"][0]
     checks += [
         ("mkt.median", it0["median"] == 90),
         ("mkt.avgTop5", it0["avgTop5"] == 90.0),
-        ("mkt.ducatsPerPlat", it0["ducatsPerPlat"] == round(175 / 80, 2)),
-        ("mkt.change24h", it0["change24h"] == -20),       # 80 - 100 (01-06)
+        ("mkt.ducatsPerPlat", it0["ducatsPerPlat"] == round(175 / 90, 2)),
+        ("mkt.change24h", it0["change24h"] == -20),       # 90 - 110 (01-06), médianes
         ("mkt.trend.down", it0["trend"] == "down"),
-        ("mkt.alert.drop", it0.get("alert") == "drop"),   # 20% >= 15%
-        ("mkt.change7d", it0["change7d"] == (80 - 98)),   # vs series[-8] = 98 (26-05, 7 j avant)
+        ("mkt.alert.drop", it0.get("alert") == "drop"),   # 18% >= 15%
+        ("mkt.change7d", it0["change7d"] == (90 - 98)),   # vs series[-8] = 98 (26-05, 7 j avant)
         ("mkt.spark.len", len(it0["spark"]) == 9 or len(it0["spark"]) == 14),
-        ("mkt.movers", movers and movers[0]["slug"] == "octavia_prime_set"),
-        ("mkt.change24hPct", it0["change24hPct"] == -20),
-        ("mkt.change7dPct", it0["change7dPct"] == round(-18 * 100 / 98)),
+        ("mkt.spark.median", it0["spark"][-1] == 90 and it0["spark"][-2] == 110),
+        ("mkt.movers", movers and movers[0]["slug"] == "octavia_prime_set"
+         and movers[0]["median"] == 90),
+        ("mkt.change24hPct", it0["change24hPct"] == round(-20 * 100 / 110)),
+        ("mkt.change7dPct", it0["change7dPct"] == round(-8 * 100 / 98)),
+    ]
+    # Une offre isolée ne fabrique ni alerte ni « bon plan » : Lex Prime Set le
+    # 20/10/2026 (7, 8, 8 puis 3 platine, la 2e offre à 5, la 3e à 9) titrait
+    # « −62 % » et 18,3 ducats/plat ; la médiane n'avait pas bougé.
+    lex = {"slug": "lex_prime_set", "minSellPlat": 3, "low5SellPlat": [3, 5, 9, 9, 10], "ducats": 55}
+    mv = enrich_market_items({"items": [lex]}, {"lex_prime_set": [
+        {"d": "2026-10-19", "min": 8, "median": 9}, {"d": "2026-10-20", "min": 3, "median": 9}]})
+    checks += [
+        ("isole.sans.alerte", lex["change24h"] == 0 and lex["trend"] == "flat"
+         and lex.get("alert") is None and mv == []),
+        ("isole.ducats.median", lex["ducatsPerPlat"] == round(55 / 9, 2)),
+        ("isole.spark.median", lex["spark"] == [9, 9]),
     ]
 
     # --- Rangs : la série du rang affiché, rien d'autre ---------------------
     # Primed Flow tel que market_history.json l'avait le 20/10/2026 : rangs 0 et 10
     # mêlés (28, 30, 99…). Seuls les points r=10 comptent ; le reste n'existe pas.
-    flow = {"slug": "primed_flow", "rang": 10, "minSellPlat": 80, "low5SellPlat": [80]}
+    flow = {"slug": "primed_flow", "rang": 10, "minSellPlat": 80, "low5SellPlat": [80, 85, 85]}
     hf = {"primed_flow": [
-        {"d": "2026-06-01", "min": 28}, {"d": "2026-06-01", "min": 30, "r": 0},
-        {"d": "2026-06-01", "min": 90, "r": 10}, {"d": "2026-06-02", "min": 80, "r": 10},
+        {"d": "2026-06-01", "min": 28, "median": 30}, {"d": "2026-06-01", "min": 30, "median": 32, "r": 0},
+        {"d": "2026-06-01", "min": 90, "median": 92, "r": 10}, {"d": "2026-06-02", "min": 80, "median": 85, "r": 10},
     ]}
     enrich_market_items({"items": [flow]}, hf)
     checks += [
-        ("rang.spark", flow["spark"] == [90, 80]),
-        ("rang.change24h", flow["change24h"] == -10 and flow.get("alert") is None),
+        ("rang.spark", flow["spark"] == [92, 85]),
+        ("rang.change24h", flow["change24h"] == -7 and flow.get("alert") is None),
         ("rang.change7d.null", flow["change7d"] is None and flow["change7dPct"] is None),
     ]
     # Un seul point au bon rang : aucune variation n'est inventée.
     seul = {"slug": "arcane_velocity", "rang": 5, "minSellPlat": 170, "low5SellPlat": [170]}
     enrich_market_items({"items": [seul]}, {"arcane_velocity": [
-        {"d": "2026-06-01", "min": 8}, {"d": "2026-06-02", "min": 170, "r": 5}]})
+        {"d": "2026-06-01", "min": 8, "median": 8}, {"d": "2026-06-02", "min": 170, "median": 170, "r": 5}]})
     checks += [
         ("rang.seul.null", seul["change24h"] is None and seul["trend"] is None
          and seul.get("alert") is None and seul["spark"] == [170]),
@@ -1449,7 +1523,7 @@ def selftest():
     # Point de référence trop vieux : pas de « 24 h » sur 3 semaines d'écart.
     vieux = {"slug": "x_set", "rang": None, "minSellPlat": 50, "low5SellPlat": [50]}
     enrich_market_items({"items": [vieux]}, {"x_set": [
-        {"d": "2026-05-10", "min": 100}, {"d": "2026-06-02", "min": 50}]})
+        {"d": "2026-05-10", "min": 100, "median": 100}, {"d": "2026-06-02", "min": 50, "median": 50}]})
     checks += [("ref.trop.vieille", vieux["change24h"] is None and vieux["change7d"] is None)]
     # Règle de rang : Primé / arcane → max, même si le rang 0 a plus de vendeurs.
     def _o(p, r, t="sell"):

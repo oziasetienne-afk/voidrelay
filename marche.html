@@ -85,7 +85,7 @@
 <script src="/js/profil.js"></script>
 <script>try{VRProfil.banniere(document.getElementById("vrProfil"))}catch(e){}</script>
 <h1 style="font-family:Oswald,sans-serif;text-transform:uppercase;margin:.2em 0">Marché du platine</h1>
-<p class="sub" style="color:var(--muted);font-size:1.05rem;max-width:72ch">Les objets les plus <b>liquides</b> et les plus <b>chers</b> du moment, d'après warframe.market — avec la variation 24 h et un prix de vente conseillé (~15 % sous le médian pour vendre vite). Données rafraîchies automatiquement chaque jour ; clique sur <b>Live</b> pour un scan en temps réel.</p>
+<p class="sub" style="color:var(--muted);font-size:1.05rem;max-width:72ch">Les objets les plus <b>liquides</b> et les plus <b>chers</b> du moment, d'après warframe.market — avec la variation 24 h et un prix de vente conseillé (~15 % sous le médian pour vendre vite). Données rafraîchies automatiquement toutes les 2 h ; clique sur <b>Live</b> pour un scan en temps réel.</p>
 <p class="sub" style="color:var(--muted);max-width:72ch">🌐 Cette page suit une <b>sélection</b> de 124 objets. Pour la totalité — sets, systèmes, châssis, casques, schémas, armes… — vois <a href="/marche-complet"><b>Tout le marché en direct</b></a> (3 800+ objets, prix en temps réel).</p>
 <div class="mk-pills" id="mkPills"></div>
 <div class="mk-toolbar"><button class="mk-live" id="mkLive"><span class="dot"></span> Scan en direct</button><span class="mk-status" id="mkStatus"></span></div>
@@ -123,10 +123,10 @@
     return `<div class="mk-col"><h2>${esc(title)}</h2><p class="meta">${esc(sub)}</p>
       <ol class="mk-list">${rows.map((r,i)=>`<li class="mk-row">
         <span class="mk-num">${i+1}</span>
-        <button class="mk-star" data-fav="${esc(r.name)}" title="Suivre cet objet">${favs[r.name]?"★":"☆"}</button>
-        ${typeof Thumbs!=="undefined"?Thumbs.img(sl(r.name),"mk-vig",r.name):""}
-        <a class="mk-name" href="https://warframe.market/items/${esc(sl(r.name))}" target="_blank" rel="noopener noreferrer">${esc(r.name)} ↗</a>
-        <span class="mk-val">${valFn(r)} <span class="u">${esc(unit)}</span>${typeof r.ch==="number"?`<span class="mk-ch ${r.ch>0?"up":"down"}" title="Variation du prix plancher sur 24 h, en platine, au même rang">${r.ch>0?"▲":"▼"} ${Math.abs(r.ch)}</span>`:""}${showSell&&r.price>0?`<span class="sell">vendre ~${sell(r.price)} PL</span>`:""}</span>
+        <button class="mk-star" data-fav="${esc(r.fav||r.name)}" title="Suivre cet objet">${favs[r.fav||r.name]?"★":"☆"}</button>
+        ${typeof Thumbs!=="undefined"?Thumbs.img(r.slug||sl(r.fav||r.name),"mk-vig",r.name):""}
+        <a class="mk-name" href="https://warframe.market/items/${esc(r.slug||sl(r.fav||r.name))}" target="_blank" rel="noopener noreferrer" title="${esc(r.fav||r.name)}">${esc(r.name)} ↗</a>${r.rang!=null?` <span class="u" title="prix du rang ${esc(r.rang)}">R${esc(r.rang)}</span>`:""}
+        <span class="mk-val">${valFn(r)} <span class="u">${esc(unit)}</span>${typeof r.ch==="number"?`<span class="mk-ch ${r.ch>0?"up":"down"}" title="Variation de la médiane sur 24 h, en platine, au même rang">${r.ch>0?"▲":"▼"} ${Math.abs(r.ch)}</span>`:""}${showSell&&r.price>0?`<span class="sell">vendre ~${sell(r.price)} PL</span>`:""}</span>
       </li>`).join("")||'<li class="mk-row"><span class="mk-num">—</span><span class="mk-name" style="color:var(--muted)">Aucune donnée</span></li>'}</ol></div>`;
   }
 
@@ -149,15 +149,20 @@
   // catégorie. On reconstruit alors les catégories côté client via les listes WATCH de data.js
   // (mêmes slugs — couverture vérifiée 124/124), avec des libellés honnêtes : sellOrders = offres
   // de vente EN COURS (liquidité), pas un volume de ventes sur 48 h.
+  // name = nom du catalogue (nomFr, sinon nom EN, posés par le pipeline) ; fav = nom EN,
+  // clé des favoris (views.js la re-slugifie) ; rang = celui du prix (arcanes, mods).
+  // Le slug mis en forme n'est qu'un repli pour un objet hors catalogue.
   function rowsFromItems(s,c){
     if(!Array.isArray(s.items)||typeof WATCH==="undefined")return [];
     const by={}; s.items.forEach(it=>{ if(it&&it.slug) by[it.slug]=it; });
     return (WATCH[c]||[]).map(u=>{
       const it=by[u]; if(!it)return null;
-      return {name:pretty(u), vol:it.sellOrders||0, price:it.median||it.avgTop5||0,
+      return {name:it.nomFr||it.nom||pretty(u), fav:it.nom||pretty(u), slug:u, rang:it.rang==null?null:it.rang,
+              vol:it.sellOrders||0, price:it.median||it.avgTop5||0,
               ch:(typeof it.change24h==="number"&&it.change24h!==0)?it.change24h:null};
     }).filter(Boolean);
   }
+  function nomSnap(u){const it=snapshot&&Array.isArray(snapshot.items)?snapshot.items.find(x=>x&&x.slug===u):null;return it?(it.nomFr||it.nom||null):null;}
 
   async function show(c){
     cat=c;
@@ -173,8 +178,9 @@
         // Toujours dater l'instantané : pendant le gel du 22 au 27/09 (quota Actions), cette
         // ligne présentait 5 jours de prix figés comme « mis à jour automatiquement ».
         const d=s.generated?new Date(s.generated):null;
-        const quand=d&&!isNaN(d)?" du "+d.toLocaleString("fr-FR",{day:"numeric",month:"long",hour:"2-digit",minute:"2-digit"})+(Date.now()-d>26*3600e3?" ⚠️ en retard":""):"";
-        draw(rowsFromItems(s,c),"Instantané"+quand+" — mis à jour chaque jour",
+        // Seuil 8 h (CLAUDE.md) : cadence 2 h + retard mesuré des crons GitHub (jusqu'à 6 h 46).
+        const quand=d&&!isNaN(d)?" du "+d.toLocaleString("fr-FR",{day:"numeric",month:"long",hour:"2-digit",minute:"2-digit"})+(Date.now()-d>8*3600e3?" ⚠️ en retard":""):"";
+        draw(rowsFromItems(s,c),"Instantané"+quand+" — mis à jour toutes les 2 h",
              ["Les plus liquides","Offres de vente en cours sur warframe.market","offres"]);
       }
     }
@@ -189,7 +195,7 @@
     try{
       const rows=(await mapLimit(list,async u=>{
         await throttle(110); const st=summarizeStats(await API.marketStats(u)); if(!st)return null;
-        return {name:pretty(u),vol:st.vol,price:st.price,rec:sell(st.price)};
+        return {name:nomSnap(u)||pretty(u),fav:pretty(u),slug:u,rang:st.rang,vol:st.vol,price:st.price,rec:sell(st.price)};
       },(d,tot)=>status.textContent="Scan… "+d+"/"+tot,8)).filter(Boolean);
       if(rows.length){writeLive(cat,rows);draw(rows,"En direct — à l'instant");}
       else status.textContent="Scan échoué (proxy indisponible).";
