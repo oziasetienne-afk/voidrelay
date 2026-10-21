@@ -15,7 +15,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from update_warframe_data import _choisir_rang, _prix_ordres, _rang_marchand  # noqa: E402
+from update_warframe_data import _choisir_rang, _prix_ordres, _rang_marchand, enrich_market_items  # noqa: E402
 
 OK = KO = 0
 
@@ -106,6 +106,34 @@ px = _prix_ordres([])
 dit(px["minSellPlat"] is None and px["maxBuyPlat"] is None and px["sellOrders"] == 0,
     "aucun ordre : des None, jamais des zéros", "un zéro passerait pour un prix")
 dit(_rang_marchand([]) is None, "aucune vente : aucun rang retenu")
+
+print("prix de référence : la médiane des cinq offres les plus basses, pas l'offre isolée")
+# Lex Prime Set, relevé réel du 20/10/2026 : 7, 8, 8 puis 3 platine (2e offre à 5,
+# 3e à 9). Sur l'offre la plus basse, le site titrait « −62 % en 24 h », tête des
+# baisses de /bons-plans et « meilleur farm de ducats » du Hub (18,3 ducats/plat) ;
+# trois heures plus tard l'offre avait disparu. Sur 6 703 couples J/J-1 de
+# l'historique, 258 des 707 alertes calculées sur le plus bas (36 %) avaient une
+# médiane immobile. La médiane, elle, était à 9 les deux jours.
+lex = {"slug": "lex_prime_set", "minSellPlat": 3, "low5SellPlat": [3, 5, 9, 9, 10], "ducats": 55}
+movers = enrich_market_items({"items": [lex]}, {"lex_prime_set": [
+    {"d": "2026-10-19", "min": 8, "median": 9}, {"d": "2026-10-20", "min": 3, "median": 9}]})
+dit(lex["median"] == 9 and lex["minSellPlat"] == 3, "le plus bas reste publié, la médiane est la référence", "3 / 9")
+dit(lex["change24h"] == 0 and lex["trend"] == "flat" and lex.get("alert") is None,
+    "une offre isolée à 3 p ne fabrique pas de « −62 % »", "médiane 9 → 9")
+dit(movers == [], "et n'entre pas dans les mouvements 24 h")
+dit(lex["ducatsPerPlat"] == round(55 / 9, 2), "ducats/platine au prix médian", "6,11 et non 18,33")
+dit(lex["spark"] == [9, 9], "la sparkline suit la médiane")
+gauss = {"slug": "gauss_prime_set", "minSellPlat": 50, "low5SellPlat": [50, 54, 55, 59, 60], "ducats": 175}
+enrich_market_items({"items": [gauss]}, {"gauss_prime_set": [
+    {"d": "2026-10-19", "min": 35, "median": 50}, {"d": "2026-10-20", "min": 50, "median": 55}]})
+dit(gauss["change24h"] == 5 and gauss["change24hPct"] == 10 and gauss.get("alert") is None,
+    "Gauss Prime : +10 % sur la médiane, pas « +43 % » sur un plus bas de 35", "50 → 55")
+# Deux offres seulement : la médiane EST une offre isolée → aucune variation inventée.
+mince = {"slug": "x_set", "minSellPlat": 3, "low5SellPlat": [3, 4]}
+enrich_market_items({"items": [mince]}, {"x_set": [
+    {"d": "2026-10-19", "min": 9, "median": 9}, {"d": "2026-10-20", "min": 3, "median": 3.5}]})
+dit(mince["change24h"] is None and mince.get("alert") is None and mince["median"] == 3.5,
+    "moins de 3 offres : prix publié, mais ni variation ni alerte", "n.d. plutôt qu'un « −61 % »")
 
 print("-" * 70)
 if KO:

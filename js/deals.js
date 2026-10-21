@@ -3,7 +3,12 @@
 (function(){
   const $=id=>document.getElementById(id);
   const titleCase=s=>String(s||"").replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase());
-  const card=(slug,right,sub)=>`<a class="card tile" href="/o/${encodeURIComponent(slug)}"><div class="t">${titleCase(slug)}</div><div class="d">${right}${sub?` · <span class="muted">${sub}</span>`:""}</div></a>`;
+  const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  // Nom affiché = celui du catalogue posé par le pipeline (nomFr, sinon nom EN) ; le
+  // slug mis en forme n'est qu'un repli (objet hors catalogue), jamais un nom inventé.
+  const slugDe=i=>typeof i==="string"?i:i.slug;
+  const nomDe=i=>typeof i==="string"?titleCase(i):(i.nomFr||i.nom||titleCase(i.slug));
+  const card=(i,right,sub)=>`<a class="card tile" href="/o/${encodeURIComponent(slugDe(i))}" title="${esc(typeof i==="string"?"":(i.nom||""))}"><div class="t">${esc(nomDe(i))}</div><div class="d">${right}${sub?` · <span class="muted">${sub}</span>`:""}</div></a>`;
   const sec=(id,arr)=>{const el=$(id); if(!el)return; el.innerHTML=arr.length?arr.join(""):'<p class="muted">Rien à signaler pour le moment.</p>';};
   const hide=id=>{const e=$(id);if(e)e.closest("section").style.display="none";};
 
@@ -13,27 +18,30 @@
     // map slug->item pour enrichir les movers
     const bySlug={}; items.forEach(i=>bySlug[i.slug]=i);
 
-    // change24h est en PLATINE (prix plancher d'aujourd'hui moins celui de la veille,
-    // au même rang) : jusqu'au 20/10/2026 il était affiché suivi d'un « % ». Le
-    // pourcentage vient de change24hPct ; un objet sans ce chiffre n'est pas classé.
+    // change24h est en PLATINE, sur la MÉDIANE des 5 offres les plus basses (au même
+    // rang) : depuis le 21/10/2026, plus sur l'offre la plus basse seule — Lex Prime Set
+    // titrait « −62 % » sur une offre isolée à 3 p. Jusqu'au 20/10/2026 il était affiché
+    // suivi d'un « % » ; le pourcentage vient de change24hPct, et un objet sans ce
+    // chiffre n'est pas classé. Le prix montré à côté est donc la médiane, celle du %.
     const pl=i=>`${i.change24h>0?"+":""}${i.change24h} PL (${i.change24hPct>0?"+":""}${i.change24hPct} %) / 24 h`;
+    const prix=i=>i.median!=null?`${i.median} PL méd.`:`${i.minSellPlat??"?"} PL`;
     const rg=i=>i.rang!=null?` · rang ${i.rang}`:"";
     const okPct=i=>typeof i.change24hPct==="number";
 
     // 🔥 hausses
     const up=[...items].filter(i=>i.change24h>0&&okPct(i)).sort((a,b)=>b.change24hPct-a.change24hPct)
       .concat(movers.filter(m=>m.change24h>0&&okPct(m)&&!bySlug[m.slug]))
-      .slice(0,8).map(i=>card(i.slug,pl(i),`${i.minSellPlat||i.median||"?"} PL${rg(i)}`));
+      .slice(0,8).map(i=>card(i,pl(i),`${prix(i)}${rg(i)}`));
     sec("up",up);
 
     // 💎 ducats/platine
     const duc=[...items].filter(i=>i.ducatsPerPlat).sort((a,b)=>b.ducatsPerPlat-a.ducatsPerPlat)
-      .slice(0,8).map(i=>card(i.slug,`${i.ducatsPerPlat.toFixed(2)} ducats/PL`,`${i.ducats||"?"} ducats · ${i.minSellPlat||i.median} PL`));
+      .slice(0,8).map(i=>card(i,`${i.ducatsPerPlat.toFixed(2)} ducats/PL`,`${i.ducats||"?"} ducats · ${prix(i)}`));
     sec("duc",duc);
 
     // 📉 baisses (bon moment pour acheter)
     const down=[...items].filter(i=>i.change24h<0&&okPct(i)).sort((a,b)=>a.change24hPct-b.change24hPct)
-      .slice(0,8).map(i=>card(i.slug,pl(i),`${i.minSellPlat||i.median} PL${rg(i)}`));
+      .slice(0,8).map(i=>card(i,pl(i),`${prix(i)}${rg(i)}`));
     down.length?sec("down",down):hide("down");
 
     // 🔄 Prime Resurgence (Varzia)

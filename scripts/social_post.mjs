@@ -38,11 +38,12 @@ function pickEvent() {
   const top = pool[0];
   if (top && Math.abs(top.change24hPct) >= 3) {
     const upd = top.change24h >= 0;
-    return { type: "mover", tag: upd ? "EN HAUSSE AUJOURD'HUI" : "EN BAISSE — À ACHETER", title: titleCase(top.slug), sub: `${upd ? "+" : ""}${top.change24hPct}% en 24 h · ${top.minSellPlat || top.median || "?"} platine${top.rang != null ? " (rang " + top.rang + ")" : ""}`, cta: "/o/" + top.slug };
+    // Le % est calculé sur la médiane (21/10/2026) : c'est elle qu'on affiche à côté ; nom du catalogue, pas du slug.
+    return { type: "mover", tag: upd ? "EN HAUSSE AUJOURD'HUI" : "EN BAISSE — À ACHETER", title: top.nomFr || top.nom || titleCase(top.slug), sub: `${upd ? "+" : ""}${top.change24hPct}% en 24 h · ${top.median || top.minSellPlat || "?"} platine${top.rang != null ? " (rang " + top.rang + ")" : ""}`, cta: "/o/" + top.slug };
   }
   // meilleur rendement ducats
   const duc = items.filter(i => i.ducatsPerPlat).sort((a, b) => b.ducatsPerPlat - a.ducatsPerPlat)[0];
-  if (duc) return { type: "ducat", tag: "MEILLEUR RENDEMENT DUCATS", title: titleCase(duc.slug), sub: `${duc.ducatsPerPlat.toFixed(2)} ducats/platine · ${duc.ducats} ducats`, cta: "/o/" + duc.slug };
+  if (duc) return { type: "ducat", tag: "MEILLEUR RENDEMENT DUCATS", title: duc.nomFr || duc.nom || titleCase(duc.slug), sub: `${duc.ducatsPerPlat.toFixed(2)} ducats/platine · ${duc.ducats} ducats`, cta: "/o/" + duc.slug };
   return { type: "daily", tag: "MARCHÉ WARFRAME", title: "Prix du platine en direct", sub: "Hausses, ducats & bons plans du jour", cta: "/bons-plans" };
 }
 

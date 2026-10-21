@@ -29,6 +29,7 @@ SUITES = [
     ("test_arsenal_chasseur.py", False),  # v97 : griffes des bêtes, Récupération du Chasseur
     ("test_arsenal_rechoix.py", False),   # v98 : rechoisir l'objet équipé garde son build
     ("test_debordement_mobile.py", False),   # v101 : aucune page ne défile de côté à 320 et 768 px
+    ("test_marche_noms.py", False),   # 21/10/2026 : noms du catalogue, rang, variations sur la médiane (hub, marche, bons-plans, profils)
     ("test_marche_complet.py", True),   # relais : appelle les vraies API
     ("test_repli_v1.py", True),
 ]

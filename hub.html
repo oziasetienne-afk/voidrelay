@@ -53,7 +53,7 @@
   ════════════════════════════════════════════════════════════════════════
   • Lit data/summary.json (contrat stable) + data/news.json (facultatif, Action hebdo).
   • Timers de cycles EXACTS côté client : recalcul depuis expiryUtc + rollover par
-    période connue (insensible à la latence du cron quotidien).
+    période connue (insensible à la latence du cron).
   • Si le fetch échoue (ex. ouverture en file://), bascule sur un JEU DE DÉMO intégré
     => double-clic = aperçu complet ; en production (servi par githack) = données réelles.
   • Ne remplace PAS hub-widget.example.html (conservé). Fichier additif : ne casse rien.
@@ -267,11 +267,15 @@ let DATA=null, NEWS=null, usingDemo=false;
    - 27/09/2026 : la MàJ interne passe à 1×/jour (économie de minutes Actions). Les failles
      vivent ~1 h : au-delà de 1 h 30 (WS_LIVE_MS), le secours devient le régime NORMAL,
      silencieux (1 requête par visite, comme les pages-outils via js/api.js). Le bandeau
-     « retard » ne s'affiche plus que si le fichier dépasse la cadence (STALE_MS, 26 h).
+     « retard » ne s'affiche plus que si le fichier dépasse la cadence (STALE_MS).
+   - 21/10/2026 : cadence revenue à 2 h (dépôt public, cron à la minute 17 toutes les 2 h). STALE_MS = 8 h,
+     le seuil de CLAUDE.md : GitHub a livré 3 h 46 à 6 h 46 entre deux passes les 19–20/10,
+     au-delà de 8 h la mise à jour est bloquée. À 26 h, le Hub présentait 3 passes manquées
+     comme normales.
    - Au plus 1 requête par demi-heure par onglet. Marché non couvert (reste daté, dit au bandeau).
    - CSP : connect-src autorise uniquement ce domaine précis, en lecture. */
 const RESCUE_URL="https://api.warframestat.us/pc/?language=fr";
-const STALE_MS = 26*3600*1000;   // cadence 1×/jour + 2 h de marge (GitHub retarde les crons)
+const STALE_MS = 8*3600*1000;    // cadence 2 h + le retard mesuré des crons GitHub (jusqu'à 6 h 46)
 const WS_LIVE_MS = 90*60*1000;   // au-delà, failles/Baro/sortie du fichier sont trop vieilles
 let rescued=false, rescueTried=false, rescueAt=0;
 async function tryRescue(){
@@ -351,7 +355,7 @@ function render(){
   if(usingDemo){ banner.style.display="block";
     banner.innerHTML="🔌 Aperçu hors-ligne — <b>données de démonstration</b>. En production (page servie en http), cette vue lit <code>data/summary.json</code> mis à jour automatiquement."; }
   else{
-    // Honnêteté « données datées » (fichier plus vieux que la cadence 1×/jour) + SECOURS DIRECT (cf. tryRescue).
+    // Honnêteté « données datées » (fichier plus vieux que STALE_MS) + SECOURS DIRECT (cf. tryRescue).
     const age = ms(s.updated_utc) ? (Date.now()-ms(s.updated_utc)) : null;
     const ageMk = ms(s.marketAsOf||s.updated_utc) ? (Date.now()-ms(s.marketAsOf||s.updated_utc)) : null;
     if(rescued){
@@ -520,7 +524,7 @@ function cardTodo(s){
   // 💱 Meilleur farm de ducats du moment (depuis le marché suivi : ducats/plat le plus élevé)
   const mk=(s.market&&s.market.items)||[];
   const bestDuc=mk.filter(i=>typeof i.ducatsPerPlat==="number" && i.ducatsPerPlat>0).sort((a,b)=>b.ducatsPerPlat-a.ducatsPerPlat)[0];
-  if(bestDuc) items.push({i:"💱", t:`<b>Farm de ducats</b> : <a href="#card-market">${esc(bestDuc.slug.replace(/_/g," "))}</a> <span class="muted">(${esc(bestDuc.ducatsPerPlat)} ducats/plat — meilleur rendement suivi)</span>`});
+  if(bestDuc) items.push({i:"💱", t:`<b>Farm de ducats</b> : <a href="#card-market">${esc(nomDe(bestDuc))}</a> <span class="muted">(${esc(bestDuc.ducatsPerPlat)} ducats/plat au prix médian — meilleur rendement suivi)</span>`});
   // ♻️ Prime Resurgence (Varzia)
   const rg=s.resurgence||{};
   if(rg.active) items.push({i:"♻️", t:`<b>Prime Resurgence</b> : ${(rg.featured||[]).slice(0,3).map(esc).join(", ")||"Primes au coffre"} chez Varzia`, cd:ms(rg.endUtc), k:"repart dans"});
@@ -691,7 +695,7 @@ function cardMarket(s){
     const enRetard = (Date.now()-(ms(s.marketAsOf)||0)) > STALE_MS;
     c.append(el("div",{class:"muted",style:"margin:-6px 0 8px;font-size:11.5px"},
       (enRetard?"Prix datés du ":"Prix relevés le ")+esc(new Date(ms(s.marketAsOf)).toLocaleString("fr-FR",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"}))+
-      (enRetard?" (la mise à jour interne est en retard — le reste de la page est secouru en direct).":" (mise à jour quotidienne — le reste de la page est en direct).")));
+      (enRetard?" (la mise à jour interne est en retard — le reste de la page est secouru en direct).":" (mise à jour toutes les 2 h — le reste de la page est en direct).")));
   }
   // recherche + tri
   const ctr=el("div",{class:"controls"});
@@ -707,7 +711,7 @@ function cardMarket(s){
   if(mv.length){
     const wrap=el("div",{class:"muted",style:"margin:0 0 10px"});
     wrap.innerHTML="📈 Mouvements 24 h : "+mv.map(x=>{
-      const up=x.change24h>0; return `${esc(x.slug.replace(/_/g," "))} <span class="trend ${up?'up':'down'}">${up?'▲':'▼'}${Math.abs(x.change24h)}p</span>`;
+      const up=x.change24h>0; return `${esc(nomDe(x))} <span class="trend ${up?'up':'down'}">${up?'▲':'▼'}${Math.abs(x.change24h)}p</span>`;
     }).join(" · ");
     c.append(wrap);
   }
@@ -725,23 +729,26 @@ function spark(arr){
 }
 // Variation sans point de référence au même rang : on le dit, on n'invente pas de 0.
 const ND=`<abbr title="non disponible" style="text-decoration:none">n.d.</abbr>`;
+// Nom affiché : celui du catalogue, posé par le pipeline (nomFr, sinon nom EN). Le slug
+// n'est qu'un repli pour un objet hors catalogue — jamais un nom fabriqué.
+const nomDe=i=>(i&&(i.nomFr||i.nom))||String((i&&i.slug)||"").replace(/_/g," ");
 function renderMarket(s){
   const host=$("#marketTable"); if(!host) return;
   const m=s.market||{items:[]};
   let items=(m.items||[]).slice();
   const q=($("#mq")&&$("#mq").value||"").trim().toLowerCase();
-  if(q) items=items.filter(i=>i.slug.toLowerCase().includes(q.replace(/\s+/g,"_")) || i.slug.replace(/_/g," ").toLowerCase().includes(q));
+  if(q) items=items.filter(i=>i.slug.toLowerCase().includes(q.replace(/\s+/g,"_")) || i.slug.replace(/_/g," ").toLowerCase().includes(q) || nomDe(i).toLowerCase().includes(q) || String(i.nom||"").toLowerCase().includes(q));
   if(marketSort==="ducats") items.sort((a,b)=>(b.ducatsPerPlat||0)-(a.ducatsPerPlat||0));
   else if(marketSort==="price") items.sort((a,b)=>(a.minSellPlat||1e9)-(b.minSellPlat||1e9));
   else if(marketSort==="move") items.sort((a,b)=>Math.abs(b.change24h||0)-Math.abs(a.change24h||0));
-  let h=`<table><thead><tr><th>Item</th><th class="r">Min</th><th class="r">Méd.</th><th class="r">Δ24h</th><th class="r">Δ7j</th><th class="r">Tendance</th><th class="r">Duc/plat</th></tr></thead><tbody>`;
+  let h=`<table><thead><tr><th>Item</th><th class="r">Min</th><th class="r">Méd.</th><th class="r" title="variation de la médiane sur 24 h">Δ méd. 24h</th><th class="r" title="variation de la médiane sur 7 jours">Δ méd. 7j</th><th class="r">Tendance</th><th class="r">Duc/plat</th></tr></thead><tbody>`;
   if(!items.length) h+=`<tr><td colspan="7" class="muted">Aucun item.</td></tr>`;
   items.forEach(i=>{
     const tr = i.trend||"flat", arr = tr==="up"?"▲":(tr==="down"?"▼":"—");
     const c24=i.change24h, c7=i.change7d;
     const url="https://warframe.market/items/"+encodeURIComponent(i.slug);
     h+=`<tr class="${i.alert?'alert':''}">
-      <td><a href="${url}" target="_blank" rel="noopener noreferrer">${esc(i.slug.replace(/_/g," "))}</a>${i.rang!=null?` <span class="muted" title="prix et variations du rang ${i.rang}">R${i.rang}</span>`:''}${i.alert?` <span class="sp" title="variation forte">●</span>`:''}</td>
+      <td><a href="${url}" target="_blank" rel="noopener noreferrer" title="${esc(i.nom||i.slug)}">${esc(nomDe(i))}</a>${i.rang!=null?` <span class="muted" title="prix et variations du rang ${i.rang}">R${i.rang}</span>`:''}${i.alert?` <span class="sp" title="variation forte">●</span>`:''}</td>
       <td class="r"><b>${i.minSellPlat??"—"}</b>p</td>
       <td class="r muted">${i.median??"—"}</td>
       <td class="r ${c24>0?'trend up':(c24<0?'trend down':'muted')}">${c24!=null?(c24>0?'+':'')+c24:ND}</td>
@@ -749,7 +756,7 @@ function renderMarket(s){
       <td class="r"><span class="trend ${tr}">${arr}</span> ${spark(i.spark)}</td>
       <td class="r muted">${i.ducatsPerPlat!=null?i.ducatsPerPlat:'—'}</td></tr>`;
   });
-  h+=`</tbody></table><div class="muted" style="margin-top:8px;font-size:11.5px">Δ = variation du prix plancher (plat), calculée au même rang que le prix (R10 = rang 10). « n.d. » = non disponible : pas encore assez de relevés à ce rang. « Duc/plat » : ducats obtenus par plat dépensé (plus haut = meilleur farm de ducats).</div>`;
+  h+=`</tbody></table><div class="muted" style="margin-top:8px;font-size:11.5px">Min = offre la plus basse d'un vendeur en jeu (prix d'achat immédiat). Méd. = médiane des 5 offres les plus basses, au même rang que le prix (R10 = rang 10) : c'est la référence des variations Δ (plat), de la tendance et des ducats/plat — une seule offre isolée ne fait pas le marché. « n.d. » = non disponible : pas encore assez de relevés à ce rang. « Duc/plat » : ducats obtenus par plat dépensé au prix médian (plus haut = meilleur farm de ducats).</div>`;
   host.innerHTML=h;
 }
 
@@ -868,15 +875,15 @@ const DEMO={
       {attacker:"Corpus",defenderFaction:"Grineer",node:"Galatea · Neptune",completion:-31.2},
       {attacker:"Infested",defenderFaction:"Grineer",node:"Naga · Sedna",completion:48.0},
     ]},
-    marketMovers:[{slug:"wisp_prime_set",change24h:-12,minSellPlat:73},{slug:"primed_flow",change24h:9,minSellPlat:49}],
+    marketMovers:[{slug:"wisp_prime_set", nom:"Wisp Prime Set",change24h:-12,minSellPlat:73},{slug:"primed_flow", nom:"Primed Flow",change24h:9,minSellPlat:49}],
     market:{platform:"pc", items:[
-      {slug:"mirage_prime_set", minSellPlat:85, median:88, change24h:3, change7d:-6, trend:"up",  ducats:175, ducatsPerPlat:2.06, spark:[92,90,88,89,86,84,85]},
-      {slug:"octavia_prime_set",minSellPlat:80, median:86, change24h:-4,change7d:-11,trend:"down",ducats:175, ducatsPerPlat:2.19, spark:[95,93,90,88,86,84,80]},
-      {slug:"wisp_prime_set",   minSellPlat:73, median:75, change24h:-12,change7d:-18,trend:"down",ducats:175, ducatsPerPlat:2.40, alert:"drop", spark:[95,92,90,88,82,79,73]},
-      {slug:"khora_prime_set",  minSellPlat:85, median:85, change24h:0, change7d:2,  trend:"flat",ducats:175, ducatsPerPlat:2.06, spark:[83,84,85,85,84,85,85]},
-      {slug:"gauss_prime_set",  minSellPlat:49, median:50, change24h:1, change7d:-3, trend:"up",  ducats:175, ducatsPerPlat:3.57, spark:[53,52,51,50,49,49,49]},
-      {slug:"arcane_energize",  minSellPlat:95, median:99, change24h:5, change7d:14, trend:"up",  ducats:0,   ducatsPerPlat:null, spark:[80,82,85,88,90,93,95]},
-      {slug:"primed_flow",      minSellPlat:49, median:52, change24h:9, change7d:9,  trend:"up",  ducats:0,   ducatsPerPlat:null, alert:"spike", spark:[40,42,44,46,48,49,49]},
+      {slug:"mirage_prime_set", nom:"Mirage Prime Set", minSellPlat:85, median:88, change24h:3, change7d:-6, trend:"up",  ducats:175, ducatsPerPlat:2.06, spark:[92,90,88,89,86,84,85]},
+      {slug:"octavia_prime_set", nom:"Octavia Prime Set",minSellPlat:80, median:86, change24h:-4,change7d:-11,trend:"down",ducats:175, ducatsPerPlat:2.19, spark:[95,93,90,88,86,84,80]},
+      {slug:"wisp_prime_set", nom:"Wisp Prime Set",   minSellPlat:73, median:75, change24h:-12,change7d:-18,trend:"down",ducats:175, ducatsPerPlat:2.40, alert:"drop", spark:[95,92,90,88,82,79,73]},
+      {slug:"khora_prime_set", nom:"Khora Prime Set",  minSellPlat:85, median:85, change24h:0, change7d:2,  trend:"flat",ducats:175, ducatsPerPlat:2.06, spark:[83,84,85,85,84,85,85]},
+      {slug:"gauss_prime_set", nom:"Gauss Prime Set",  minSellPlat:49, median:50, change24h:1, change7d:-3, trend:"up",  ducats:175, ducatsPerPlat:3.57, spark:[53,52,51,50,49,49,49]},
+      {slug:"arcane_energize", nom:"Arcane Energize",  minSellPlat:95, median:99, change24h:5, change7d:14, trend:"up",  ducats:0,   ducatsPerPlat:null, spark:[80,82,85,88,90,93,95]},
+      {slug:"primed_flow", nom:"Primed Flow",      minSellPlat:49, median:52, change24h:9, change7d:9,  trend:"up",  ducats:0,   ducatsPerPlat:null, alert:"spike", spark:[40,42,44,46,48,49,49]},
     ]},
   },
   news:{ updated_utc:new Date(_now-3600000).toISOString().slice(0,10), source:"warframestat /pc/news",

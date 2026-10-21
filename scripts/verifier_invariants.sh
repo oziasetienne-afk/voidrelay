@@ -314,8 +314,21 @@ else
     | grep -v node_modules \
     | xargs -r grep -ohE "$MOTIF_CADENCE" \
     | grep -oE "[0-9]+" | sort -u | grep -v "^${CRON}$" || true)
+  # 21/10/2026 : le cron est repassé à 2 h le 19/10, mais /marche, l'accueil FR/EN, le
+  # Hub et un guide promettaient encore « chaque jour » / « every day » — un texte sans
+  # nombre que le motif ci-dessus ne voyait pas (8 pages en échec avant correction). Dès
+  # que le cron n'est pas quotidien, toute promesse de rafraîchissement « quotidien »
+  # des données est fausse. Les mots du jeu (« défis quotidiens ») ne sont pas visés :
+  # il faut un verbe de mise à jour devant.
+  MOTIF_JOUR="(mis(e)?s? à jour|rafraîchi(e)?s?|updated|refreshed)[^.<]{0,40}(chaque jour|quotidien|daily|every day|once a day|une fois par jour)"
+  QUOTIDIEN=""
+  if [ "$CRON" != "24" ]; then
+    QUOTIDIEN=$(grep -rlE "$MOTIF_JOUR" --include=*.html . 2>/dev/null | grep -v node_modules | tr '\n' ' ' || true)
+  fi
   if [ -n "$MAUVAIS" ]; then
     fail "cadence annoncée ≠ cron : le site promet $(echo "$MAUVAIS" | tr '\n' '/' )h alors que le workflow tourne toutes les ${CRON}h"
+  elif [ -n "$QUOTIDIEN" ]; then
+    fail "cadence annoncée ≠ cron : « chaque jour » dans ${QUOTIDIEN}alors que le workflow tourne toutes les ${CRON}h"
   else
     ok "fraîcheur annoncée = cadence réellement demandée (${CRON} h, dérivée du cron)"
   fi
@@ -342,7 +355,12 @@ if [ -f scripts/verifier_garde_perso.py ]; then
 fi
 if [ -f scripts/verifier_prix_rangs.py ]; then
   python3 scripts/verifier_prix_rangs.py >/dev/null 2>&1 \
-    || { fail "garde-fou verifier_prix_rangs.py : le calcul de prix ne tient plus (rangs mélangés ?)"; pur_ko=1; }
+    || { fail "garde-fou verifier_prix_rangs.py : le calcul de prix ne tient plus (rangs mélangés ? variation sur l'offre isolée ?)"; pur_ko=1; }
+fi
+# Noms du marché (21/10/2026) : nomFr / nom viennent du catalogue, jamais du slug.
+if [ -f scripts/verifier_noms_marche.py ]; then
+  python3 scripts/verifier_noms_marche.py >/dev/null 2>&1 \
+    || { fail "garde-fou verifier_noms_marche.py : un objet suivi n'a pas de nom de catalogue, ou une page n'affiche plus nomFr (python3 scripts/verifier_noms_marche.py)"; pur_ko=1; }
 fi
 # Celui-ci travaille sur les DONNÉES, pas sur du code : il attrape le jour où
 # la série de prix et le prix courant cessent de décrire le même objet — ce qui
@@ -389,7 +407,8 @@ PY
 # prix sont restés figés 5 jours (quota Actions : 30+ runs sans runner) et TOUT ici
 # passait au vert : aucun contrôle ne regardait l'âge des données. Non bloquant exprès :
 # pendant un gel, bloquer le déploiement empêcherait justement de corriger.
-# Seuil 26 h = cadence 1×/jour + 2 h de retard toléré des crons GitHub.
+# Seuil 8 h (21/10/2026, CLAUDE.md) = cadence 2 h + le retard mesuré des crons GitHub
+# (3 h 46 à 6 h 46 entre deux passes les 19–20/10). Avant : 26 h, hérité du 1×/jour.
 AGE_H=$(python3 - <<'PY' 2>/dev/null
 import json,datetime
 t=json.load(open("data/last_update.json"))["updated_utc"]
@@ -397,8 +416,8 @@ d=datetime.datetime.strptime(t,"%Y-%m-%dT%H:%M:%SZ")
 print(int((datetime.datetime.utcnow()-d).total_seconds()//3600))
 PY
 )
-if [ -n "$AGE_H" ] && [ "$AGE_H" -gt 26 ]; then
-  echo "⚠️  données vieilles de ${AGE_H} h (data/last_update.json) : la mise à jour quotidienne est bloquée ? Regarder les runs de warframe-hub-update.yml (runner_id 0 = quota). Non bloquant."
+if [ -n "$AGE_H" ] && [ "$AGE_H" -gt 8 ]; then
+  echo "⚠️  données vieilles de ${AGE_H} h (data/last_update.json) : la mise à jour (toutes les 2 h) est bloquée ? Regarder les runs de warframe-hub-update.yml (runner_id 0 = quota). Non bloquant."
 fi
 
 echo "----------------------------------------------------------------------"

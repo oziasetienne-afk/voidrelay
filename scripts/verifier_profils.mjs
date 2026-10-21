@@ -41,7 +41,7 @@ const M = [
   { slug: "banal_set", minSellPlat: 20, median: 22, maxBuyPlat: 21, sellOrders: 40,
     low5SellPlat: [20, 20, 21], high5BuyPlat: [21, 20, 20], ducats: 45 },
   // aucun acheteur
-  { slug: "sansachat_set", minSellPlat: 30, median: 33, maxBuyPlat: null, sellOrders: 9,
+  { slug: "sansachat_set", minSellPlat: 30, median: 30, maxBuyPlat: null, sellOrders: 9,
     low5SellPlat: [30, 31], high5BuyPlat: [], ducats: 300 },
   // les pièces (prix pris dans market_pieces)
   { slug: "lex_prime_set", minSellPlat: 12, median: 14, maxBuyPlat: 11, sellOrders: 50,
@@ -159,8 +159,12 @@ console.log("⚡ flipper");
 console.log("💎 ducatier");
 {
   const r = C.ducatier(M);
-  dit(r[0].slug === "fantome_set" && r[0].ratio === 10,
-      "ratio ducats / platine au prix d'achat réel", "100 ducats / 10 p = 10");
+  dit(r[0].slug === "sansachat_set" && r[0].ratio === 10,
+      "ratio ducats / platine au prix médian des cinq offres les plus basses", "300 ducats / 30 p = 10");
+  // Piège 4 : l'offre fantôme à 10 p (la deuxième à 40) faisait de fantome_set le
+  // « meilleur farm de ducats » (100 / 10 = 10) ; à la médiane il vaut 2,22.
+  dit(r.find(x => x.slug === "fantome_set").ratio === 2.22 && r.find(x => x.slug === "fantome_set").faible,
+      "l'ordre fantôme ne fabrique plus le meilleur ducatier", "100 / 45 = 2,22, pas 100 / 10");
   dit(r.find(x => x.slug === "sansachat_set").bon === true,
       "au-dessus de 10 ducats/platine : bonne affaire", "300 / 30 = 10");
   dit(r.find(x => x.slug === "banal_set").faible === true,

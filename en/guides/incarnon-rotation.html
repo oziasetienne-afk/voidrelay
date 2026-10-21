@@ -70,7 +70,7 @@
 <footer class="foot"><div class="in"><div><span class="brand" style="color:#fff"><span class="logo">◆</span> VoidRelay</span><div style="font-size:.85rem;margin-top:6px">Unofficial Warframe hub — fan-made, free.</div></div><div class="links" style="font-size:.9rem"><a href="/en/platinum-path/">Platinum Path</a><a href="/en/builds/">Builds</a><a href="/en/o/">Items</a><a href="/en/guides/">Guides</a><a href="/en/tools">Tools</a><a href="/hub">Dashboard</a><a href="/faq-en">FAQ</a><a href="/a-propos">About</a></div></div><div class="in" style="padding-top:0;font-size:.8rem;color:#8294ab">"Warframe" is a trademark of Digital Extremes. Prices: warframe.market. · <a href="/confidentialite">Privacy</a> · <a href="/mentions-legales">Legal</a></div></footer>
 <script>
 (function(){
-  /* Rotation hydrated from /data/summary.json (same origin, refreshed daily
+  /* Rotation hydrated from /data/summary.json (same origin, refreshed every 2 h
      by the data workflow). No external client-side calls. */
   function carte(nom, cls){ var d=document.createElement("div"); d.className="rot-card"+(cls?" "+cls:""); d.innerHTML='<div class="nm"></div>'; d.querySelector(".nm").textContent=nom; return d; }
   function remplir(id, noms, cls){ var el=document.getElementById(id); if(!noms||!noms.length){ el.innerHTML='<p class="rot-err">Rotation temporarily unavailable — retry in a few minutes or see the <a href="/hub">dashboard</a>.</p>'; return; } el.innerHTML=""; noms.forEach(function(n){ el.appendChild(carte(n, cls)); }); }

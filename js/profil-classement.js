@@ -177,13 +177,18 @@
   }
 
   /* ---- 💎 LE DUCATIER -----------------------------------------------------
-     Ducats obtenus par platine dépensé, au prix d'achat réel (la vente la plus
-     basse). Repère de métier : au-dessus de 10 ducats/platine, l'affaire est
-     bonne ; en dessous de 5, autant vendre la pièce. */
+     Ducats obtenus par platine dépensé, au prix MÉDIAN des cinq offres les plus
+     basses — pas à la vente la plus basse. Mesuré le 20/10/2026 : Lex Prime Set
+     avait UNE offre à 3 p (la deuxième à 5, la troisième à 9) et prenait la tête
+     à 18,3 ducats/platine ; trois heures plus tard l'offre avait disparu (11,0).
+     Le ducatier achète plusieurs sets : il paie la médiane, pas l'offre isolée.
+     Même chiffre que ducatsPerPlat de market.json (/bons-plans, /hub).
+     Repère de métier : au-dessus de 10 ducats/platine, l'affaire est bonne ;
+     en dessous de 5, autant vendre la pièce. */
   function ducatier(items) {
     return items
       .map(function (it) {
-        var bas = nb(it.minSellPlat), duc = nb(it.ducats);
+        var bas = nb(it.median), duc = nb(it.ducats);
         if (bas === null || bas <= 0 || !duc) return null;
         var r = duc / bas;
         return { slug: it.slug, bas: bas, ducats: duc,

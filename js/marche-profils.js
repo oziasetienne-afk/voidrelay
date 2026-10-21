@@ -19,9 +19,13 @@
   var joli = function (u) {
     return String(u).replace(/_/g, " ").replace(/\b\w/g, function (c) { return c.toUpperCase(); });
   };
+  /* Nom affiché : celui du catalogue, posé sur chaque objet de market.json par le
+     pipeline (nomFr sur la page FR, nom EN sur /en/). Le slug mis en forme n'est
+     qu'un repli pour un objet hors catalogue — jamais un nom inventé. */
+  var NOMS = {};
   var lien = function (slug, nom) {
     return '<a href="' + (P.EST_EN ? "/en/o/" : "/o/") + esc(slug) + '">' +
-           esc(nom || joli(slug)) + "</a>";
+           esc(nom || NOMS[slug] || joli(slug)) + "</a>";
   };
   var p = function (v) { return v === null || v === undefined ? "—" : v + " p"; };
   var signe = function (v) {
@@ -145,10 +149,10 @@
 
     ducatier: {
       titre: T("Le plus de ducats par platine dépensé", "Most ducats per platinum spent"),
-      sous: T("Ducats obtenus divisés par le prix d'achat réel. Au-dessus de <b>10</b>, l'affaire est bonne ; en dessous de <b>5</b>, autant revendre la pièce en platine.",
-              "Ducats gained divided by the real buying price. Above <b>10</b> it is a good deal; below <b>5</b> you may as well sell the part for platinum."),
-      cols: T(["Objet", "Prix d'achat", "Ducats", "Ducats / platine", "Vendeurs"],
-                 ["Item", "Buy price", "Ducats", "Ducats / platinum", "Sellers"]),
+      sous: T("Ducats obtenus divisés par le prix <b>médian</b> des cinq offres les plus basses (tu achètes plusieurs sets : une offre isolée ne fait pas ton prix). Au-dessus de <b>10</b>, l'affaire est bonne ; en dessous de <b>5</b>, autant revendre la pièce en platine.",
+              "Ducats gained divided by the <b>median</b> of the five lowest offers (you buy several sets: one lone offer is not your price). Above <b>10</b> it is a good deal; below <b>5</b> you may as well sell the part for platinum."),
+      cols: T(["Objet", "Prix médian", "Ducats", "Ducats / platine", "Vendeurs"],
+                 ["Item", "Median price", "Ducats", "Ducats / platinum", "Sellers"]),
       note: T("Baro Ki'Teer revient tous les 14 jours et le plafond est de 350 000 ducats. Le <a href=\"/ducats\">convertisseur</a> calcule ce que valent tes pièces déjà en poche.",
               "Baro Ki'Teer returns every 14 days and the cap is 350,000 ducats. The <a href=\"/en/ducats\">converter</a> works out what the parts you already hold are worth."),
       lignes: function () { return C.ducatier(donnees.marche.items); },
@@ -249,7 +253,13 @@
 
   function demarre() {
     cartes(); montre();
-    json("/data/market.json").then(function (d) { donnees.marche = d; montre(); })
+    json("/data/market.json").then(function (d) {
+        (d.items || []).forEach(function (it) {
+          var n = P.EST_EN ? it.nom : (it.nomFr || it.nom);
+          if (it.slug && n) NOMS[it.slug] = n;
+        });
+        donnees.marche = d; montre();
+      })
       .catch(function () {
         $("pfTbl").querySelector("tbody").innerHTML =
           "<tr><td>" + T("Les prix n'ont pas pu être chargés. Réessaie dans un moment.",
