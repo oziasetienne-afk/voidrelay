@@ -1,7 +1,10 @@
 # Proxy perso warframe.market
 
-> **En service depuis le 19/10/2026 : `proxy/vercel/` → https://voidrelay-prix.vercel.app**
-> (projet Vercel `voidrelay-prix`, équipe de l'admin, région Paris `cdg1`).
+> **En service depuis le 22/10/2026 : `proxy/vercel/` → https://voidrelay-proxy.vercel.app**
+> (projet Vercel `voidrelay-proxy`, équipe **Hobby** `voidrelay` de l'admin, région Paris `cdg1`,
+> relié à GitHub : chaque push sur `main` qui touche `proxy/vercel/` redéploie ; les autres sont
+> ignorés par `ignoreCommand`). Hobby = usage NON commercial : voir CLAUDE.md « Site NON commercial ».
+> Ancien projet `voidrelay-prix` (équipe Pro « chef ») : à supprimer une fois la bascule vérifiée.
 > warframe.market renvoie désormais 403 « Just a moment » à **toutes** les requêtes qui
 > sortent des Workers Cloudflare (4 jeux d'en-têtes testés) : `worker.js` ci-dessous ne
 > rend plus aucun prix et n'est gardé que pour l'historique. Les proxys publics de secours
