@@ -1056,9 +1056,13 @@ ${sections}
    régression sur le rendu français. Sortie : en/builds/<slug>.html.        */
 const OUT_EN = path.join(ROOT, "en", "builds");
 
-function modCardEN(name) {
+/* fxPropre : effet propre à une grille (« mods recommandés »), sans toucher EFFECTS_EN, partagé par
+   toutes les pages. Séparé en 2 fonctions : modCardEN sert aussi de callback à .map(), qui lui
+   passerait l'index en 2e argument. */
+function modCardEN(name) { return modCardFxEN(name, null); }
+function modCardFxEN(name, fxPropre) {
   const m = MODS[name];
-  const fx = EFFECTS_EN[name] ? `<span class="fx">${esc(EFFECTS_EN[name])}</span>` : "";
+  const fx = fxPropre ? `<span class="fx">${esc(fxPropre)}</span>` : EFFECTS_EN[name] ? `<span class="fx">${esc(EFFECTS_EN[name])}</span>` : "";
   if (m) {
     return `<div class="modc" title="${esc(name)}"><img loading="lazy" src="${vignette(`/assets/wfimg/${m.img}`)}" alt="${esc(name)}" width="120" height="120"><span class="pol">${POL[m.pol]}</span><span class="rk">${m.rk}</span><span class="nm">${esc(name)}</span>${fx}</div>`;
   }
@@ -1119,6 +1123,12 @@ const BUILD_MESA = {
     note: "Umbral Intensify (+44%) replaces Intensify (+30%). Subsume Grendel's Nourish over Ballistic Battery for extra energy and Viral damage. Peacemaker costs 25 energy then 15 per second, so keep Arcane Energize. Put Secondary Merciless in the Regulators' arcane slot if you own it (community pick, not confirmed by the wiki).",
     arcanes: ["Arcane Energize", "Arcane Velocity"],
     shards: { profil: "Peacemaker", slots: ["🟠 Topaz — Secondary crit chance per Heat kill (Regulators need a Heat source)", "🟠 Topaz — Secondary crit chance per Heat kill", "🟠 Topaz — Secondary crit chance per Heat kill", "🟡 Amber — +Casting Speed", "🔴 Crimson — +Secondary Critical Chance"], alt: "Survival swap: Azure (+Health/Armor) instead of Amber. Tauforged shards give +50%." } },
+  reco: { titre: "Recommended mods for Peacemaker",
+    intro: "Peacemaker fires the Regulators (or Regulators Prime, same stats): an Exalted weapon you mod with <b>pistol</b> mods. Ammo is infinite, so magazine and reload mods do nothing; Hydraulic Crosshairs, Sharpened Bullets, Spry Sights, Targeting Subsystem and Hawk Eye do not work (there is no aiming).",
+    grille: [["Hornet Strike", "+220% Damage"], ["Primed Pistol Gambit", "+187% Critical Chance"], ["Primed Target Cracker", "+110% Critical Damage"],
+      ["Galvanized Diffusion", "+110% Multishot, +30% per kill for 20 s (4 stacks)"], ["Barrel Diffusion", "+120% Multishot"], ["Lethal Torrent", "+60% Fire Rate, +60% Multishot"],
+      ["Galvanized Shot", "+80% Status Chance, +40% damage per status type on kill, 14 s (3 stacks)"], ["Primed Convulsion", "+165% Electricity"]],
+    note: "These are recommended mods, not a full grid: the weapon's capacity and slots have not been checked." },
   howto: "Stack your buffs in order: Nourish (1) if subsumed, Shatter Shield (3), Shooting Gallery (2), then hold Peacemaker (4). Peacemaker's damage ramps up by 7.5% per burst to +150% after 20 bursts, and drops when you release it (with Mesa's Waltz the bonus decays over time). Shatter Shield reflects gunfire but not melee or area damage: release Peacemaker and roll away when enemies close in. Never channel into a Nullifier bubble — pop it first, then recast.",
 };
 const BUILD_EXCALIBUR = {
@@ -1137,6 +1147,12 @@ const BUILD_EXCALIBUR = {
     note: "Arcane Fury (+180% melee damage on crit) applies to Exalted Blade; Molt Augmented stacks up to +60% Ability Strength, which also raises Chromatic Blade's status. Put Melee Influence in the blade's arcane slot and pick a blue or purple primary emissive color for Electricity. Variant: Furious Javelin instead of Chromatic Blade (+15% melee damage per enemy hit for 16 s), keeping Radial Javelin.",
     arcanes: ["Arcane Fury", "Molt Augmented"],
     shards: { profil: "Exalted Blade", slots: ["🔴 Crimson — +Ability Strength", "🔴 Crimson — +Ability Strength", "🟣 Violet — +Melee Critical Damage", "🟣 Violet — +Melee Critical Damage", "🟡 Amber — +Casting Speed"], alt: "Tauforged shards give +50%: save them for your main frame." } },
+  reco: { titre: "Recommended mods for Exalted Blade",
+    intro: "Exalted Blade takes <b>melee</b> mods and arcanes. It has its own stance (no stance mods). Base: 70% Slash, 15% critical chance at x2, 15% status chance. Its energy waves feed the combo, and Excalibur's passive (+10% damage and speed) applies.",
+    grille: [["Primed Pressure Point", "+165% Melee Damage"], ["Condition Overload", "+80% damage per status type"], ["Organ Shatter", "+90% Critical Damage"], ["True Steel", "+120% Critical Chance"],
+      ["Blood Rush", "+40% Critical Chance x combo multiplier"], ["Weeping Wounds", "+40% Status Chance x combo multiplier"], ["Buzz Kill", "+120% Slash"],
+      ["Berserker Fury", "+35% Attack Speed per melee kill, 10 s (2 stacks)"]],
+    note: "Chromatic Blade variant: an elemental mod replaces Buzz Kill (physical mods no longer count). These are recommended mods, not a full grid: the weapon's capacity and slots have not been checked." },
   howto: "Cast Radial Blind (2) to blind the room, then summon Exalted Blade (4) and swing: every swing sends out an energy wave that passes through enemies, so blinded targets die at range. Slash Dash (1) crosses the room and each hit also releases a wave. The blade costs 25 energy to summon and 2.5 per second to keep: recast Radial Blind whenever enemies start shooting again.",
 };
 const BUILDS_SPECIFIQUES_EN = { "mesa": BUILD_MESA, "mesa-prime": BUILD_MESA, "excalibur": BUILD_EXCALIBUR, "excalibur-prime": BUILD_EXCALIBUR };
@@ -1157,7 +1173,7 @@ function framePageEN(f) {
     bulleEN(T.deb, { ...B.deb })
     + bulleEN(T.mid, { ...B.mid })
     + bulleEN(T.exp, { ...B.exp })
-  ) + `<section class="panel"><h3>How to play</h3><p>${esc(B.howto)}</p><p class="modnote">Values checked on the official Warframe wiki on 20 October 2026.</p></section>` : anchorize(
+  ) + (B.reco ? `<section class="panel btier"><h3>${B.reco.titre}</h3><p class="bodytext btier-note">${B.reco.intro}</p><p class="modnote">⚠️ Indicative grid: check your weapon's capacity and polarities.</p><div class="modg" style="margin:10px 0 6px">${B.reco.grille.map(([m, fx]) => modCardFxEN(m, fx)).join("")}</div><p class="bodytext btier-note">${B.reco.note} <span class="muted">Verified on the official wiki on 21 October 2026.</span></p></section>` : "") + `<section class="panel"><h3>How to play</h3><p>${esc(B.howto)}</p><p class="modnote">Values checked on the official Warframe wiki on 20 October 2026.</p></section>` : anchorize(
     bulleEN(T.deb, { aura: TF.deb.aura, exilus: TF.deb.exilus, mods: TF.deb.mods, note: T.deb.note, sim: { slug, tier: "deb" } })
     + bulleEN(T.mid, { aura: TF.mid.aura, exilus: TF.mid.exilus, mods: TF.mid.mods, note: T.mid.note, arcanes: UI_EN.midArcanes, sim: { slug, tier: "mid" } })
     + bulleEN(T.exp, { aura: TF.exp.aura, exilus: TF.exp.exilus, mods: TF.exp.mods, note: T.exp.note, arcanes: UI_EN.expArcanes, shards, sim: { slug, tier: "exp" } })
