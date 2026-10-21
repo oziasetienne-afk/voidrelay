@@ -343,7 +343,7 @@ fi
 # passe synchronisé par mégarde, une marge de 660 platine qui n'existe pas, un
 # set dont on oublie qu'il demande deux canons.
 pur_ko=0
-for g in verifier_sync.mjs verifier_api_builds.mjs verifier_api_evt.mjs verifier_profils.mjs verifier_prix_rangs_client.mjs verifier_prix_objet.mjs verifier_cartes_partage.mjs verifier_liens_internes.mjs verifier_site_publie.mjs verifier_fil_ariane.mjs verifier_outils_declares.mjs verifier_arsenal_wiki.mjs; do
+for g in verifier_sync.mjs verifier_api_builds.mjs verifier_api_evt.mjs verifier_profils.mjs verifier_prix_rangs_client.mjs verifier_prix_objet.mjs verifier_cartes_partage.mjs verifier_liens_internes.mjs verifier_site_publie.mjs verifier_fil_ariane.mjs verifier_outils_declares.mjs verifier_arsenal_wiki.mjs verifier_cartes_mods.mjs; do
   [ -f "scripts/$g" ] || continue
   node "scripts/$g" >/dev/null 2>&1 || { fail "garde-fou $g : au moins une vérification échoue (relance-le pour le détail)"; pur_ko=1; }
 done
