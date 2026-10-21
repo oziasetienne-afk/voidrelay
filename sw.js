@@ -1,5 +1,5 @@
 /* Service worker : coque en cache (stale-while-revalidate), données réseau d'abord. */
-const CACHE="wf-hub-v152";
+const CACHE="wf-hub-v153";
 /* Caches à NE PAS purger à l'activation : « wf-alerts » porte la configuration et
    l'historique des alertes des joueurs (écrits par le SW lui-même, voir plus bas). */
 const GARDER=[CACHE,"wf-alerts"];
@@ -39,16 +39,24 @@ async function depuisCache(e,hit){
   const h=new Headers(hit.headers); h.set("X-VR-Cache","hors-ligne");
   return new Response(hit.body,{status:hit.status,statusText:hit.statusText,headers:h});
 }
+/* cache.put attendu ET protégé : quota plein ou stockage purgé ne doit ni rejeter l'événement
+   ni laisser une promesse non gérée (avant : put lancé dans le vide, jamais attendu). */
+async function mettre(req,rep){ try{ await (await caches.open(CACHE)).put(req,rep); }catch(_){} }
+/* Hôte exact ou sous-domaine : /warframe\.market/.test(hostname) acceptait aussi
+   warframe.market.exemple.com (regex non ancrée). */
+function hoteApi(h){ return h==="warframestat.us"||h.endsWith(".warframestat.us")||h==="warframe.market"||h.endsWith(".warframe.market"); }
 async function donnees(e){
   const req=e.request;
   // Le fetch réseau continue après le délai : il met le cache à jour pour la visite suivante.
-  const reseau=fetch(req).then(r=>{if(r.ok){const c=r.clone();caches.open(CACHE).then(x=>x.put(req,c));}return r;});
+  const reseau=fetch(req).then(r=>{if(r.ok) e.waitUntil(mettre(req,r.clone()));return r;});
   e.waitUntil(reseau.catch(()=>null));
-  let expire=false;
+  let expire=false,t;
+  const delai=new Promise((_,ko)=>{t=setTimeout(()=>{expire=true;ko();},DELAI_DONNEES);});
   try{
-    const r=await Promise.race([reseau,new Promise((_,ko)=>setTimeout(()=>{expire=true;ko();},DELAI_DONNEES))]);
+    const r=await Promise.race([reseau,delai]);
     if(r.status<500) return r;
   }catch(_){}
+  finally{ clearTimeout(t); }
   const hit=await caches.open(CACHE).then(c=>c.match(req));
   if(hit) return depuisCache(e,hit);
   return expire?reseau:Response.error();
@@ -64,8 +72,10 @@ self.addEventListener("fetch",e=>{
   // branche precise) ; req.destination identifie une requete image sans ambiguite avec les
   // appels JSON, peu importe l'hote.
   if(req.destination==="image" && url.origin!==location.origin) return;
-  if(/warframestat\.us|warframe\.market/.test(url.hostname)){
-    e.respondWith(fetch(req).then(r=>{const c=r.clone();caches.open(CACHE).then(x=>x.put(req,c));return r;}).catch(()=>caches.match(req)));
+  if(hoteApi(url.hostname)){
+    // Seules les réponses ok sont gardées (r.ok est faux pour 404/500 et pour une réponse opaque).
+    e.respondWith(fetch(req).then(r=>{if(r.ok) e.waitUntil(mettre(req,r.clone()));return r;})
+      .catch(()=>caches.match(req).then(hit=>hit||Response.error())));
     return;
   }
   // Cross-origin (images CDN OSRS/PoE, API tierces de prix, pub) : passthrough natif,
@@ -76,15 +86,15 @@ self.addEventListener("fetch",e=>{
   if(/^\/data\/.+\.json$/.test(url.pathname)){ e.respondWith(donnees(e)); return; }
   // Coque (même origine) : stale-while-revalidate — sert le cache TOUT DE SUITE et
   // rafraîchit en arrière-plan, donc plus jamais bloqué sur une vieille version.
-  e.respondWith(caches.match(req).then(hit=>{
-    const net=fetch(req).then(r=>{if(r.ok&&url.origin===location.origin){const c=r.clone();caches.open(CACHE).then(x=>x.put(req,c));}return r;}).catch(()=>hit);
-    return hit||net.then(r=>{
-      // Ni cache ni réseau pour une navigation (page jamais visitée, hors ligne) :
-      // page hors-ligne de marque plutôt que l'erreur générique du navigateur.
-      if(!r && req.mode==="navigate") return caches.match("./offline.html");
-      return r;
-    });
-  }));
+  e.respondWith((async()=>{
+    const hit=await caches.match(req);
+    const net=fetch(req).then(r=>{if(r.ok) e.waitUntil(mettre(req,r.clone()));return r;});
+    if(hit){ e.waitUntil(net.catch(()=>null)); return hit; }
+    try{ return await net; }catch(_){}
+    // Ni cache ni réseau : jamais undefined (respondWith lèverait une erreur réseau opaque).
+    if(req.mode==="navigate"){ const off=await caches.match("./offline.html"); if(off) return off; }
+    return Response.error();
+  })());
 });
 
 /* ---------- Notifications & alertes ---------- */
@@ -114,29 +124,37 @@ self.addEventListener("periodicsync",e=>{ if(e.tag==="wf-alerts") e.waitUntil(ch
 async function readJSONCache(key){ try{const r=await (await caches.open("wf-alerts")).match(key); return r?await r.json():null;}catch(_){return null;} }
 async function writeJSONCache(key,obj){ try{await (await caches.open("wf-alerts")).put(key,new Response(JSON.stringify(obj),{headers:{"Content-Type":"application/json"}}));}catch(_){} }
 
+async function jsonOk(u){ const r=await fetch(u); if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); }
+
 async function checkAlertsBg(){
   const cfg=await readJSONCache("/__alerts_config"); if(!cfg||!cfg.enabled) return;
   const fired=(await readJSONCache("/__alerts_fired"))||{};
   const cut=Date.now()-7*864e5; for(const k in fired){ if(fired[k]<cut) delete fired[k]; }
-  const fire=async(key,title,body,url)=>{ if(fired[key]) return; fired[key]=Date.now(); await writeJSONCache("/__alerts_fired",fired);
-    await self.registration.showNotification(title,{body,tag:key,icon:ICON,badge:ICON,data:{url:url||"./"}}); };
-  try{
-    if(cfg.baro||cfg.cetus){
-      const w=await fetch("https://api.warframestat.us/pc?language=fr").then(r=>r.json());
-      if(cfg.baro&&w.voidTrader&&w.voidTrader.active){ const t=w.voidTrader;
-        await fire("baro-"+(t.activation||t.location||"now"),"🛒 Baro Ki'Teer est là",(t.location||"")+" — repart dans "+(t.endString||"")+".","/hub"); }
-      if(cfg.cetus&&w.cetusCycle){ const c=w.cetusCycle, night=c.isDay===false||/night|nuit/i.test(c.state||"");
-        if(night) await fire("cetus-"+(c.expiry||c.timeLeft||""),"🌙 Nuit sur Cetus","C'est l'heure des Eidolons ! Reste "+(c.timeLeft||"")+".","/hub"); }
-    }
-    if(cfg.favs&&cfg.targets){
-      const mk=await fetch("./data/market.json").then(r=>r.json());
-      const prices={}; Object.values(mk.categories||{}).flat().forEach(r=>prices[r.name]=r.price);
-      const day=new Date().toISOString().slice(0,10);
-      for(const n in cfg.targets){ const p=prices[n], tg=cfg.targets[n].t;
-        if(p&&p>=tg) await fire("fav-"+n+"-"+tg+"-"+day,"🎯 Prix cible atteint",n+" est à "+p+" PL (cible "+tg+" PL).","/favoris"); }
-    }
-    if(Array.isArray(cfg.foundry)){
-      for(const f of cfg.foundry){ if(f&&f.finishAt&&f.finishAt<=Date.now()) await fire("foundry-"+f.name+"-"+f.finishAt,"⏳ Fabrication prête",f.name+" est prêt à la Foundry.","/fonderie"); }
-    }
-  }catch(_){}
+  // « Envoyée » = showNotification a réussi : marquer avant, c'était perdre l'alerte pour 7 jours
+  // si l'affichage échouait. Un échec reste local à CETTE alerte.
+  const fire=async(key,title,body,url)=>{ if(fired[key]) return;
+    try{ await self.registration.showNotification(title,{body,tag:key,icon:ICON,badge:ICON,data:{url:url||"./"}});
+      fired[key]=Date.now(); await writeJSONCache("/__alerts_fired",fired); }catch(_){} };
+  // Chaque source est isolée : un échec réseau d'une API n'interrompt pas les autres alertes.
+  const etape=async f=>{ try{ await f(); }catch(_){} };
+  await etape(async()=>{
+    if(!(cfg.baro||cfg.cetus)) return;
+    const w=await jsonOk("https://api.warframestat.us/pc?language=fr");
+    if(cfg.baro&&w.voidTrader&&w.voidTrader.active){ const t=w.voidTrader;
+      await fire("baro-"+(t.activation||t.location||"now"),"🛒 Baro Ki'Teer est là",(t.location||"")+" — repart dans "+(t.endString||"")+".","/hub"); }
+    if(cfg.cetus&&w.cetusCycle){ const c=w.cetusCycle, night=c.isDay===false||/night|nuit/i.test(c.state||"");
+      if(night) await fire("cetus-"+(c.expiry||c.timeLeft||""),"🌙 Nuit sur Cetus","C'est l'heure des Eidolons ! Reste "+(c.timeLeft||"")+".","/hub"); }
+  });
+  await etape(async()=>{
+    if(!(cfg.favs&&cfg.targets)) return;
+    const mk=await jsonOk("./data/market.json");
+    const prices={}; Object.values(mk.categories||{}).flat().forEach(r=>prices[r.name]=r.price);
+    const day=new Date().toISOString().slice(0,10);
+    for(const n in cfg.targets){ const p=prices[n], tg=cfg.targets[n].t;
+      if(p&&p>=tg) await fire("fav-"+n+"-"+tg+"-"+day,"🎯 Prix cible atteint",n+" est à "+p+" PL (cible "+tg+" PL).","/favoris"); }
+  });
+  await etape(async()=>{
+    if(!Array.isArray(cfg.foundry)) return;
+    for(const f of cfg.foundry){ if(f&&f.finishAt&&f.finishAt<=Date.now()) await fire("foundry-"+f.name+"-"+f.finishAt,"⏳ Fabrication prête",f.name+" est prêt à la Foundry.","/fonderie"); }
+  });
 }

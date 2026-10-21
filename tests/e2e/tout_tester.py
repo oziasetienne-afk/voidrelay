@@ -18,6 +18,7 @@ SUITES = [
     ("test_arsenal_en.py", False),
     ("test_arsenal_offline.py", False),
     ("test_sw_donnees.py", False),
+    ("test_sw_robustesse.py", False),
     ("test_biblio_url.py", False),
     ("test_moderation.py", False),   # jamais inscrite en v83 : le garde-fou v85 l'a trouvée
     ("test_arsenal_wiki.py", False),
