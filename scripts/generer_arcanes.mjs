@@ -5,7 +5,7 @@
    (node scripts/generer_arcanes.mjs) — pas de cron : les arcanes bougent peu.
    Les notes Pandaahh (ARCANE_NOTES) sont durables : clé = nom anglais. */
 
-import { writeFileSync, mkdirSync, existsSync } from "node:fs";
+import { writeFileSync, mkdirSync, existsSync, readFileSync } from "node:fs";
 
 const SRC_ARCANES = "https://raw.githubusercontent.com/WFCD/warframe-items/master/data/json/Arcanes.json";
 const SRC_I18N = "https://raw.githubusercontent.com/WFCD/warframe-items/master/data/json/i18n/fr.json";
@@ -72,7 +72,30 @@ const RARETES = { Common: "Commune", Uncommon: "Peu commune", Rare: "Rare", Lege
 const nettoie = (s) => String(s || "").replace(/\r/g, "").replace(/<[^>]+>/g, "").trim();
 const wmSlug = (name) => name.toLowerCase().replace(/['’]/g, "").replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
 
+/* Lieux d'obtention = UNION de l'ancien champ d et de WFCD (21/10/2026).
+   WFCD n'a pas de drops pour 35 arcanes Exodia/Magus/Virtuos/Pax Seeker (lacune : le wiki
+   confirme qu'ils restent obtenables) et ne connaît pas toujours les deux sources des
+   arcanes du Zariman (Cavalero vend toujours ET Thrax Centurion les lâche). Une
+   régénération brute vidait ou remplaçait ces lieux : l'ancien champ ne se perd jamais,
+   WFCD ne fait que l'enrichir. Aucune source n'est inventée ici. */
+const sepLieux = " · ";
+const cle = (s) => s.replace(/\s+/g, " ").trim().toLowerCase();
+export function fusionneLieux(ancien, nouveau) {
+  const out = [];
+  const vus = new Set();
+  for (const l of [...String(ancien || "").split(sepLieux), ...String(nouveau || "").split(sepLieux)]) {
+    const k = cle(l);
+    if (!k || vus.has(k)) continue;
+    vus.add(k);
+    out.push(l.trim());
+  }
+  return out.join(sepLieux);
+}
+
 async function main() {
+  // Lu AVANT toute écriture : c'est la mémoire des lieux déjà connus.
+  const anciens = new Map();
+  if (existsSync(OUT)) for (const x of JSON.parse(readFileSync(OUT, "utf8"))) anciens.set(x.n, x.d || "");
   console.log("Téléchargement des données WFCD…");
   const [arcanes, i18nFr] = await Promise.all([
     fetch(SRC_ARCANES).then((r) => r.json()),
@@ -113,7 +136,7 @@ async function main() {
       r: RARETES[a.rarity] || a.rarity || "—",
       mx: Math.max(0, stats.length - 1),
       e: nettoie(dernier).replace(/:\s*(?:\\n|\n)+\s*/g, " : ").replace(/\\n|\n+/g, " — "),
-      d: lieux.join(" · "),
+      d: fusionneLieux(anciens.get(a.name), lieux.join(sepLieux)),
       i: a.imageName || "",
       w: a.tradable ? wmSlug(a.name) : null,
     };
@@ -141,4 +164,4 @@ async function main() {
   const notes = out.filter((x) => x.p).length;
   console.log(`✅ ${out.length} arcanes → ${OUT} (${notes} notes Pandaahh, ${dl} images téléchargées)`);
 }
-main().catch((e) => { console.error(e); process.exit(1); });
+if (import.meta.url === `file://${process.argv[1]}`) main().catch((e) => { console.error(e); process.exit(1); });
