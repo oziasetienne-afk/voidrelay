@@ -41,6 +41,15 @@ jobs:
         with:
           ref: main
 
+      # Liste blanche (21/10/2026) : avant, « . » publiait le dépôt entier
+      # (/CLAUDE.md, /docs/, /scripts/, /.github/ répondaient 200 sur voidrelay.fr).
+      # Seul _site/ part ; functions/ reste compilé depuis la racine par Wrangler.
+      - name: Construire le dossier publié (_site/)
+        run: bash scripts/construire_site.sh _site
+
+      - name: Vérifier le dossier publié (rien d'interne, rien d'oublié)
+        run: node scripts/verifier_site_publie.mjs _site
+
       - name: Déployer sur Cloudflare Pages
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -50,7 +59,7 @@ jobs:
             echo "::error::Secrets CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID absents : rien déployé."
             exit 1
           fi
-          npx --yes wrangler@4 pages deploy . \
+          npx --yes wrangler@4 pages deploy _site \
             --project-name warframe-hub \
             --branch main \
             --commit-hash "$(git rev-parse HEAD)" \

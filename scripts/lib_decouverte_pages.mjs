@@ -44,7 +44,7 @@ export function discoverPagesLinking(root, needle) {
   const out = [];
   function walk(dir) {
     for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-      if (entry.name.startsWith('.') || entry.name === 'node_modules' || entry.name === '_design_audit') continue;
+      if (entry.name.startsWith('.') || entry.name === 'node_modules' || entry.name === '_design_audit' || entry.name === '_site') continue;
       const full = path.join(dir, entry.name);
       if (entry.isDirectory()) { walk(full); continue; }
       if (!entry.name.endsWith('.html')) continue;
@@ -87,7 +87,7 @@ export function discoverObjectTrees(root, needle = 'style.css') {
     }
     for (const e of entries) {
       if (!e.isDirectory() || e.name === 'c') continue;
-      if (e.name.startsWith('.') || e.name === 'node_modules' || e.name === '_design_audit') continue;
+      if (e.name.startsWith('.') || e.name === 'node_modules' || e.name === '_design_audit' || e.name === '_site') continue;
       scan(path.join(dir, e.name), depth + 1);
     }
   }
