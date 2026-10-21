@@ -780,28 +780,45 @@ const COMP_RULES = {
   },
 };
 
-/* ---------- fragments d'Archon (5 emplacements, bulle Expert des frames) ---------- */
+/* ---------- fragments d'Archonte (5 emplacements, bulle Expert des frames) ---------- */
+/* Vérifié sur wiki.warframe.com/w/Archon_Shard le 21/10/2026 (noms FR : fr.wiki Helminth et
+   Update_35). Avant : « Cramoisi » (le nom FR est Écarlate), « Azur — Recharge de bouclier »
+   (n'existe pas : l'Azur régénère la SANTÉ), « Violet — dégâts électriques → gain d'énergie »
+   (n'existe pas). Chaque éclat donne UN bonus au choix ; valeurs normal (tauforgé = ×1,5).
+   Aucun bouclier ici : Inaros, Kullervo, Nidus n'en ont pas. eclatsInvalides() contrôle tout. */
+const ECLAT_FR = {
+  force: "🔴 Écarlate — Puissance de pouvoir +10 % (+15 % tauforgé)",
+  duree: "🔴 Écarlate — Durée de pouvoir +10 % (+15 % tauforgé)",
+  incant: "🟡 Ambre — Vitesse d'incantation +25 % (+37,5 % tauforgé)",
+  parkour: "🟡 Ambre — Vélocité de parkour +15 % (+22,5 % tauforgé)",
+  orbesSante: "🟡 Ambre — Efficacité des orbes de santé +100 % (+150 % tauforgé)",
+  apparition: "🟡 Ambre — Énergie max remplie à l'apparition +30 % (+45 % tauforgé)",
+  energie: "🔵 Azur — Énergie max +50 (+75 tauforgé)",
+  armure: "🔵 Azur — Armure +150 (+225 tauforgé)",
+  sante: "🔵 Azur — Santé +150 (+225 tauforgé)",
+};
 function shardPlan(f) {
   const caster = (f.e || 0) >= 150, tank = (f.ar || 0) >= 250, fast = (f.spd || 1) >= 1.15;
+  const E = ECLAT_FR;
   if (caster) return {
     profil: "Lanceur de capacités",
-    slots: ["🔴 Cramoisi — +Force de capacité", "🔴 Cramoisi — +Force de capacité", "🟡 Ambre — +Vitesse d'incantation", "🔵 Azur — +Énergie max", "🔵 Azur — +Armure"],
-    alt: "Variante : remplace un Azur par un 🟣 Violet (dégâts électriques → gain d'énergie) si tu joues avec Archon Stretch.",
+    slots: [E.force, E.force, E.incant, E.energie, E.armure],
+    alt: "Variante : un 🟣 Violet à la place d'un Azur si tes pouvoirs ou ton arme posent déjà le statut Électrique : +10 % (+15 % tauforgé) de dégâts de pouvoir sur ces ennemis. Ne compte que si le statut est posé avant le pouvoir ; sans effet sur les armes exaltées.",
   };
   if (tank) return {
     profil: "Tank / mêlée au contact",
-    slots: ["🔵 Azur — +Armure", "🔵 Azur — +Santé", "🔴 Cramoisi — +Durée de capacité", "🟡 Ambre — +Efficacité des orbes de santé", "🔴 Cramoisi — +Force de capacité"],
-    alt: "Variante : un 🟢 Émeraude (dégâts corrosifs +) si tu joues Corrosif contre les armures.",
+    slots: [E.armure, E.sante, E.duree, E.orbesSante, E.force],
+    alt: "Variante : un 🟢 Émeraude si tu joues Corrosif : +10 % (+15 % tauforgé) de dégâts de pouvoir sur les ennemis sous statut Corrosif, ou +2 (+3) cumuls de Corrosif au maximum.",
   };
   if (fast) return {
     profil: "Mobile / escarmouche",
-    slots: ["🟡 Ambre — +Vitesse de parkour", "🔴 Cramoisi — +Force de capacité", "🔵 Azur — +Santé", "🔵 Azur — +Recharge de bouclier", "🔴 Cramoisi — +Durée de capacité"],
-    alt: "Variante : double Ambre (parkour + incantation) pour un gameplay ultra-nerveux.",
+    slots: [E.parkour, E.force, E.sante, E.armure, E.duree],
+    alt: "Variante : un 2e Ambre (Vitesse d'incantation) à la place de l'Armure, pour enchaîner les pouvoirs plus vite.",
   };
   return {
     profil: "Polyvalent",
-    slots: ["🔴 Cramoisi — +Force de capacité", "🔵 Azur — +Santé", "🔵 Azur — +Armure", "🟡 Ambre — +Énergie à l'apparition", "🔴 Cramoisi — +Durée de capacité"],
-    alt: "Les fragments Tauforged (renforcés) donnent +50 % : garde-les pour ta frame principale.",
+    slots: [E.force, E.sante, E.armure, E.apparition, E.duree],
+    alt: "Un fragment tauforgé donne 1,5 fois le bonus normal : garde-les pour ta frame principale.",
   };
 }
 
@@ -846,7 +863,7 @@ function bulle(tier, opts) {
   const arcHtml = arcanes && arcanes.length
     ? `<h4 class="btier-sub">Arcanes</h4><div class="abilities">${arcanes.map(a => `<div class="modslot"><span class="pol"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="5" fill="none" stroke="#e2c873" stroke-width="2"/></svg></span><span><b>${franciserProse(esc(a), { visible: true })}</b></span></div>`).join("")}</div>` : "";
   const shHtml = shards
-    ? `<h4 class="btier-sub">Fragments d'Archon — 5 emplacements (profil : ${esc(shards.profil)})</h4><ol class="shardlist">${shards.slots.map(s => `<li>${esc(s)}</li>`).join("")}</ol><p class="modnote">${esc(shards.alt)}</p>` : "";
+    ? `<h4 class="btier-sub">Fragments d'Archonte — 5 emplacements (profil : ${esc(shards.profil)})</h4><ol class="shardlist">${shards.slots.map(s => `<li>${esc(s)}</li>`).join("")}</ol><p class="modnote">${esc(shards.alt)}</p>` : "";
   // Dans la prose de la note, l'anglais passe en infobulle (title) pour ne pas alourdir la phrase.
   return `<section class="panel btier"><h3>${tier.t}</h3><p class="btier-cost">${esc(tier.cost || cost)}</p>${side ? `<div class="bcols" style="grid-template-columns:1fr 3fr;align-items:start;margin:10px 0 6px">${side}<div><div class="pollabel" style="margin-bottom:6px">Mods principaux</div><div class="modg">${mods.map(modCard).join("")}</div></div></div>` : `<div class="modg" style="margin:10px 0 6px">${mods.map(modCard).join("")}</div>`}<p class="bodytext btier-note">${franciserProse(note)}</p>${clawBlock(claws, "Griffes (arme de la bête, depuis la 37.0)", modCard)}${arcHtml}${shHtml}${simHtml}</section>`;
 }
@@ -1408,8 +1425,62 @@ function chromatiqueFaux() {
   }
   return faux;
 }
+/* Fragments d'Archonte (21/10/2026) : chaque ligne d'éclat doit nommer une couleur réelle ET un
+   bonus que cette couleur donne vraiment (wiki.warframe.com/w/Archon_Shard, lu le 21/10/2026 ;
+   noms FR : fr.wiki Helminth et Update_35). Le plan générique affichait « Cramoisi », « Azur —
+   Recharge de bouclier » et « Violet → gain d'énergie », et 14 pages ★ « Efficacité de cast »,
+   « Vitesse de course », « Portée de capacité » : aucun n'existe. Les pages ★ pas encore
+   auditées sont listées à part ; la liste ne peut que rétrécir (une page corrigée doit en sortir). */
+const BONUS_ECLATS = {
+  "Écarlate": /dégâts critiques de mêlée|chance de statut d.arme principale|chance critique d.arme secondaire|puissance de pouvoir|durée de pouvoir/i,
+  "Ambre": /énergie max remplie à l.apparition|efficacité des orbes de (santé|d.énergie)|vitesse d.incantation|vélocité de parkour/i,
+  "Azur": /^\s*:?\s*(santé|capacité de bouclier|énergie max|armure|régénération de santé)(?=\s|$|[+:,])/i,
+  "Violet": /dégâts de pouvoir.*électri|dégâts électriques.*arme principale|dégâts critiques de mêlée|orbes? de santé.*énergie/i,
+  "Topaze": /santé max.*explosi|bouclier.*explosi|chance critique d.arme secondaire.*chaleur|dégâts de pouvoir.*radiation/i,
+  "Émeraude": /statut (toxine|poison)|dégâts de pouvoir.*corrosi|cumuls.*corrosi/i,
+  "Crimson": /melee critical damage|primary status chance|secondary critical chance|ability strength|ability duration/i,
+  "Amber": /max energy filled on spawn|(health|energy) orb effectiveness|casting speed|parkour velocity/i,
+  "Azure": /^\s*:?\s*\+?[\d.,]+\s*(health|shield capacity|energy max|max energy|armor|health\/s)(?=\s|$|[(,])|^\s*:?\s*\+?\s*(max health|shield capacity|energy max|armor)(?=\s|$|[(,])/i,
+  "Violet ": /ability damage.*electric|primary electricity damage|melee critical damage|health pickups.*energy/i,
+  "Topaz": /max health.*blast|shield.*blast|secondary critical chance.*heat|ability damage.*radiation/i,
+  "Emerald": /toxin status|ability damage.*corrosi|corrosion stacks/i,
+};
+const ECLATS_EN_ATTENTE = new Set(["ash", "ember", "frost", "khora", "loki", "mag", "nekros", "nova",
+  "octavia", "rhino", "saryn", "trinity", "volt", "wisp"]); // pages ★ FR à auditer (lot suivant)
+function eclatsInvalides() {
+  const erreurs = [], attenteCorrigee = [];
+  for (const [dossier, en] of [[OUT, false], [OUT_EN, true]]) for (const f of fs.readdirSync(dossier).filter(x => x.endsWith(".html"))) {
+    const html = fs.readFileSync(path.join(dossier, f), "utf8");
+    const blocs = [...html.matchAll(/<(ol|ul) class="(?:shardlist|shards)">([\s\S]*?)<\/\1>/g)];
+    let ko = null;
+    for (const b of blocs) for (const li of b[2].matchAll(/<li>([\s\S]*?)<\/li>/g)) {
+      const txt = li[1].replace(/<[^>]+>/g, " ").replace(/&#39;|&apos;/g, "'").replace(/&amp;/g, "&").replace(/\s+/g, " ").trim();
+      const couleurs = en ? ["Crimson", "Amber", "Azure", "Violet", "Topaz", "Emerald"] : ["Écarlate", "Ambre", "Azur", "Violet", "Topaze", "Émeraude"];
+      const c = couleurs.find(x => new RegExp(`(^|[\\s×—🔴🟡🔵🟣🟠🟢])${x}(\\s|$|:)`).test(txt));
+      if (!c) { ko = ko || `couleur absente : « ${txt.slice(0, 60)} »`; continue; }
+      const reste = txt.slice(txt.indexOf(c) + c.length).replace(/^\s*[—:-]\s*/, "");
+      const re = BONUS_ECLATS[en && c === "Violet" ? "Violet " : c];
+      if (!re.test(reste)) ko = ko || `bonus inconnu pour ${c} : « ${reste.slice(0, 60)} »`;
+    }
+    const slug = f.slice(0, -5), rel = path.relative(ROOT, path.join(dossier, f));
+    if (!en && ECLATS_EN_ATTENTE.has(slug)) { if (!ko) attenteCorrigee.push(rel); continue; }
+    if (ko) erreurs.push(`${rel} — ${ko}`);
+  }
+  return { erreurs, attenteCorrigee };
+}
 if (VERIFIER) {
   const fauxChrom = chromatiqueFaux();
+  const ecl = eclatsInvalides();
+  if (ecl.erreurs.length) {
+    console.error(`💥 Fragments d'Archonte : ${ecl.erreurs.length} page(s) avec une couleur ou un bonus qui n'existe pas (wiki Archon_Shard) :`);
+    for (const e of ecl.erreurs.slice(0, 15)) console.error("   " + e);
+    process.exit(1);
+  }
+  if (ecl.attenteCorrigee.length) {
+    console.error("💥 Fragments d'Archonte : page(s) corrigée(s) encore dans ECLATS_EN_ATTENTE, retire-les de la liste :");
+    for (const e of ecl.attenteCorrigee) console.error("   " + e);
+    process.exit(1);
+  }
   if (fauxChrom.length) {
     console.error("💥 Lame Chromatique : élément lié à la couleur d'énergie ou à Corrosif/Viral direct (c'est la couleur émissive primaire, élément simple) :");
     for (const f of fauxChrom) console.error("   " + f);
