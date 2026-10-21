@@ -1041,7 +1041,9 @@ def enrich_market_items(market, hist, alert_pct=15):
         it.pop("alert", None)
         for k in ("change24h", "change24hPct", "change7d", "change7dPct", "trend"):
             it[k] = None
-        if not isinstance(ref, (int, float)) or not series:
+        # Moins de 3 offres : la « médiane » redevient une offre isolée — pas de
+        # variation ni d'alerte (null = n.d.), le prix et la sparkline restent.
+        if not isinstance(ref, (int, float)) or not series or len(low5) < 3:
             continue
         jour = series[-1]["d"]
         par_jour = {p["d"]: p["median"] for p in series}

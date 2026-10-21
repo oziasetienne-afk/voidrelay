@@ -193,6 +193,8 @@
     const list=WATCH[cat]||[]; if(!list.length){status.textContent="Pas de liste pour cette catégorie.";return;}
     btn.disabled=true; status.textContent="Scan en cours…";
     try{
+      // Les noms FR viennent de l'instantané ; s'il n'a pas été lu (cache direct < 2 h), on le lit.
+      try{await loadSnapshot();}catch(e){}
       const rows=(await mapLimit(list,async u=>{
         await throttle(110); const st=summarizeStats(await API.marketStats(u)); if(!st)return null;
         return {name:nomSnap(u)||pretty(u),fav:pretty(u),slug:u,rang:st.rang,vol:st.vol,price:st.price,rec:sell(st.price)};

@@ -117,7 +117,7 @@ def main():
         s = it["slug"]
         o = live["orders"].get(s)
         if o is None:
-            lignes.append((s, "—", "erreur réseau : %s" % live["errors"].get(s)))
+            lignes.append((s, "—", "—", "—", "erreur réseau : %s" % live["errors"].get(s)))
             continue
         rang = it.get("rang")
         px = _prix_ordres(o, rang) if rang is not None else _prix_ordres(o)

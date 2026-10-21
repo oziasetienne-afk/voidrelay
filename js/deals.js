@@ -24,7 +24,7 @@
     // suivi d'un « % » ; le pourcentage vient de change24hPct, et un objet sans ce
     // chiffre n'est pas classé. Le prix montré à côté est donc la médiane, celle du %.
     const pl=i=>`${i.change24h>0?"+":""}${i.change24h} PL (${i.change24hPct>0?"+":""}${i.change24hPct} %) / 24 h`;
-    const prix=i=>`${i.median??i.minSellPlat??"?"} PL méd.`;
+    const prix=i=>i.median!=null?`${i.median} PL méd.`:`${i.minSellPlat??"?"} PL`;
     const rg=i=>i.rang!=null?` · rang ${i.rang}`:"";
     const okPct=i=>typeof i.change24hPct==="number";
 

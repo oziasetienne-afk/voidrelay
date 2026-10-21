@@ -128,6 +128,12 @@ enrich_market_items({"items": [gauss]}, {"gauss_prime_set": [
     {"d": "2026-10-19", "min": 35, "median": 50}, {"d": "2026-10-20", "min": 50, "median": 55}]})
 dit(gauss["change24h"] == 5 and gauss["change24hPct"] == 10 and gauss.get("alert") is None,
     "Gauss Prime : +10 % sur la médiane, pas « +43 % » sur un plus bas de 35", "50 → 55")
+# Deux offres seulement : la médiane EST une offre isolée → aucune variation inventée.
+mince = {"slug": "x_set", "minSellPlat": 3, "low5SellPlat": [3, 4]}
+enrich_market_items({"items": [mince]}, {"x_set": [
+    {"d": "2026-10-19", "min": 9, "median": 9}, {"d": "2026-10-20", "min": 3, "median": 3.5}]})
+dit(mince["change24h"] is None and mince.get("alert") is None and mince["median"] == 3.5,
+    "moins de 3 offres : prix publié, mais ni variation ni alerte", "n.d. plutôt qu'un « −61 % »")
 
 print("-" * 70)
 if KO:

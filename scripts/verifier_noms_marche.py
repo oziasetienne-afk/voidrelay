@@ -16,6 +16,7 @@ Mis en échec avant branchement : « primed_fury » (hors catalogue) rougit.
     python3 scripts/verifier_noms_marche.py
 """
 import os
+import re
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -65,7 +66,8 @@ dit(m["items"][1].get("nom") == "Ash Prime Set" and "nomFr" not in m["items"][1]
 print("les pages lisent le nom du catalogue")
 for f in ("hub.html", "marche.html", "js/deals.js", "js/marche-profils.js"):
     with open(os.path.join(RACINE, f), encoding="utf-8") as fh:
-        dit("nomFr" in fh.read(), "%s affiche nomFr" % f)
+        # dans le code, pas seulement dans un commentaire : « .nomFr » est un accès au champ
+        dit(re.search(r"\.nomFr\b", fh.read()) is not None, "%s lit le champ nomFr" % f)
 
 print("-" * 70)
 if KO:
