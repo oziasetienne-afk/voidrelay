@@ -948,19 +948,19 @@ function anchorize(html) {
    ceux de la Prime. Excalibur Umbra n'y figure pas : pouvoirs et polarités différents. */
 const BUILDS_SPECIFIQUES_FR = {
   "mesa-prime": { base: "mesa", nom: "Mesa", que: "que Mesa", titre: "Build Mesa Prime (Peacemaker) : débutant à Steel Path | VoidRelay",
-    aura: "V", slots: ["BAR", "BAR", "D", "V"],
+    polAura: "V", slots: ["BAR", "BAR", "D", "V"],
     desc: "Build Mesa Prime pour le Peacemaker : mods, Valse de Mesa, arcanes, mods recommandés pour les Regulators, fragments d'Archon et Helminth. Valeurs vérifiées sur le wiki officiel." },
   "excalibur-prime": { base: "excalibur", nom: "Excalibur", que: "qu'Excalibur", titre: "Build Excalibur Prime (Lame Exaltée) : débutant à Steel Path | VoidRelay",
-    aura: "V", slots: ["D", "V", "V"],
+    polAura: "V", slots: ["D", "V", "V"],
     desc: "Build Excalibur Prime pour la Lame Exaltée : mods, arcanes, mods recommandés pour la Lame Exaltée, fragments d'Archon et Helminth. Valeurs vérifiées sur le wiki officiel." },
 };
 /* Polarités des Prime (wiki officiel, 21/10/2026) : la rangée « Emplacements d'origine » du bloc
    de base est celle de la frame de BASE, fausse pour une Prime (Mesa : Naramon ×2 ; Mesa Prime :
    Naramon ×2 + Vazarin + Madurai ; Excalibur Prime : Vazarin + Madurai ×2). Elle est la seule
    partie du bloc reconstruite ; même HTML que la page faite main, Exilus « aucun ». */
-function rangeePolarites({ aura, slots }) {
+function rangeePolarites({ polAura, slots }) {
   const slot = k => `<span class="polslot">${POL[k]}</span>`;
-  return `<div class="polrow"><div class="polgrp"><span class="pollabel">Aura</span><span class="polslot aura">${POL[aura]}</span></div><div class="polgrp"><span class="pollabel">Exilus</span><span class="polslot"><span style="color:var(--muted);font-size:.85rem">aucun</span></span></div><div class="polgrp"><span class="pollabel">Emplacements d'origine</span>${slots.map(slot).join("")}</div></div>`;
+  return `<div class="polrow"><div class="polgrp"><span class="pollabel">Aura</span><span class="polslot aura">${POL[polAura]}</span></div><div class="polgrp"><span class="pollabel">Exilus</span><span class="polslot"><span style="color:var(--muted);font-size:.85rem">aucun</span></span></div><div class="polgrp"><span class="pollabel">Emplacements d'origine</span>${slots.map(slot).join("")}</div></div>`;
 }
 function blocBuildVerifieFR(base, pol) {
   const h = fs.readFileSync(path.join(OUT, base + ".html"), "utf8");
