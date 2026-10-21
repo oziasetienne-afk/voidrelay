@@ -154,7 +154,6 @@ function saveManifest(plannedFiles) {
 
 if (!VERIFIER) assertCleanGitTree();
 
-const AFFILIATE = "https://www.razer.com/affiliate"; // TODO le Chef : remplacer par ton lien de tracking Razer perso
 const OUT = path.join(ROOT, "o");
 
 const cat = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "wm_catalog.json"), "utf8"));
@@ -261,8 +260,7 @@ for (const it of cat) {
   byGroup.get(g).push(it);
 }
 
-const HEAD_CSP = "default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com https://pagead2.googlesyndication.com https://partner.googleadservices.com https://tpc.googlesyndication.com https://adservice.google.com https://www.googletagservices.com https://fundingchoicesmessages.google.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://warframe.market https://*.googlesyndication.com https://*.g.doubleclick.net https://*.google.com; font-src 'self'; connect-src 'self' https://api.warframestat.us https://cloudflareinsights.com https://voidrelay-prix.vercel.app https://api.allorigins.win https://api.codetabs.com https://api.warframe.market https://pagead2.googlesyndication.com https://*.g.doubleclick.net https://*.googlesyndication.com https://ep1.adtrafficquality.google https://fundingchoicesmessages.google.com; form-action 'self'; frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://*.google.com; upgrade-insecure-requests";
-const ADS_SNIPPET = `<link rel="preconnect" href="https://pagead2.googlesyndication.com"><link rel="dns-prefetch" href="https://googleads.g.doubleclick.net"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3315165542909837" crossorigin="anonymous"></script>`;
+const HEAD_CSP = "default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://warframe.market; font-src 'self'; connect-src 'self' https://api.warframestat.us https://cloudflareinsights.com https://voidrelay-prix.vercel.app https://api.allorigins.win https://api.codetabs.com https://api.warframe.market; form-action 'self'; frame-src 'none'; upgrade-insecure-requests";
 const FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0f14'/%3E%3Cpath d='M14 18 L32 48 L50 18' fill='none' stroke='%2339d0d8' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E";
 
 /* ============================================================================
@@ -357,9 +355,6 @@ function shareBar(discord) {
 function shareBarEn(discord) {
   return `<div class="sharebar" data-share><span class="muted">Share:</span><button class="sbtn" data-net="x">𝕏</button><button class="sbtn" data-net="reddit">Reddit</button>${discord ? '<button class="sbtn" data-net="discord">Copy for Discord</button>' : ''}<button class="sbtn" data-net="copy">Copy link</button></div>`;
 }
-function razerCta() {
-  return `<aside class="card pad cta"><b>🎮 Boutique gaming Razer</b><p class="muted">Tu farmes du platine pour t'équiper ? Souris, claviers & casques Razer.</p><a class="btn" href="${esc(AFFILIATE)}" target="_blank" rel="noopener noreferrer sponsored">Voir les offres Razer ↗</a></aside>`;
-}
 
 function related(it) {
   const g = groupKey(it.tags);
@@ -431,7 +426,6 @@ function itemPage(it) {
   const hreflangObjet = hasEn ? `<link rel="alternate" hreflang="fr" href="${url}"><link rel="alternate" hreflang="en" href="${enUrl}"><link rel="alternate" hreflang="x-default" href="${url}">` : "";
 
   return `<!DOCTYPE html><html lang="fr"><head>${THEME_BOOT}
-${ADS_SNIPPET}
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="${HEAD_CSP}">
 <meta http-equiv="X-Content-Type-Options" content="nosniff"><meta name="referrer" content="strict-origin-when-cross-origin">
@@ -463,14 +457,12 @@ ${header()}
 </section>
 ${it.tags.includes("set") ? `<section class="card pad" id="set-compare" style="min-height:140px"><p class="muted">Comparatif pièces / set en cours de chargement…</p></section>` : ""}
 ${shareBar(true)}
-${razerCta()}
 ${faqHtml}
 <section><h2>Objets similaires</h2><div class="grid cols-auto rel">${rel.map(r => `<a class="card tile" href="/o/${esc(r.slug)}"><div class="t">${nomBilingue(r.name, { suivre: false })}</div><div class="d muted">${esc(typeLabel(r.tags))}</div></a>`).join("")}</div></section>
 <p class="muted"><a href="/o/">← Tous les objets Warframe</a>${(bl => bl ? ` · <a href="/builds/${bl.slug}">⚙️ Build ${esc(bl.base)}</a>` : "")(buildSlugFor(name))}${objGuideLinks(name, "fr")} · <a href="/hub">Tableau de bord live</a> · <a href="/faq">FAQ</a>${hasEn ? ` · <a href="${enUrl}">English version</a>` : ""}</p>
 </main>
 ${footer()}
 <script defer src="/js/objet.js"></script>
-<script defer src="/js/ads.js"></script>
 <script defer src="/js/share.js"></script>
 <script defer src="/js/search.js"></script><script defer src="/js/warp.js"></script>${THEME_TOGGLE_ONLY}
 </body></html>`;
@@ -503,7 +495,6 @@ function itemPageEn(it) {
 <details><summary>Where do you get ${esc(name)}?</summary><p>${esc(name)} is obtained in-game (drop, Void relics, shop or event depending on type) then traded between Tenno. See <a href="/hub">current relics & farming spots</a>.</p></details></section>`;
 
   return `<!DOCTYPE html><html lang="en"><head>${THEME_BOOT}
-${ADS_SNIPPET}
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="${HEAD_CSP}">
 <meta http-equiv="X-Content-Type-Options" content="nosniff"><meta name="referrer" content="strict-origin-when-cross-origin">
@@ -535,14 +526,12 @@ ${header("en")}
 </section>
 ${it.tags.includes("set") ? `<section class="card pad" id="set-compare" style="min-height:140px"><p class="muted">Loading parts / set comparison…</p></section>` : ""}
 ${shareBarEn(true)}
-${razerCta()}
 ${faqHtml}
 <section><h2>Similar items</h2><div class="grid cols-auto rel">${rel.map(r => `<a class="card tile" href="/o/${esc(r.slug)}"><div class="t">${esc(r.name)}</div><div class="d muted">${esc(typeLabel(r.tags))}</div></a>`).join("")}</div></section>
 <p class="muted"><a href="/en/o/">← All Warframe items</a>${(bl => bl ? ` · <a href="/en/builds/${bl.slug}">⚙️ ${esc(bl.base)} build</a>` : "")(buildSlugFor(name))}${objGuideLinks(name, "en")} · <a href="/hub">Live dashboard</a> · <a href="/faq-en">FAQ</a> · <a href="${frUrl}">Version française</a></p>
 </main>
 ${footer("en")}
 <script defer src="/js/objet.js"></script>
-<script defer src="/js/ads.js"></script>
 <script defer src="/js/share.js"></script>
 <script defer src="/js/search.js"></script><script defer src="/js/warp.js"></script>${THEME_TOGGLE_ONLY}
 </body></html>`;
@@ -567,7 +556,6 @@ function indexPage() {
     { "@context": "https://schema.org", "@type": "Dataset", name: "Prix des objets Warframe (platine)", description: `Prix du platine en direct (médian, vente la plus basse, volume 48 h, tendance) pour ${total} objets Warframe échangeables, agrégés depuis warframe.market.`, url: SITE + "/o/", keywords: ["Warframe", "prix", "platine", "platinum price", "warframe.market", "ducats"], isAccessibleForFree: true, creator: { "@type": "Organization", name: "VoidRelay", url: SITE + "/" }, license: "https://creativecommons.org/licenses/by/4.0/" }
   ];
   return `<!DOCTYPE html><html lang="fr"><head>${THEME_BOOT}
-${ADS_SNIPPET}
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="${HEAD_CSP}">
 <meta http-equiv="X-Content-Type-Options" content="nosniff"><meta name="referrer" content="strict-origin-when-cross-origin">
@@ -592,7 +580,6 @@ ${footer()}
 <script>
 const q=document.getElementById('oq');function filtrer(){const v=q.value.trim().toLowerCase();document.querySelectorAll('.idxgrp').forEach(g=>{let any=false;g.querySelectorAll('.idxlinks a').forEach(a=>{const m=!v||a.textContent.toLowerCase().includes(v);a.style.display=m?'':'none';if(m)any=true;});g.style.display=any?'':'none';});}q.addEventListener('input',filtrer);const qp=new URLSearchParams(location.search).get('q');if(qp){q.value=qp;filtrer();}
 </script>
-<script defer src="/js/ads.js"></script>
 <script defer src="/js/share.js"></script>
 <script defer src="/js/search.js"></script><script defer src="/js/warp.js"></script>${THEME_TOGGLE_ONLY}
 </body></html>`;
@@ -623,7 +610,6 @@ function indexPageEn(selectedItems) {
     { "@context": "https://schema.org", "@type": "Dataset", name: "Warframe item prices (platinum)", description: `Live platinum prices (median, lowest sale, 48h volume, trend) for the ${total} most-traded Warframe items, aggregated from warframe.market.`, url: SITE + "/en/o/", keywords: ["Warframe", "price", "platinum price", "warframe.market", "ducats"], isAccessibleForFree: true, creator: { "@type": "Organization", name: "VoidRelay", url: SITE + "/" }, license: "https://creativecommons.org/licenses/by/4.0/" }
   ];
   return `<!DOCTYPE html><html lang="en"><head>${THEME_BOOT}
-${ADS_SNIPPET}
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="${HEAD_CSP}">
 <meta http-equiv="X-Content-Type-Options" content="nosniff"><meta name="referrer" content="strict-origin-when-cross-origin">
@@ -647,7 +633,6 @@ ${footer("en")}
 <script>
 const q=document.getElementById('oq');function filtrer(){const v=q.value.trim().toLowerCase();document.querySelectorAll('.idxgrp').forEach(g=>{let any=false;g.querySelectorAll('.idxlinks a').forEach(a=>{const m=!v||a.textContent.toLowerCase().includes(v);a.style.display=m?'':'none';if(m)any=true;});g.style.display=any?'':'none';});}q.addEventListener('input',filtrer);const qp=new URLSearchParams(location.search).get('q');if(qp){q.value=qp;filtrer();}
 </script>
-<script defer src="/js/ads.js"></script>
 <script defer src="/js/share.js"></script>
 <script defer src="/js/search.js"></script><script defer src="/js/warp.js"></script>${THEME_TOGGLE_ONLY}
 </body></html>`;
@@ -759,7 +744,6 @@ function guidePage(g) {
     ...(g.faq ? [{ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: g.faq.map(f => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })) }] : []),
   ];
   return `<!DOCTYPE html><html lang="fr"><head>${THEME_BOOT}
-${ADS_SNIPPET}
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="${GUIDES_CSP}">
 <meta http-equiv="X-Content-Type-Options" content="nosniff"><meta name="referrer" content="strict-origin-when-cross-origin">
@@ -783,7 +767,6 @@ ${shareBar(false)}
 <p class="muted"><a href="/guides/">← Tous les guides</a> · <a href="/hub">Tableau de bord</a> · <a href="/o/">Prix des objets</a> · <a href="/bons-plans">Bons plans</a></p>
 </main>
 ${siteFooter()}
-<script defer src="/js/ads.js"></script>
 <script defer src="/js/share.js"></script>
 ${THEME_SCRIPTS}
 </body></html>`;
@@ -817,7 +800,6 @@ function guidesIndex() {
       { "@type": "ListItem", position: 2, name: "Guides", item: url } ] },
   ];
   return `<!DOCTYPE html><html lang="fr"><head>${THEME_BOOT}
-${ADS_SNIPPET}
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="${GUIDES_CSP}">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -840,7 +822,6 @@ ${siteHeader()}
 <p class="muted" style="margin-top:1.5rem"><a href="/o/">Prix des objets →</a> · <a href="/bons-plans">Bons plans</a> · <a href="/outils">Tous les outils</a> (estimateur, ducats, Endo, marché) · <a href="/faq">FAQ</a></p>
 </main>
 ${siteFooter()}
-<script defer src="/js/ads.js"></script>
 <script defer src="/js/share.js"></script>
 ${THEME_SCRIPTS}
 </body></html>`;
@@ -867,7 +848,6 @@ function guidePageEn(g) {
     ...(g.faq ? [{ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: g.faq.map(f => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })) }] : []),
   ];
   return `<!DOCTYPE html><html lang="en"><head>${THEME_BOOT}
-${ADS_SNIPPET}
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="${GUIDES_CSP}">
 <meta http-equiv="X-Content-Type-Options" content="nosniff"><meta name="referrer" content="strict-origin-when-cross-origin">
@@ -891,7 +871,6 @@ ${shareBarEn(false)}
 <p class="muted"><a href="/en/guides/">← All guides</a> · <a href="/hub">Dashboard</a> · <a href="${EN_OBJECTS_SELECTION.size ? "/en/o/" : "/o/"}">Item prices</a> · <a href="/bons-plans">Deals</a> · <a href="/guides/${esc(g.fr)}">Version française</a></p>
 </main>
 ${siteFooter("en")}
-<script defer src="/js/ads.js"></script>
 <script defer src="/js/share.js"></script>
 ${THEME_SCRIPTS}
 </body></html>`;
@@ -906,7 +885,6 @@ function guidesIndexEn() {
     { "@type": "ListItem", position: 2, name: "Guides", item: url } ] },
   { "@context": "https://schema.org", "@type": "CollectionPage", name: "Warframe Guides", url, description: "Free Warframe guides: farm platinum, ducats, Baro Ki'Teer, trading, starter Warframes.", isPartOf: { "@id": SITE + "/#site" } }];
   return `<!DOCTYPE html><html lang="en"><head>${THEME_BOOT}
-${ADS_SNIPPET}
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="${GUIDES_CSP}">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -929,7 +907,6 @@ ${siteHeader("en")}
 <p class="muted" style="margin-top:1.5rem"><a href="${EN_OBJECTS_SELECTION.size ? "/en/o/" : "/o/"}">Item prices →</a> · <a href="/en/price-check">Price checker</a> · <a href="/bons-plans">Deals</a> · <a href="/guides/">Guides (français)</a></p>
 </main>
 ${siteFooter("en")}
-<script defer src="/js/ads.js"></script>
 <script defer src="/js/share.js"></script>
 ${THEME_SCRIPTS}
 </body></html>`;
@@ -963,7 +940,6 @@ function categoryPage(g, arr) {
       { "@type": "ListItem", position: 3, name: g, item: url } ] }
   ];
   return `<!DOCTYPE html><html lang="fr"><head>${THEME_BOOT}
-${ADS_SNIPPET}
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="${HEAD_CSP}">
 <meta http-equiv="X-Content-Type-Options" content="nosniff"><meta name="referrer" content="strict-origin-when-cross-origin">
@@ -986,7 +962,6 @@ ${header()}
 </main>
 ${footer()}
 <script>const q=document.getElementById('oq');q.addEventListener('input',()=>{const v=q.value.trim().toLowerCase();document.querySelectorAll('.idxlinks a').forEach(a=>{a.style.display=(!v||a.textContent.toLowerCase().includes(v))?'':'none';});});</script>
-<script defer src="/js/ads.js"></script>
 <script defer src="/js/share.js"></script>
 <script defer src="/js/search.js"></script><script defer src="/js/warp.js"></script>${THEME_TOGGLE_ONLY}
 </body></html>`;

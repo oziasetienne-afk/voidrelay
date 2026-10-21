@@ -108,6 +108,12 @@ Le déploiement publiait le dépôt entier (`/CLAUDE.md`, `/docs/`, `/scripts/` 
 ou fichier racine du site doit y être ajouté**, sinon il n'est pas publié —
 `verifier_site_publie.mjs` (dans les invariants) le dit, et refuse tout fichier interne.
 
+### 6quater. Site NON commercial (22/10/2026)
+Le proxy de prix tourne sur une équipe Vercel **Hobby**, réservée à l'usage non commercial
+(publicité AdSense = commercial selon Vercel). AdSense, `ads.txt` et le lien affilié Razer
+ont été retirés. `verifier_non_commercial.mjs` (dans les invariants) refuse leur retour :
+remonétiser = décision de l'admin **et** changement d'hébergement du proxy.
+
 ### 6. La liste blanche de synchro
 `js/sync.js` : **ne jamais y ajouter `wmuser` ni `wfproxy`.** Ce sont un compte
 warframe.market et une URL de proxy personnelle, pas des progrès de jeu.

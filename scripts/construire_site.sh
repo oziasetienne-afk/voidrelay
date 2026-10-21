@@ -30,7 +30,7 @@ case "$SORTIE" in ""|.|./|..|../*|/) echo "❌ construire_site : sortie refusée
 CLE_INDEXNOW="$(tr -d '[:space:]' < .indexnow_key).txt"
 FICHIERS=(
   _headers _redirects robots.txt sitemap.xml sitemap_index.xml
-  manifest.webmanifest sw.js favicon.ico ads.txt llms.txt "$CLE_INDEXNOW"
+  manifest.webmanifest sw.js favicon.ico llms.txt "$CLE_INDEXNOW"
 )
 
 # Dossiers du site. refs/ (captures de référence), reports/, proxy/ (code d'un
