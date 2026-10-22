@@ -90,7 +90,7 @@ export const GUIDES = [
     desc: "Tout sur Baro Ki'Teer dans Warframe : à quelle fréquence il revient, combien de temps il reste, et quels objets de son inventaire valent vraiment tes ducats.",
     faq: [
       { q: "Quand revient Baro Ki'Teer ?", a: "Baro arrive tous les 14 jours et reste 48 heures dans un relais. Passé ce délai, il repart avec son stock. Son prochain passage et son inventaire sont visibles en direct sur le tableau de bord VoidRelay." },
-      { q: "Quoi acheter en priorité chez Baro Ki'Teer ?", a: "Les mods Primed (Continuité Accrue, Flux Accru, etc.) sont les meilleurs achats sur le long terme, certains se revendant très cher en platine. Viennent ensuite les armes et cosmétiques exclusifs selon le goût et la revente ; mieux vaut éviter les décos si l'objectif est l'optimisation." },
+      { q: "Quoi acheter en priorité chez Baro Ki'Teer ?", a: "Les mods Primed (Primed Continuity, Primed Flow, etc.) sont les meilleurs achats sur le long terme, certains se revendant très cher en platine. Viennent ensuite les armes et cosmétiques exclusifs selon le goût et la revente ; mieux vaut éviter les décos si l'objectif est l'optimisation." },
     ],
     body: `
 <p><b>Baro Ki'Teer</b>, le « Void Trader », est un marchand itinérant qui vend des objets exclusifs contre des <a href="/guides/farmer-ducats">ducats</a> et des crédits.</p>
@@ -100,7 +100,7 @@ export const GUIDES = [
 
 <h2>Quoi acheter en priorité ?</h2>
 <ul>
-<li><b>Mods Primed</b> : versions améliorées de mods courants (Continuité Accrue, Flux Accru, etc.). Ce sont les meilleurs achats sur le long terme — certains se revendent ensuite très cher en platine.</li>
+<li><b>Mods Primed</b> : versions améliorées de mods courants (Primed Continuity, Primed Flow, etc.). Ce sont les meilleurs achats sur le long terme — certains se revendent ensuite très cher en platine.</li>
 <li><b>Armes et cosmétiques exclusifs</b> : selon ton goût et la revente.</li>
 <li><b>Le tri de Pandaahh</b> (<a href="https://www.youtube.com/watch?v=lhBOA_XlgzY" target="_blank" rel="noopener">conseillé en live</a>) : mods Primed d'abord, puis les <b>60/60 électriques</b> — les 60/60 feu et glace, eux, se farment désormais en missions Spy. À sauter : les Primed de recul (« on s'en fout un peu ») et les mods anti-faction, que plus grand monde ne joue en 2026. Sa revue de l'inventaire de juillet (<a href="https://www.youtube.com/watch?v=1Arhdo8iH2U" target="_blank" rel="noopener">en live</a>) : <b>Fulmination accru</b> est indispensable (la version normale est un mod d'événement — obligatoire pour les secondaires explosives type Akarius), <b>À Bout Portant accru</b> et <b>Cartouche Chargée accrue</b> se prennent sans hésiter, <b>Traumatisme Lourd accru</b> se skippe hors niche Impact.</li>
 <li><b>Évite</b> de claquer tes ducats sur des décos si tu vises l'optimisation.</li>
@@ -116,7 +116,7 @@ export const GUIDES = [
 </ul>
 <p>Selon ton style :</p>
 <ul>
-<li><b>Mods anti-faction</b> (Fléau/Extermination de faction) : prix de groupe conseillé par Pandaahh — utiles pour un stuff dégâts-cap ou certaines synergies (l'explosif profite d'une instance de dégâts supplémentaire avec le Rugissement de Rhino), mais très peu joués en 2026 en usage courant. Nuance apportée par le créateur anglophone <a href="https://www.youtube.com/watch?v=TmBZJi2u4dk" target="_blank" rel="noopener">Nerd Bird</a> : leur +55 % est <b>multiplicatif</b>, pas additif, et <b>double-dip sur les statuts</b> — il s'applique au coup initial ET à chaque tick des dégâts sur la durée (saignement, feu, poison…), soit environ <b>+240 % de dégâts sur les ticks</b>. Change tout en Route de l'Acier profond ou grosse Archimédée, même si jongler les mods à chaque mission reste une contrainte.</li>
+<li><b>Mods anti-faction</b> (Fléau/Extermination de faction) : prix de groupe conseillé par Pandaahh — utiles pour un stuff dégâts-cap ou certaines synergies (l'explosif profite d'une instance de dégâts supplémentaire avec le Rugissement de Rhino), mais très peu joués en 2026 en usage courant. Nuance apportée par le créateur anglophone <a href="https://www.youtube.com/watch?v=TmBZJi2u4dk" target="_blank" rel="noopener">Nerd Bird</a> : leur +55 % est <b>multiplicatif</b>, pas additif, et <b>double-dip sur les statuts</b> — il s'applique au coup initial ET à chaque tick des dégâts sur la durée (saignement, feu, poison…), soit environ <b>+240 % de dégâts sur les ticks</b>. Change tout en Route de l'Acier profonde ou grosse Archimédée, même si jongler les mods à chaque mission reste une contrainte.</li>
 <li><b>Nouveauté maj 43</b> : la Route de l'Acier est arrivée en Railjack — le <b>Chargeur Vénimeux accru</b> (Toxine, archgun) redevient pertinent pour tenir la cadence de dégâts.</li>
 </ul>
 <p>À sauter sans regret : les mods de recul (Stabilisateur, Contrepoids, Main Stable), <b>Chef de Meute accru</b> (la version normale suffit très largement) et <b>Traumatisme Lourd accru</b> — plus grand monde ne le joue depuis la réduction du rayon des attaques au sol.</p>

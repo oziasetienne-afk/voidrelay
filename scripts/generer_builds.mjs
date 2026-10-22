@@ -1620,8 +1620,14 @@ if (VERIFIER) {
     const brut = fs.readFileSync(fichierFr, "utf8");
     const titres = (brut.match(/<title>[^<]*<\/title>|<meta[^>]+(?:name="description"|property="og:(?:title|description)")[^>]*>/g) || []).join(" ");
     const visible = brut.replace(/<(head|script|style)\b[\s\S]*?<\/\1>/gi, " ").replace(/<span class="en"[^>]*>[^<]*<\/span>/g, " ").replace(/<[^>]+>/g, " ");
+    // Les libellés affichés par JS (hub.html, compagnon.html) et le JSON-LD (faq.html) vivent dans des
+    // <script> : la relecture du 22/10/2026 a montré qu'un « Steel Path » réintroduit là passait sans alerte.
+    // Les identifiants (cardSteelPath, steel-path.svg) n'ont pas d'espace et ne correspondent pas.
+    // Les commentaires JS (non affichés) sont retirés ; « // » précédé de « : » est une URL, gardée.
+    const scripts = (brut.match(/<script\b[^>]*>[\s\S]*?<\/script>/gi) || []).join(" ")
+      .replace(/\/\*[\s\S]*?\*\//g, " ").replace(/(^|[^:\\])\/\/[^\n]*/g, "$1");
     // Forme bilingue voulue (titre du guide, pour la recherche) : « Route de l'Acier (Steel Path) ».
-    const aControler = (visible + " " + titres.replace(/href="[^"]*"|content="https?:[^"]*"/g, ""))
+    const aControler = (visible + " " + scripts + " " + titres.replace(/href="[^"]*"|content="https?:[^"]*"/g, ""))
       .replace(/Route de l(?:'|&#39;|’)Acier(?:\s|<\/?b>)*\(Steel Path\)/g, " ");
     for (const [en, fr] of TERMES_FR) if (aControler.includes(en))
       pouvoirsAnglais.push(`${path.relative(ROOT, fichierFr)} — « ${en} » au lieu de « ${fr} »`);
