@@ -797,7 +797,30 @@ const ECLAT_FR = {
   armure: "🔵 Azur — Armure +150 (+225 tauforgé)",
   sante: "🔵 Azur — Santé +150 (+225 tauforgé)",
 };
+/* Plans propres à une frame (22/10/2026), Prime comprise : wiki.warframe.com lu le 22/10/2026
+   (wikitexte brut : Blade_Storm, Immolation, Snow_Globe, Module:Warframes/data, Archon_Shard).
+   - Ash : Shuriken, Téléportation et Tempête de Lames scalent tous avec la Puissance ; Tempête de
+     Lames n'a que 5 % de chance critique ×1,2 : un éclat de dégâts critiques de mêlée y vaut ~1 %.
+   - Ember : la réduction de dégâts d'Immolation dépend de la Puissance (90 % à chaleur max dès
+     +5,9 %, 50 % à chaleur nulle dès +25 %) ; l'énergie est son goulot (drain non plafonné).
+   - Frost : vie de la Boule de Neige = (base + 5 × armure de base) × (1 + Puissance).
+   Le Violet doublé exige 501 d'énergie max : hors d'atteinte pour ces trois frames (150 à 225).
+   Les pages ★ FR (builds/ash.html…) portent le même plan, écrit à la main. */
+const ECLATS_FRAME = {
+  ash: { profil: "Tempête de Lames", n: [4, 1], fr: ["force", "armure"], en: ["🔴 Crimson — +10% Ability Strength (+15% Tauforged)", "🔵 Azure — +150 Armor (+225 Tauforged)"],
+    alt: "Puissance plutôt que dégâts critiques de mêlée : la Tempête de Lames n'a que 5 % de chance critique (×1,2), un Écarlate de dégâts critiques y ajoute environ 1 % ; +10 % de Puissance augmente d'autant Shuriken, Téléportation et Tempête de Lames. Armure plutôt que Santé : 105 → 255 d'armure, environ +25 % de points de vie effectifs (+18 % avec la Santé). Valeurs : wiki officiel, 22/10/2026.",
+    altEN: "Strength over Melee Critical Damage: Blade Storm has only 5% crit chance (x1.2), so a Crimson crit-damage shard adds about 1%; +10% Strength raises Shuriken, Teleport and Blade Storm alike. Armor over Health: 105 → 255 armor, about +25% effective HP (+18% with Health). Values: official wiki, 22 October 2026." },
+  ember: { profil: "Immolation et Inferno", n: [4, 1], fr: ["force", "energie"], en: ["🔴 Crimson — +10% Ability Strength (+15% Tauforged)", "🔵 Azure — +50 Energy Max (+75 Tauforged)"],
+    alt: "La Puissance fait monter les dégâts ET la réduction de dégâts d'Immolation : 90 % à chaleur max dès +5,9 % de Puissance, 50 % à chaleur nulle dès +25 % (4 Écarlate = +40 %). L'Azur Énergie (225 → 275) parce que l'énergie est le goulot d'Ember : Immolation draine sans plafond à chaleur max et le Souffle de Feu coûte 75. Variante : Azur Santé (+24 % de points de vie effectifs) si tu ne manques pas d'énergie. Valeurs : wiki officiel, 22/10/2026.",
+    altEN: "Strength raises both damage AND Immolation's damage reduction: 90% at max heat from +5.9% Strength, 50% at zero heat from +25% (4 Crimson = +40%). Azure Energy (225 → 275) because energy is Ember's bottleneck: Immolation drains without cap at max heat and Fire Blast costs 75. Variant: Azure Health (+24% effective HP) if you never run dry. Values: official wiki, 22 October 2026." },
+  frost: { profil: "Boule de Neige et Avalanche", n: [4, 1], fr: ["force", "armure"], en: ["🔴 Crimson — +10% Ability Strength (+15% Tauforged)", "🔵 Azure — +150 Armor (+225 Tauforged)"],
+    alt: "La vie de la Boule de Neige est multipliée par (1 + Puissance) : (3 500 + 5 × 315) × 1,4 = 7 105 avec 4 Écarlate, sans autre mod ; la Puissance porte aussi les dégâts de la Vague de Glace et d'Avalanche, et la réduction d'armure d'Avalanche (pleine à 167 %). Azur Armure : 315 → 465, 51 % → 61 % de réduction des dégâts (le wiki ne dit pas si cette armure entre aussi dans la vie du globe). Valeurs : wiki officiel, 22/10/2026.",
+    altEN: "Snow Globe health is multiplied by (1 + Strength): (3,500 + 5 × 315) × 1.4 = 7,105 with 4 Crimson and no other mod; Strength also drives Ice Wave and Avalanche damage and Avalanche's armor strip (full at 167%). Azure Armor: 315 → 465, 51% → 61% damage reduction (the wiki does not say whether this armor also feeds the globe). Values: official wiki, 22 October 2026." },
+};
+const planFrame = f => ECLATS_FRAME[slugify(f.n).replace(/-prime$/, "")];
 function shardPlan(f) {
+  const P = planFrame(f);
+  if (P) return { profil: P.profil, slots: P.fr.flatMap((k, i) => Array(P.n[i]).fill(ECLAT_FR[k])), alt: P.alt };
   const caster = (f.e || 0) >= 150, tank = (f.ar || 0) >= 250, fast = (f.spd || 1) >= 1.15;
   const E = ECLAT_FR;
   if (caster) return {
@@ -1157,6 +1180,8 @@ const TIERJUMP_EN = `<div class="tierjump"><a href="#debutant">🌱 Beginner</a>
 const DISCLAIMER_EN = `<p class="modnote" style="margin-top:14px">${UI_EN.disclaimer}</p>`;
 
 function shardPlanEN(f) {
+  const P = planFrame(f);
+  if (P) return { profil: { ash: "Blade Storm", ember: "Immolation and Inferno", frost: "Snow Globe and Avalanche" }[slugify(f.n).replace(/-prime$/, "")], slots: P.en.flatMap((t, i) => Array(P.n[i]).fill(t)), alt: P.altEN };
   const caster = (f.e || 0) >= 150, tank = (f.ar || 0) >= 250, fast = (f.spd || 1) >= 1.15;
   return caster ? SHARD_EN.caster : tank ? SHARD_EN.tank : fast ? SHARD_EN.fast : SHARD_EN.poly;
 }
@@ -1442,7 +1467,7 @@ const BONUS_ECLATS = {
   "Topaz": /max health.*blast|shield.*blast|secondary critical chance.*heat|ability damage.*radiation/i,
   "Emerald": /toxin status|ability damage.*corrosi|corrosion stacks/i,
 };
-const ECLATS_EN_ATTENTE = new Set(["ash", "ember", "frost", "khora", "loki", "mag", "nekros", "nova",
+const ECLATS_EN_ATTENTE = new Set(["khora", "loki", "mag", "nekros", "nova",
   "octavia", "rhino", "saryn", "trinity", "volt", "wisp"]); // pages ★ FR à auditer (lot suivant)
 function eclatsInvalides() {
   const erreurs = [], attenteCorrigee = [];
