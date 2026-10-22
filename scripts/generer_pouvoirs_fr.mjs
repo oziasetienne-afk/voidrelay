@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* VoidRelay — noms FRANÇAIS officiels des pouvoirs de Warframes → data/pouvoirs_fr.json (22/10/2026).
+/* VoidRelay — noms FRANÇAIS officiels des pouvoirs (et descriptions) des Warframes → data/pouvoirs_fr.json (22/10/2026).
 
    Pourquoi : les pages de builds FR affichaient les pouvoirs en anglais (« Smoke Screen »,
    « Blade Storm ») alors que le joueur francophone lit « Écran de Fumée », « Tempête de Lames »
@@ -34,9 +34,12 @@ const frames = await lire("Warframes.json", "Warframes.json");
 const fr = await lire("i18n/fr.json", "fr.json");
 if (!Array.isArray(frames) || !frames.length) throw new Error("Warframes.json vide ou illisible");
 
-const pouvoirs = {};
+const pouvoirs = {}, descriptions = {};
 let n = 0;
 for (const w of frames) {
+  // Description de la Warframe (texte du Codex) : les pages FR affichaient l'anglais (« Mirage's sleight of hand… »).
+  const d = (fr[w.uniqueName] || {}).description;
+  if (typeof d === "string" && d.trim() && d.trim() !== (w.description || "").trim()) descriptions[w.name] = d.trim();
   const trad = (fr[w.uniqueName] || {}).abilities || [];
   const parNom = {};
   for (const a of w.abilities || []) {
@@ -49,6 +52,6 @@ for (const w of frames) {
 // Garde-fou : une source tronquée ne doit pas écraser une table complète.
 if (Object.keys(pouvoirs).length < 50) throw new Error(`seulement ${Object.keys(pouvoirs).length} Warframes traduites : source incomplète, rien n'est écrit`);
 
-const sortie = { source: "WFCD warframe-items (data/json/Warframes.json + i18n/fr.json)", genere: new Date().toISOString().slice(0, 10), pouvoirs };
+const sortie = { source: "WFCD warframe-items (data/json/Warframes.json + i18n/fr.json)", pouvoirs, descriptions };
 fs.writeFileSync(OUT, JSON.stringify(sortie, null, 0) + "\n");
-console.log(`✅ ${Object.keys(pouvoirs).length} Warframes, ${n} noms de pouvoirs FR → ${path.relative(ROOT, OUT)}`);
+console.log(`✅ ${Object.keys(pouvoirs).length} Warframes, ${n} noms de pouvoirs FR, ${Object.keys(descriptions).length} descriptions FR → ${path.relative(ROOT, OUT)}`);
