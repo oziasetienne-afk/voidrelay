@@ -796,6 +796,29 @@ const ECLAT_FR = {
   energie: "🔵 Azur — Énergie max +50 (+75 tauforgé)",
   armure: "🔵 Azur — Armure +150 (+225 tauforgé)",
   sante: "🔵 Azur — Santé +150 (+225 tauforgé)",
+  statutPrincipale: "🔴 Écarlate — Chance de statut d'arme principale +25 % (+37,5 % tauforgé)",
+  critMelee: "🟣 Violet — Dégâts critiques de mêlée +25 % (+37,5 % tauforgé), doublés si l'énergie max atteint 501",
+  elecPrincipale: "🟣 Violet — Dégâts Électriques d'arme principale +30 % (+45 % tauforgé), +10 % (+15 %) par éclat Écarlate, Azur ou Violet équipé",
+  topazeSante: "🟠 Topaze — Santé max +1 (+2 tauforgé) par ennemi tué par des dégâts Explosifs, jusqu'à +300 (+450)",
+  topazeRadiation: "🟠 Topaze — Dégâts de pouvoir +10 % (+15 % tauforgé) sur les ennemis sous statut Radiation",
+  emeraudeCorrosif: "🟢 Émeraude — Dégâts de pouvoir +10 % (+15 % tauforgé) sur les ennemis sous statut Corrosif",
+  emeraudeToxine: "🟢 Émeraude — Effets de statut Toxine +30 % (+45 % tauforgé)",
+};
+/* Même liste en anglais pour les pages EN (libellés de SHARD_EN pour les bonus déjà présents). */
+const ECLAT_EN = {
+  force: "🔴 Crimson — +10% Ability Strength (+15% Tauforged)",
+  duree: "🔴 Crimson — +10% Ability Duration (+15% Tauforged)",
+  incant: "🟡 Amber — +25% Casting Speed (+37.5% Tauforged)",
+  energie: "🔵 Azure — +50 Energy Max (+75 Tauforged)",
+  armure: "🔵 Azure — +150 Armor (+225 Tauforged)",
+  sante: "🔵 Azure — +150 Health (+225 Tauforged)",
+  statutPrincipale: "🔴 Crimson — +25% Primary Status Chance (+37.5% Tauforged)",
+  critMelee: "🟣 Violet — +25% Melee Critical Damage (+37.5% Tauforged), doubled at 501+ Max Energy",
+  elecPrincipale: "🟣 Violet — +30% Primary Electricity Damage (+45% Tauforged), +10% (+15%) per Crimson, Azure or Violet shard equipped",
+  topazeSante: "🟠 Topaz — +1 Max Health per Blast kill (+2 Tauforged), up to +300 (+450)",
+  topazeRadiation: "🟠 Topaz — +10% Ability Damage (+15% Tauforged) on enemies affected by Radiation",
+  emeraudeCorrosif: "🟢 Emerald — +10% Ability Damage (+15% Tauforged) on enemies affected by Corrosion",
+  emeraudeToxine: "🟢 Emerald — +30% Toxin Status Effects (+45% Tauforged)",
 };
 /* Plans propres à une frame (22/10/2026), Prime comprise : wiki.warframe.com lu le 22/10/2026
    (wikitexte brut : Blade_Storm, Immolation, Snow_Globe, Module:Warframes/data, Archon_Shard).
@@ -805,22 +828,61 @@ const ECLAT_FR = {
      +5,9 %, 50 % à chaleur nulle dès +25 %) ; l'énergie est son goulot (drain non plafonné).
    - Frost : vie de la Boule de Neige = (base + 5 × armure de base) × (1 + Puissance).
    Le Violet doublé exige 501 d'énergie max : hors d'atteinte pour ces trois frames (150 à 225).
-   Les pages ★ FR (builds/ash.html…) portent le même plan, écrit à la main. */
+   Puis (22/10, wikitexte brut, 3 vérifications) Khora, Loki, Mag, Nekros, Nova, Octavia, Rhino, Saryn,
+   Trinity, Volt, Wisp : chaque note dit le pourquoi chiffré. Saryn (Spores → Corrosif) et Wisp
+   (Porte Sol → Radiation + Corrosif) posent elles-mêmes le statut de leurs bonus « sous statut ».
+   Les pages ★ FR (builds/<slug>.html) portent le même plan, écrit à la main. */
 const ECLATS_FRAME = {
-  ash: { profil: "Tempête de Lames", n: [4, 1], fr: ["force", "armure"], en: ["🔴 Crimson — +10% Ability Strength (+15% Tauforged)", "🔵 Azure — +150 Armor (+225 Tauforged)"],
+  ash: { profil: "Tempête de Lames", profilEN: "Blade Storm", n: [4, 1], fr: ["force", "armure"],
     alt: "Puissance plutôt que dégâts critiques de mêlée : la Tempête de Lames n'a que 5 % de chance critique (×1,2), un Écarlate de dégâts critiques y ajoute environ 1 % ; +10 % de Puissance augmente d'autant Shuriken, Téléportation et Tempête de Lames. Armure plutôt que Santé : 105 → 255 d'armure, environ +25 % de points de vie effectifs (+18 % avec la Santé). Valeurs : wiki officiel, 22/10/2026.",
     altEN: "Strength over Melee Critical Damage: Blade Storm has only 5% crit chance (x1.2), so a Crimson crit-damage shard adds about 1%; +10% Strength raises Shuriken, Teleport and Blade Storm alike. Armor over Health: 105 → 255 armor, about +25% effective HP (+18% with Health). Values: official wiki, 22 October 2026." },
-  ember: { profil: "Immolation et Inferno", n: [4, 1], fr: ["force", "energie"], en: ["🔴 Crimson — +10% Ability Strength (+15% Tauforged)", "🔵 Azure — +50 Energy Max (+75 Tauforged)"],
+  ember: { profil: "Immolation et Inferno", profilEN: "Immolation and Inferno", n: [4, 1], fr: ["force", "energie"],
     alt: "La Puissance fait monter les dégâts ET la réduction de dégâts d'Immolation : 90 % à chaleur max dès +5,9 % de Puissance, 50 % à chaleur nulle dès +25 % (4 Écarlate = +40 %). L'Azur Énergie (225 → 275) parce que l'énergie est le goulot d'Ember : Immolation draine sans plafond à chaleur max et le Souffle de Feu coûte 75. Variante : Azur Santé (+24 % de points de vie effectifs) si tu ne manques pas d'énergie. Valeurs : wiki officiel, 22/10/2026.",
     altEN: "Strength raises both damage AND Immolation's damage reduction: 90% at max heat from +5.9% Strength, 50% at zero heat from +25% (4 Crimson = +40%). Azure Energy (225 → 275) because energy is Ember's bottleneck: Immolation drains without cap at max heat and Fire Blast costs 75. Variant: Azure Health (+24% effective HP) if you never run dry. Values: official wiki, 22 October 2026." },
-  frost: { profil: "Boule de Neige et Avalanche", n: [4, 1], fr: ["force", "armure"], en: ["🔴 Crimson — +10% Ability Strength (+15% Tauforged)", "🔵 Azure — +150 Armor (+225 Tauforged)"],
+  frost: { profil: "Boule de Neige et Avalanche", profilEN: "Snow Globe and Avalanche", n: [4, 1], fr: ["force", "armure"],
     alt: "La vie de la Boule de Neige est multipliée par (1 + Puissance) : (3 500 + 5 × 315) × 1,4 = 7 105 avec 4 Écarlate, sans autre mod ; la Puissance porte aussi les dégâts de la Vague de Glace et d'Avalanche, et la réduction d'armure d'Avalanche (pleine à 167 %). Azur Armure : 315 → 465, 51 % → 61 % de réduction des dégâts (le wiki ne dit pas si cette armure entre aussi dans la vie du globe). Valeurs : wiki officiel, 22/10/2026.",
     altEN: "Snow Globe health is multiplied by (1 + Strength): (3,500 + 5 × 315) × 1.4 = 7,105 with 4 Crimson and no other mod; Strength also drives Ice Wave and Avalanche damage and Avalanche's armor strip (full at 167%). Azure Armor: 315 → 465, 51% → 61% damage reduction (the wiki does not say whether this armor also feeds the globe). Values: official wiki, 22 October 2026." },
+  khora: { profil: "Fouet Acéré", profilEN: "Whipclaw", n: [3, 1, 1], fr: ["critMelee", "sante", "armure"],
+    alt: "Le Fouet Acéré est une arme exaltée de mêlée (crit ×2, combo jusqu'à ×12) : il profite du crit de mêlée, pas des bonus « sous statut ». Avec Flux Accru, Khora atteint 541,5 d'énergie max, donc chaque Violet donne +50 % (+75 % tauforgé) : avec Fracas d'Organes, le multiplicateur critique passe de ×3,8 à ×8,3 en tauforgé. Santé et Armure parce que Khora n'a que 290 d'armure : environ +75 % de points de vie effectifs (éclats tauforgés, boucliers compris). Sans Flux Accru : 3 Écarlate (Dégâts critiques de mêlée) à la place. Valeurs : wiki officiel, 22/10/2026.",
+    altEN: "Whipclaw is an Exalted melee weapon (x2 crit, combo up to x12): it uses melee crit, not the status-gated bonuses. With Primed Flow Khora reaches 541.5 Max Energy, so each Violet gives +50% (+75% Tauforged): with Organ Shatter the crit multiplier goes from x3.8 to x8.3 Tauforged. Health and Armor because Khora has only 290 armor: about +75% effective HP (Tauforged shards, shields included). Without Primed Flow: 3 Crimson (Melee Critical Damage) instead. Values: official wiki, 22 October 2026." },
+  loki: { profil: "Arme principale et Invisibilité", profilEN: "Primary weapon and Invisibility", n: [1, 1, 1, 1, 1], fr: ["elecPrincipale", "statutPrincipale", "duree", "sante", "armure"],
+    alt: "Aucun pouvoir de Loki n'inflige de vrais dégâts : son DPS vient de ses armes, et ses défenses de l'Invisibilité (12 s) et du Leurre (25 s), d'où la Durée. Le Violet Électrique gagne +10 % par éclat Écarlate, Azur ou Violet équipé : ici les 5 le sont. Santé et Armure : 280 de santé et 105 d'armure, environ +104 % de points de vie effectifs (éclats tauforgés, boucliers compris). En mêlée : 2 Violet (Dégâts critiques de mêlée, doublés : Loki atteint 641 d'énergie avec Flux Accru) à la place des deux premiers. Valeurs : wiki officiel, 22/10/2026.",
+    altEN: "None of Loki's abilities deal real damage: his DPS comes from his weapons, his defense from Invisibility (12 s) and Decoy (25 s), hence Duration. The Violet Electricity bonus gains +10% per Crimson, Azure or Violet shard equipped: all 5 are here. Health and Armor: 280 health and 105 armor, about +104% effective HP (Tauforged shards, shields included). Melee build: 2 Violet (Melee Critical Damage, doubled: Loki reaches 641 energy with Primed Flow) instead of the first two. Values: official wiki, 22 October 2026." },
+  mag: { profil: "Écrasement et Magnétisation", profilEN: "Crush and Magnetize", n: [3, 1, 1], fr: ["force", "sante", "armure"],
+    alt: "Sur une cible magnétisée, la Puissance compte deux fois dans les dégâts d'Écrasement (exemple chiffré du wiki) : 3 Écarlate tauforgés (+45 %) donnent ×1,32 à 200 % de Puissance. Mag ne pose ni Électrique, ni Radiation, ni Corrosif : les bonus « sous statut » ne servent pas. Santé et Armure : 280 de santé et 105 d'armure, environ +73 % de points de vie effectifs (éclats tauforgés, boucliers compris). Variante énergie : un Azur Énergie max à la place d'un Écarlate. Valeurs : wiki officiel, 22/10/2026.",
+    altEN: "On a magnetized target, Strength counts twice in Crush damage (wiki worked example): 3 Tauforged Crimson (+45%) give x1.32 at 200% Strength. Mag applies no Electricity, Radiation or Corrosion: status-gated bonuses do nothing. Health and Armor: 280 health and 105 armor, about +73% effective HP (Tauforged shards, shields included). Energy variant: one Azure Energy Max instead of one Crimson. Values: official wiki, 22 October 2026." },
+  nekros: { profil: "Ombres des Morts et Terreur", profilEN: "Shadows of the Dead and Terrify", n: [3, 1, 1], fr: ["force", "sante", "armure"],
+    alt: "La Puissance multiplie les dégâts et la santé des Ombres, et la Terreur retire toute l'armure à 167 % de Puissance. Nekros ne pose aucun statut utile aux bonus « sous statut ». Santé et Armure : 105 d'armure, environ +90 % de points de vie effectifs (éclats tauforgés, boucliers compris). Variante farm : Ambre (Efficacité des orbes de santé) avec la Profanation ; variante énergie : Azur Énergie max (150 → 200). Valeurs : wiki officiel, 22/10/2026.",
+    altEN: "Strength multiplies the Shadows' damage and health, and Terrify strips all armor at 167% Strength. Nekros applies no status the gated bonuses need. Health and Armor: 105 armor, about +90% effective HP (Tauforged shards, shields included). Farming variant: Amber (Health Orb Effectiveness) with Desecrate; energy variant: Azure Energy Max (150 → 200). Values: official wiki, 22 October 2026." },
+  nova: { profil: "Amorce Moléculaire", profilEN: "Molecular Prime", n: [2, 1, 1, 1], fr: ["force", "duree", "topazeSante", "armure"],
+    alt: "La Puissance porte l'explosion de l'Amorce Moléculaire (800) et le ralentissement, plafonné à 75 % dès 150 % de Puissance ; la Durée allonge l'amorce (30 s) et élargit la vague. Étoile Vide et Lâché d'Antimatière infligent de l'Explosif à 100 % : la Topaze ajoute jusqu'à +300 (+450) de santé max au fil des éliminations Explosives. Azur Armure : 105 → 255, 26 % → 46 % de réduction. Variante : Topaze Bouclier par élimination Explosive (le wiki ne départage pas). Valeurs : wiki officiel, 22/10/2026.",
+    altEN: "Strength drives Molecular Prime's explosion (800) and its slow, capped at 75% from 150% Strength; Duration lengthens the prime (30 s) and widens the wave. Null Star and Antimatter Drop deal 100% Blast: Topaz adds up to +300 (+450) max health over Blast kills. Azure Armor: 105 → 255, 26% → 46% damage reduction. Variant: Topaz Shield per Blast kill (the wiki does not rank them). Values: official wiki, 22 October 2026." },
+  octavia: { profil: "Maillet et Ampli", profilEN: "Mallet and Amp", n: [3, 1, 1], fr: ["force", "duree", "armure"],
+    alt: "La Puissance monte le multiplicateur du Maillet (×2,5), l'Ampli (jusqu'à +200 % de dégâts d'armes pour l'escouade) et l'armure du Métronome ; la Durée allonge Maillet, Résonateur et Métronome (20 s → 22 s) et l'Ampli (30 s → 33 s). Octavia ne pose aucun statut utile aux bonus « sous statut ». Azur Armure : 160 → 310, 35 % → 51 % de réduction. Variante : Ambre Vitesse d'incantation à la place de la Durée. Valeurs : wiki officiel, 22/10/2026.",
+    altEN: "Strength raises Mallet's multiplier (x2.5), Amp (up to +200% squad weapon damage) and Metronome's armor; Duration lengthens Mallet, Resonator and Metronome (20 s → 22 s) and Amp (30 s → 33 s). Octavia applies no status the gated bonuses need. Azure Armor: 160 → 310, 35% → 51% damage reduction. Variant: Amber Casting Speed instead of Duration. Values: official wiki, 22 October 2026." },
+  rhino: { profil: "Peau de Fer et Rugissement", profilEN: "Iron Skin and Roar", n: [2, 1, 1, 1], fr: ["force", "duree", "armure", "energie"],
+    alt: "La Puissance monte le Rugissement (+50 % de dégâts d'armes et de pouvoirs), le Piétinement et l'Overguard de Peau de Fer ; la Durée allonge le Rugissement (30 s → 33 s). L'Azur Armure compte deux fois : réduction 44 % → 57 %, et Overguard de Peau de Fer de 1 800 à 2 175 à 100 % de Puissance (formule du wiki). Azur Énergie : Rhino n'a que 150 d'énergie pour 225 de pouvoirs. Valeurs : wiki officiel, 22/10/2026.",
+    altEN: "Strength raises Roar (+50% weapon and ability damage), Rhino Stomp and Iron Skin's Overguard; Duration lengthens Roar (30 s → 33 s). Azure Armor counts twice: damage reduction 44% → 57%, and Iron Skin Overguard from 1,800 to 2,175 at 100% Strength (wiki formula). Azure Energy: Rhino has only 150 energy for 225 worth of abilities. Values: official wiki, 22 October 2026." },
+  saryn: { profil: "Spores et Miasme", profilEN: "Spores and Miasma", n: [3, 1, 1], fr: ["emeraudeCorrosif", "emeraudeToxine", "armure"],
+    alt: "Les Spores posent du Corrosif : Miasme, Mue et Revers Toxique frappent donc des ennemis déjà sous Corrosif, et 3 Émeraude donnent +30 % (+45 %) de dégâts de pouvoir, multiplicatifs avec la Puissance. L'Émeraude Toxine renforce les procs garantis du Revers Toxique et de la Mue. Azur Armure : 240 → 390, 44 % → 57 % de réduction. Si ta Puissance totale est sous 200 % : un Écarlate Puissance à la place d'une Émeraude Corrosif (100 % de statut Corrosif des Spores à 200 %). Valeurs : wiki officiel, 22/10/2026.",
+    altEN: "Spores apply Corrosion: Miasma, Molt and Toxic Lash then hit enemies already under Corrosion, and 3 Emerald give +30% (+45%) Ability Damage, multiplicative with Strength. Emerald Toxin boosts the guaranteed procs of Toxic Lash and Molt. Azure Armor: 240 → 390, 44% → 57% damage reduction. If your total Strength is below 200%: one Crimson Strength instead of one Emerald Corrosion (Spores reach 100% Corrosive status at 200%). Values: official wiki, 22 October 2026." },
+  trinity: { profil: "Bénédiction et soutien", profilEN: "Blessing and support", n: [2, 1, 1, 1], fr: ["force", "duree", "energie", "armure"],
+    alt: "La Puissance monte la réduction de dégâts de la Bénédiction (50 %, plafond 75 % à 150 % de Puissance) et l'énergie rendue par le Vampire d'Énergie ; la Durée allonge Bénédiction et Lien. Azur Énergie : le passif donne aux alliés 50 % de l'énergie max de Trinity en santé, soit +25 (+37,5) chacun. Azur Armure : 105 → 255. Si ta Puissance dépasse déjà 150 % : Ambre Vitesse d'incantation et Azur Santé à la place des deux Écarlate Puissance. Valeurs : wiki officiel, 22/10/2026.",
+    altEN: "Strength raises Blessing's damage reduction (50%, capped at 75% at 150% Strength) and the energy Energy Vampire gives; Duration lengthens Blessing and Link. Azure Energy: the passive gives allies 50% of Trinity's max energy as health, +25 (+37.5) each. Azure Armor: 105 → 255. If your Strength is already over 150%: Amber Casting Speed and Azure Health instead of the two Crimson Strength. Values: official wiki, 22 October 2026." },
+  volt: { profil: "Bouclier Électrique et arme principale", profilEN: "Electric Shield and primary weapon", n: [3, 1, 1], fr: ["elecPrincipale", "armure", "sante"],
+    alt: "Le DPS de Volt passe par son arme principale à travers le Bouclier Électrique (+50 % d'Électrique, ×2 de dégâts critiques). Le Violet Électrique gagne +10 % par éclat Écarlate, Azur ou Violet équipé : avec ces 5 éclats, chacun vaut +80 %, soit +240 % pour les trois. Armure et Santé : 105 d'armure, environ +37 % de points de vie effectifs avec l'armure. Variante pouvoirs : Violet « dégâts de pouvoir sous Électrique » en lançant Choc avant Décharge. Valeurs : wiki officiel, 22/10/2026.",
+    altEN: "Volt's DPS goes through his primary weapon fired through Electric Shield (+50% Electricity, x2 crit damage). The Violet Electricity bonus gains +10% per Crimson, Azure or Violet shard equipped: with these 5 shards each is worth +80%, +240% for the three. Armor and Health: 105 armor, about +37% effective HP from armor. Ability variant: Violet Ability Damage on Electrified enemies, casting Shock before Discharge. Values: official wiki, 22 October 2026." },
+  wisp: { profil: "Porte Sol", profilEN: "Sol Gate", n: [2, 2, 1], fr: ["topazeRadiation", "emeraudeCorrosif", "armure"],
+    alt: "La Porte Sol pose elle-même la Radiation (100 % de statut) et, avec le mote Haste des Réservoirs, le Corrosif à chaque touche : 2 Topaze et 2 Émeraude donnent +40 % (+60 %) de dégâts de pouvoir, multiplicatifs avec la Puissance, en plus des +50 % des Réservoirs. Le wiki ne dit pas dès quel tick le bonus s'applique : à tester au Simulacre. Azur Armure : 185 → 335, environ +31 % de points de vie effectifs. Valeurs : wiki officiel, 22/10/2026.",
+    altEN: "Sol Gate applies Radiation itself (100% status) and, with the Haste mote, Corrosion on every hit: 2 Topaz and 2 Emerald give +40% (+60%) Ability Damage, multiplicative with Strength, on top of the motes' +50%. The wiki does not say from which tick the bonus applies: test it in the Simulacrum. Azure Armor: 185 → 335, about +31% effective HP. Values: official wiki, 22 October 2026." },
 };
 const planFrame = f => ECLATS_FRAME[slugify(f.n).replace(/-prime$/, "")];
 function shardPlan(f) {
   const P = planFrame(f);
-  if (P) return { profil: P.profil, slots: P.fr.flatMap((k, i) => Array(P.n[i]).fill(ECLAT_FR[k])), alt: P.alt };
+  // Les chiffres des notes sont ceux de la version de base : la Prime a plus d'armure (relecture du 22/10/2026).
+  const prime = /-prime$/.test(slugify(f.n));
+  if (P) return { profil: P.profil, slots: P.fr.flatMap((k, i) => Array(P.n[i]).fill(ECLAT_FR[k])),
+    alt: P.alt + (prime ? ` Chiffres donnés pour la version de base : ${f.n} a ${f.ar} d'armure, les pourcentages de survie changent un peu, le choix des éclats reste le même.` : "") };
   const caster = (f.e || 0) >= 150, tank = (f.ar || 0) >= 250, fast = (f.spd || 1) >= 1.15;
   const E = ECLAT_FR;
   if (caster) return {
@@ -1181,7 +1243,9 @@ const DISCLAIMER_EN = `<p class="modnote" style="margin-top:14px">${UI_EN.discla
 
 function shardPlanEN(f) {
   const P = planFrame(f);
-  if (P) return { profil: { ash: "Blade Storm", ember: "Immolation and Inferno", frost: "Snow Globe and Avalanche" }[slugify(f.n).replace(/-prime$/, "")], slots: P.en.flatMap((t, i) => Array(P.n[i]).fill(t)), alt: P.altEN };
+  const prime = /-prime$/.test(slugify(f.n));
+  if (P) return { profil: P.profilEN, slots: P.fr.flatMap((k, i) => Array(P.n[i]).fill(ECLAT_EN[k])),
+    alt: P.altEN + (prime ? ` Figures are for the base version: ${f.n} has ${f.ar} armor, so survival percentages shift a little; the shard choice stays the same.` : "") };
   const caster = (f.e || 0) >= 150, tank = (f.ar || 0) >= 250, fast = (f.spd || 1) >= 1.15;
   return caster ? SHARD_EN.caster : tank ? SHARD_EN.tank : fast ? SHARD_EN.fast : SHARD_EN.poly;
 }
@@ -1467,8 +1531,7 @@ const BONUS_ECLATS = {
   "Topaz": /max health.*blast|shield.*blast|secondary critical chance.*heat|ability damage.*radiation/i,
   "Emerald": /toxin status|ability damage.*corrosi|corrosion stacks/i,
 };
-const ECLATS_EN_ATTENTE = new Set(["khora", "loki", "mag", "nekros", "nova",
-  "octavia", "rhino", "saryn", "trinity", "volt", "wisp"]); // pages ★ FR à auditer (lot suivant)
+const ECLATS_EN_ATTENTE = new Set([]); // vide depuis le 22/10/2026 : les 14 pages ★ sont refaites (plans dans ECLATS_FRAME)
 function eclatsInvalides() {
   const erreurs = [], attenteCorrigee = [];
   for (const [dossier, en] of [[OUT, false], [OUT_EN, true]]) for (const f of fs.readdirSync(dossier).filter(x => x.endsWith(".html"))) {
@@ -1478,7 +1541,10 @@ function eclatsInvalides() {
     for (const b of blocs) for (const li of b[2].matchAll(/<li>([\s\S]*?)<\/li>/g)) {
       const txt = li[1].replace(/<[^>]+>/g, " ").replace(/&#39;|&apos;/g, "'").replace(/&amp;/g, "&").replace(/\s+/g, " ").trim();
       const couleurs = en ? ["Crimson", "Amber", "Azure", "Violet", "Topaz", "Emerald"] : ["Écarlate", "Ambre", "Azur", "Violet", "Topaze", "Émeraude"];
-      const c = couleurs.find(x => new RegExp(`(^|[\\s×—🔴🟡🔵🟣🟠🟢])${x}(\\s|$|:)`).test(txt));
+      // La couleur de la ligne est celle qui apparaît EN PREMIER : un bonus peut citer d'autres couleurs
+      // (Violet Électrique : « +10 % par éclat Écarlate, Azur ou Violet équipé », 22/10/2026).
+      const c = couleurs.map(x => [x, txt.search(new RegExp(`(^|[\\s×—🔴🟡🔵🟣🟠🟢])${x}(\\s|$|:|,)`))])
+        .filter(([, i]) => i >= 0).sort((a, b) => a[1] - b[1]).map(([x]) => x)[0];
       if (!c) { ko = ko || `couleur absente : « ${txt.slice(0, 60)} »`; continue; }
       const reste = txt.slice(txt.indexOf(c) + c.length).replace(/^\s*[—:-]\s*/, "");
       const re = BONUS_ECLATS[en && c === "Violet" ? "Violet " : c];
