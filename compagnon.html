@@ -98,7 +98,7 @@
         <a data-q="Octavia Prime">Octavia Prime</a> ·
         <a data-q="Serration">Serration</a> ·
         <a data-q="Mesa Prime">Mesa Prime</a> ·
-        <a data-q="Arcane Energize">Arcane Energize</a>
+        <a data-q="Arcane Energize">Arcane Énergétique</a>
       </div>
       <div id="result" style="margin-top:14px" aria-live="polite"></div>
     </section>
@@ -543,7 +543,7 @@ renderWatch();
       ? ('🛒 <strong style="color:var(--ok)">Baro est là</strong> — '+escapeHtml(baro.location||"")+' (repart '+escapeHtml(baro.endString||"")+')')
       : ('🛒 Baro absent — prochaine venue : '+escapeHtml((baro&&baro.location)||"?")+' '+escapeHtml((baro&&baro.startString)||""));
     box.innerHTML =
-      '<div class="row"><span class="k">Failles actives</span><span class="v">'+list.length+' ( '+norm+' normales · '+sp+' Steel Path )</span></div>'
+      '<div class="row"><span class="k">Failles actives</span><span class="v">'+list.length+' ( '+norm+' normales · '+sp+' Route de l\'Acier )</span></div>'
       + '<div class="row"><span class="k">Baro Ki\'Teer</span><span class="v">'+baroTxt+'</span></div>'
       + '<div class="mut" style="margin-top:8px">Détail complet sur le <a href="/hub">tableau de bord</a>.</div>';
   }catch(e){

@@ -492,7 +492,7 @@ function cardTodo(s){
   // 🌀 Failles ouvertes (par palier) → ouvrir ses reliques maintenant
   const f=s.fissures||{}, order={Lith:1,Meso:2,Neo:3,Axi:4,Requiem:5,Omnia:6};
   const tiers=Object.keys(f.byTier||{}).sort((a,b)=>(order[a]||9)-(order[b]||9));
-  if(tiers.length) items.push({i:"🌀", t:`<b>Failles ouvertes</b> : ${tiers.map(esc).join(", ")} — ouvre tes reliques${f.steelPathCount?` · ${esc(f.steelPathCount)} en Steel Path`:""}.`});
+  if(tiers.length) items.push({i:"🌀", t:`<b>Failles ouvertes</b> : ${tiers.map(esc).join(", ")} — ouvre tes reliques${f.steelPathCount?` · ${esc(f.steelPathCount)} en Route de l'Acier`:""}.`});
   // 🎯 Sortie du jour
   const so=s.sortie||{};
   if(so.boss) items.push({i:"🎯", t:`<b>Sortie</b> : ${esc(so.boss)} <span class="muted">${esc(so.faction||"")}</span>`, cd:ms(so.endUtc), k:"réinit dans"});
@@ -505,7 +505,7 @@ function cardTodo(s){
   else if(b.startUtc){ const left=(ms(b.startUtc)-now)/1000; if(left>0 && left<3*86400) items.push({i:"🛒", t:`<b>Baro</b> arrive bientôt — ${esc(b.location||"")}`, cd:ms(b.startUtc), k:"arrive dans"}); }
   // 🗡️ Récompense Steel Path de la semaine
   const sp=s.steelPath||{};
-  if(sp.currentReward&&sp.currentReward.name) items.push({i:"🗡️", t:`<b>Steel Path</b> : ${esc(sp.currentReward.name)} <span class="muted">(${esc(sp.currentReward.cost)} essences chez Teshin)</span>`});
+  if(sp.currentReward&&sp.currentReward.name) items.push({i:"🗡️", t:`<b>Route de l'Acier</b> : ${esc(sp.currentReward.name)} <span class="muted">(${esc(sp.currentReward.cost)} essences chez Teshin)</span>`});
   // 💱 Meilleur farm de ducats du moment (depuis le marché suivi : ducats/plat le plus élevé)
   const mk=(s.market&&s.market.items)||[];
   const bestDuc=mk.filter(i=>typeof i.ducatsPerPlat==="number" && i.ducatsPerPlat>0).sort((a,b)=>b.ducatsPerPlat-a.ducatsPerPlat)[0];
@@ -533,7 +533,7 @@ function cardTodo(s){
 /* — 🗡️ Steel Path : Honneurs de Teshin (récompense hebdo + rotation). Masqué si absent du summary. */
 function cardSteelPath(s){
   const sp=s.steelPath; if(!sp || !sp.currentReward || !sp.currentReward.name) return null;
-  const c=el("div",{class:"card"}); c.append(el("h2",{},'<img class="hub-ico" src="/assets/icons/steel-path.svg" alt=""> Steel Path <span class="n">Honneurs de Teshin</span>'));
+  const c=el("div",{class:"card"}); c.append(el("h2",{},'<img class="hub-ico" src="/assets/icons/steel-path.svg" alt=""> Route de l&#39;Acier <span class="n">Honneurs de Teshin</span>'));
   c.append(rowKV("Récompense de la semaine", `<b class="plat">${esc(sp.currentReward.name)}</b> <span class="muted">· ${esc(sp.currentReward.cost)} essences</span>`));
   if(sp.expiryUtc) c.append(rowKVcd("Change dans", sp.expiryUtc));
   const rot=(sp.rotation||[]).filter(r=>r&&r.name && r.name!==sp.currentReward.name).slice(0,5);
@@ -541,7 +541,7 @@ function cardSteelPath(s){
     c.append(el("div",{class:"muted",style:"margin:9px 0 2px;font-size:11px;text-transform:uppercase;letter-spacing:.6px"},"Aussi en rotation"));
     rot.forEach(r=> c.append(rowKV(esc(r.name), `<span class="muted">${esc(r.cost)} ess.</span>`)));
   }
-  c.append(el("div",{class:"muted",style:"margin-top:8px;font-size:11px"},"Essences d'acier = monnaie du Steel Path, échangée chez Teshin."));
+  c.append(el("div",{class:"muted",style:"margin-top:8px;font-size:11px"},"Essences d'acier = monnaie de la Route de l'Acier, échangée chez Teshin."));
   return c;
 }
 
@@ -584,14 +584,14 @@ function savePrefs(){
 function cardFissures(s){
   const f=s.fissures||{list:[]}, vs=s.voidStorms||{count:0,list:[]};
   const c=el("div",{class:"card wide"});
-  c.append(el("h2",{},`<img class="hub-ico" src="/assets/icons/fissure-vide.svg" alt=""> Failles <span class="n">${f.count||0} · Steel Path ${f.steelPathCount||0} · Railjack ${vs.count||0}</span>`));
+  c.append(el("h2",{},`<img class="hub-ico" src="/assets/icons/fissure-vide.svg" alt=""> Failles <span class="n">${f.count||0} · Route de l'Acier ${f.steelPathCount||0} · Railjack ${vs.count||0}</span>`));
   // contrôles
   const ctr=el("div",{class:"controls"});
   const tiers=["all","Lith","Meso","Neo","Axi","Requiem","Omnia"];
   const sel=el("select",{id:"fTier","aria-label":"Filtrer les failles par palier"}); tiers.forEach(t=> sel.append(el("option",{value:t}, t==="all"?"Tous les paliers":t)));
   sel.value=fissureFilter.tier; sel.onchange=()=>{fissureFilter.tier=sel.value; savePrefs(); renderFissureTable(s);};
-  const spSel=el("select",{id:"fSp","aria-label":"Filtrer les failles : normal ou Steel Path"});
-  [["all","Normal + Steel Path"],["sp","Steel Path uniquement"],["normal","Normal uniquement"]].forEach(([v,l])=>spSel.append(el("option",{value:v},l)));
+  const spSel=el("select",{id:"fSp","aria-label":"Filtrer les failles : normal ou Route de l'Acier"});
+  [["all","Normal + Route de l'Acier"],["sp","Route de l'Acier uniquement"],["normal","Normal uniquement"]].forEach(([v,l])=>spSel.append(el("option",{value:v},l)));
   spSel.value=fissureFilter.sp; spSel.onchange=()=>{fissureFilter.sp=spSel.value; savePrefs(); renderFissureTable(s);};
   const soSel=el("select",{id:"fSort","aria-label":"Trier les failles"});
   [["tier","Tri : palier"],["expiry","Tri : expire bientôt"]].forEach(([v,l])=>soSel.append(el("option",{value:v},l)));

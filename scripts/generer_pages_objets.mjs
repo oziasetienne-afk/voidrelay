@@ -677,6 +677,10 @@ function guideCorpus(lang) {
 function objGuideLinks(name, lang) {
   const variants = [name];
   if (/\sSet$/i.test(name)) variants.push(name.replace(/\s+Set$/i, ""));
+  // Guides FR francisés (22/10/2026) : ils citent l'objet sous son nom FR officiel (« Tempo Royal »,
+  // pas « Tempo Royale ») ; sans cette variante, 27 fiches perdaient leur lien vers le guide.
+  const fr = lang === "fr" ? nomFr(name, false) : null;
+  if (fr && fr !== name) variants.push(fr);
   const corpus = guideCorpus(lang);
   const hits = [];
   for (const g of corpus) {

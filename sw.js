@@ -1,5 +1,5 @@
 /* Service worker : coque en cache (stale-while-revalidate), données réseau d'abord. */
-const CACHE="wf-hub-v156";
+const CACHE="wf-hub-v157";
 /* Caches à NE PAS purger à l'activation : « wf-alerts » porte la configuration et
    l'historique des alertes des joueurs (écrits par le SW lui-même, voir plus bas). */
 const GARDER=[CACHE,"wf-alerts"];
