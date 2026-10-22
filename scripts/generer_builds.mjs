@@ -1503,6 +1503,20 @@ if (VERIFIER) {
     for (const e of ecl.attenteCorrigee) console.error("   " + e);
     process.exit(1);
   }
+  /* Noms FR inventés (22/10/2026) : « Arcane Énergisée » sur 19 pages, alors que le jeu en français
+     dit « Arcane Énergétique » (overframe.gg réglé en FR, icône ArcaneProjectionBI = Arcane Energize ;
+     même nom dans l'export WFCD). Un nom faux empêche le joueur de le retrouver en jeu. */
+  const NOMS_FR_FAUX = [["Arcane Énergisée", "Arcane Énergétique"]];
+  const nomsFaux = [];
+  for (const dossier of [OUT, OUT_EN]) for (const f of fs.readdirSync(dossier).filter(x => x.endsWith(".html"))) {
+    const html = fs.readFileSync(path.join(dossier, f), "utf8");
+    for (const [faux, vrai] of NOMS_FR_FAUX) if (html.includes(faux)) nomsFaux.push(`${path.relative(ROOT, path.join(dossier, f))} — « ${faux} » au lieu de « ${vrai} »`);
+  }
+  if (nomsFaux.length) {
+    console.error(`💥 Noms français faux : ${nomsFaux.length} page(s) :`);
+    for (const e of nomsFaux.slice(0, 15)) console.error("   " + e);
+    process.exit(1);
+  }
   if (fauxChrom.length) {
     console.error("💥 Lame Chromatique : élément lié à la couleur d'énergie ou à Corrosif/Viral direct (c'est la couleur émissive primaire, élément simple) :");
     for (const f of fauxChrom) console.error("   " + f);
