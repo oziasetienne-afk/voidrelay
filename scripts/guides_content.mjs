@@ -116,12 +116,12 @@ export const GUIDES = [
 </ul>
 <p>Selon ton style :</p>
 <ul>
-<li><b>Mods anti-faction</b> (Fléau/Extermination de faction) : prix de groupe conseillé par Pandaahh — utiles pour un stuff dégâts-cap ou certaines synergies (l'explosif profite d'une instance de dégâts supplémentaire avec le Rugissement de Rhino), mais très peu joués en 2026 en usage courant. Nuance apportée par le créateur anglophone <a href="https://www.youtube.com/watch?v=TmBZJi2u4dk" target="_blank" rel="noopener">Nerd Bird</a> : leur +55 % est <b>multiplicatif</b>, pas additif, et <b>double-dip sur les statuts</b> — il s'applique au coup initial ET à chaque tick des dégâts sur la durée (saignement, feu, poison…), soit environ <b>+240 % de dégâts sur les ticks</b>. Change tout en Steel Path profond ou grosse Archimédée, même si jongler les mods à chaque mission reste une contrainte.</li>
-<li><b>Nouveauté maj 43</b> : le Steel Path est arrivé en Railjack — le <b>Chargeur Vénimeux accru</b> (Toxine, archgun) redevient pertinent pour tenir la cadence de dégâts.</li>
+<li><b>Mods anti-faction</b> (Fléau/Extermination de faction) : prix de groupe conseillé par Pandaahh — utiles pour un stuff dégâts-cap ou certaines synergies (l'explosif profite d'une instance de dégâts supplémentaire avec le Rugissement de Rhino), mais très peu joués en 2026 en usage courant. Nuance apportée par le créateur anglophone <a href="https://www.youtube.com/watch?v=TmBZJi2u4dk" target="_blank" rel="noopener">Nerd Bird</a> : leur +55 % est <b>multiplicatif</b>, pas additif, et <b>double-dip sur les statuts</b> — il s'applique au coup initial ET à chaque tick des dégâts sur la durée (saignement, feu, poison…), soit environ <b>+240 % de dégâts sur les ticks</b>. Change tout en Route de l'Acier profonde ou grosse Archimédée, même si jongler les mods à chaque mission reste une contrainte.</li>
+<li><b>Nouveauté maj 43</b> : la Route de l'Acier est arrivée en Railjack — le <b>Chargeur Vénimeux accru</b> (Toxine, archgun) redevient pertinent pour tenir la cadence de dégâts.</li>
 </ul>
 <p>À sauter sans regret : les mods de recul (Stabilisateur, Contrepoids, Main Stable), <b>Chef de Meute accru</b> (la version normale suffit très largement) et <b>Traumatisme Lourd accru</b> — plus grand monde ne le joue depuis la réduction du rayon des attaques au sol.</p>
 <p>Côté armes de la boutique, un classique et une curiosité : le <b>Gotva Prime</b> garantit une <b>chance de critique fixe à 300 %</b> sur chaque tir (valeur non modifiable par les mods — crit rouge assuré), et le <b>Vastilok</b> reste la meilleure gunblade pour striper les défenses ennemies.</p>
-<p><b>Astuce booster</b> : le <b>doubleur de mods</b> (1 an) vaut le coup à l'année — les mods et l'endo partagent la même table de butin, donc plus de mods signifie aussi plus d'endo ; en Steel Path, ça double aussi tes chances de récupérer des <a href="/arcanes/">arcanes</a>.</p>
+<p><b>Astuce booster</b> : le <b>doubleur de mods</b> (1 an) vaut le coup à l'année — les mods et l'endo partagent la même table de butin, donc plus de mods signifie aussi plus d'endo ; en Route de l'Acier, ça double aussi tes chances de récupérer des <a href="/arcanes/">arcanes</a>.</p>
 
 <h3>Le tri de Patchoumio (<a href="https://www.youtube.com/watch?v=JlgclNYBkt4" target="_blank" rel="noopener">revue complète en vidéo</a>)</h3>
 <p>Deux astuces qui font gagner de vrais ducats :</p>
@@ -224,14 +224,14 @@ export const GUIDES = [
   {
     slug: "steel-path-debuter",
     banner: "/assets/banners/fam-endgame.webp",
-    title: "Steel Path : guide pour bien débuter (Warframe)",
-    h1: "Steel Path : par où commencer",
-    desc: "Le mode Steel Path expliqué : à quoi il sert, quand s'y mettre, les récompenses (essences, Teshin) et les builds pour survivre au end-game de Warframe.",
+    title: "Route de l'Acier (Steel Path) : guide pour bien débuter (Warframe)",
+    h1: "Route de l'Acier (Steel Path) : par où commencer",
+    desc: "Le mode Route de l'Acier (Steel Path) expliqué : à quoi il sert, quand s'y mettre, les récompenses (essences, Teshin) et les builds pour survivre au end-game de Warframe.",
     faq: [
-      { q: "Quand se mettre au Steel Path ?", a: "Attends d'avoir fini la carte normale et d'avoir un build solide (Warframe et arme bien moddées, arcanes) : les ennemis du Steel Path ont énormément de vie et d'armure, inutile de t'y lancer trop tôt." },
+      { q: "Quand se mettre à la Route de l'Acier ?", a: "Attends d'avoir fini la carte normale et d'avoir un build solide (Warframe et arme bien moddées, arcanes) : les ennemis de la Route de l'Acier ont énormément de vie et d'armure, inutile de t'y lancer trop tôt." },
     ],
     body: `
-<p>Le <b>Steel Path</b> est le mode « new game + » de Warframe : la carte entière en plus difficile (ennemis niveau 100+). C'est l'étape end-game pour les récompenses et le défi.</p>
+<p>La <b>Route de l'Acier</b> (Steel Path) est le mode « new game + » de Warframe : la carte entière en plus difficile (ennemis niveau 100+). C'est l'étape end-game pour les récompenses et le défi.</p>
 
 <h2>Quand s'y mettre ?</h2>
 <p>Attends d'avoir <b>fini la carte normale</b> et un build solide (Warframe et arme bien moddées, arcanes). Inutile de t'y lancer trop tôt : les ennemis ont énormément de vie et d'armure.</p>
@@ -239,8 +239,8 @@ export const GUIDES = [
 <h2>Les récompenses</h2>
 <ul>
 <li><b>Essences Steel</b> : monnaie échangée chez Teshin contre des objets exclusifs (arcanes, Kuva, etc.). La récompense hebdomadaire d'honneurs change chaque semaine — suis-la sur le <a href="/hub">tableau de bord</a>.</li>
-<li><b>Nouveau (maj 43)</b> : le Steel Path existe aussi en <b>Railjack</b> — ennemis +50 niveaux, plus de ressources, Essence d'Acier sur les Eximus et fissures dédiées. Le détail est dans <a href="/guides/ombres-de-jade-constellations">notre récap de la mise à jour</a>.</li>
-<li><b>+100 % de chance de drop de ressources et +100 % de chance de drop de mods</b> sur toutes les missions Steel Path (cumulable avec les boosters) : les vrais farms de ressources se font ici — <a href="https://www.youtube.com/watch?v=L62i1HUAa7I" target="_blank" rel="noopener">conseil répété par Pandaahh</a> à tout joueur qui débloque le mode.</li>
+<li><b>Nouveau (maj 43)</b> : la Route de l'Acier existe aussi en <b>Railjack</b> — ennemis +50 niveaux, plus de ressources, Essence d'Acier sur les Eximus et fissures dédiées. Le détail est dans <a href="/guides/ombres-de-jade-constellations">notre récap de la mise à jour</a>.</li>
+<li><b>+100 % de chance de drop de ressources et +100 % de chance de drop de mods</b> sur toutes les missions Route de l'Acier (cumulable avec les boosters) : les vrais farms de ressources se font ici — <a href="https://www.youtube.com/watch?v=L62i1HUAa7I" target="_blank" rel="noopener">conseil répété par Pandaahh</a> à tout joueur qui débloque le mode.</li>
 </ul>
 
 <h2>Comment survivre</h2>
@@ -330,12 +330,12 @@ export const GUIDES = [
     desc: "Notre tier list des Warframes en 2026 : les frames les plus fortes par rôle (DPS, tank, soutien, furtivité), pourquoi elles dominent, et par quoi commencer selon ton style.",
     faq: [
       { q: "Quelle est la meilleure Warframe en 2026 ?", a: "Il n'y a pas une seule « meilleure » Warframe : tout dépend du rôle. Saryn domine le nettoyage de salles, Mesa le DPS monocible, Wisp le soutien, Rhino et Nekros restent des valeurs sûres pour tanker et farmer. Le meilleur choix est la frame la plus forte dans TON style de jeu." },
-      { q: "Quelle Warframe pour le Steel Path ?", a: "Privilégie les frames qui survivent et suppriment l'armure : Saryn, Wisp, Octavia ou Khora s'en sortent très bien au Steel Path avec un build correct. L'équipement (mods, arcanes) compte autant que la frame elle-même." },
+      { q: "Quelle Warframe pour la Route de l'Acier ?", a: "Privilégie les frames qui survivent et suppriment l'armure : Saryn, Wisp, Octavia ou Khora s'en sortent très bien à la Route de l'Acier avec un build correct. L'équipement (mods, arcanes) compte autant que la frame elle-même." },
     ],
     body: `
 <p>Les <b>meilleures Warframes en 2026</b>, en un coup d'œil : <b>Saryn</b> (AoE), <b>Mesa</b> (DPS), <b>Wisp</b> (soutien), <b>Octavia</b> (polyvalence), <b>Khora</b> (farm) dominent le haut du panier, et <b>Rhino</b> reste le meilleur point d'entrée. Le détail par rôle ci-dessous — avec, pour chacune, un <a href="/builds/">build prêt à jouer</a>.</p>
 
-<p class="muted">Classement éditorial VoidRelay : il reflète l'efficacité en jeu constatée sur les contenus qui comptent (missions courantes, farm, <a href="/guides/steel-path-debuter">Steel Path</a>), pas un chiffre officiel. Toute tier list est un instantané — les équilibrages bougent.</p>
+<p class="muted">Classement éditorial VoidRelay : il reflète l'efficacité en jeu constatée sur les contenus qui comptent (missions courantes, farm, <a href="/guides/steel-path-debuter">Route de l'Acier</a>), pas un chiffre officiel. Toute tier list est un instantané — les équilibrages bougent.</p>
 
 <h2>🥇 Le sommet (S) — dominantes partout</h2>
 <ul>
@@ -347,7 +347,7 @@ export const GUIDES = [
 
 <h2>🥈 Très fortes (A) — spécialistes redoutables</h2>
 <ul>
-<li><b><a href="/builds/khora">Khora</a></b> — dégâts métalliques massifs et <b>meilleure frame de farm</b> avec sa Strangledome + Pilfering. Incontournable en survie de ressources.</li>
+<li><b><a href="/builds/khora">Khora</a></b> — dégâts métalliques massifs et <b>meilleure frame de farm</b> avec sa Cage de Fer + Pilfering. Incontournable en survie de ressources.</li>
 <li><b><a href="/builds/nova">Nova</a></b> — contrôle de foule et accélération/ralentissement des ennemis : elle dicte le rythme de la mission entière.</li>
 <li><b><a href="/builds/nekros">Nekros</a></b> — le fermier : Désécration double le butin. Pas le plus flashy, mais ton stock de ressources le remercie.</li>
 <li><b><a href="/builds/volt">Volt</a></b> — vitesse pour tout le monde, gros burst électrique et bouclier utile : excellent du début à la fin du jeu.</li>
@@ -368,7 +368,7 @@ export const GUIDES = [
 <li><b>Le prix compte</b> : beaucoup de ces frames s'obtiennent en farmant leurs composants, et leurs versions Prime s'échangent — compare sur les <a href="/o/c/sets">sets Prime</a> avant d'acheter quoi que ce soit.</li>
 </ol>
 
-<p>Pour t'équiper sans payer, lis <a href="/guides/farmer-platine-gratuit">comment farmer du platine</a> ; pour le end-game, <a href="/guides/steel-path-debuter">par où commencer le Steel Path</a>.</p>
+<p>Pour t'équiper sans payer, lis <a href="/guides/farmer-platine-gratuit">comment farmer du platine</a> ; pour le end-game, <a href="/guides/steel-path-debuter">par où commencer la Route de l'Acier</a>.</p>
 `,
   },
   {
@@ -429,7 +429,7 @@ export const GUIDES = [
     desc: "Les meilleures sources d'Endo (Arbitrations, sculptures Ayatan, reliques) et d'Aya (Netracells) dans Warframe, avec les combos qui rapportent le plus par heure.",
     faq: [
       { q: "Quelle est la meilleure façon de farmer de l'Endo ?", a: "Les Arbitrations donnent le meilleur rendement passif sur la durée (Endo en rotation régulière). Pour un gros apport ponctuel, écrase des sculptures Ayatan remplies d'étoiles chez Cephalon Simaris — souvent plusieurs milliers d'Endo d'un coup." },
-      { q: "Comment farmer de l'Aya rapidement ?", a: "Les Netracells (exclusivement en Steel Path) sont la source principale d'Aya, avec un bonus garanti sur le premier Netracell complété chaque jour. L'Onslaught du Sanctuaire (classique ou Elite) en donne aussi, en plus petite quantité." },
+      { q: "Comment farmer de l'Aya rapidement ?", a: "Les Netracells (exclusivement en Route de l'Acier) sont la source principale d'Aya, avec un bonus garanti sur le premier Netracell complété chaque jour. L'Onslaught du Sanctuaire (classique ou Elite) en donne aussi, en plus petite quantité." },
     ],
     body: `
 <p>L'<b>Endo</b> sert à faire monter le rang de tes mods, et l'<b>Aya</b> à acheter les objets vaultés de <b>Prime Resurgence</b> chez Varzia. Deux monnaies de fin de partie, deux façons très différentes de les farmer — voici les meilleures.</p>
@@ -444,7 +444,7 @@ export const GUIDES = [
 <p><a href="/builds/nekros">Nekros</a> et sa Désécration augmentent tes chances de drop de sculptures et de reliques sur la mission — utile si tu enchaînes les farms d'Endo en groupe.</p>
 
 <h2>Farmer l'Aya</h2>
-<p>Les <b>Netracells</b> (missions exclusivement en <a href="/guides/steel-path-debuter">Steel Path</a>) sont la source principale d'Aya, avec un <b>bonus garanti sur le premier Netracell complété chaque jour</b> — enchaîne-les quotidiennement pour un flux régulier. L'<b>Onslaught du Sanctuaire</b> (classique ou Elite) en donne aussi, en quantité plus modeste, si tu préfères une mission sans fin plutôt qu'un Netracell.</p>
+<p>Les <b>Netracells</b> (missions exclusivement en <a href="/guides/steel-path-debuter">Route de l'Acier</a>) sont la source principale d'Aya, avec un <b>bonus garanti sur le premier Netracell complété chaque jour</b> — enchaîne-les quotidiennement pour un flux régulier. L'<b>Onslaught du Sanctuaire</b> (classique ou Elite) en donne aussi, en quantité plus modeste, si tu préfères une mission sans fin plutôt qu'un Netracell.</p>
 <p>Une fois ton stock constitué, dépense ton Aya chez <b>Varzia</b> pendant une fenêtre de <a href="/guides/prime-resurgence-reliques">Prime Resurgence</a> — vois notre guide dédié pour savoir quoi prendre en priorité.</p>
 
 <p>Pour suivre l'état du monde (Netracells, Prime Resurgence en cours) en direct, utilise le <a href="/hub">tableau de bord VoidRelay</a>.</p>
@@ -879,7 +879,7 @@ export const GUIDES_FAITS_MAIN = [
     slug: "ombres-de-jade-constellations",
     banner: "/assets/banners/fam-reliques.webp",
     h1: "Les Ombres de Jade : Constellations — tout ce qu'apporte la mise à jour",
-    desc: "Mise à jour 43 (17 juin 2026) : Sirius & Orion la Warframe double, Styanax Prime, le retour du Railjack avec Steel Path, 5 Incarnons, arcanes, augments et quality of life.",
+    desc: "Mise à jour 43 (17 juin 2026) : Sirius & Orion la Warframe double, Styanax Prime, le retour du Railjack avec la Route de l'Acier, 5 Incarnons, arcanes, augments et quality of life.",
     apres: "farmer-platine-gratuit",
   },
   {
@@ -920,8 +920,8 @@ export const GUIDES_FAITS_MAIN = [
   {
     slug: "rotation-incarnon",
     banner: "/assets/banners/fam-reliques.webp",
-    h1: "Rotation Incarnon de la semaine (Circuit Steel Path)",
-    desc: "Les 5 armes Incarnon du Circuit Steel Path cette semaine, mises à jour automatiquement, et comment fonctionne la rotation hebdomadaire du lundi.",
+    h1: "Rotation Incarnon de la semaine (Circuit de la Route de l'Acier)",
+    desc: "Les 5 armes Incarnon du Circuit de la Route de l'Acier cette semaine, mises à jour automatiquement, et comment fonctionne la rotation hebdomadaire du lundi.",
     apres: "steel-path-debuter",
     changefreq: "weekly", // la rotation tourne chaque lundi 00:00 UTC
   },
