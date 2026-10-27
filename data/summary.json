@@ -46,22 +46,22 @@
     "cambion": {
       "expiryUtc": "2026-10-27T15:21:00.000Z",
       "state": "fass",
-      "timeLeftSeconds": 3788
+      "timeLeftSeconds": 2902
     },
     "cetus": {
       "expiryUtc": "2026-10-27T15:21:00.000Z",
       "state": "day",
-      "timeLeftSeconds": 3788
+      "timeLeftSeconds": 2902
     },
     "earth": {
-      "expiryUtc": "2026-10-27T16:00:00.281Z",
+      "expiryUtc": "2026-10-27T16:00:00.236Z",
       "state": "night",
-      "timeLeftSeconds": 6128
+      "timeLeftSeconds": 5243
     },
     "vallis": {
-      "expiryUtc": "2026-10-27T14:26:48.000Z",
-      "state": "cold",
-      "timeLeftSeconds": 536
+      "expiryUtc": "2026-10-27T14:33:28.000Z",
+      "state": "warm",
+      "timeLeftSeconds": 50
     }
   },
   "darvo": {
@@ -91,34 +91,20 @@
   ],
   "fissures": {
     "byTier": {
-      "Axi": 5,
-      "Lith": 5,
-      "Meso": 3,
-      "Neo": 4,
+      "Axi": 7,
+      "Lith": 7,
+      "Meso": 6,
+      "Neo": 7,
       "Omnia": 3,
       "Requiem": 3
     },
-    "count": 23,
+    "count": 33,
     "list": [
-      {
-        "endUtc": "2026-10-27T14:21:37.466Z",
-        "hard": true,
-        "missionType": "Rescue",
-        "node": "Linea (Venus)",
-        "tier": "Lith"
-      },
       {
         "endUtc": "2026-10-27T14:36:51.527Z",
         "hard": false,
         "missionType": "Capture",
         "node": "Ananke (Jupiter)",
-        "tier": "Meso"
-      },
-      {
-        "endUtc": "2026-10-27T14:26:10.057Z",
-        "hard": true,
-        "missionType": "Spy",
-        "node": "Bode (Ceres)",
         "tier": "Meso"
       },
       {
@@ -129,24 +115,10 @@
         "tier": "Neo"
       },
       {
-        "endUtc": "2026-10-27T14:21:01.550Z",
-        "hard": false,
-        "missionType": "Extermination",
-        "node": "Acheron (Pluto)",
-        "tier": "Axi"
-      },
-      {
         "endUtc": "2026-10-27T15:08:16.137Z",
         "hard": true,
         "missionType": "Survival",
         "node": "Ani (Void)",
-        "tier": "Axi"
-      },
-      {
-        "endUtc": "2026-10-27T14:21:54.603Z",
-        "hard": true,
-        "missionType": "Hive",
-        "node": "Naeglar (Eris)",
         "tier": "Axi"
       },
       {
@@ -220,6 +192,62 @@
         "tier": "Requiem"
       },
       {
+        "endUtc": "2026-10-27T16:01:35.549Z",
+        "hard": false,
+        "missionType": "Rescue",
+        "node": "Brugia (Eris)",
+        "tier": "Axi"
+      },
+      {
+        "endUtc": "2026-10-27T15:30:06.404Z",
+        "hard": false,
+        "missionType": "Rescue",
+        "node": "Regna (Pluto)",
+        "tier": "Axi"
+      },
+      {
+        "endUtc": "2026-10-27T15:48:20.848Z",
+        "hard": true,
+        "missionType": "Survival",
+        "node": "V Prime (Venus)",
+        "tier": "Lith"
+      },
+      {
+        "endUtc": "2026-10-27T16:18:23.574Z",
+        "hard": true,
+        "missionType": "Extermination",
+        "node": "Pallas (Ceres)",
+        "tier": "Meso"
+      },
+      {
+        "endUtc": "2026-10-27T15:46:22.999Z",
+        "hard": true,
+        "missionType": "Rescue",
+        "node": "Monolith (Phobos)",
+        "tier": "Meso"
+      },
+      {
+        "endUtc": "2026-10-27T16:15:34.493Z",
+        "hard": true,
+        "missionType": "Mobile Defense",
+        "node": "Carme (Jupiter)",
+        "tier": "Meso"
+      },
+      {
+        "endUtc": "2026-10-27T15:53:54.362Z",
+        "hard": false,
+        "missionType": "Extermination",
+        "node": "Baal (Europa)",
+        "tier": "Neo"
+      },
+      {
+        "endUtc": "2026-10-27T15:57:51.527Z",
+        "hard": false,
+        "missionType": "Extermination",
+        "node": "Neso (Neptune)",
+        "tier": "Neo"
+      },
+      {
         "endUtc": "2026-10-27T14:50:03.353Z",
         "hard": false,
         "missionType": "Spy",
@@ -260,30 +288,72 @@
         "missionType": "Volatile",
         "node": "Sovereign Grasp (Neptune)",
         "tier": "Neo"
+      },
+      {
+        "endUtc": "2026-10-27T15:50:03.353Z",
+        "hard": false,
+        "missionType": "Volatile",
+        "node": "Beacon Shield Ring (Venus)",
+        "tier": "Lith"
+      },
+      {
+        "endUtc": "2026-10-27T15:50:03.351Z",
+        "hard": false,
+        "missionType": "Skirmish",
+        "node": "Bendar Cluster (Earth)",
+        "tier": "Lith"
+      },
+      {
+        "endUtc": "2026-10-27T15:50:03.358Z",
+        "hard": false,
+        "missionType": "Spy",
+        "node": "Peregrine Axis (Pluto)",
+        "tier": "Axi"
+      },
+      {
+        "endUtc": "2026-10-27T15:50:03.355Z",
+        "hard": false,
+        "missionType": "Skirmish",
+        "node": "Mordo Cluster (Saturn)",
+        "tier": "Meso"
+      },
+      {
+        "endUtc": "2026-10-27T15:50:03.356Z",
+        "hard": false,
+        "missionType": "Survival",
+        "node": "Enkidu Ice Drifts (Neptune)",
+        "tier": "Neo"
+      },
+      {
+        "endUtc": "2026-10-27T15:50:03.360Z",
+        "hard": false,
+        "missionType": "Survival",
+        "node": "Lu-yan (Veil)",
+        "tier": "Axi"
       }
     ],
-    "steelPathCount": 10
+    "steelPathCount": 11
   },
   "invasions": {
     "count": 3,
     "list": [
       {
         "attacker": "Grineer",
-        "completion": 54.7,
+        "completion": 54.9,
         "defenderFaction": "Corpus",
         "desc": "Grineer Offensive",
         "node": "Amalthea (Jupiter)"
       },
       {
         "attacker": "Infested",
-        "completion": 32.7,
+        "completion": 31.1,
         "defenderFaction": "Corpus",
         "desc": "Phorid Manifestation",
         "node": "Fossa (Venus)"
       },
       {
         "attacker": "Infested",
-        "completion": 64.3,
+        "completion": 58.1,
         "defenderFaction": "Grineer",
         "desc": "Infested Outbreak",
         "node": "Kappa (Sedna)"
@@ -294,7 +364,7 @@
     "items": [
       {
         "avgTop5": 65.0,
-        "buyOrders": 10,
+        "buyOrders": 11,
         "change24h": 0,
         "change24hPct": 0,
         "change7d": -2,
@@ -341,7 +411,7 @@
         "trend": "flat"
       },
       {
-        "avgTop5": 69.6,
+        "avgTop5": 70.0,
         "buyOrders": 10,
         "change24h": 0,
         "change24hPct": 0,
@@ -350,25 +420,25 @@
         "ducats": 205,
         "ducatsPerPlat": 2.93,
         "high5BuyPlat": [
-          60,
-          53,
           51,
+          51,
+          50,
           50,
           50
         ],
         "low5SellPlat": [
-          69,
-          69,
+          70,
+          70,
           70,
           70,
           70
         ],
-        "maxBuyPlat": 60,
+        "maxBuyPlat": 51,
         "median": 70,
-        "minSellPlat": 69,
+        "minSellPlat": 70,
         "nom": "Atlas Prime Set",
         "rang": null,
-        "sellOrders": 54,
+        "sellOrders": 55,
         "slug": "atlas_prime_set",
         "spark": [
           69,
@@ -389,8 +459,8 @@
         "trend": "flat"
       },
       {
-        "avgTop5": 66.2,
-        "buyOrders": 15,
+        "avgTop5": 65.0,
+        "buyOrders": 17,
         "change24h": -4,
         "change24hPct": -6,
         "change7d": -5,
@@ -408,15 +478,15 @@
           65,
           65,
           65,
-          68,
-          68
+          65,
+          65
         ],
         "maxBuyPlat": 60,
         "median": 65,
         "minSellPlat": 65,
         "nom": "Banshee Prime Set",
         "rang": null,
-        "sellOrders": 109,
+        "sellOrders": 112,
         "slug": "banshee_prime_set",
         "spark": [
           65,
@@ -438,7 +508,7 @@
       },
       {
         "avgTop5": 50.0,
-        "buyOrders": 8,
+        "buyOrders": 7,
         "change24h": 0,
         "change24hPct": 0,
         "change7d": 0,
@@ -446,9 +516,9 @@
         "ducats": 225,
         "ducatsPerPlat": 4.5,
         "high5BuyPlat": [
+          45,
           41,
           37,
-          35,
           35,
           35
         ],
@@ -459,12 +529,12 @@
           50,
           50
         ],
-        "maxBuyPlat": 41,
+        "maxBuyPlat": 45,
         "median": 50,
         "minSellPlat": 50,
         "nom": "Baruuk Prime Set",
         "rang": null,
-        "sellOrders": 83,
+        "sellOrders": 93,
         "slug": "baruuk_prime_set",
         "spark": [
           50,
@@ -485,7 +555,7 @@
         "trend": "flat"
       },
       {
-        "avgTop5": 87.8,
+        "avgTop5": 88.2,
         "buyOrders": 6,
         "change24h": -1,
         "change24hPct": -1,
@@ -495,14 +565,14 @@
         "ducatsPerPlat": 2.3,
         "high5BuyPlat": [
           70,
-          66,
           51,
+          50,
           40,
           30
         ],
         "low5SellPlat": [
           85,
-          87,
+          89,
           89,
           89,
           89
@@ -512,7 +582,7 @@
         "minSellPlat": 85,
         "nom": "Chroma Prime Set",
         "rang": null,
-        "sellOrders": 51,
+        "sellOrders": 56,
         "slug": "chroma_prime_set",
         "spark": [
           88,
@@ -533,34 +603,34 @@
         "trend": "down"
       },
       {
-        "avgTop5": 57.8,
-        "buyOrders": 9,
-        "change24h": -1,
-        "change24hPct": -2,
-        "change7d": -6,
-        "change7dPct": -9,
+        "avgTop5": 59.6,
+        "buyOrders": 10,
+        "change24h": 0,
+        "change24hPct": 0,
+        "change7d": -5,
+        "change7dPct": -8,
         "ducats": 175,
-        "ducatsPerPlat": 2.97,
+        "ducatsPerPlat": 2.92,
         "high5BuyPlat": [
+          50,
           50,
           47,
           42,
-          40,
           40
         ],
         "low5SellPlat": [
           55,
-          55,
-          59,
+          58,
           60,
-          60
+          60,
+          65
         ],
         "maxBuyPlat": 50,
-        "median": 59,
+        "median": 60,
         "minSellPlat": 55,
         "nom": "Ember Prime Set",
         "rang": null,
-        "sellOrders": 81,
+        "sellOrders": 86,
         "slug": "ember_prime_set",
         "spark": [
           65,
@@ -576,39 +646,39 @@
           65,
           61,
           60,
-          59
+          60
         ],
-        "trend": "down"
+        "trend": "flat"
       },
       {
-        "avgTop5": 62.8,
-        "buyOrders": 9,
-        "change24h": 4,
-        "change24hPct": 7,
-        "change7d": -2,
-        "change7dPct": -3,
+        "avgTop5": 63.0,
+        "buyOrders": 10,
+        "change24h": 5,
+        "change24hPct": 8,
+        "change7d": -1,
+        "change7dPct": -2,
         "ducats": 205,
-        "ducatsPerPlat": 3.2,
+        "ducatsPerPlat": 3.15,
         "high5BuyPlat": [
+          50,
           47,
           45,
           45,
-          43,
-          42
+          43
         ],
         "low5SellPlat": [
           60,
           60,
-          64,
+          65,
           65,
           65
         ],
-        "maxBuyPlat": 47,
-        "median": 64,
+        "maxBuyPlat": 50,
+        "median": 65,
         "minSellPlat": 60,
         "nom": "Equinox Prime Set",
         "rang": null,
-        "sellOrders": 76,
+        "sellOrders": 80,
         "slug": "equinox_prime_set",
         "spark": [
           64,
@@ -624,13 +694,13 @@
           64,
           65,
           60,
-          64
+          65
         ],
         "trend": "up"
       },
       {
-        "avgTop5": 74.6,
-        "buyOrders": 19,
+        "avgTop5": 74.4,
+        "buyOrders": 21,
         "change24h": -5,
         "change24hPct": -6,
         "change7d": -5,
@@ -638,25 +708,25 @@
         "ducats": 175,
         "ducatsPerPlat": 2.33,
         "high5BuyPlat": [
-          66,
+          67,
           66,
           66,
           65,
           65
         ],
         "low5SellPlat": [
-          74,
+          73,
           74,
           75,
           75,
           75
         ],
-        "maxBuyPlat": 66,
+        "maxBuyPlat": 67,
         "median": 75,
-        "minSellPlat": 74,
+        "minSellPlat": 73,
         "nom": "Frost Prime Set",
         "rang": null,
-        "sellOrders": 51,
+        "sellOrders": 54,
         "slug": "frost_prime_set",
         "spark": [
           78,
@@ -677,31 +747,31 @@
         "trend": "down"
       },
       {
-        "avgTop5": 68.2,
-        "buyOrders": 9,
-        "change24h": -2,
-        "change24hPct": -3,
-        "change7d": -2,
-        "change7dPct": -3,
+        "avgTop5": 69.2,
+        "buyOrders": 10,
+        "change24h": -1,
+        "change24hPct": -1,
+        "change7d": -1,
+        "change7dPct": -1,
         "ducats": 205,
-        "ducatsPerPlat": 3.01,
+        "ducatsPerPlat": 2.97,
         "high5BuyPlat": [
-          53,
           50,
-          45,
+          50,
+          50,
           45,
           45
         ],
         "low5SellPlat": [
-          67,
-          68,
           68,
           69,
-          69
+          69,
+          70,
+          70
         ],
-        "maxBuyPlat": 53,
-        "median": 68,
-        "minSellPlat": 67,
+        "maxBuyPlat": 50,
+        "median": 69,
+        "minSellPlat": 68,
         "nom": "Gara Prime Set",
         "rang": null,
         "sellOrders": 87,
@@ -720,19 +790,19 @@
           70,
           69,
           70,
-          68
+          69
         ],
         "trend": "down"
       },
       {
-        "avgTop5": 76.0,
-        "buyOrders": 19,
-        "change24h": -10,
-        "change24hPct": -12,
-        "change7d": -5,
-        "change7dPct": -6,
+        "avgTop5": 78.2,
+        "buyOrders": 16,
+        "change24h": -6,
+        "change24hPct": -7,
+        "change7d": -1,
+        "change7dPct": -1,
         "ducats": 225,
-        "ducatsPerPlat": 3.0,
+        "ducatsPerPlat": 2.85,
         "high5BuyPlat": [
           69,
           66,
@@ -742,17 +812,17 @@
         ],
         "low5SellPlat": [
           75,
-          75,
-          75,
-          77,
-          78
+          78,
+          79,
+          79,
+          80
         ],
         "maxBuyPlat": 69,
-        "median": 75,
+        "median": 79,
         "minSellPlat": 75,
         "nom": "Garuda Prime Set",
         "rang": null,
-        "sellOrders": 49,
+        "sellOrders": 47,
         "slug": "garuda_prime_set",
         "spark": [
           79,
@@ -768,39 +838,39 @@
           85,
           80,
           85,
-          75
+          79
         ],
         "trend": "down"
       },
       {
-        "avgTop5": 49.8,
+        "avgTop5": 48.8,
         "buyOrders": 17,
-        "change24h": 1,
-        "change24hPct": 2,
-        "change7d": -5,
-        "change7dPct": -9,
+        "change24h": 0,
+        "change24hPct": 0,
+        "change7d": -6,
+        "change7dPct": -11,
         "ducats": 185,
-        "ducatsPerPlat": 3.7,
+        "ducatsPerPlat": 3.78,
         "high5BuyPlat": [
+          40,
           38,
-          35,
           35,
           35,
           35
         ],
         "low5SellPlat": [
+          47,
           49,
-          50,
-          50,
-          50,
+          49,
+          49,
           50
         ],
-        "maxBuyPlat": 38,
-        "median": 50,
-        "minSellPlat": 49,
+        "maxBuyPlat": 40,
+        "median": 49,
+        "minSellPlat": 47,
         "nom": "Gauss Prime Set",
         "rang": null,
-        "sellOrders": 123,
+        "sellOrders": 131,
         "slug": "gauss_prime_set",
         "spark": [
           50,
@@ -816,13 +886,13 @@
           49,
           50,
           49,
-          50
+          49
         ],
-        "trend": "up"
+        "trend": "flat"
       },
       {
         "avgTop5": 68.0,
-        "buyOrders": 10,
+        "buyOrders": 9,
         "change24h": 4,
         "change24hPct": 6,
         "change7d": -1,
@@ -831,9 +901,9 @@
         "ducatsPerPlat": 3.26,
         "high5BuyPlat": [
           50,
-          48,
           46,
           46,
+          45,
           45
         ],
         "low5SellPlat": [
@@ -848,7 +918,7 @@
         "minSellPlat": 64,
         "nom": "Grendel Prime Set",
         "rang": null,
-        "sellOrders": 57,
+        "sellOrders": 61,
         "slug": "grendel_prime_set",
         "spark": [
           65,
@@ -869,8 +939,8 @@
         "trend": "up"
       },
       {
-        "avgTop5": 64.2,
-        "buyOrders": 9,
+        "avgTop5": 63.4,
+        "buyOrders": 10,
         "change24h": 1,
         "change24hPct": 2,
         "change7d": -3,
@@ -879,24 +949,24 @@
         "ducatsPerPlat": 3.15,
         "high5BuyPlat": [
           50,
+          50,
           49,
           45,
-          41,
-          41
+          42
         ],
         "low5SellPlat": [
-          62,
+          60,
           62,
           65,
           65,
-          67
+          65
         ],
         "maxBuyPlat": 50,
         "median": 65,
-        "minSellPlat": 62,
+        "minSellPlat": 60,
         "nom": "Harrow Prime Set",
         "rang": null,
-        "sellOrders": 60,
+        "sellOrders": 63,
         "slug": "harrow_prime_set",
         "spark": [
           68,
@@ -917,8 +987,8 @@
         "trend": "up"
       },
       {
-        "avgTop5": 88.0,
-        "buyOrders": 19,
+        "avgTop5": 89.0,
+        "buyOrders": 18,
         "change24h": 0,
         "change24hPct": 0,
         "change7d": 0,
@@ -926,25 +996,25 @@
         "ducats": 205,
         "ducatsPerPlat": 2.28,
         "high5BuyPlat": [
+          75,
+          75,
           71,
-          71,
-          71,
-          71,
-          71
+          70,
+          70
         ],
         "low5SellPlat": [
           85,
-          85,
+          90,
           90,
           90,
           90
         ],
-        "maxBuyPlat": 71,
+        "maxBuyPlat": 75,
         "median": 90,
         "minSellPlat": 85,
         "nom": "Hydroid Prime Set",
         "rang": null,
-        "sellOrders": 37,
+        "sellOrders": 40,
         "slug": "hydroid_prime_set",
         "spark": [
           85,
@@ -977,8 +1047,8 @@
           50,
           50,
           50,
-          47,
-          40
+          50,
+          47
         ],
         "low5SellPlat": [
           65,
@@ -992,7 +1062,7 @@
         "minSellPlat": 65,
         "nom": "Inaros Prime Set",
         "rang": null,
-        "sellOrders": 49,
+        "sellOrders": 60,
         "slug": "inaros_prime_set",
         "spark": [
           68,
@@ -1013,8 +1083,8 @@
         "trend": "down"
       },
       {
-        "avgTop5": 74.6,
-        "buyOrders": 12,
+        "avgTop5": 73.8,
+        "buyOrders": 13,
         "change24h": -5,
         "change24hPct": -6,
         "change7d": -5,
@@ -1032,15 +1102,15 @@
           70,
           74,
           75,
-          77,
-          77
+          75,
+          75
         ],
         "maxBuyPlat": 61,
         "median": 75,
         "minSellPlat": 70,
         "nom": "Khora Prime Set",
         "rang": null,
-        "sellOrders": 82,
+        "sellOrders": 84,
         "slug": "khora_prime_set",
         "spark": [
           80,
@@ -1061,34 +1131,34 @@
         "trend": "down"
       },
       {
-        "avgTop5": 99.2,
+        "avgTop5": 98.8,
         "buyOrders": 18,
-        "change24h": -1,
-        "change24hPct": -1,
-        "change7d": 0,
-        "change7dPct": 0,
+        "change24h": 0,
+        "change24hPct": 0,
+        "change7d": 1,
+        "change7dPct": 1,
         "ducats": 260,
-        "ducatsPerPlat": 2.63,
+        "ducatsPerPlat": 2.6,
         "high5BuyPlat": [
           82,
           82,
           82,
-          82,
-          78
+          78,
+          76
         ],
         "low5SellPlat": [
-          98,
+          95,
           99,
-          99,
+          100,
           100,
           100
         ],
         "maxBuyPlat": 82,
-        "median": 99,
-        "minSellPlat": 98,
+        "median": 100,
+        "minSellPlat": 95,
         "nom": "Limbo Prime Set",
         "rang": null,
-        "sellOrders": 28,
+        "sellOrders": 31,
         "slug": "limbo_prime_set",
         "spark": [
           97,
@@ -1104,13 +1174,13 @@
           100,
           99,
           100,
-          99
+          100
         ],
-        "trend": "down"
+        "trend": "flat"
       },
       {
-        "avgTop5": 75.0,
-        "buyOrders": 13,
+        "avgTop5": 75.4,
+        "buyOrders": 14,
         "change24h": -5,
         "change24hPct": -6,
         "change7d": -4,
@@ -1129,14 +1199,14 @@
           75,
           75,
           75,
-          75
+          77
         ],
         "maxBuyPlat": 70,
         "median": 75,
         "minSellPlat": 75,
         "nom": "Loki Prime Set",
         "rang": null,
-        "sellOrders": 33,
+        "sellOrders": 35,
         "slug": "loki_prime_set",
         "spark": [
           75,
@@ -1157,34 +1227,34 @@
         "trend": "down"
       },
       {
-        "avgTop5": 74.0,
+        "avgTop5": 73.0,
         "buyOrders": 26,
-        "change24h": 0,
-        "change24hPct": 0,
-        "change7d": 5,
-        "change7dPct": 7,
+        "change24h": -1,
+        "change24hPct": -1,
+        "change7d": 4,
+        "change7dPct": 6,
         "ducats": 175,
-        "ducatsPerPlat": 2.33,
+        "ducatsPerPlat": 2.36,
         "high5BuyPlat": [
           65,
-          62,
+          60,
           60,
           60,
           60
         ],
         "low5SellPlat": [
+          70,
           71,
           74,
-          75,
           75,
           75
         ],
         "maxBuyPlat": 65,
-        "median": 75,
-        "minSellPlat": 71,
+        "median": 74,
+        "minSellPlat": 70,
         "nom": "Mag Prime Set",
         "rang": null,
-        "sellOrders": 52,
+        "sellOrders": 58,
         "slug": "mag_prime_set",
         "spark": [
           73,
@@ -1200,39 +1270,39 @@
           75,
           74,
           75,
-          75
+          74
         ],
-        "trend": "flat"
+        "trend": "down"
       },
       {
-        "avgTop5": 60.6,
-        "buyOrders": 12,
-        "change24h": -5,
-        "change24hPct": -8,
-        "change7d": -5,
-        "change7dPct": -8,
+        "avgTop5": 61.8,
+        "buyOrders": 14,
+        "change24h": -2,
+        "change24hPct": -3,
+        "change7d": -2,
+        "change7dPct": -3,
         "ducats": 260,
-        "ducatsPerPlat": 4.33,
+        "ducatsPerPlat": 4.13,
         "high5BuyPlat": [
+          50,
           45,
           43,
           41,
-          41,
-          40
+          41
         ],
         "low5SellPlat": [
           60,
           60,
-          60,
-          60,
+          63,
+          63,
           63
         ],
-        "maxBuyPlat": 45,
-        "median": 60,
+        "maxBuyPlat": 50,
+        "median": 63,
         "minSellPlat": 60,
         "nom": "Mesa Prime Set",
         "rang": null,
-        "sellOrders": 105,
+        "sellOrders": 111,
         "slug": "mesa_prime_set",
         "spark": [
           63,
@@ -1248,35 +1318,35 @@
           65,
           60,
           65,
-          60
+          63
         ],
         "trend": "down"
       },
       {
-        "avgTop5": 57.2,
-        "buyOrders": 11,
-        "change24h": -2,
-        "change24hPct": -3,
-        "change7d": -2,
-        "change7dPct": -3,
+        "avgTop5": 58.2,
+        "buyOrders": 14,
+        "change24h": -1,
+        "change24hPct": -2,
+        "change7d": -1,
+        "change7dPct": -2,
         "ducats": 175,
-        "ducatsPerPlat": 3.02,
+        "ducatsPerPlat": 2.97,
         "high5BuyPlat": [
+          50,
+          50,
           48,
-          45,
-          40,
-          40,
-          40
+          46,
+          45
         ],
         "low5SellPlat": [
           55,
-          55,
-          58,
+          59,
+          59,
           59,
           59
         ],
-        "maxBuyPlat": 48,
-        "median": 58,
+        "maxBuyPlat": 50,
+        "median": 59,
         "minSellPlat": 55,
         "nom": "Mirage Prime Set",
         "rang": null,
@@ -1296,39 +1366,39 @@
           54,
           59,
           60,
-          58
+          59
         ],
         "trend": "down"
       },
       {
-        "avgTop5": 94.2,
-        "buyOrders": 21,
-        "change24h": -6,
-        "change24hPct": -6,
-        "change7d": -5,
-        "change7dPct": -5,
+        "avgTop5": 94.6,
+        "buyOrders": 22,
+        "change24h": -5,
+        "change24hPct": -5,
+        "change7d": -4,
+        "change7dPct": -4,
         "ducats": 225,
-        "ducatsPerPlat": 2.39,
+        "ducatsPerPlat": 2.37,
         "high5BuyPlat": [
           82,
+          82,
           81,
-          80,
           80,
           80
         ],
         "low5SellPlat": [
-          93,
           94,
           94,
+          95,
           95,
           95
         ],
         "maxBuyPlat": 82,
-        "median": 94,
-        "minSellPlat": 93,
+        "median": 95,
+        "minSellPlat": 94,
         "nom": "Nekros Prime Set",
         "rang": null,
-        "sellOrders": 43,
+        "sellOrders": 48,
         "slug": "nekros_prime_set",
         "spark": [
           95,
@@ -1344,13 +1414,13 @@
           95,
           95,
           100,
-          94
+          95
         ],
         "trend": "down"
       },
       {
-        "avgTop5": 70.2,
-        "buyOrders": 7,
+        "avgTop5": 70.6,
+        "buyOrders": 8,
         "change24h": -5,
         "change24hPct": -7,
         "change7d": -3,
@@ -1368,15 +1438,15 @@
           70,
           70,
           70,
-          70,
-          71
+          71,
+          72
         ],
         "maxBuyPlat": 60,
         "median": 70,
         "minSellPlat": 70,
         "nom": "Nezha Prime Set",
         "rang": null,
-        "sellOrders": 46,
+        "sellOrders": 48,
         "slug": "nezha_prime_set",
         "spark": [
           70,
@@ -1407,10 +1477,10 @@
         "ducatsPerPlat": 2.81,
         "high5BuyPlat": [
           67,
-          65,
+          62,
           61,
           60,
-          55
+          60
         ],
         "low5SellPlat": [
           79,
@@ -1445,34 +1515,34 @@
         "trend": "flat"
       },
       {
-        "avgTop5": 70.0,
-        "buyOrders": 25,
-        "change24h": -3,
-        "change24hPct": -4,
-        "change7d": -3,
-        "change7dPct": -4,
+        "avgTop5": 71.6,
+        "buyOrders": 28,
+        "change24h": -2,
+        "change24hPct": -3,
+        "change7d": -2,
+        "change7dPct": -3,
         "ducats": 175,
-        "ducatsPerPlat": 2.5,
+        "ducatsPerPlat": 2.46,
         "high5BuyPlat": [
+          65,
+          61,
           60,
           60,
-          60,
-          60,
-          58
+          60
         ],
         "low5SellPlat": [
           70,
           70,
-          70,
-          70,
-          70
+          71,
+          73,
+          74
         ],
-        "maxBuyPlat": 60,
-        "median": 70,
+        "maxBuyPlat": 65,
+        "median": 71,
         "minSellPlat": 70,
         "nom": "Nova Prime Set",
         "rang": null,
-        "sellOrders": 83,
+        "sellOrders": 87,
         "slug": "nova_prime_set",
         "spark": [
           70,
@@ -1488,19 +1558,19 @@
           70,
           70,
           73,
-          70
+          71
         ],
         "trend": "down"
       },
       {
-        "avgTop5": 59.0,
+        "avgTop5": 58.0,
         "buyOrders": 19,
-        "change24h": -1,
-        "change24hPct": -2,
-        "change7d": 1,
-        "change7dPct": 2,
+        "change24h": -2,
+        "change24hPct": -3,
+        "change7d": 0,
+        "change7dPct": 0,
         "ducats": 225,
-        "ducatsPerPlat": 3.81,
+        "ducatsPerPlat": 3.88,
         "high5BuyPlat": [
           50,
           50,
@@ -1509,18 +1579,18 @@
           50
         ],
         "low5SellPlat": [
+          57,
+          57,
           58,
           59,
-          59,
-          59,
-          60
+          59
         ],
         "maxBuyPlat": 50,
-        "median": 59,
-        "minSellPlat": 58,
+        "median": 58,
+        "minSellPlat": 57,
         "nom": "Nyx Prime Set",
         "rang": null,
-        "sellOrders": 71,
+        "sellOrders": 84,
         "slug": "nyx_prime_set",
         "spark": [
           58,
@@ -1536,13 +1606,13 @@
           59,
           60,
           60,
-          59
+          58
         ],
         "trend": "down"
       },
       {
-        "avgTop5": 89.8,
-        "buyOrders": 15,
+        "avgTop5": 89.6,
+        "buyOrders": 16,
         "change24h": 0,
         "change24hPct": 0,
         "change7d": 2,
@@ -1551,14 +1621,14 @@
         "ducatsPerPlat": 2.5,
         "high5BuyPlat": [
           80,
-          75,
+          69,
           68,
           66,
           65
         ],
         "low5SellPlat": [
           89,
-          90,
+          89,
           90,
           90,
           90
@@ -1568,7 +1638,7 @@
         "minSellPlat": 89,
         "nom": "Oberon Prime Set",
         "rang": null,
-        "sellOrders": 30,
+        "sellOrders": 35,
         "slug": "oberon_prime_set",
         "spark": [
           82,
@@ -1589,34 +1659,34 @@
         "trend": "flat"
       },
       {
-        "avgTop5": 80.0,
-        "buyOrders": 12,
-        "change24h": 0,
-        "change24hPct": 0,
-        "change7d": -4,
-        "change7dPct": -5,
+        "avgTop5": 78.8,
+        "buyOrders": 15,
+        "change24h": -1,
+        "change24hPct": -1,
+        "change7d": -5,
+        "change7dPct": -6,
         "ducats": 175,
-        "ducatsPerPlat": 2.19,
+        "ducatsPerPlat": 2.22,
         "high5BuyPlat": [
           65,
           65,
           65,
-          60,
+          62,
           60
         ],
         "low5SellPlat": [
-          80,
-          80,
-          80,
+          77,
+          78,
+          79,
           80,
           80
         ],
         "maxBuyPlat": 65,
-        "median": 80,
-        "minSellPlat": 80,
+        "median": 79,
+        "minSellPlat": 77,
         "nom": "Octavia Prime Set",
         "rang": null,
-        "sellOrders": 62,
+        "sellOrders": 69,
         "slug": "octavia_prime_set",
         "spark": [
           80,
@@ -1632,35 +1702,35 @@
           80,
           80,
           80,
-          80
+          79
         ],
-        "trend": "flat"
+        "trend": "down"
       },
       {
-        "avgTop5": 31.8,
-        "buyOrders": 9,
-        "change24h": -5,
-        "change24hPct": -14,
-        "change7d": -4,
-        "change7dPct": -12,
+        "avgTop5": 32.2,
+        "buyOrders": 10,
+        "change24h": -3,
+        "change24hPct": -9,
+        "change7d": -2,
+        "change7dPct": -6,
         "ducats": 260,
-        "ducatsPerPlat": 8.67,
+        "ducatsPerPlat": 8.12,
         "high5BuyPlat": [
+          30,
           29,
-          27,
           26,
           26,
-          25
+          26
         ],
         "low5SellPlat": [
           30,
           30,
-          30,
+          32,
           34,
           35
         ],
-        "maxBuyPlat": 29,
-        "median": 30,
+        "maxBuyPlat": 30,
+        "median": 32,
         "minSellPlat": 30,
         "nom": "Protea Prime Set",
         "rang": null,
@@ -1680,39 +1750,39 @@
           35,
           33,
           35,
-          30
+          32
         ],
         "trend": "down"
       },
       {
-        "avgTop5": 59.4,
-        "buyOrders": 11,
-        "change24h": 0,
-        "change24hPct": 0,
-        "change7d": 5,
-        "change7dPct": 9,
+        "avgTop5": 58.6,
+        "buyOrders": 13,
+        "change24h": -1,
+        "change24hPct": -2,
+        "change7d": 4,
+        "change7dPct": 7,
         "ducats": 205,
-        "ducatsPerPlat": 3.42,
+        "ducatsPerPlat": 3.47,
         "high5BuyPlat": [
+          50,
           45,
           45,
-          40,
-          40,
-          35
+          42,
+          40
         ],
         "low5SellPlat": [
-          57,
-          60,
-          60,
-          60,
+          56,
+          59,
+          59,
+          59,
           60
         ],
-        "maxBuyPlat": 45,
-        "median": 60,
-        "minSellPlat": 57,
+        "maxBuyPlat": 50,
+        "median": 59,
+        "minSellPlat": 56,
         "nom": "Revenant Prime Set",
         "rang": null,
-        "sellOrders": 110,
+        "sellOrders": 125,
         "slug": "revenant_prime_set",
         "spark": [
           55,
@@ -1728,39 +1798,39 @@
           58,
           59,
           60,
-          60
+          59
         ],
-        "trend": "flat"
+        "trend": "down"
       },
       {
-        "avgTop5": 59.0,
-        "buyOrders": 10,
-        "change24h": -1,
-        "change24hPct": -2,
-        "change7d": -1,
-        "change7dPct": -2,
+        "avgTop5": 58.6,
+        "buyOrders": 11,
+        "change24h": -2,
+        "change24hPct": -3,
+        "change7d": -2,
+        "change7dPct": -3,
         "ducats": 225,
-        "ducatsPerPlat": 3.81,
+        "ducatsPerPlat": 3.88,
         "high5BuyPlat": [
           51,
           50,
+          50,
           46,
-          45,
           45
         ],
         "low5SellPlat": [
           58,
           58,
+          58,
           59,
-          60,
           60
         ],
         "maxBuyPlat": 51,
-        "median": 59,
+        "median": 58,
         "minSellPlat": 58,
         "nom": "Rhino Prime Set",
         "rang": null,
-        "sellOrders": 76,
+        "sellOrders": 80,
         "slug": "rhino_prime_set",
         "spark": [
           60,
@@ -1776,13 +1846,13 @@
           60,
           60,
           60,
-          59
+          58
         ],
         "trend": "down"
       },
       {
-        "avgTop5": 68.8,
-        "buyOrders": 19,
+        "avgTop5": 70.6,
+        "buyOrders": 18,
         "change24h": -10,
         "change24hPct": -12,
         "change7d": -8,
@@ -1797,18 +1867,18 @@
           55
         ],
         "low5SellPlat": [
-          66,
           68,
           70,
           70,
-          70
+          70,
+          75
         ],
         "maxBuyPlat": 60,
         "median": 70,
-        "minSellPlat": 66,
+        "minSellPlat": 68,
         "nom": "Saryn Prime Set",
         "rang": null,
-        "sellOrders": 52,
+        "sellOrders": 60,
         "slug": "saryn_prime_set",
         "spark": [
           77,
@@ -1829,34 +1899,34 @@
         "trend": "down"
       },
       {
-        "avgTop5": 67.0,
-        "buyOrders": 21,
-        "change24h": -2,
-        "change24hPct": -3,
-        "change7d": -2,
-        "change7dPct": -3,
+        "avgTop5": 68.2,
+        "buyOrders": 23,
+        "change24h": -1,
+        "change24hPct": -1,
+        "change7d": -1,
+        "change7dPct": -1,
         "ducats": 205,
-        "ducatsPerPlat": 3.01,
+        "ducatsPerPlat": 2.97,
         "high5BuyPlat": [
           55,
           55,
           55,
-          53,
-          52
+          55,
+          53
         ],
         "low5SellPlat": [
-          64,
           65,
           68,
           69,
-          69
+          69,
+          70
         ],
         "maxBuyPlat": 55,
-        "median": 68,
-        "minSellPlat": 64,
+        "median": 69,
+        "minSellPlat": 65,
         "nom": "Titania Prime Set",
         "rang": null,
-        "sellOrders": 99,
+        "sellOrders": 106,
         "slug": "titania_prime_set",
         "spark": [
           70,
@@ -1872,13 +1942,13 @@
           70,
           69,
           70,
-          68
+          69
         ],
         "trend": "down"
       },
       {
-        "avgTop5": 56.6,
-        "buyOrders": 8,
+        "avgTop5": 58.2,
+        "buyOrders": 9,
         "change24h": 0,
         "change24hPct": 0,
         "change7d": -1,
@@ -1886,25 +1956,25 @@
         "ducats": 130,
         "ducatsPerPlat": 2.2,
         "high5BuyPlat": [
+          50,
           43,
           40,
           40,
-          35,
           35
         ],
         "low5SellPlat": [
-          50,
           55,
+          58,
           59,
           59,
           60
         ],
-        "maxBuyPlat": 43,
+        "maxBuyPlat": 50,
         "median": 59,
-        "minSellPlat": 50,
+        "minSellPlat": 55,
         "nom": "Trinity Prime Set",
         "rang": null,
-        "sellOrders": 62,
+        "sellOrders": 69,
         "slug": "trinity_prime_set",
         "spark": [
           59,
@@ -1925,34 +1995,34 @@
         "trend": "flat"
       },
       {
-        "avgTop5": 68.8,
-        "buyOrders": 14,
-        "change24h": -1,
-        "change24hPct": -1,
-        "change7d": -1,
-        "change7dPct": -1,
+        "avgTop5": 70.0,
+        "buyOrders": 16,
+        "change24h": 0,
+        "change24hPct": 0,
+        "change7d": 0,
+        "change7dPct": 0,
         "ducats": 225,
-        "ducatsPerPlat": 3.26,
+        "ducatsPerPlat": 3.21,
         "high5BuyPlat": [
           60,
           58,
+          56,
           55,
-          50,
           50
         ],
         "low5SellPlat": [
-          68,
-          68,
-          69,
-          69,
+          70,
+          70,
+          70,
+          70,
           70
         ],
         "maxBuyPlat": 60,
-        "median": 69,
-        "minSellPlat": 68,
+        "median": 70,
+        "minSellPlat": 70,
         "nom": "Valkyr Prime Set",
         "rang": null,
-        "sellOrders": 67,
+        "sellOrders": 66,
         "slug": "valkyr_prime_set",
         "spark": [
           70,
@@ -1968,39 +2038,39 @@
           70,
           70,
           70,
-          69
+          70
         ],
-        "trend": "down"
+        "trend": "flat"
       },
       {
-        "avgTop5": 119.6,
-        "buyOrders": 23,
-        "change24h": 5,
-        "change24hPct": 4,
-        "change7d": 2,
-        "change7dPct": 2,
+        "avgTop5": 116.0,
+        "buyOrders": 27,
+        "change24h": 0,
+        "change24hPct": 0,
+        "change7d": -3,
+        "change7dPct": -3,
         "ducats": 290,
-        "ducatsPerPlat": 2.42,
+        "ducatsPerPlat": 2.52,
         "high5BuyPlat": [
           101,
-          95,
-          95,
+          100,
+          100,
           95,
           95
         ],
         "low5SellPlat": [
-          118,
-          120,
-          120,
-          120,
-          120
+          115,
+          115,
+          115,
+          117,
+          118
         ],
         "maxBuyPlat": 101,
-        "median": 120,
-        "minSellPlat": 118,
+        "median": 115,
+        "minSellPlat": 115,
         "nom": "Vauban Prime Set",
         "rang": null,
-        "sellOrders": 39,
+        "sellOrders": 46,
         "slug": "vauban_prime_set",
         "spark": [
           118,
@@ -2016,39 +2086,39 @@
           115,
           115,
           115,
-          120
+          115
         ],
-        "trend": "up"
+        "trend": "flat"
       },
       {
-        "avgTop5": 63.6,
-        "buyOrders": 16,
-        "change24h": 4,
-        "change24hPct": 7,
-        "change7d": -4,
-        "change7dPct": -6,
+        "avgTop5": 62.6,
+        "buyOrders": 17,
+        "change24h": 3,
+        "change24hPct": 5,
+        "change7d": -5,
+        "change7dPct": -7,
         "ducats": 180,
-        "ducatsPerPlat": 2.81,
+        "ducatsPerPlat": 2.86,
         "high5BuyPlat": [
-          55,
+          52,
           51,
           50,
-          45,
+          50,
           45
         ],
         "low5SellPlat": [
           60,
+          62,
+          63,
           64,
-          64,
-          65,
-          65
+          64
         ],
-        "maxBuyPlat": 55,
-        "median": 64,
+        "maxBuyPlat": 52,
+        "median": 63,
         "minSellPlat": 60,
         "nom": "Volt Prime Set",
         "rang": null,
-        "sellOrders": 105,
+        "sellOrders": 107,
         "slug": "volt_prime_set",
         "spark": [
           66,
@@ -2064,13 +2134,13 @@
           65,
           60,
           60,
-          64
+          63
         ],
         "trend": "up"
       },
       {
-        "avgTop5": 70.0,
-        "buyOrders": 19,
+        "avgTop5": 69.4,
+        "buyOrders": 22,
         "change24h": 0,
         "change24hPct": 0,
         "change7d": 0,
@@ -2080,23 +2150,23 @@
         "high5BuyPlat": [
           56,
           56,
+          56,
           55,
-          53,
-          53
+          55
         ],
         "low5SellPlat": [
-          70,
-          70,
+          68,
+          69,
           70,
           70,
           70
         ],
         "maxBuyPlat": 56,
         "median": 70,
-        "minSellPlat": 70,
+        "minSellPlat": 68,
         "nom": "Wisp Prime Set",
         "rang": null,
-        "sellOrders": 121,
+        "sellOrders": 120,
         "slug": "wisp_prime_set",
         "spark": [
           68,
@@ -2117,34 +2187,34 @@
         "trend": "flat"
       },
       {
-        "avgTop5": 72.0,
-        "buyOrders": 14,
-        "change24h": 2,
-        "change24hPct": 3,
-        "change7d": 4,
-        "change7dPct": 6,
+        "avgTop5": 72.8,
+        "buyOrders": 17,
+        "change24h": 4,
+        "change24hPct": 6,
+        "change7d": 6,
+        "change7dPct": 9,
         "ducats": 205,
-        "ducatsPerPlat": 2.85,
+        "ducatsPerPlat": 2.77,
         "high5BuyPlat": [
           65,
           60,
           60,
-          59,
-          55
+          60,
+          59
         ],
         "low5SellPlat": [
-          70,
-          70,
+          69,
           72,
           74,
-          74
+          74,
+          75
         ],
         "maxBuyPlat": 65,
-        "median": 72,
-        "minSellPlat": 70,
+        "median": 74,
+        "minSellPlat": 69,
         "nom": "Wukong Prime Set",
         "rang": null,
-        "sellOrders": 104,
+        "sellOrders": 100,
         "slug": "wukong_prime_set",
         "spark": [
           75,
@@ -2160,13 +2230,13 @@
           75,
           73,
           70,
-          72
+          74
         ],
         "trend": "up"
       },
       {
         "avgTop5": 78.8,
-        "buyOrders": 8,
+        "buyOrders": 9,
         "change24h": 2,
         "change24hPct": 3,
         "change7d": 0,
@@ -2177,7 +2247,7 @@
           60,
           55,
           50,
-          45,
+          50,
           45
         ],
         "low5SellPlat": [
@@ -2192,7 +2262,7 @@
         "minSellPlat": 75,
         "nom": "Zephyr Prime Set",
         "rang": null,
-        "sellOrders": 46,
+        "sellOrders": 50,
         "slug": "zephyr_prime_set",
         "spark": [
           75,
@@ -2213,7 +2283,7 @@
         "trend": "up"
       },
       {
-        "avgTop5": 53.8,
+        "avgTop5": 54.8,
         "buyOrders": 7,
         "change24h": 0,
         "change24hPct": 0,
@@ -2229,18 +2299,18 @@
           35
         ],
         "low5SellPlat": [
-          50,
           54,
+          55,
           55,
           55,
           55
         ],
         "maxBuyPlat": 41,
         "median": 55,
-        "minSellPlat": 50,
+        "minSellPlat": 54,
         "nom": "Soma Prime Set",
         "rang": null,
-        "sellOrders": 46,
+        "sellOrders": 54,
         "slug": "soma_prime_set",
         "spark": [
           55,
@@ -2261,7 +2331,7 @@
         "trend": "flat"
       },
       {
-        "avgTop5": 50.0,
+        "avgTop5": 48.8,
         "buyOrders": 2,
         "change24h": 0,
         "change24hPct": 0,
@@ -2275,17 +2345,17 @@
         ],
         "low5SellPlat": [
           45,
+          49,
           50,
           50,
-          50,
-          55
+          50
         ],
         "maxBuyPlat": 27,
         "median": 50,
         "minSellPlat": 45,
         "nom": "Boltor Prime Set",
         "rang": null,
-        "sellOrders": 34,
+        "sellOrders": 39,
         "slug": "boltor_prime_set",
         "spark": [
           54,
@@ -2306,8 +2376,8 @@
         "trend": "flat"
       },
       {
-        "avgTop5": 10.0,
-        "buyOrders": 8,
+        "avgTop5": 9.8,
+        "buyOrders": 5,
         "change24h": 1,
         "change24hPct": 11,
         "change7d": 0,
@@ -2322,7 +2392,7 @@
           6
         ],
         "low5SellPlat": [
-          10,
+          9,
           10,
           10,
           10,
@@ -2330,10 +2400,10 @@
         ],
         "maxBuyPlat": 7,
         "median": 10,
-        "minSellPlat": 10,
+        "minSellPlat": 9,
         "nom": "Braton Prime Set",
         "rang": null,
-        "sellOrders": 41,
+        "sellOrders": 45,
         "slug": "braton_prime_set",
         "spark": [
           10,
@@ -2354,33 +2424,31 @@
         "trend": "up"
       },
       {
-        "avgTop5": 9.0,
-        "buyOrders": 4,
-        "change24h": 0,
-        "change24hPct": 0,
-        "change7d": 0,
-        "change7dPct": 0,
+        "avgTop5": 8.4,
+        "buyOrders": 2,
+        "change24h": -1,
+        "change24hPct": -10,
+        "change7d": -1,
+        "change7dPct": -10,
         "ducats": 90,
-        "ducatsPerPlat": 9.0,
+        "ducatsPerPlat": 10.0,
         "high5BuyPlat": [
           6,
-          5,
-          5,
-          4
+          5
         ],
         "low5SellPlat": [
           5,
-          10,
-          10,
+          8,
+          9,
           10,
           10
         ],
         "maxBuyPlat": 6,
-        "median": 10,
+        "median": 9,
         "minSellPlat": 5,
         "nom": "Burston Prime Set",
         "rang": null,
-        "sellOrders": 59,
+        "sellOrders": 72,
         "slug": "burston_prime_set",
         "spark": [
           15,
@@ -2396,39 +2464,39 @@
           10,
           9,
           10,
-          10
+          9
         ],
-        "trend": "flat"
+        "trend": "down"
       },
       {
-        "avgTop5": 73.8,
-        "buyOrders": 7,
-        "change24h": 0,
-        "change24hPct": 0,
-        "change7d": -5,
-        "change7dPct": -6,
+        "avgTop5": 73.6,
+        "buyOrders": 6,
+        "change24h": -1,
+        "change24hPct": -1,
+        "change7d": -6,
+        "change7dPct": -8,
         "ducats": 60,
-        "ducatsPerPlat": 0.8,
+        "ducatsPerPlat": 0.81,
         "high5BuyPlat": [
-          60,
           58,
           50,
           50,
-          40
+          40,
+          35
         ],
         "low5SellPlat": [
           70,
           74,
-          75,
+          74,
           75,
           75
         ],
-        "maxBuyPlat": 60,
-        "median": 75,
+        "maxBuyPlat": 58,
+        "median": 74,
         "minSellPlat": 70,
         "nom": "Latron Prime Set",
         "rang": null,
-        "sellOrders": 33,
+        "sellOrders": 36,
         "slug": "latron_prime_set",
         "spark": [
           74,
@@ -2444,13 +2512,13 @@
           80,
           75,
           75,
-          75
+          74
         ],
-        "trend": "flat"
+        "trend": "down"
       },
       {
         "avgTop5": 9.4,
-        "buyOrders": 6,
+        "buyOrders": 4,
         "change24h": 0,
         "change24hPct": 0,
         "change7d": 1,
@@ -2459,7 +2527,6 @@
         "ducatsPerPlat": 11.5,
         "high5BuyPlat": [
           7,
-          6,
           6,
           6,
           6
@@ -2476,7 +2543,7 @@
         "minSellPlat": 8,
         "nom": "Paris Prime Set",
         "rang": null,
-        "sellOrders": 30,
+        "sellOrders": 31,
         "slug": "paris_prime_set",
         "spark": [
           10,
@@ -2506,7 +2573,7 @@
         "ducats": 205,
         "ducatsPerPlat": 3.47,
         "high5BuyPlat": [
-          40,
+          35,
           35,
           20
         ],
@@ -2517,12 +2584,12 @@
           60,
           60
         ],
-        "maxBuyPlat": 40,
+        "maxBuyPlat": 35,
         "median": 59,
         "minSellPlat": 58,
         "nom": "Tigris Prime Set",
         "rang": null,
-        "sellOrders": 31,
+        "sellOrders": 34,
         "slug": "tigris_prime_set",
         "spark": [
           59,
@@ -2543,14 +2610,14 @@
         "trend": "flat"
       },
       {
-        "avgTop5": 82.8,
-        "buyOrders": 17,
-        "change24h": -5,
-        "change24hPct": -6,
-        "change7d": 0,
-        "change7dPct": 0,
+        "avgTop5": 80.6,
+        "buyOrders": 14,
+        "change24h": -10,
+        "change24hPct": -11,
+        "change7d": -5,
+        "change7dPct": -6,
         "ducats": 175,
-        "ducatsPerPlat": 2.06,
+        "ducatsPerPlat": 2.19,
         "high5BuyPlat": [
           62,
           62,
@@ -2560,17 +2627,17 @@
         ],
         "low5SellPlat": [
           79,
+          79,
           80,
-          85,
-          85,
+          80,
           85
         ],
         "maxBuyPlat": 62,
-        "median": 85,
+        "median": 80,
         "minSellPlat": 79,
         "nom": "Sybaris Prime Set",
         "rang": null,
-        "sellOrders": 24,
+        "sellOrders": 28,
         "slug": "sybaris_prime_set",
         "spark": [
           79,
@@ -2586,13 +2653,13 @@
           85,
           89,
           90,
-          85
+          80
         ],
         "trend": "down"
       },
       {
-        "avgTop5": 144.6,
-        "buyOrders": 15,
+        "avgTop5": 143.8,
+        "buyOrders": 11,
         "change24h": -5,
         "change24hPct": -3,
         "change7d": 6,
@@ -2607,15 +2674,15 @@
           125
         ],
         "low5SellPlat": [
-          143,
-          145,
+          142,
+          142,
           145,
           145,
           145
         ],
         "maxBuyPlat": 125,
         "median": 145,
-        "minSellPlat": 143,
+        "minSellPlat": 142,
         "nom": "Vectis Prime Set",
         "rang": null,
         "sellOrders": 22,
@@ -2639,14 +2706,14 @@
         "trend": "down"
       },
       {
-        "avgTop5": 53.4,
+        "avgTop5": 50.0,
         "buyOrders": 2,
-        "change24h": -4,
-        "change24hPct": -7,
-        "change7d": -1,
-        "change7dPct": -2,
+        "change24h": -8,
+        "change24hPct": -14,
+        "change7d": -5,
+        "change7dPct": -9,
         "ducats": 185,
-        "ducatsPerPlat": 3.43,
+        "ducatsPerPlat": 3.7,
         "high5BuyPlat": [
           35,
           20
@@ -2654,16 +2721,16 @@
         "low5SellPlat": [
           50,
           50,
-          54,
-          55,
-          58
+          50,
+          50,
+          50
         ],
         "maxBuyPlat": 35,
-        "median": 54,
+        "median": 50,
         "minSellPlat": 50,
         "nom": "Rubico Prime Set",
         "rang": null,
-        "sellOrders": 37,
+        "sellOrders": 43,
         "slug": "rubico_prime_set",
         "spark": [
           48,
@@ -2679,13 +2746,13 @@
           50,
           49,
           58,
-          54
+          50
         ],
         "trend": "down"
       },
       {
         "avgTop5": 53.4,
-        "buyOrders": 7,
+        "buyOrders": 5,
         "change24h": -5,
         "change24hPct": -8,
         "change7d": -10,
@@ -2696,8 +2763,8 @@
           30,
           30,
           30,
-          30,
-          25
+          25,
+          20
         ],
         "low5SellPlat": [
           45,
@@ -2711,7 +2778,7 @@
         "minSellPlat": 45,
         "nom": "Baza Prime Set",
         "rang": null,
-        "sellOrders": 34,
+        "sellOrders": 41,
         "slug": "baza_prime_set",
         "spark": [
           60,
@@ -2733,7 +2800,7 @@
       },
       {
         "avgTop5": 76.0,
-        "buyOrders": 5,
+        "buyOrders": 6,
         "change24h": -5,
         "change24hPct": -6,
         "change7d": -3,
@@ -2743,9 +2810,9 @@
         "high5BuyPlat": [
           50,
           50,
+          45,
           35,
-          30,
-          20
+          30
         ],
         "low5SellPlat": [
           70,
@@ -2759,7 +2826,7 @@
         "minSellPlat": 70,
         "nom": "Tenora Prime Set",
         "rang": null,
-        "sellOrders": 19,
+        "sellOrders": 21,
         "slug": "tenora_prime_set",
         "spark": [
           80,
@@ -2780,8 +2847,8 @@
         "trend": "down"
       },
       {
-        "avgTop5": 37.8,
-        "buyOrders": 3,
+        "avgTop5": 37.4,
+        "buyOrders": 2,
         "change24h": -1,
         "change24hPct": -2,
         "change7d": 0,
@@ -2790,22 +2857,21 @@
         "ducatsPerPlat": 4.49,
         "high5BuyPlat": [
           20,
-          20,
           11
         ],
         "low5SellPlat": [
           35,
           35,
           39,
-          40,
-          40
+          39,
+          39
         ],
         "maxBuyPlat": 20,
         "median": 39,
         "minSellPlat": 35,
         "nom": "Stradavar Prime Set",
         "rang": null,
-        "sellOrders": 36,
+        "sellOrders": 45,
         "slug": "stradavar_prime_set",
         "spark": [
           39,
@@ -2826,8 +2892,8 @@
         "trend": "down"
       },
       {
-        "avgTop5": 69.8,
-        "buyOrders": 6,
+        "avgTop5": 69.6,
+        "buyOrders": 5,
         "change24h": 0,
         "change24hPct": 0,
         "change7d": -4,
@@ -2836,13 +2902,13 @@
         "ducatsPerPlat": 3.71,
         "high5BuyPlat": [
           50,
-          45,
           40,
           40,
-          23
+          23,
+          20
         ],
         "low5SellPlat": [
-          69,
+          68,
           70,
           70,
           70,
@@ -2850,10 +2916,10 @@
         ],
         "maxBuyPlat": 50,
         "median": 70,
-        "minSellPlat": 69,
+        "minSellPlat": 68,
         "nom": "Corinth Prime Set",
         "rang": null,
-        "sellOrders": 30,
+        "sellOrders": 31,
         "slug": "corinth_prime_set",
         "spark": [
           70,
@@ -2900,7 +2966,7 @@
         "minSellPlat": 39,
         "nom": "Astilla Prime Set",
         "rang": null,
-        "sellOrders": 35,
+        "sellOrders": 42,
         "slug": "astilla_prime_set",
         "spark": [
           40,
@@ -2921,34 +2987,34 @@
         "trend": "down"
       },
       {
-        "avgTop5": 68.2,
+        "avgTop5": 68.4,
         "buyOrders": 7,
-        "change24h": -7,
-        "change24hPct": -9,
-        "change7d": -11,
-        "change7dPct": -14,
+        "change24h": -5,
+        "change24hPct": -7,
+        "change7d": -9,
+        "change7dPct": -11,
         "ducats": 260,
-        "ducatsPerPlat": 3.82,
+        "ducatsPerPlat": 3.71,
         "high5BuyPlat": [
           45,
           45,
           45,
           45,
-          45
+          40
         ],
         "low5SellPlat": [
           65,
           65,
-          68,
           70,
-          73
+          70,
+          72
         ],
         "maxBuyPlat": 45,
-        "median": 68,
+        "median": 70,
         "minSellPlat": 65,
         "nom": "Panthera Prime Set",
         "rang": null,
-        "sellOrders": 22,
+        "sellOrders": 27,
         "slug": "panthera_prime_set",
         "spark": [
           70,
@@ -2964,34 +3030,34 @@
           75,
           70,
           75,
-          68
+          70
         ],
         "trend": "down"
       },
       {
         "alert": "spike",
-        "avgTop5": 9.8,
+        "avgTop5": 8.8,
         "buyOrders": 0,
-        "change24h": 4,
-        "change24hPct": 67,
-        "change7d": 1,
-        "change7dPct": 11,
+        "change24h": 3,
+        "change24hPct": 50,
+        "change7d": 0,
+        "change7dPct": 0,
         "ducats": 55,
-        "ducatsPerPlat": 5.5,
+        "ducatsPerPlat": 6.11,
         "high5BuyPlat": [],
         "low5SellPlat": [
+          7,
+          8,
           9,
-          10,
-          10,
           10,
           10
         ],
         "maxBuyPlat": null,
-        "median": 10,
-        "minSellPlat": 9,
+        "median": 9,
+        "minSellPlat": 7,
         "nom": "Lex Prime Set",
         "rang": null,
-        "sellOrders": 40,
+        "sellOrders": 43,
         "slug": "lex_prime_set",
         "spark": [
           6,
@@ -3007,37 +3073,39 @@
           8,
           5,
           6,
-          10
+          9
         ],
         "trend": "up"
       },
       {
-        "avgTop5": 24.6,
-        "buyOrders": 3,
-        "change24h": 0,
-        "change24hPct": 0,
-        "change7d": 0,
-        "change7dPct": 0,
+        "alert": "spike",
+        "avgTop5": 27.6,
+        "buyOrders": 4,
+        "change24h": 4,
+        "change24hPct": 16,
+        "change7d": 4,
+        "change7dPct": 16,
         "ducats": 75,
-        "ducatsPerPlat": 3.0,
+        "ducatsPerPlat": 2.59,
         "high5BuyPlat": [
           20,
+          12,
           10,
           2
         ],
         "low5SellPlat": [
-          23,
-          24,
           25,
-          25,
-          26
+          26,
+          29,
+          29,
+          29
         ],
         "maxBuyPlat": 20,
-        "median": 25,
-        "minSellPlat": 23,
+        "median": 29,
+        "minSellPlat": 25,
         "nom": "Vasto Prime Set",
         "rang": null,
-        "sellOrders": 32,
+        "sellOrders": 35,
         "slug": "vasto_prime_set",
         "spark": [
           25,
@@ -3053,19 +3121,19 @@
           25,
           25,
           25,
-          25
+          29
         ],
-        "trend": "flat"
+        "trend": "up"
       },
       {
-        "avgTop5": 66.8,
+        "avgTop5": 66.6,
         "buyOrders": 3,
-        "change24h": -1,
-        "change24hPct": -1,
-        "change7d": 1,
-        "change7dPct": 1,
+        "change24h": -4,
+        "change24hPct": -6,
+        "change7d": -2,
+        "change7dPct": -3,
         "ducats": 350,
-        "ducatsPerPlat": 5.15,
+        "ducatsPerPlat": 5.38,
         "high5BuyPlat": [
           50,
           50,
@@ -3074,16 +3142,16 @@
         "low5SellPlat": [
           65,
           65,
+          65,
           68,
-          68,
-          68
+          70
         ],
         "maxBuyPlat": 50,
-        "median": 68,
+        "median": 65,
         "minSellPlat": 65,
         "nom": "Akbolto Prime Set",
         "rang": null,
-        "sellOrders": 41,
+        "sellOrders": 45,
         "slug": "akbolto_prime_set",
         "spark": [
           68,
@@ -3099,7 +3167,7 @@
           70,
           66,
           69,
-          68
+          65
         ],
         "trend": "down"
       },
@@ -3128,7 +3196,7 @@
         "minSellPlat": 38,
         "nom": "Aklex Prime Set",
         "rang": null,
-        "sellOrders": 32,
+        "sellOrders": 39,
         "slug": "aklex_prime_set",
         "spark": [
           38,
@@ -3149,33 +3217,32 @@
         "trend": "flat"
       },
       {
-        "avgTop5": 113.0,
-        "buyOrders": 4,
-        "change24h": 5,
-        "change24hPct": 5,
-        "change7d": 5,
-        "change7dPct": 5,
+        "avgTop5": 110.6,
+        "buyOrders": 3,
+        "change24h": 0,
+        "change24hPct": 0,
+        "change7d": 0,
+        "change7dPct": 0,
         "ducats": 285,
-        "ducatsPerPlat": 2.48,
+        "ducatsPerPlat": 2.59,
         "high5BuyPlat": [
-          90,
-          60,
+          50,
           50,
           40
         ],
         "low5SellPlat": [
+          107,
           110,
           110,
-          115,
-          115,
+          111,
           115
         ],
-        "maxBuyPlat": 90,
-        "median": 115,
-        "minSellPlat": 110,
+        "maxBuyPlat": 50,
+        "median": 110,
+        "minSellPlat": 107,
         "nom": "Akstiletto Prime Set",
         "rang": null,
-        "sellOrders": 19,
+        "sellOrders": 22,
         "slug": "akstiletto_prime_set",
         "spark": [
           108,
@@ -3191,39 +3258,39 @@
           109,
           109,
           110,
-          115
+          110
         ],
-        "trend": "up"
+        "trend": "flat"
       },
       {
-        "avgTop5": 90.6,
-        "buyOrders": 9,
-        "change24h": 0,
-        "change24hPct": 0,
-        "change7d": 5,
-        "change7dPct": 6,
+        "avgTop5": 90.4,
+        "buyOrders": 8,
+        "change24h": -1,
+        "change24hPct": -1,
+        "change7d": 4,
+        "change7dPct": 5,
         "ducats": 235,
-        "ducatsPerPlat": 2.61,
+        "ducatsPerPlat": 2.64,
         "high5BuyPlat": [
           76,
           76,
           76,
-          76,
-          75
+          75,
+          60
         ],
         "low5SellPlat": [
           89,
           89,
-          90,
+          89,
           90,
           95
         ],
         "maxBuyPlat": 76,
-        "median": 90,
+        "median": 89,
         "minSellPlat": 89,
         "nom": "Aksomati Prime Set",
         "rang": null,
-        "sellOrders": 31,
+        "sellOrders": 35,
         "slug": "aksomati_prime_set",
         "spark": [
           85,
@@ -3239,39 +3306,39 @@
           83,
           84,
           90,
-          90
+          89
         ],
-        "trend": "flat"
+        "trend": "down"
       },
       {
-        "avgTop5": 113.6,
-        "buyOrders": 9,
-        "change24h": 5,
-        "change24hPct": 5,
-        "change7d": 5,
-        "change7dPct": 5,
+        "avgTop5": 111.6,
+        "buyOrders": 8,
+        "change24h": 0,
+        "change24hPct": 0,
+        "change7d": 0,
+        "change7dPct": 0,
         "ducats": 350,
-        "ducatsPerPlat": 3.04,
+        "ducatsPerPlat": 3.18,
         "high5BuyPlat": [
           82,
           82,
           82,
           82,
-          82
+          70
         ],
         "low5SellPlat": [
           109,
           110,
-          115,
-          115,
-          119
+          110,
+          114,
+          115
         ],
         "maxBuyPlat": 82,
-        "median": 115,
+        "median": 110,
         "minSellPlat": 109,
         "nom": "Akjagara Prime Set",
         "rang": null,
-        "sellOrders": 18,
+        "sellOrders": 22,
         "slug": "akjagara_prime_set",
         "spark": [
           100,
@@ -3287,33 +3354,33 @@
           110,
           109,
           110,
-          115
+          110
         ],
-        "trend": "up"
+        "trend": "flat"
       },
       {
-        "avgTop5": 9.2,
+        "avgTop5": 8.4,
         "buyOrders": 0,
-        "change24h": 0,
-        "change24hPct": 0,
-        "change7d": 0,
-        "change7dPct": 0,
+        "change24h": -1,
+        "change24hPct": -11,
+        "change7d": -1,
+        "change7dPct": -11,
         "ducats": 60,
-        "ducatsPerPlat": 6.67,
+        "ducatsPerPlat": 7.5,
         "high5BuyPlat": [],
         "low5SellPlat": [
           8,
+          8,
+          8,
           9,
-          9,
-          10,
-          10
+          9
         ],
         "maxBuyPlat": null,
-        "median": 9,
+        "median": 8,
         "minSellPlat": 8,
         "nom": "Akbronco Prime Set",
         "rang": null,
-        "sellOrders": 26,
+        "sellOrders": 31,
         "slug": "akbronco_prime_set",
         "spark": [
           9,
@@ -3329,12 +3396,12 @@
           8,
           6,
           9,
-          9
+          8
         ],
-        "trend": "flat"
+        "trend": "down"
       },
       {
-        "avgTop5": 39.0,
+        "avgTop5": 41.8,
         "buyOrders": 6,
         "change24h": 0,
         "change24hPct": 0,
@@ -3350,18 +3417,18 @@
           16
         ],
         "low5SellPlat": [
-          35,
           40,
           40,
           40,
-          40
+          44,
+          45
         ],
         "maxBuyPlat": 30,
         "median": 40,
-        "minSellPlat": 35,
+        "minSellPlat": 40,
         "nom": "Magnus Prime Set",
         "rang": null,
-        "sellOrders": 29,
+        "sellOrders": 31,
         "slug": "magnus_prime_set",
         "spark": [
           39,
@@ -3382,7 +3449,7 @@
         "trend": "flat"
       },
       {
-        "avgTop5": 39.6,
+        "avgTop5": 40.0,
         "buyOrders": 3,
         "change24h": 0,
         "change24hPct": 0,
@@ -3396,18 +3463,18 @@
           15
         ],
         "low5SellPlat": [
-          39,
-          39,
+          40,
+          40,
           40,
           40,
           40
         ],
         "maxBuyPlat": 20,
         "median": 40,
-        "minSellPlat": 39,
+        "minSellPlat": 40,
         "nom": "Pandero Prime Set",
         "rang": null,
-        "sellOrders": 32,
+        "sellOrders": 29,
         "slug": "pandero_prime_set",
         "spark": [
           40,
@@ -3428,7 +3495,7 @@
         "trend": "flat"
       },
       {
-        "avgTop5": 45.0,
+        "avgTop5": 44.8,
         "buyOrders": 7,
         "change24h": -5,
         "change24hPct": -10,
@@ -3444,7 +3511,7 @@
           15
         ],
         "low5SellPlat": [
-          45,
+          44,
           45,
           45,
           45,
@@ -3452,10 +3519,10 @@
         ],
         "maxBuyPlat": 34,
         "median": 45,
-        "minSellPlat": 45,
+        "minSellPlat": 44,
         "nom": "Zakti Prime Set",
         "rang": null,
-        "sellOrders": 25,
+        "sellOrders": 26,
         "slug": "zakti_prime_set",
         "spark": [
           42,
@@ -3476,7 +3543,7 @@
         "trend": "down"
       },
       {
-        "avgTop5": 99.8,
+        "avgTop5": 100.0,
         "buyOrders": 5,
         "change24h": -10,
         "change24hPct": -9,
@@ -3492,7 +3559,7 @@
           20
         ],
         "low5SellPlat": [
-          99,
+          100,
           100,
           100,
           100,
@@ -3500,10 +3567,10 @@
         ],
         "maxBuyPlat": 80,
         "median": 100,
-        "minSellPlat": 99,
+        "minSellPlat": 100,
         "nom": "Spira Prime Set",
         "rang": null,
-        "sellOrders": 25,
+        "sellOrders": 29,
         "slug": "spira_prime_set",
         "spark": [
           110,
@@ -3524,8 +3591,8 @@
         "trend": "down"
       },
       {
-        "avgTop5": 39.2,
-        "buyOrders": 3,
+        "avgTop5": 39.6,
+        "buyOrders": 2,
         "change24h": 0,
         "change24hPct": 0,
         "change7d": -1,
@@ -3534,12 +3601,11 @@
         "ducatsPerPlat": 1.88,
         "high5BuyPlat": [
           20,
-          20,
           20
         ],
         "low5SellPlat": [
           38,
-          38,
+          40,
           40,
           40,
           40
@@ -3549,7 +3615,7 @@
         "minSellPlat": 38,
         "nom": "Hikou Prime Set",
         "rang": null,
-        "sellOrders": 37,
+        "sellOrders": 41,
         "slug": "hikou_prime_set",
         "spark": [
           39,
@@ -3570,14 +3636,14 @@
         "trend": "flat"
       },
       {
-        "avgTop5": 139.4,
-        "buyOrders": 15,
-        "change24h": -10,
+        "avgTop5": 138.4,
+        "buyOrders": 14,
+        "change24h": -11,
         "change24hPct": -7,
-        "change7d": 35,
-        "change7dPct": 33,
+        "change7d": 34,
+        "change7dPct": 32,
         "ducats": 250,
-        "ducatsPerPlat": 1.79,
+        "ducatsPerPlat": 1.8,
         "high5BuyPlat": [
           80,
           80,
@@ -3588,16 +3654,16 @@
         "low5SellPlat": [
           135,
           138,
+          139,
           140,
-          140,
-          144
+          140
         ],
         "maxBuyPlat": 80,
-        "median": 140,
+        "median": 139,
         "minSellPlat": 135,
         "nom": "Ballistica Prime Set",
         "rang": null,
-        "sellOrders": 18,
+        "sellOrders": 21,
         "slug": "ballistica_prime_set",
         "spark": [
           100,
@@ -3613,33 +3679,33 @@
           110,
           110,
           150,
-          140
+          139
         ],
         "trend": "down"
       },
       {
-        "avgTop5": 9.8,
+        "avgTop5": 9.4,
         "buyOrders": 0,
-        "change24h": 0,
-        "change24hPct": 0,
-        "change7d": 0,
-        "change7dPct": 0,
+        "change24h": -1,
+        "change24hPct": -10,
+        "change7d": -1,
+        "change7dPct": -10,
         "ducats": 75,
-        "ducatsPerPlat": 7.5,
+        "ducatsPerPlat": 8.33,
         "high5BuyPlat": [],
         "low5SellPlat": [
           9,
-          10,
-          10,
+          9,
+          9,
           10,
           10
         ],
         "maxBuyPlat": null,
-        "median": 10,
+        "median": 9,
         "minSellPlat": 9,
         "nom": "Bronco Prime Set",
         "rang": null,
-        "sellOrders": 23,
+        "sellOrders": 28,
         "slug": "bronco_prime_set",
         "spark": [
           8,
@@ -3655,13 +3721,13 @@
           10,
           7,
           10,
-          10
+          9
         ],
-        "trend": "flat"
+        "trend": "down"
       },
       {
         "avgTop5": 71.8,
-        "buyOrders": 12,
+        "buyOrders": 10,
         "change24h": -3,
         "change24hPct": -4,
         "change7d": -4,
@@ -3670,9 +3736,9 @@
         "ducatsPerPlat": 1.25,
         "high5BuyPlat": [
           65,
-          63,
           60,
           60,
+          55,
           55
         ],
         "low5SellPlat": [
@@ -3687,7 +3753,7 @@
         "minSellPlat": 70,
         "nom": "Bo Prime Set",
         "rang": null,
-        "sellOrders": 25,
+        "sellOrders": 27,
         "slug": "bo_prime_set",
         "spark": [
           74,
@@ -3709,7 +3775,7 @@
       },
       {
         "avgTop5": 9.0,
-        "buyOrders": 4,
+        "buyOrders": 2,
         "change24h": -1,
         "change24hPct": -10,
         "change7d": -1,
@@ -3718,9 +3784,7 @@
         "ducatsPerPlat": 10.56,
         "high5BuyPlat": [
           6,
-          5,
-          5,
-          4
+          5
         ],
         "low5SellPlat": [
           8,
@@ -3734,7 +3798,7 @@
         "minSellPlat": 8,
         "nom": "Fang Prime Set",
         "rang": null,
-        "sellOrders": 35,
+        "sellOrders": 37,
         "slug": "fang_prime_set",
         "spark": [
           10,
@@ -3755,31 +3819,31 @@
         "trend": "down"
       },
       {
-        "avgTop5": 49.0,
+        "avgTop5": 51.2,
         "buyOrders": 2,
-        "change24h": -1,
-        "change24hPct": -2,
-        "change7d": -6,
-        "change7dPct": -11,
+        "change24h": 0,
+        "change24hPct": 0,
+        "change7d": -5,
+        "change7dPct": -9,
         "ducats": 175,
-        "ducatsPerPlat": 3.57,
+        "ducatsPerPlat": 3.5,
         "high5BuyPlat": [
           35,
           20
         ],
         "low5SellPlat": [
           48,
-          48,
           49,
           50,
-          50
+          54,
+          55
         ],
         "maxBuyPlat": 35,
-        "median": 49,
+        "median": 50,
         "minSellPlat": 48,
         "nom": "Ankyros Prime Set",
         "rang": null,
-        "sellOrders": 28,
+        "sellOrders": 34,
         "slug": "ankyros_prime_set",
         "spark": [
           52,
@@ -3795,21 +3859,21 @@
           50,
           50,
           50,
-          49
+          50
         ],
-        "trend": "down"
+        "trend": "flat"
       },
       {
-        "avgTop5": 31.4,
+        "avgTop5": 32.2,
         "buyOrders": 6,
-        "change24h": -5,
-        "change24hPct": -14,
-        "change7d": -3,
-        "change7dPct": -9,
+        "change24h": -2,
+        "change24hPct": -6,
+        "change7d": 0,
+        "change7dPct": 0,
         "ducats": 125,
-        "ducatsPerPlat": 4.17,
+        "ducatsPerPlat": 3.79,
         "high5BuyPlat": [
-          23,
+          25,
           16,
           15,
           15,
@@ -3818,16 +3882,16 @@
         "low5SellPlat": [
           30,
           30,
-          30,
           33,
-          34
+          33,
+          35
         ],
-        "maxBuyPlat": 23,
-        "median": 30,
+        "maxBuyPlat": 25,
+        "median": 33,
         "minSellPlat": 30,
         "nom": "Dakra Prime Set",
         "rang": null,
-        "sellOrders": 29,
+        "sellOrders": 30,
         "slug": "dakra_prime_set",
         "spark": [
           33,
@@ -3843,13 +3907,13 @@
           35,
           34,
           35,
-          30
+          33
         ],
         "trend": "down"
       },
       {
-        "avgTop5": 9.8,
-        "buyOrders": 4,
+        "avgTop5": 10.8,
+        "buyOrders": 3,
         "change24h": 0,
         "change24hPct": 0,
         "change7d": -2,
@@ -3857,24 +3921,23 @@
         "ducats": 150,
         "ducatsPerPlat": 15.0,
         "high5BuyPlat": [
+          11,
           10,
-          8,
-          8,
-          6
+          8
         ],
         "low5SellPlat": [
           9,
           10,
           10,
-          10,
-          10
+          11,
+          14
         ],
-        "maxBuyPlat": 10,
+        "maxBuyPlat": 11,
         "median": 10,
         "minSellPlat": 9,
         "nom": "Orthos Prime Set",
         "rang": null,
-        "sellOrders": 40,
+        "sellOrders": 43,
         "slug": "orthos_prime_set",
         "spark": [
           10,
@@ -3895,34 +3958,33 @@
         "trend": "flat"
       },
       {
-        "alert": "drop",
-        "avgTop5": 34.2,
+        "avgTop5": 34.6,
         "buyOrders": 4,
-        "change24h": -6,
-        "change24hPct": -15,
-        "change7d": -1,
-        "change7dPct": -3,
+        "change24h": -5,
+        "change24hPct": -12,
+        "change7d": 0,
+        "change7dPct": 0,
         "ducats": 75,
-        "ducatsPerPlat": 2.21,
+        "ducatsPerPlat": 2.14,
         "high5BuyPlat": [
           28,
-          26,
+          28,
           20,
           15
         ],
         "low5SellPlat": [
           33,
-          34,
-          34,
+          35,
+          35,
           35,
           35
         ],
         "maxBuyPlat": 28,
-        "median": 34,
+        "median": 35,
         "minSellPlat": 33,
         "nom": "Reaper Prime Set",
         "rang": null,
-        "sellOrders": 22,
+        "sellOrders": 29,
         "slug": "reaper_prime_set",
         "spark": [
           34,
@@ -3938,13 +4000,13 @@
           35,
           35,
           40,
-          34
+          35
         ],
         "trend": "down"
       },
       {
         "avgTop5": 30.0,
-        "buyOrders": 3,
+        "buyOrders": 2,
         "change24h": 0,
         "change24hPct": 0,
         "change7d": -2,
@@ -3953,8 +4015,7 @@
         "ducatsPerPlat": 5.67,
         "high5BuyPlat": [
           17,
-          15,
-          10
+          15
         ],
         "low5SellPlat": [
           30,
@@ -3968,7 +4029,7 @@
         "minSellPlat": 30,
         "nom": "Scindo Prime Set",
         "rang": null,
-        "sellOrders": 33,
+        "sellOrders": 37,
         "slug": "scindo_prime_set",
         "spark": [
           30,
@@ -3990,7 +4051,7 @@
       },
       {
         "avgTop5": 40.0,
-        "buyOrders": 3,
+        "buyOrders": 2,
         "change24h": 0,
         "change24hPct": 0,
         "change7d": -5,
@@ -3998,7 +4059,6 @@
         "ducats": 145,
         "ducatsPerPlat": 3.62,
         "high5BuyPlat": [
-          25,
           20,
           10
         ],
@@ -4009,12 +4069,12 @@
           40,
           40
         ],
-        "maxBuyPlat": 25,
+        "maxBuyPlat": 20,
         "median": 40,
         "minSellPlat": 40,
         "nom": "Fragor Prime Set",
         "rang": null,
-        "sellOrders": 30,
+        "sellOrders": 34,
         "slug": "fragor_prime_set",
         "spark": [
           39,
@@ -4035,8 +4095,8 @@
         "trend": "flat"
       },
       {
-        "avgTop5": 59.6,
-        "buyOrders": 3,
+        "avgTop5": 60.2,
+        "buyOrders": 1,
         "change24h": -9,
         "change24hPct": -13,
         "change7d": 0,
@@ -4044,23 +4104,21 @@
         "ducats": 190,
         "ducatsPerPlat": 3.17,
         "high5BuyPlat": [
-          42,
-          30,
           20
         ],
         "low5SellPlat": [
           59,
-          59,
           60,
           60,
-          60
+          60,
+          62
         ],
-        "maxBuyPlat": 42,
+        "maxBuyPlat": 20,
         "median": 60,
         "minSellPlat": 59,
         "nom": "Nikana Prime Set",
         "rang": null,
-        "sellOrders": 43,
+        "sellOrders": 44,
         "slug": "nikana_prime_set",
         "spark": [
           66,
@@ -4081,14 +4139,14 @@
         "trend": "down"
       },
       {
-        "avgTop5": 91.2,
+        "avgTop5": 93.2,
         "buyOrders": 7,
-        "change24h": -9,
-        "change24hPct": -9,
-        "change7d": 0,
-        "change7dPct": 0,
+        "change24h": -4,
+        "change24hPct": -4,
+        "change7d": 5,
+        "change7dPct": 6,
         "ducats": 305,
-        "ducatsPerPlat": 3.39,
+        "ducatsPerPlat": 3.21,
         "high5BuyPlat": [
           70,
           70,
@@ -4098,17 +4156,17 @@
         ],
         "low5SellPlat": [
           90,
-          90,
-          90,
           91,
+          95,
+          95,
           95
         ],
         "maxBuyPlat": 70,
-        "median": 90,
+        "median": 95,
         "minSellPlat": 90,
         "nom": "Dual Kamas Prime Set",
         "rang": null,
-        "sellOrders": 25,
+        "sellOrders": 32,
         "slug": "dual_kamas_prime_set",
         "spark": [
           85,
@@ -4124,13 +4182,13 @@
           99,
           98,
           99,
-          90
+          95
         ],
         "trend": "down"
       },
       {
         "avgTop5": 58.6,
-        "buyOrders": 4,
+        "buyOrders": 3,
         "change24h": -1,
         "change24hPct": -2,
         "change7d": -1,
@@ -4139,7 +4197,6 @@
         "ducatsPerPlat": 2.71,
         "high5BuyPlat": [
           45,
-          43,
           36,
           20
         ],
@@ -4155,7 +4212,7 @@
         "minSellPlat": 58,
         "nom": "Galatine Prime Set",
         "rang": null,
-        "sellOrders": 27,
+        "sellOrders": 30,
         "slug": "galatine_prime_set",
         "spark": [
           59,
@@ -4176,34 +4233,34 @@
         "trend": "down"
       },
       {
-        "avgTop5": 119.6,
-        "buyOrders": 9,
-        "change24h": 0,
-        "change24hPct": 0,
-        "change7d": 20,
-        "change7dPct": 20,
+        "avgTop5": 117.8,
+        "buyOrders": 8,
+        "change24h": -2,
+        "change24hPct": -2,
+        "change7d": 18,
+        "change7dPct": 18,
         "ducats": 160,
-        "ducatsPerPlat": 1.33,
+        "ducatsPerPlat": 1.36,
         "high5BuyPlat": [
-          90,
-          90,
-          90,
-          90,
-          90
+          80,
+          80,
+          80,
+          80,
+          80
         ],
         "low5SellPlat": [
+          115,
+          118,
+          118,
           119,
-          119,
-          120,
-          120,
-          120
+          119
         ],
-        "maxBuyPlat": 90,
-        "median": 120,
-        "minSellPlat": 119,
+        "maxBuyPlat": 80,
+        "median": 118,
+        "minSellPlat": 115,
         "nom": "Destreza Prime Set",
         "rang": null,
-        "sellOrders": 23,
+        "sellOrders": 29,
         "slug": "destreza_prime_set",
         "spark": [
           100,
@@ -4219,13 +4276,13 @@
           109,
           100,
           120,
-          120
+          118
         ],
-        "trend": "flat"
+        "trend": "down"
       },
       {
-        "avgTop5": 107.8,
-        "buyOrders": 3,
+        "avgTop5": 110.6,
+        "buyOrders": 4,
         "change24h": -9,
         "change24hPct": -8,
         "change7d": -10,
@@ -4234,22 +4291,23 @@
         "ducatsPerPlat": 2.77,
         "high5BuyPlat": [
           80,
+          80,
           40,
           20
         ],
         "low5SellPlat": [
-          100,
           109,
           110,
           110,
-          110
+          110,
+          114
         ],
         "maxBuyPlat": 80,
         "median": 110,
-        "minSellPlat": 100,
+        "minSellPlat": 109,
         "nom": "Kronen Prime Set",
         "rang": null,
-        "sellOrders": 28,
+        "sellOrders": 31,
         "slug": "kronen_prime_set",
         "spark": [
           108,
@@ -4270,7 +4328,7 @@
         "trend": "down"
       },
       {
-        "avgTop5": 55.8,
+        "avgTop5": 57.0,
         "buyOrders": 4,
         "change24h": -5,
         "change24hPct": -8,
@@ -4288,15 +4346,15 @@
           55,
           55,
           55,
-          55,
-          59
+          60,
+          60
         ],
         "maxBuyPlat": 44,
         "median": 55,
         "minSellPlat": 55,
         "nom": "Venka Prime Set",
         "rang": null,
-        "sellOrders": 34,
+        "sellOrders": 36,
         "slug": "venka_prime_set",
         "spark": [
           54,
@@ -4317,34 +4375,34 @@
         "trend": "down"
       },
       {
-        "avgTop5": 99.0,
-        "buyOrders": 7,
-        "change24h": 0,
-        "change24hPct": 0,
-        "change7d": 1,
-        "change7dPct": 1,
+        "avgTop5": 97.4,
+        "buyOrders": 6,
+        "change24h": -3,
+        "change24hPct": -3,
+        "change7d": -2,
+        "change7dPct": -2,
         "ducats": 305,
-        "ducatsPerPlat": 3.05,
+        "ducatsPerPlat": 3.14,
         "high5BuyPlat": [
           75,
           75,
-          75,
           70,
-          70
+          70,
+          40
         ],
         "low5SellPlat": [
           95,
-          100,
-          100,
+          95,
+          97,
           100,
           100
         ],
         "maxBuyPlat": 75,
-        "median": 100,
+        "median": 97,
         "minSellPlat": 95,
         "nom": "Nami Skyla Prime Set",
         "rang": null,
-        "sellOrders": 15,
+        "sellOrders": 18,
         "slug": "nami_skyla_prime_set",
         "spark": [
           95,
@@ -4360,36 +4418,36 @@
           100,
           105,
           100,
-          100
+          97
         ],
-        "trend": "flat"
+        "trend": "down"
       },
       {
-        "avgTop5": 46.0,
+        "avgTop5": 48.8,
         "buyOrders": 2,
-        "change24h": -2,
-        "change24hPct": -4,
-        "change7d": -2,
-        "change7dPct": -4,
+        "change24h": 0,
+        "change24hPct": 0,
+        "change7d": 0,
+        "change7dPct": 0,
         "ducats": 160,
-        "ducatsPerPlat": 3.33,
+        "ducatsPerPlat": 3.2,
         "high5BuyPlat": [
           32,
           20
         ],
         "low5SellPlat": [
-          40,
           45,
-          48,
-          48,
-          49
+          49,
+          50,
+          50,
+          50
         ],
         "maxBuyPlat": 32,
-        "median": 48,
-        "minSellPlat": 40,
+        "median": 50,
+        "minSellPlat": 45,
         "nom": "Redeemer Prime Set",
         "rang": null,
-        "sellOrders": 26,
+        "sellOrders": 21,
         "slug": "redeemer_prime_set",
         "spark": [
           50,
@@ -4405,12 +4463,12 @@
           47,
           45,
           50,
-          48
+          50
         ],
-        "trend": "down"
+        "trend": "flat"
       },
       {
-        "avgTop5": 39.4,
+        "avgTop5": 39.6,
         "buyOrders": 2,
         "change24h": 0,
         "change24hPct": 0,
@@ -4424,7 +4482,7 @@
         ],
         "low5SellPlat": [
           38,
-          39,
+          40,
           40,
           40,
           40
@@ -4434,7 +4492,7 @@
         "minSellPlat": 38,
         "nom": "Gram Prime Set",
         "rang": null,
-        "sellOrders": 33,
+        "sellOrders": 36,
         "slug": "gram_prime_set",
         "spark": [
           39,
@@ -4455,34 +4513,34 @@
         "trend": "flat"
       },
       {
-        "avgTop5": 66.4,
-        "buyOrders": 7,
-        "change24h": -5,
-        "change24hPct": -7,
-        "change7d": -5,
-        "change7dPct": -7,
+        "avgTop5": 68.0,
+        "buyOrders": 6,
+        "change24h": -1,
+        "change24hPct": -1,
+        "change7d": -1,
+        "change7dPct": -1,
         "ducats": 205,
-        "ducatsPerPlat": 3.15,
+        "ducatsPerPlat": 2.97,
         "high5BuyPlat": [
           50,
           50,
-          48,
           42,
-          41
+          41,
+          40
         ],
         "low5SellPlat": [
           65,
-          65,
-          65,
           68,
+          69,
+          69,
           69
         ],
         "maxBuyPlat": 50,
-        "median": 65,
+        "median": 69,
         "minSellPlat": 65,
         "nom": "Tipedo Prime Set",
         "rang": null,
-        "sellOrders": 30,
+        "sellOrders": 32,
         "slug": "tipedo_prime_set",
         "spark": [
           65,
@@ -4498,7 +4556,7 @@
           69,
           69,
           70,
-          65
+          69
         ],
         "trend": "down"
       },
@@ -4528,7 +4586,7 @@
         "minSellPlat": 54,
         "nom": "Guandao Prime Set",
         "rang": null,
-        "sellOrders": 29,
+        "sellOrders": 32,
         "slug": "guandao_prime_set",
         "spark": [
           55,
@@ -4549,7 +4607,7 @@
         "trend": "down"
       },
       {
-        "avgTop5": 69.8,
+        "avgTop5": 70.0,
         "buyOrders": 7,
         "change24h": 0,
         "change24hPct": 0,
@@ -4559,13 +4617,13 @@
         "ducatsPerPlat": 3.36,
         "high5BuyPlat": [
           55,
+          55,
           52,
-          50,
           50,
           50
         ],
         "low5SellPlat": [
-          69,
+          70,
           70,
           70,
           70,
@@ -4573,10 +4631,10 @@
         ],
         "maxBuyPlat": 55,
         "median": 70,
-        "minSellPlat": 69,
+        "minSellPlat": 70,
         "nom": "Glaive Prime Set",
         "rang": null,
-        "sellOrders": 38,
+        "sellOrders": 41,
         "slug": "glaive_prime_set",
         "spark": [
           70,
@@ -4598,7 +4656,7 @@
       },
       {
         "avgTop5": 129.8,
-        "buyOrders": 13,
+        "buyOrders": 14,
         "change24h": 0,
         "change24hPct": 0,
         "change7d": 0,
@@ -4625,7 +4683,7 @@
         "rang": 5,
         "rangMax": 5,
         "rangRegle": "max",
-        "sellOrders": 65,
+        "sellOrders": 67,
         "slug": "arcane_energize",
         "spark": [
           130,
@@ -4640,13 +4698,15 @@
         "trend": "flat"
       },
       {
-        "avgTop5": 106.0,
-        "buyOrders": 4,
-        "change24h": 0,
-        "change24hPct": 0,
-        "change7d": -20,
-        "change7dPct": -17,
+        "alert": "spike",
+        "avgTop5": 112.0,
+        "buyOrders": 5,
+        "change24h": 20,
+        "change24hPct": 20,
+        "change7d": 0,
+        "change7dPct": 0,
         "high5BuyPlat": [
+          360,
           70,
           70,
           65,
@@ -4655,19 +4715,19 @@
         "low5SellPlat": [
           95,
           95,
-          100,
           120,
-          120
+          120,
+          130
         ],
-        "maxBuyPlat": 70,
-        "median": 100,
+        "maxBuyPlat": 360,
+        "median": 120,
         "minSellPlat": 95,
         "nom": "Arcane Grace",
         "nomFr": "Arcane Grâce",
         "rang": 5,
         "rangMax": 5,
         "rangRegle": "max",
-        "sellOrders": 26,
+        "sellOrders": 24,
         "slug": "arcane_grace",
         "spark": [
           120,
@@ -4677,34 +4737,34 @@
           100,
           100,
           100,
-          100
+          120
         ],
-        "trend": "flat"
+        "trend": "up"
       },
       {
-        "avgTop5": 48.0,
-        "buyOrders": 6,
-        "change24h": 0,
-        "change24hPct": 0,
-        "change7d": 5,
-        "change7dPct": 11,
+        "avgTop5": 53.4,
+        "buyOrders": 12,
+        "change24h": 3,
+        "change24hPct": 6,
+        "change7d": 8,
+        "change7dPct": 18,
         "high5BuyPlat": [
           160,
           31,
-          30,
-          26,
-          21
+          31,
+          31,
+          31
         ],
         "low5SellPlat": [
-          40,
           50,
           50,
-          50,
-          50
+          53,
+          55,
+          59
         ],
         "maxBuyPlat": 160,
-        "median": 50,
-        "minSellPlat": 40,
+        "median": 53,
+        "minSellPlat": 50,
         "nom": "Arcane Guardian",
         "nomFr": "Arcane Gardien",
         "rang": 5,
@@ -4720,14 +4780,14 @@
           45,
           60,
           50,
-          50
+          53
         ],
-        "trend": "flat"
+        "trend": "up"
       },
       {
         "alert": "drop",
-        "avgTop5": 133.0,
-        "buyOrders": 5,
+        "avgTop5": 132.0,
+        "buyOrders": 4,
         "change24h": -25,
         "change24hPct": -16,
         "change7d": -50,
@@ -4736,14 +4796,13 @@
           90,
           90,
           80,
-          70,
           60
         ],
         "low5SellPlat": [
           130,
           130,
           130,
-          135,
+          130,
           140
         ],
         "maxBuyPlat": 90,
@@ -4754,7 +4813,7 @@
         "rang": 5,
         "rangMax": 5,
         "rangRegle": "max",
-        "sellOrders": 34,
+        "sellOrders": 32,
         "slug": "melee_duplicate",
         "spark": [
           180,
@@ -4769,12 +4828,12 @@
         "trend": "down"
       },
       {
-        "avgTop5": 237.8,
-        "buyOrders": 21,
-        "change24h": 0,
-        "change24hPct": 0,
-        "change7d": 15,
-        "change7dPct": 7,
+        "avgTop5": 295.2,
+        "buyOrders": 17,
+        "change24h": 29,
+        "change24hPct": 13,
+        "change7d": 44,
+        "change7dPct": 21,
         "high5BuyPlat": [
           1000,
           185,
@@ -4783,15 +4842,15 @@
           185
         ],
         "low5SellPlat": [
-          200,
-          220,
+          208,
           220,
           249,
-          300
+          300,
+          499
         ],
         "maxBuyPlat": 1000,
-        "median": 220,
-        "minSellPlat": 200,
+        "median": 249,
+        "minSellPlat": 208,
         "nom": "Arcane Steadfast",
         "nomFr": "Arcane Inébranlable",
         "rang": 5,
@@ -4807,41 +4866,39 @@
           210,
           200,
           220,
-          220
+          249
         ],
-        "trend": "flat"
+        "trend": "up"
       },
       {
-        "alert": "spike",
-        "avgTop5": 115.4,
-        "buyOrders": 5,
-        "change24h": 20,
-        "change24hPct": 20,
-        "change7d": 19,
-        "change7dPct": 19,
+        "avgTop5": 99.4,
+        "buyOrders": 4,
+        "change24h": 0,
+        "change24hPct": 0,
+        "change7d": -1,
+        "change7dPct": -1,
         "high5BuyPlat": [
           75,
-          60,
           51,
           41,
           40
         ],
         "low5SellPlat": [
           89,
+          90,
+          99,
           100,
-          119,
-          120,
-          149
+          119
         ],
         "maxBuyPlat": 75,
-        "median": 119,
+        "median": 99,
         "minSellPlat": 89,
         "nom": "Magus Repair",
         "nomFr": "Magus Réparation",
         "rang": 5,
         "rangMax": 5,
         "rangRegle": "max",
-        "sellOrders": 12,
+        "sellOrders": 16,
         "slug": "magus_repair",
         "spark": [
           100,
@@ -4851,13 +4908,13 @@
           95,
           130,
           99,
-          119
+          99
         ],
-        "trend": "up"
+        "trend": "flat"
       },
       {
         "avgTop5": 78.8,
-        "buyOrders": 7,
+        "buyOrders": 6,
         "change24h": -5,
         "change24hPct": -6,
         "change7d": -5,
@@ -4884,7 +4941,7 @@
         "rang": 5,
         "rangMax": 5,
         "rangRegle": "max",
-        "sellOrders": 34,
+        "sellOrders": 41,
         "slug": "magus_lockdown",
         "spark": [
           85,
@@ -4899,24 +4956,24 @@
         "trend": "down"
       },
       {
-        "avgTop5": 129.4,
-        "buyOrders": 13,
+        "avgTop5": 129.6,
+        "buyOrders": 12,
         "change24h": 0,
         "change24hPct": 0,
         "change7d": 0,
         "change7dPct": 0,
         "high5BuyPlat": [
           650,
+          450,
           108,
-          108,
-          108,
-          105
+          105,
+          101
         ],
         "low5SellPlat": [
           120,
           128,
           130,
-          134,
+          135,
           135
         ],
         "maxBuyPlat": 650,
@@ -4927,7 +4984,7 @@
         "rang": 5,
         "rangMax": 5,
         "rangRegle": "max",
-        "sellOrders": 43,
+        "sellOrders": 39,
         "slug": "arcane_aegis",
         "spark": [
           130,
@@ -4942,12 +4999,12 @@
         "trend": "flat"
       },
       {
-        "avgTop5": 177.0,
-        "buyOrders": 18,
-        "change24h": -19,
-        "change24hPct": -10,
-        "change7d": 5,
-        "change7dPct": 3,
+        "avgTop5": 184.6,
+        "buyOrders": 17,
+        "change24h": -14,
+        "change24hPct": -7,
+        "change7d": 10,
+        "change7dPct": 6,
         "high5BuyPlat": [
           800,
           150,
@@ -4956,21 +5013,21 @@
           150
         ],
         "low5SellPlat": [
-          170,
-          170,
           180,
           180,
-          185
+          185,
+          188,
+          190
         ],
         "maxBuyPlat": 800,
-        "median": 180,
-        "minSellPlat": 170,
+        "median": 185,
+        "minSellPlat": 180,
         "nom": "Arcane Velocity",
         "nomFr": "Arcane Vélocité",
         "rang": 5,
         "rangMax": 5,
         "rangRegle": "max",
-        "sellOrders": 37,
+        "sellOrders": 33,
         "slug": "arcane_velocity",
         "spark": [
           175,
@@ -4980,31 +5037,31 @@
           180,
           180,
           199,
-          180
+          185
         ],
         "trend": "down"
       },
       {
         "alert": "spike",
-        "avgTop5": 25.2,
-        "buyOrders": 6,
+        "avgTop5": 25.8,
+        "buyOrders": 5,
         "change24h": 5,
         "change24hPct": 25,
         "change7d": 0,
         "change7dPct": 0,
         "high5BuyPlat": [
           40,
-          14,
           12,
           5,
-          5
+          5,
+          4
         ],
         "low5SellPlat": [
           25,
           25,
           25,
-          25,
-          26
+          26,
+          28
         ],
         "maxBuyPlat": 40,
         "median": 25,
@@ -5014,7 +5071,7 @@
         "rang": 5,
         "rangMax": 5,
         "rangRegle": "max",
-        "sellOrders": 31,
+        "sellOrders": 33,
         "slug": "molt_vigor",
         "spark": [
           25,
@@ -5029,8 +5086,8 @@
         "trend": "up"
       },
       {
-        "avgTop5": 79.0,
-        "buyOrders": 17,
+        "avgTop5": 78.0,
+        "buyOrders": 16,
         "change24h": 5,
         "change24hPct": 7,
         "change7d": 0,
@@ -5044,7 +5101,7 @@
         ],
         "low5SellPlat": [
           75,
-          80,
+          75,
           80,
           80,
           80
@@ -5057,7 +5114,7 @@
         "rang": 5,
         "rangMax": 5,
         "rangRegle": "max",
-        "sellOrders": 41,
+        "sellOrders": 40,
         "slug": "arcane_avenger",
         "spark": [
           80,
@@ -5073,33 +5130,34 @@
       },
       {
         "alert": "spike",
-        "avgTop5": 40.0,
-        "buyOrders": 3,
-        "change24h": 10,
-        "change24hPct": 33,
-        "change7d": 7,
-        "change7dPct": 21,
+        "avgTop5": 38.8,
+        "buyOrders": 4,
+        "change24h": 5,
+        "change24hPct": 17,
+        "change7d": 2,
+        "change7dPct": 6,
         "high5BuyPlat": [
+          70,
           15,
-          15,
+          11,
           10
         ],
         "low5SellPlat": [
           35,
           35,
+          35,
           40,
-          40,
-          50
+          49
         ],
-        "maxBuyPlat": 15,
-        "median": 40,
+        "maxBuyPlat": 70,
+        "median": 35,
         "minSellPlat": 35,
         "nom": "Arcane Blessing",
         "nomFr": "Arcane Bénédiction",
         "rang": 5,
         "rangMax": 5,
         "rangRegle": "max",
-        "sellOrders": 12,
+        "sellOrders": 14,
         "slug": "arcane_blessing",
         "spark": [
           33,
@@ -5109,40 +5167,39 @@
           30,
           40,
           30,
-          40
+          35
         ],
         "trend": "up"
       },
       {
-        "avgTop5": 111.8,
-        "buyOrders": 5,
-        "change24h": 14,
-        "change24hPct": 14,
-        "change7d": 14,
-        "change7dPct": 14,
+        "avgTop5": 107.8,
+        "buyOrders": 4,
+        "change24h": 10,
+        "change24hPct": 10,
+        "change7d": 10,
+        "change7dPct": 10,
         "high5BuyPlat": [
           78,
           78,
           55,
-          50,
           50
         ],
         "low5SellPlat": [
           100,
+          100,
           110,
           114,
-          115,
-          120
+          115
         ],
         "maxBuyPlat": 78,
-        "median": 114,
+        "median": 110,
         "minSellPlat": 100,
         "nom": "Primed Continuity",
         "nomFr": "Continuité Accrue",
         "rang": 10,
         "rangMax": 10,
         "rangRegle": "max",
-        "sellOrders": 42,
+        "sellOrders": 46,
         "slug": "primed_continuity",
         "spark": [
           100,
@@ -5152,17 +5209,17 @@
           110,
           110,
           100,
-          114
+          110
         ],
         "trend": "up"
       },
       {
-        "avgTop5": 99.8,
+        "avgTop5": 90.6,
         "buyOrders": 6,
-        "change24h": 10,
-        "change24hPct": 11,
-        "change7d": 10,
-        "change7dPct": 11,
+        "change24h": 0,
+        "change24hPct": 0,
+        "change7d": 0,
+        "change7dPct": 0,
         "high5BuyPlat": [
           62,
           62,
@@ -5171,21 +5228,21 @@
           40
         ],
         "low5SellPlat": [
+          80,
+          84,
+          90,
           99,
-          100,
-          100,
-          100,
           100
         ],
         "maxBuyPlat": 62,
-        "median": 100,
-        "minSellPlat": 99,
+        "median": 90,
+        "minSellPlat": 80,
         "nom": "Primed Flow",
         "nomFr": "Flux Accru",
         "rang": 10,
         "rangMax": 10,
         "rangRegle": "max",
-        "sellOrders": 64,
+        "sellOrders": 72,
         "slug": "primed_flow",
         "spark": [
           90,
@@ -5195,13 +5252,13 @@
           90,
           95,
           90,
-          100
+          90
         ],
-        "trend": "up"
+        "trend": "flat"
       },
       {
-        "avgTop5": 99.6,
-        "buyOrders": 4,
+        "avgTop5": 99.8,
+        "buyOrders": 3,
         "change24h": 5,
         "change24hPct": 5,
         "change7d": 0,
@@ -5209,12 +5266,11 @@
         "high5BuyPlat": [
           75,
           75,
-          50,
-          41
+          50
         ],
         "low5SellPlat": [
           99,
-          99,
+          100,
           100,
           100,
           100
@@ -5227,7 +5283,7 @@
         "rang": 10,
         "rangMax": 10,
         "rangRegle": "max",
-        "sellOrders": 57,
+        "sellOrders": 56,
         "slug": "primed_pressure_point",
         "spark": [
           100,
@@ -5242,33 +5298,32 @@
         "trend": "up"
       },
       {
-        "avgTop5": 93.6,
-        "buyOrders": 3,
-        "change24h": 5,
-        "change24hPct": 6,
-        "change7d": 5,
-        "change7dPct": 6,
+        "avgTop5": 92.6,
+        "buyOrders": 2,
+        "change24h": 4,
+        "change24hPct": 4,
+        "change7d": 4,
+        "change7dPct": 4,
         "high5BuyPlat": [
           65,
-          50,
           35
         ],
         "low5SellPlat": [
           89,
+          90,
           94,
-          95,
           95,
           95
         ],
         "maxBuyPlat": 65,
-        "median": 95,
+        "median": 94,
         "minSellPlat": 89,
         "nom": "Primed Reach",
         "nomFr": "Atteinte Accrue",
         "rang": 10,
         "rangMax": 10,
         "rangRegle": "max",
-        "sellOrders": 54,
+        "sellOrders": 59,
         "slug": "primed_reach",
         "spark": [
           90,
@@ -5278,21 +5333,20 @@
           99,
           98,
           90,
-          95
+          94
         ],
         "trend": "up"
       },
       {
         "avgTop5": 120.0,
-        "buyOrders": 3,
+        "buyOrders": 2,
         "change24h": 2,
         "change24hPct": 2,
         "change7d": 0,
         "change7dPct": 0,
         "high5BuyPlat": [
           75,
-          66,
-          50
+          66
         ],
         "low5SellPlat": [
           120,
@@ -5309,7 +5363,7 @@
         "rang": 10,
         "rangMax": 10,
         "rangRegle": "max",
-        "sellOrders": 38,
+        "sellOrders": 36,
         "slug": "primed_animal_instinct",
         "spark": [
           120,
@@ -5324,7 +5378,7 @@
         "trend": "up"
       },
       {
-        "avgTop5": 73.0,
+        "avgTop5": 73.2,
         "buyOrders": 12,
         "change24h": 0,
         "change24hPct": 0,
@@ -5333,16 +5387,16 @@
         "high5BuyPlat": [
           56,
           56,
+          56,
           55,
-          55,
-          51
+          55
         ],
         "low5SellPlat": [
           69,
           70,
           70,
           77,
-          79
+          80
         ],
         "maxBuyPlat": 56,
         "median": 70,
@@ -5352,7 +5406,7 @@
         "rang": 10,
         "rangMax": 10,
         "rangRegle": "suivi",
-        "sellOrders": 34,
+        "sellOrders": 31,
         "slug": "blind_rage",
         "spark": [
           84,
@@ -5368,7 +5422,7 @@
       },
       {
         "avgTop5": 70.0,
-        "buyOrders": 14,
+        "buyOrders": 11,
         "change24h": -10,
         "change24hPct": -12,
         "change7d": -3,
@@ -5377,8 +5431,8 @@
           57,
           57,
           57,
-          57,
-          57
+          55,
+          55
         ],
         "low5SellPlat": [
           70,
@@ -5395,7 +5449,7 @@
         "rang": 10,
         "rangMax": 10,
         "rangRegle": "suivi",
-        "sellOrders": 29,
+        "sellOrders": 30,
         "slug": "transient_fortitude",
         "spark": [
           73,
@@ -5410,8 +5464,8 @@
         "trend": "down"
       },
       {
-        "avgTop5": 69.6,
-        "buyOrders": 16,
+        "avgTop5": 69.2,
+        "buyOrders": 14,
         "change24h": 0,
         "change24hPct": 0,
         "change7d": 0,
@@ -5428,7 +5482,7 @@
           68,
           70,
           70,
-          72
+          70
         ],
         "maxBuyPlat": 52,
         "median": 70,
@@ -5438,7 +5492,7 @@
         "rang": 10,
         "rangMax": 10,
         "rangRegle": "suivi",
-        "sellOrders": 31,
+        "sellOrders": 32,
         "slug": "narrow_minded",
         "spark": [
           70,
@@ -5453,25 +5507,25 @@
         "trend": "flat"
       },
       {
-        "avgTop5": 7.2,
+        "avgTop5": 9.0,
         "buyOrders": 1,
-        "change24h": -1,
-        "change24hPct": -12,
-        "change7d": -1,
-        "change7dPct": -12,
+        "change24h": 1,
+        "change24hPct": 12,
+        "change7d": 1,
+        "change7dPct": 12,
         "high5BuyPlat": [
           3
         ],
         "low5SellPlat": [
-          6,
-          6,
           7,
-          8,
-          9
+          9,
+          9,
+          10,
+          10
         ],
         "maxBuyPlat": 3,
-        "median": 7,
-        "minSellPlat": 6,
+        "median": 9,
+        "minSellPlat": 7,
         "nom": "Fleeting Expertise",
         "nomFr": "Expertise Éphémère",
         "rang": 0,
@@ -5487,13 +5541,13 @@
           7,
           7,
           8,
-          7
+          9
         ],
-        "trend": "down"
+        "trend": "up"
       },
       {
         "avgTop5": 22.8,
-        "buyOrders": 9,
+        "buyOrders": 7,
         "change24h": -1,
         "change24hPct": -4,
         "change7d": -7,
@@ -5520,7 +5574,7 @@
         "rang": 5,
         "rangMax": 5,
         "rangRegle": "suivi",
-        "sellOrders": 18,
+        "sellOrders": 20,
         "slug": "overextended",
         "spark": [
           31,
@@ -5536,29 +5590,29 @@
       },
       {
         "alert": "spike",
-        "avgTop5": 12.6,
+        "avgTop5": 12.2,
         "buyOrders": 0,
-        "change24h": 4,
-        "change24hPct": 40,
-        "change7d": -1,
-        "change7dPct": -7,
+        "change24h": 3,
+        "change24hPct": 30,
+        "change7d": -2,
+        "change7dPct": -13,
         "high5BuyPlat": [],
         "low5SellPlat": [
           9,
           10,
+          13,
           14,
-          15,
           15
         ],
         "maxBuyPlat": null,
-        "median": 14,
+        "median": 13,
         "minSellPlat": 9,
         "nom": "Hunter Munitions",
         "nomFr": "Munitions du Chasseur",
         "rang": 5,
         "rangMax": 5,
         "rangRegle": "suivi",
-        "sellOrders": 23,
+        "sellOrders": 26,
         "slug": "hunter_munitions",
         "spark": [
           15,
@@ -5568,12 +5622,12 @@
           10,
           10,
           10,
-          14
+          13
         ],
         "trend": "up"
       },
       {
-        "avgTop5": 9.4,
+        "avgTop5": 9.0,
         "buyOrders": 0,
         "change24h": -1,
         "change24hPct": -10,
@@ -5584,8 +5638,8 @@
           9,
           9,
           9,
-          10,
-          10
+          9,
+          9
         ],
         "maxBuyPlat": null,
         "median": 9,
@@ -5595,7 +5649,7 @@
         "rang": 0,
         "rangMax": 10,
         "rangRegle": "suivi",
-        "sellOrders": 28,
+        "sellOrders": 31,
         "slug": "blood_rush",
         "spark": [
           9,
@@ -5612,17 +5666,16 @@
       {
         "alert": "drop",
         "avgTop5": 26.8,
-        "buyOrders": 6,
+        "buyOrders": 4,
         "change24h": -5,
         "change24hPct": -17,
         "change7d": -25,
         "change7dPct": -50,
         "high5BuyPlat": [
           11,
-          11,
-          11,
           10,
-          10
+          10,
+          8
         ],
         "low5SellPlat": [
           25,
@@ -5639,7 +5692,7 @@
         "rang": 5,
         "rangMax": 5,
         "rangRegle": "suivi",
-        "sellOrders": 19,
+        "sellOrders": 20,
         "slug": "weeping_wounds",
         "spark": [
           50,
@@ -5654,12 +5707,12 @@
         "trend": "down"
       },
       {
-        "avgTop5": 8.2,
+        "avgTop5": 8.6,
         "buyOrders": 2,
-        "change24h": -1,
-        "change24hPct": -11,
-        "change7d": 0,
-        "change7dPct": 0,
+        "change24h": 0,
+        "change24hPct": 0,
+        "change7d": 1,
+        "change7dPct": 12,
         "high5BuyPlat": [
           3,
           2
@@ -5667,19 +5720,19 @@
         "low5SellPlat": [
           8,
           8,
-          8,
-          8,
+          9,
+          9,
           9
         ],
         "maxBuyPlat": 3,
-        "median": 8,
+        "median": 9,
         "minSellPlat": 8,
         "nom": "Condition Overload",
         "nomFr": "Surcharge d'État",
         "rang": 0,
         "rangMax": 5,
         "rangRegle": "suivi",
-        "sellOrders": 61,
+        "sellOrders": 53,
         "slug": "condition_overload",
         "spark": [
           8,
@@ -5689,33 +5742,33 @@
           9,
           9,
           9,
-          8
+          9
         ],
-        "trend": "down"
+        "trend": "flat"
       },
       {
-        "avgTop5": 61.8,
-        "buyOrders": 8,
-        "change24h": 0,
-        "change24hPct": 0,
-        "change7d": -15,
-        "change7dPct": -20,
+        "avgTop5": 62.8,
+        "buyOrders": 7,
+        "change24h": 4,
+        "change24hPct": 7,
+        "change7d": -11,
+        "change7dPct": -15,
         "high5BuyPlat": [
           50,
           50,
-          50,
-          47,
-          46
+          46,
+          45,
+          41
         ],
         "low5SellPlat": [
           60,
           60,
-          60,
           64,
+          65,
           65
         ],
         "maxBuyPlat": 50,
-        "median": 60,
+        "median": 64,
         "minSellPlat": 60,
         "nom": "Galvanized Aptitude",
         "nomFr": "Aptitude Galvanisée",
@@ -5732,40 +5785,40 @@
           75,
           68,
           60,
-          60
+          64
         ],
-        "trend": "flat"
+        "trend": "up"
       },
       {
-        "avgTop5": 62.8,
-        "buyOrders": 8,
-        "change24h": 4,
-        "change24hPct": 7,
-        "change7d": 10,
-        "change7dPct": 19,
+        "avgTop5": 63.2,
+        "buyOrders": 7,
+        "change24h": 5,
+        "change24hPct": 8,
+        "change7d": 11,
+        "change7dPct": 20,
         "high5BuyPlat": [
           50,
           50,
-          50,
           41,
-          40
+          40,
+          36
         ],
         "low5SellPlat": [
           60,
           60,
-          64,
           65,
-          65
+          65,
+          66
         ],
         "maxBuyPlat": 50,
-        "median": 64,
+        "median": 65,
         "minSellPlat": 60,
         "nom": "Galvanized Chamber",
         "nomFr": "Chambre Galvanisée",
         "rang": 10,
         "rangMax": 10,
         "rangRegle": "suivi",
-        "sellOrders": 38,
+        "sellOrders": 39,
         "slug": "galvanized_chamber",
         "spark": [
           54,
@@ -5775,13 +5828,13 @@
           64,
           64,
           60,
-          64
+          65
         ],
         "trend": "up"
       },
       {
         "avgTop5": 64.0,
-        "buyOrders": 8,
+        "buyOrders": 7,
         "change24h": -5,
         "change24hPct": -7,
         "change7d": -5,
@@ -5790,8 +5843,8 @@
           50,
           50,
           50,
-          50,
-          46
+          46,
+          41
         ],
         "low5SellPlat": [
           60,
@@ -5824,7 +5877,7 @@
       },
       {
         "alert": "drop",
-        "avgTop5": 17.0,
+        "avgTop5": 16.0,
         "buyOrders": 0,
         "change24h": -5,
         "change24hPct": -25,
@@ -5835,7 +5888,7 @@
           10,
           15,
           15,
-          20,
+          15,
           25
         ],
         "maxBuyPlat": null,
@@ -5846,7 +5899,7 @@
         "rang": 5,
         "rangMax": 5,
         "rangRegle": "suivi",
-        "sellOrders": 10,
+        "sellOrders": 11,
         "slug": "vigilante_armaments",
         "spark": [
           15,
@@ -5900,7 +5953,7 @@
       },
       {
         "alert": "drop",
-        "avgTop5": 15.2,
+        "avgTop5": 16.2,
         "buyOrders": 1,
         "change24h": -5,
         "change24hPct": -25,
@@ -5913,7 +5966,7 @@
           12,
           14,
           15,
-          15,
+          20,
           20
         ],
         "maxBuyPlat": 10,
@@ -5924,7 +5977,7 @@
         "rang": 0,
         "rangMax": 5,
         "rangRegle": "suivi",
-        "sellOrders": 8,
+        "sellOrders": 7,
         "slug": "bladed_rounds",
         "spark": [
           15,
@@ -5939,7 +5992,7 @@
         "trend": "down"
       },
       {
-        "avgTop5": 48.8,
+        "avgTop5": 46.0,
         "buyOrders": 1,
         "change24h": -2,
         "change24hPct": -4,
@@ -5949,21 +6002,21 @@
           21
         ],
         "low5SellPlat": [
+          40,
           44,
           48,
           48,
-          50,
-          54
+          50
         ],
         "maxBuyPlat": 21,
         "median": 48,
-        "minSellPlat": 44,
+        "minSellPlat": 40,
         "nom": "Hornet Strike",
         "nomFr": "Nuée de Dards",
         "rang": 10,
         "rangMax": 10,
         "rangRegle": "suivi",
-        "sellOrders": 17,
+        "sellOrders": 19,
         "slug": "hornet_strike",
         "spark": [
           70,
@@ -5992,6 +6045,16 @@
       "slug": "argon_scope"
     },
     {
+      "change24h": 29,
+      "change24hPct": 13,
+      "median": 249,
+      "minSellPlat": 208,
+      "nom": "Arcane Steadfast",
+      "nomFr": "Arcane Inébranlable",
+      "rang": 5,
+      "slug": "arcane_steadfast"
+    },
+    {
       "change24h": -25,
       "change24hPct": -16,
       "median": 130,
@@ -6004,42 +6067,32 @@
     {
       "change24h": 20,
       "change24hPct": 20,
-      "median": 119,
-      "minSellPlat": 89,
-      "nom": "Magus Repair",
-      "nomFr": "Magus Réparation",
+      "median": 120,
+      "minSellPlat": 95,
+      "nom": "Arcane Grace",
+      "nomFr": "Arcane Grâce",
       "rang": 5,
-      "slug": "magus_repair"
+      "slug": "arcane_grace"
     },
     {
-      "change24h": -19,
-      "change24hPct": -10,
-      "median": 180,
-      "minSellPlat": 170,
+      "change24h": -14,
+      "change24hPct": -7,
+      "median": 185,
+      "minSellPlat": 180,
       "nom": "Arcane Velocity",
       "nomFr": "Arcane Vélocité",
       "rang": 5,
       "slug": "arcane_velocity"
     },
     {
-      "change24h": 14,
-      "change24hPct": 14,
-      "median": 114,
-      "minSellPlat": 100,
-      "nom": "Primed Continuity",
-      "nomFr": "Continuité Accrue",
-      "rang": 10,
-      "slug": "primed_continuity"
-    },
-    {
-      "change24h": -10,
-      "change24hPct": -12,
-      "median": 75,
-      "minSellPlat": 75,
-      "nom": "Garuda Prime Set",
+      "change24h": -11,
+      "change24hPct": -7,
+      "median": 139,
+      "minSellPlat": 135,
+      "nom": "Ballistica Prime Set",
       "nomFr": null,
       "rang": null,
-      "slug": "garuda_prime_set"
+      "slug": "ballistica_prime_set"
     }
   ],
   "nightwave": {
@@ -6145,7 +6198,7 @@
         "weapon": "Dual Toxocyst"
       }
     ],
-    "updated_utc": "2026-10-27T14:20:06Z"
+    "updated_utc": "2026-10-27T14:34:23Z"
   },
   "scriptVersion": "1.2.0",
   "sortie": {
@@ -6243,7 +6296,7 @@
       }
     ]
   },
-  "updated_utc": "2026-10-27T14:17:52Z",
+  "updated_utc": "2026-10-27T14:32:37Z",
   "voidStorms": {
     "count": 0,
     "list": []
